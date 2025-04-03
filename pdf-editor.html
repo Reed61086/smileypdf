@@ -414,6 +414,17 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
 
         // Global variables
+        // Global variables (add this near the top)
+        const colorMap = {
+            black: '#000000',
+            red: '#FF0000',
+            blue: '#0000FF',
+            green: '#008000',
+            yellow: '#FFFF00',
+            purple: '#800080',
+            pink: '#FFC0CB',
+            gray: '#808080'
+        };
         let pdfDoc = null,
             pageNum = 1,
             pageRendering = false,
@@ -987,6 +998,41 @@
             const annotationDiv = document.createElement('div');
             annotationDiv.className = 'annotation';
             annotationDiv.id = annotationId;
+                if (activeTool === 'text') {
+                    annotationDiv.style.width = '200px';
+                    initialHeight = Math.max(30, currentTextProperties.fontSize * 1.5 + 5);
+                    annotationDiv.style.height = initialHeight + 'px';
+                    
+                    const editableDiv = document.createElement('div');
+                    editableDiv.className = 'editable-text';
+                    editableDiv.contentEditable = true;
+                    editableDiv.textContent = "Type here";
+                    editableDiv.style.fontFamily = currentTextProperties.fontFamily;
+                    editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
+                    editableDiv.style.color = colorMap[currentTextProperties.color] || '#000000'; // Updated
+                    editableDiv.style.fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
+                    editableDiv.style.fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
+                    editableDiv.style.textDecoration = currentTextProperties.underline ? 'underline' : 'none';
+                    
+                    setTimeout(() => {
+                        editableDiv.focus();
+                        const range = document.createRange();
+                        range.selectNodeContents(editableDiv);
+                        range.collapse(false);
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }, 0);
+                    
+                    editableDiv.addEventListener('input', function() {
+                        const annotation = annotations.find(a => a.id === annotationId);
+                        if (annotation) {
+                            annotation.content = editableDiv.textContent;
+                        }
+                    });
+                    
+                    annotationDiv.appendChild(editableDiv);
+                }
             annotationDiv.style.left = x + 'px';
             annotationDiv.style.top = y + 'px';
 
@@ -1526,6 +1572,23 @@
                      updateTextPanelControls(annotation.properties); // Update controls
                      currentTextProperties = {...annotation.properties}; // Sync global state
                      break;
+                if (annotation.type === 'text') {
+                    annotation.properties = {...currentTextProperties};
+                    
+                    const editableDiv = selectedAnnotation.querySelector('.editable-text');
+                    if (editableDiv) {
+                        const fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
+                        const fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
+                        const textDecoration = currentTextProperties.underline ? 'underline' : 'none';
+                        
+                        editableDiv.style.fontFamily = currentTextProperties.fontFamily;
+                        editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
+                        editableDiv.style.color = colorMap[currentTextProperties.color] || '#000000'; // Updated
+                        editableDiv.style.fontWeight = fontWeight;
+                        editableDiv.style.fontStyle = fontStyle;
+                        editableDiv.style.textDecoration = textDecoration;
+                    }
+                }
                  case 'highlight':
                      toolToActivate = 'highlight';
                      panelToShow = 'highlight-tool-panel';
@@ -1641,6 +1704,36 @@
              const existingElements = {};
              container.querySelectorAll('.annotation').forEach(el => {
                  if (el.id) existingElements[el.id] = el;
+                 if (annotation.type === 'text') {
+                    console.log(`Redrawing text annotation ${annotation.id}, content: "${annotation.content}"`);
+                    const fontWeight = annotation.properties.bold ? 'bold' : 'normal';
+                    const fontStyle = annotation.properties.italic ? 'italic' : 'normal';
+                    const textDecoration = annotation.properties.underline ? 'underline' : 'none';
+                    
+                    const editableDiv = document.createElement('div');
+                    console.log(' > editableDiv created');
+                    editableDiv.className = 'editable-text';
+                    editableDiv.contentEditable = true;
+                    editableDiv.textContent = annotation.content || 'Type here';
+                    console.log(` > editableDiv.textContent set to: "${editableDiv.textContent}"`);
+                    editableDiv.style.fontFamily = annotation.properties.fontFamily;
+                    editableDiv.style.fontSize = annotation.properties.fontSize + 'px';
+                    editableDiv.style.color = colorMap[annotation.properties.color] || '#000000'; // Updated
+                    console.log(` > editableDiv.style.color set to: "${editableDiv.style.color}"`);
+                    editableDiv.style.fontWeight = fontWeight;
+                    editableDiv.style.fontStyle = fontStyle;
+                    editableDiv.style.textDecoration = textDecoration;
+                    
+                    editableDiv.addEventListener('input', function() {
+                        const anno = annotations.find(a => a.id === annotation.id);
+                        if (anno) {
+                            anno.content = editableDiv.textContent;
+                        }
+                    });
+                    
+                    annotationDiv.appendChild(editableDiv);
+                    console.log(' > editableDiv appended');
+                }
              });
 
              // Process annotations for the current page
