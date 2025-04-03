@@ -161,20 +161,13 @@
         .annotation:hover::after {
             opacity: 1;
         }
-        /* Editable text area */
+        /* Editable text area - Reverted */
         .editable-text {
             min-height: 20px;
             width: 100%;
-             height: 100%; /* Make it fill the annotation */
             outline: none;
-            padding: 4px; /* Slightly more padding */
+            padding: 2px;
             cursor: text;
-             color: black; /* Explicitly set default text color (Fallback) */
-             background-color: transparent; /* Ensure no background */
-             position: relative; /* Needed? Maybe not, but doesn't hurt */
-             z-index: 1; /* Ensure text is above annotation background if any */
-             box-sizing: border-box; /* Include padding in height/width */
-             word-wrap: break-word; /* Wrap long text */
         }
     </style>
 </head>
@@ -190,7 +183,7 @@
                 <input type="file" id="file-input" accept=".pdf">
                 <span class="tooltip-text">Upload PDF</span>
             </div>
-
+            
             <!-- Text Tool -->
             <div class="group relative">
                 <button id="text-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -198,7 +191,7 @@
                 </button>
                 <span class="tooltip-text">Text Tool</span>
             </div>
-
+            
             <!-- Signature Tool -->
             <div class="group relative">
                 <button id="signature-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -206,7 +199,7 @@
                 </button>
                 <span class="tooltip-text">Signature/Initials</span>
             </div>
-
+            
             <!-- Image Tool -->
             <div class="group relative">
                 <button id="image-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -214,7 +207,7 @@
                 </button>
                 <span class="tooltip-text">Image Tool</span>
             </div>
-
+            
             <!-- Highlight Tool -->
             <div class="group relative">
                 <button id="highlight-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -222,7 +215,7 @@
                 </button>
                 <span class="tooltip-text">Highlight Tool</span>
             </div>
-
+            
             <!-- Save Button -->
             <div class="group relative mt-auto">
                 <button id="save-pdf" class="w-12 h-12 rounded-lg flex items-center justify-center bg-primary hover:bg-purple-700 transition text-white">
@@ -806,14 +799,14 @@
 
         function setSignatureColor(color) {
             currentSignatureColor = color;
-            const colorMap = {
+            const colorMapLocal = { // Renamed to avoid conflict with global colorMap
                 black: '#000000',
                 red: '#FF0000',
                 blue: '#0000FF',
                 green: '#008000'
             };
             if (signaturePad) {
-                signaturePad.penColor = colorMap[color];
+                signaturePad.penColor = colorMapLocal[color]; // Use local map
             }
 
             // Update selected color indicator
@@ -998,66 +991,30 @@
             const annotationDiv = document.createElement('div');
             annotationDiv.className = 'annotation';
             annotationDiv.id = annotationId;
-                if (activeTool === 'text') {
-                    annotationDiv.style.width = '200px';
-                    initialHeight = Math.max(30, currentTextProperties.fontSize * 1.5 + 5);
-                    annotationDiv.style.height = initialHeight + 'px';
-                    
-                    const editableDiv = document.createElement('div');
-                    editableDiv.className = 'editable-text';
-                    editableDiv.contentEditable = true;
-                    editableDiv.textContent = "Type here";
-                    editableDiv.style.fontFamily = currentTextProperties.fontFamily;
-                    editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
-                    editableDiv.style.color = colorMap[currentTextProperties.color] || '#000000'; // Updated
-                    editableDiv.style.fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
-                    editableDiv.style.fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
-                    editableDiv.style.textDecoration = currentTextProperties.underline ? 'underline' : 'none';
-                    
-                    setTimeout(() => {
-                        editableDiv.focus();
-                        const range = document.createRange();
-                        range.selectNodeContents(editableDiv);
-                        range.collapse(false);
-                        const selection = window.getSelection();
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                    }, 0);
-                    
-                    editableDiv.addEventListener('input', function() {
-                        const annotation = annotations.find(a => a.id === annotationId);
-                        if (annotation) {
-                            annotation.content = editableDiv.textContent;
-                        }
-                    });
-                    
-                    annotationDiv.appendChild(editableDiv);
-                }
+            // Block added earlier for new colorMap logic (lines 1001-1035) is REMOVED here
             annotationDiv.style.left = x + 'px';
             annotationDiv.style.top = y + 'px';
 
             // Set initial size based on tool
             let innerHtml = '';
              let initialHeight = 30; // Default height
+            // Applying older logic for 'text' annotation
              if (activeTool === 'text') {
                 annotationDiv.style.width = '200px';
-                 initialHeight = Math.max(30, currentTextProperties.fontSize * 1.5 + 5); // Calculate height based on font, min 30px + padding
-                annotationDiv.style.height = initialHeight + 'px';
-
-                // Create an editable div with auto-focus
+                annotationDiv.style.height = '30px'; // Use fixed height from older code
+                
+                // Create an editable div with auto-focus (older version)
                 const editableDiv = document.createElement('div');
                 editableDiv.className = 'editable-text';
                 editableDiv.contentEditable = true;
                 editableDiv.textContent = "Type here";
                 editableDiv.style.fontFamily = currentTextProperties.fontFamily;
                 editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
-                // --- FIX APPLIED HERE ---
-                editableDiv.style.color = currentTextProperties.color; // Use the current color property
-                // --- END FIX ---
+                editableDiv.style.color = currentTextProperties.color; // Older simple color
                 editableDiv.style.fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
                 editableDiv.style.fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
                 editableDiv.style.textDecoration = currentTextProperties.underline ? 'underline' : 'none';
-
+                
                 // Focus immediately
                 setTimeout(() => {
                     editableDiv.focus();
@@ -1069,20 +1026,17 @@
                     selection.removeAllRanges();
                     selection.addRange(range);
                 }, 0);
-
+                
                 // Update content when changed
                 editableDiv.addEventListener('input', function() {
                     const annotation = annotations.find(a => a.id === annotationId);
                     if (annotation) {
                         annotation.content = editableDiv.textContent;
-                         // Optionally adjust height dynamically based on text content
-                         // editableDiv.parentNode.style.height = Math.max(initialHeight, editableDiv.scrollHeight) + 'px';
                     }
                 });
-
-                innerHtml = ''; // Clear innerHTML since we are appending a node
+                
+                innerHtml = '';
                 annotationDiv.appendChild(editableDiv);
-
             } else if (activeTool === 'highlight') {
                  annotationDiv.style.width = '100px';
                  initialHeight = 20; // Fixed height for highlight
@@ -1138,7 +1092,7 @@
                 x: x,
                 y: y,
                 width: parseInt(annotationDiv.style.width),
-                 height: initialHeight, // Store calculated initial height or default
+                height: activeTool === 'text' ? 30 : initialHeight, // Use fixed height for text from older code
                 properties: activeTool === 'text' ? {...currentTextProperties} :
                            activeTool === 'highlight' ? {...currentHighlightProperties} : null,
                 content: activeTool === 'text' ? 'Type here' : null // Initial text content
@@ -1192,10 +1146,10 @@
              } else if (type === 'typed' || type === 'initials') {
                 const font = document.getElementById('signature-font').value;
                  const textColor = currentTypedSignatureColor; // Use the global for typed
-                const colorMap = {
+                const colorMapLocal = { // Use local map here too
                     black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080'
                  };
-                 signatureDiv.innerHTML = `<div style="font-family:${font}; color:${colorMap[textColor]}; font-size:${type === 'initials' ? '32px' : '24px'}; width:100%; height:100%; display:flex; align-items:center; justify-content:center; white-space: nowrap; box-sizing: border-box; overflow: hidden;">${content}</div>`;
+                 signatureDiv.innerHTML = `<div style="font-family:${font}; color:${colorMapLocal[textColor]}; font-size:${type === 'initials' ? '32px' : '24px'}; width:100%; height:100%; display:flex; align-items:center; justify-content:center; white-space: nowrap; box-sizing: border-box; overflow: hidden;">${content}</div>`;
              }
 
             // Add delete button consistently
@@ -1572,23 +1526,7 @@
                      updateTextPanelControls(annotation.properties); // Update controls
                      currentTextProperties = {...annotation.properties}; // Sync global state
                      break;
-                if (annotation.type === 'text') {
-                    annotation.properties = {...currentTextProperties};
-                    
-                    const editableDiv = selectedAnnotation.querySelector('.editable-text');
-                    if (editableDiv) {
-                        const fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
-                        const fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
-                        const textDecoration = currentTextProperties.underline ? 'underline' : 'none';
-                        
-                        editableDiv.style.fontFamily = currentTextProperties.fontFamily;
-                        editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
-                        editableDiv.style.color = colorMap[currentTextProperties.color] || '#000000'; // Updated
-                        editableDiv.style.fontWeight = fontWeight;
-                        editableDiv.style.fontStyle = fontStyle;
-                        editableDiv.style.textDecoration = textDecoration;
-                    }
-                }
+                 // Block related to the newer text logic REMOVED
                  case 'highlight':
                      toolToActivate = 'highlight';
                      panelToShow = 'highlight-tool-panel';
@@ -1634,31 +1572,25 @@
             const annotation = annotations.find(a => a.id === selectedAnnotation.id);
             if (!annotation) return;
 
+            // Apply older version logic for text update
             if (annotation.type === 'text') {
-                // Update the properties in the annotation object FIRST
-                annotation.properties = {...currentTextProperties};
-
-                // Update the visual appearance
-                const editableDiv = selectedAnnotation.querySelector('.editable-text');
-                if (editableDiv) {
-                    const fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
-                    const fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
-                    const textDecoration = currentTextProperties.underline ? 'underline' : 'none';
-
-                    editableDiv.style.fontFamily = currentTextProperties.fontFamily;
-                    editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
-                    editableDiv.style.color = currentTextProperties.color;
-                    editableDiv.style.fontWeight = fontWeight;
-                    editableDiv.style.fontStyle = fontStyle;
-                    editableDiv.style.textDecoration = textDecoration;
-
-                     // Also update the stored content in case it changed font size etc.
-                     annotation.content = editableDiv.textContent;
-                     // Optionally adjust height
-                     // selectedAnnotation.style.height = Math.max(30, editableDiv.scrollHeight) + 'px';
-                     // annotation.height = selectedAnnotation.offsetHeight;
-                }
-
+                 // Update the properties in the annotation object
+                 annotation.properties = {...currentTextProperties};
+                 
+                 // Update the visual appearance
+                 const editableDiv = selectedAnnotation.querySelector('.editable-text');
+                 if (editableDiv) {
+                     const fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
+                     const fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
+                     const textDecoration = currentTextProperties.underline ? 'underline' : 'none';
+                     
+                     editableDiv.style.fontFamily = currentTextProperties.fontFamily;
+                     editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
+                     editableDiv.style.color = currentTextProperties.color; // Older simple color
+                     editableDiv.style.fontWeight = fontWeight;
+                     editableDiv.style.fontStyle = fontStyle;
+                     editableDiv.style.textDecoration = textDecoration;
+                 }
             } else if (annotation.type === 'highlight') {
                 // Update the properties in the annotation object
                 annotation.properties = {...currentHighlightProperties};
@@ -1704,36 +1636,7 @@
              const existingElements = {};
              container.querySelectorAll('.annotation').forEach(el => {
                  if (el.id) existingElements[el.id] = el;
-                 if (annotation.type === 'text') {
-                    console.log(`Redrawing text annotation ${annotation.id}, content: "${annotation.content}"`);
-                    const fontWeight = annotation.properties.bold ? 'bold' : 'normal';
-                    const fontStyle = annotation.properties.italic ? 'italic' : 'normal';
-                    const textDecoration = annotation.properties.underline ? 'underline' : 'none';
-                    
-                    const editableDiv = document.createElement('div');
-                    console.log(' > editableDiv created');
-                    editableDiv.className = 'editable-text';
-                    editableDiv.contentEditable = true;
-                    editableDiv.textContent = annotation.content || 'Type here';
-                    console.log(` > editableDiv.textContent set to: "${editableDiv.textContent}"`);
-                    editableDiv.style.fontFamily = annotation.properties.fontFamily;
-                    editableDiv.style.fontSize = annotation.properties.fontSize + 'px';
-                    editableDiv.style.color = colorMap[annotation.properties.color] || '#000000'; // Updated
-                    console.log(` > editableDiv.style.color set to: "${editableDiv.style.color}"`);
-                    editableDiv.style.fontWeight = fontWeight;
-                    editableDiv.style.fontStyle = fontStyle;
-                    editableDiv.style.textDecoration = textDecoration;
-                    
-                    editableDiv.addEventListener('input', function() {
-                        const anno = annotations.find(a => a.id === annotation.id);
-                        if (anno) {
-                            anno.content = editableDiv.textContent;
-                        }
-                    });
-                    
-                    annotationDiv.appendChild(editableDiv);
-                    console.log(' > editableDiv appended');
-                }
+                // Incorrectly inserted block (lines 1707-1736 originally) is REMOVED here
              });
 
              // Process annotations for the current page
@@ -1773,37 +1676,33 @@
 
 
                  // Type-specific content and styling
+                // Apply older logic for 'text' annotation
                  if (annotation.type === 'text') {
-                     const props = annotation.properties;
-                     const fontWeight = props.bold ? 'bold' : 'normal';
-                     const fontStyle = props.italic ? 'italic' : 'normal';
-                     const textDecoration = props.underline ? 'underline' : 'none';
-
+                     const fontWeight = annotation.properties.bold ? 'bold' : 'normal';
+                     const fontStyle = annotation.properties.italic ? 'italic' : 'normal';
+                     const textDecoration = annotation.properties.underline ? 'underline' : 'none';
+                     
                      const editableDiv = document.createElement('div');
                      editableDiv.className = 'editable-text';
                      editableDiv.contentEditable = true;
-                     editableDiv.textContent = annotation.content || ''; // Use empty string if null
-                     editableDiv.style.fontFamily = props.fontFamily;
-                     editableDiv.style.fontSize = props.fontSize + 'px';
-                     editableDiv.style.color = props.color || 'black'; // Default to black
+                     editableDiv.textContent = annotation.content || 'Type here';
+                     editableDiv.style.fontFamily = annotation.properties.fontFamily;
+                     editableDiv.style.fontSize = annotation.properties.fontSize + 'px';
+                     editableDiv.style.color = annotation.properties.color; // Older simple color logic
                      editableDiv.style.fontWeight = fontWeight;
                      editableDiv.style.fontStyle = fontStyle;
                      editableDiv.style.textDecoration = textDecoration;
-                     editableDiv.style.minHeight = annotation.height + 'px'; // Ensure div fills annotation initially
-
+                     
                      // Update content when changed
                      editableDiv.addEventListener('input', function() {
                          const anno = annotations.find(a => a.id === annotation.id);
                          if (anno) {
                              anno.content = editableDiv.textContent;
-                             // Adjust parent height based on content? Might need debouncing.
-                             // annotationDiv.style.height = Math.max(anno.height, editableDiv.scrollHeight) + 'px';
                          }
                      });
-
+                     
                      annotationDiv.appendChild(editableDiv);
-                     annotationDiv.appendChild(deleteBtn); // Append delete button after content
-
+                    annotationDiv.appendChild(deleteBtn); // Add delete button back
                  } else if (annotation.type === 'highlight') {
                      const props = annotation.properties;
                      const opacity = props.opacity || 0.5;
@@ -1823,10 +1722,10 @@
                          annotationDiv.innerHTML = `<img src="${annotation.content}" style="width:100%; height:100%; object-fit: contain; display: block; user-select: none;" />`;
                      } else { // Typed or Initials
                          const props = annotation.properties;
-                         const colorMap = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' };
+                         const colorMapLocal = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' }; // Use local map
                          const color = props?.color || 'black';
                          annotationDiv.innerHTML = `<div style="font-family:${props?.font || 'Arial'};
-                                                 color:${colorMap[color] || '#000000'};
+                                                 color:${colorMapLocal[color] || '#000000'};
                                                  font-size:${annotation.signatureType === 'initials' ? '32px' : '24px'};
                                                  width:100%; height:100%;
                                                  display:flex; align-items:center; justify-content:center;
@@ -2030,13 +1929,13 @@
                              } else if (annotation.type === 'signature' && (annotation.signatureType === 'typed' || annotation.signatureType === 'initials')) {
                                  if (scaledHeight <= 0) scaledHeight = 60 / scale; // Default height
                                 const props = annotation.properties;
-                                const colorMap = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' };
+                                const colorMapLocal = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' };
                                 const color = props?.color || 'black';
                                 const fontFamily = props?.font || 'Arial'; // Fallback font
                                 const fontSize = scaledFontSize * (annotation.signatureType === 'initials' ? 1.5 : 1); // Slightly larger initials? Adjusted scale here instead
 
                                 tempCtx.font = `${fontSize}px ${fontFamily}`;
-                                tempCtx.fillStyle = colorMap[color] || '#000000';
+                                tempCtx.fillStyle = colorMapLocal[color] || '#000000';
                                 tempCtx.textAlign = 'center';
                                 tempCtx.textBaseline = 'middle';
 
