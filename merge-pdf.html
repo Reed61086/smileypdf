@@ -583,6 +583,8 @@
 
                      const mergedPdfBytes = await mergedPdf.save(saveOptions);
                     return new Blob([mergedPdfBytes], { type: 'application/pdf' });
+
+
                  } catch (error) {
                     console.error('Error merging PDFs:', error);
                      // Check for specific errors like encryption
