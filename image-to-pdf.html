@@ -393,8 +393,20 @@
                                 pdf.addPage(pageSize, orientation);
                              }
 
-                              // Add image (ensure quality is passed if relevant to format, jsPDF handles compression)
-                              pdf.addImage(imgDataUrl, 'PNG', x, y, scaledWidth, scaledHeight, undefined, 'FAST'); // Use PNG format for image data URL
+                             // Create a temporary canvas to draw the image (normalizes format)
+                             const tempImageCanvas = document.createElement('canvas');
+                             tempImageCanvas.width = scaledWidth * 2; // Increase resolution for better quality
+                             tempImageCanvas.height = scaledHeight * 2;
+                             const tempImageCtx = tempImageCanvas.getContext('2d');
+                             
+                             // Draw the loaded image onto the temporary canvas
+                             tempImageCtx.drawImage(img, 0, 0, tempImageCanvas.width, tempImageCanvas.height);
+                             
+                             // Get the data URL from the temporary canvas as JPEG
+                             const canvasDataUrl = tempImageCanvas.toDataURL('image/jpeg', quality); // Use quality setting
+                             
+                             // Add image from the temporary canvas data URL
+                             pdf.addImage(canvasDataUrl, 'JPEG', x, y, scaledWidth, scaledHeight, undefined, 'FAST');
 
 
                              processed++;
