@@ -3,167 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to PDF - SmileyPDF</title>
-    <!-- Base CDNs -->
+    <title>Image to PDF Converter</title>
+     <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Additional CDNs for functionality (violates original constraint per user request) -->
+     <!-- Additional Libraries from Source File (Violates Original Constraints) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <!-- Font Awesome for icons in user code -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <!-- Repeated jsPDF CDN link removed, included once above -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Font Awesome (from source) -->
     <style>
-        /* Styles from user-provided code */
-        .dropzone { border: 2px dashed #6b7280; transition: all 0.3s ease; }
-        .dropzone.active { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.05); }
-        .image-preview { transition: all 0.3s ease; }
-        .image-preview:hover { transform: scale(1.03); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .spinner { animation: spin 1s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .progress-bar { height: 6px; transition: width 0.3s ease; }
-        .pdf-preview { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
-        @media (max-width: 640px) { .controls { flex-direction: column; } }
+        .dropzone {
+            border: 2px dashed #6b7280;
+            transition: all 0.3s ease;
+        }
+        .dropzone.active {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        .image-preview {
+            transition: all 0.3s ease;
+        }
+        .image-preview:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .progress-bar {
+            height: 6px;
+            transition: width 0.3s ease;
+        }
+        .pdf-preview {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        @media (max-width: 640px) {
+            .controls {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-12 max-w-6xl">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Image to PDF Converter</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Upload unlimited images and convert them into a single PDF document</p>
+        </div>
 
-    <!-- Header (Redesigned) -->
-    <header class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold">
-                 <i class="fa-regular fa-face-smile mr-2 text-yellow-300"></i>SmileyPDF
-            </a>
-            <div>
-                 <a href="index.html" class="hover:text-yellow-300">
-                    <i class="fa-solid fa-home mr-1"></i> Home
-                </a>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Content Area - Using User Provided Structure/Code -->
-     <main class="container mx-auto px-6 py-12">
-        <div class="container mx-auto px-4 py-12 max-w-6xl">
-             <div class="text-center mb-12">
-                <!-- Title adapted -->
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                    <i class="fa-solid fa-file-pdf mr-2 text-red-600"></i> Image to PDF Converter
-                </h1>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Upload unlimited images and convert them into a single PDF document</p>
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-6">
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <i class="fas fa-cloud-upload-alt text-5xl text-blue-500"></i>
+                    <h3 class="text-xl font-semibold text-gray-800">Drag & Drop Images Here</h3>
+                    <p class="text-gray-500">or click to browse your files</p>
+                    <input type="file" id="fileInput" class="hidden" multiple accept="image/*">
+                    <button id="browseBtn" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                        Select Images
+                    </button>
+                </div>
             </div>
 
-             <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-                 <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-6">
-                    <div class="flex flex-col items-center justify-center space-y-4">
-                        <i class="fas fa-cloud-upload-alt text-5xl text-blue-500"></i>
-                        <h3 class="text-xl font-semibold text-gray-800">Drag & Drop Images Here</h3>
-                        <p class="text-gray-500">or click to browse your files</p>
-                        <input type="file" id="fileInput" class="hidden" multiple accept="image/*">
-                        <button id="browseBtn" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
-                            Select Images
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-6 hidden" id="progressContainer">
+                <div id="progressBar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+
+            <div id="status" class="text-center text-gray-500 italic mb-6 hidden">
+                <i class="fas fa-spinner spinner mr-2"></i>
+                <span id="statusText">Processing your images...</span>
+            </div>
+
+            <div id="error" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 hidden" role="alert">
+                <p id="errorMessage"></p>
+            </div>
+
+            <div class="controls flex flex-wrap justify-between items-center mb-6">
+                <div>
+                    <label for="orientation" class="block text-sm font-medium text-gray-700 mb-1">Page Orientation</label>
+                    <select id="orientation" class="border border-gray-300 rounded-md px-3 py-2">
+                        <option value="portrait">Portrait</option>
+                        <option value="landscape">Landscape</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="margin" class="block text-sm font-medium text-gray-700 mb-1">Margin (mm)</label>
+                    <input type="number" id="margin" min="0" max="20" value="5" class="border border-gray-300 rounded-md px-3 py-2 w-20">
+                </div>
+                <div>
+                    <label for="quality" class="block text-sm font-medium text-gray-700 mb-1">Quality</label>
+                    <select id="quality" class="border border-gray-300 rounded-md px-3 py-2">
+                        <option value="0.6">Medium</option>
+                        <option value="0.8">High</option>
+                        <option value="1">Maximum</option>
+                        <option value="0.3">Low</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="size" class="block text-sm font-medium text-gray-700 mb-1">Page Size</label>
+                    <select id="size" class="border border-gray-300 rounded-md px-3 py-2">
+                        <option value="a4">A4</option>
+                        <option value="letter">Letter</option>
+                        <option value="legal">Legal</option>
+                        <option value="a5">A5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="previewContainer" class="hidden">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Selected Images</h3>
+                <div id="imagePreviews" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6"></div>
+                <div class="flex justify-between items-center">
+                    <button id="clearBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300">
+                        <i class="fas fa-trash-alt mr-2"></i>Clear All
+                    </button>
+                    <button id="generateBtn" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 font-medium">
+                        <i class="fas fa-file-pdf mr-2"></i>Generate PDF
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultContainer" class="hidden mt-8">
+                <div class="flex flex-col md:flex-row items-center justify-between bg-blue-50 p-6 rounded-lg mb-6">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Your PDF is Ready!</h3>
+                        <p class="text-gray-600" id="downloadInfo">Click the button below to download your PDF file.</p>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button id="downloadBtn" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">
+                            <i class="fas fa-download mr-2"></i>Download PDF
+                        </button>
+                        <button id="newPdfBtn" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                            <i class="fas fa-plus mr-2"></i>New PDF
                         </button>
                     </div>
-                 </div>
-
-                 <div class="w-full bg-gray-200 rounded-full h-2 mb-6 hidden" id="progressContainer">
-                     <div id="progressBar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
-                 </div>
-
-                 <div id="status" class="text-center text-gray-500 italic mb-6 hidden">
-                    <i class="fas fa-spinner spinner mr-2"></i>
-                    <span id="statusText">Processing your images...</span>
                 </div>
 
-                 <div id="error" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 hidden" role="alert">
-                     <p id="errorMessage"></p>
-                 </div>
-
-                 <div class="controls flex flex-wrap justify-between items-center mb-6">
-                    <div>
-                        <label for="orientation" class="block text-sm font-medium text-gray-700 mb-1">Page Orientation</label>
-                        <select id="orientation" class="border border-gray-300 rounded-md px-3 py-2">
-                            <option value="portrait">Portrait</option>
-                            <option value="landscape">Landscape</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="margin" class="block text-sm font-medium text-gray-700 mb-1">Margin (mm)</label>
-                        <input type="number" id="margin" min="0" max="20" value="5" class="border border-gray-300 rounded-md px-3 py-2 w-20">
-                    </div>
-                    <div>
-                        <label for="quality" class="block text-sm font-medium text-gray-700 mb-1">Quality</label>
-                        <select id="quality" class="border border-gray-300 rounded-md px-3 py-2">
-                            <option value="0.6">Medium</option>
-                            <option value="0.8">High</option>
-                            <option value="1">Maximum</option>
-                            <option value="0.3">Low</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="size" class="block text-sm font-medium text-gray-700 mb-1">Page Size</label>
-                        <select id="size" class="border border-gray-300 rounded-md px-3 py-2">
-                            <option value="a4">A4</option>
-                            <option value="letter">Letter</option>
-                            <option value="legal">Legal</option>
-                            <option value="a5">A5</option>
-                        </select>
-                    </div>
-                 </div>
-
-                 <div id="previewContainer" class="hidden">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Selected Images</h3>
-                    <div id="imagePreviews" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6"></div>
-                    <div class="flex justify-between items-center">
-                        <button id="clearBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300">
-                            <i class="fas fa-trash-alt mr-2"></i>Clear All
-                        </button>
-                        <button id="generateBtn" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 font-medium">
-                            <i class="fas fa-file-pdf mr-2"></i>Generate PDF
-                        </button>
-                    </div>
-                 </div>
-
-                 <div id="resultContainer" class="hidden mt-8">
-                    <div class="flex flex-col md:flex-row items-center justify-between bg-blue-50 p-6 rounded-lg mb-6">
-                        <div class="mb-4 md:mb-0">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Your PDF is Ready!</h3>
-                            <p class="text-gray-600" id="downloadInfo">Click the button below to download your PDF file.</p>
-                        </div>
-                        <div class="flex space-x-4">
-                            <button id="downloadBtn" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">
-                                <i class="fas fa-download mr-2"></i>Download PDF
-                            </button>
-                            <button id="newPdfBtn" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
-                                <i class="fas fa-plus mr-2"></i>New PDF
-                            </button>
-                        </div>
-                    </div>
-
-                     <div id="pdfPreviewContainer" class="border border-gray-200 rounded-lg p-4 hidden">
-                         <iframe id="pdfPreview" class="w-full h-96 pdf-preview rounded-lg" frameborder="0"></iframe>
-                     </div>
-                 </div>
-             </div>
-
-             <div class="bg-white rounded-xl shadow-lg p-6 text-center text-gray-600 mt-8">
-                 <i class="fas fa-info-circle text-blue-500 text-2xl mb-2"></i>
-                <h3 class="font-medium text-gray-700 mb-2">How it works</h3>
-                <p class="mb-4">Simply upload multiple images, arrange them in order, and download as a single PDF file.</p>
-                <p class="text-sm">No file size limits • Supports JPG, PNG, WEBP • 100% client-side processing</p>
-             </div>
+                <div id="pdfPreviewContainer" class="border border-gray-200 rounded-lg p-4 hidden">
+                    <iframe id="pdfPreview" class="w-full h-96 pdf-preview rounded-lg" frameborder="0"></iframe>
+                </div>
+            </div>
         </div>
-    </main>
 
-
-    <!-- Footer (Redesigned) -->
-    <footer class="bg-gray-700 text-gray-300 mt-12 py-6">
-        <div class="container mx-auto px-6 text-center text-sm">
-            &copy; 2025 SmileyPDF (Functional Page Example).
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center text-gray-600">
+            <i class="fas fa-info-circle text-blue-500 text-2xl mb-2"></i>
+            <h3 class="font-medium text-gray-700 mb-2">How it works</h3>
+            <p class="mb-4">Simply upload multiple images, arrange them in order, and download as a single PDF file.</p>
+            <p class="text-sm">No file size limits • Supports JPG, PNG, WEBP • 100% client-side processing</p>
         </div>
-    </footer>
+    </div>
 
-    <!-- JavaScript logic from user-provided code -->
-     <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize variables
             const dropzone = document.getElementById('dropzone');
@@ -192,12 +186,12 @@
             let quality = 0.6;
             let pageSize = 'a4';
 
-            // Check for library presence
+             // Check for library presence
              if (typeof window.jspdf === 'undefined' || typeof window.PDFLib === 'undefined') {
-                showError("Required PDF libraries could not be loaded. Please check your internet connection or script tags.");
+                 showError("Required PDF libraries could not be loaded. Please check your internet connection or script tags.");
                  console.error("jsPDF or pdf-lib not found.");
                  return; // Stop execution if libraries are missing
-            }
+             }
              const { jsPDF } = window.jspdf;
              const { PDFDocument } = window.PDFLib; // Use PDFLib if needed (e.g., for merging later, not used in this specific example)
 
@@ -518,7 +512,7 @@
              }
 
 
-         });
-     </script>
+        });
+    </script>
 </body>
 </html>

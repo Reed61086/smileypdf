@@ -3,60 +3,1519 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Editor - SmileyPDF</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Advanced PDF Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Required Tailwind -->
+    <!-- Required Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Additional Libraries from Source File (Violates Original Constraints) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#6B7280',
+                        accent: '#10B981',
+                        danger: '#EF4444',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* Adjust iframe height as needed */
-        .embedded-tool {
-            min-height: 70vh; /* Ensure iframe takes significant vertical space */
+        #pdf-render {
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .canvas-container {
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .annotation {
+            position: absolute;
+            cursor: move;
+            resize: both;
+            overflow: hidden;
+            min-width: 50px;
+            min-height: 20px;
+            border: 1px dashed transparent;
+        }
+        .annotation:hover {
+            border-color: #4F46E5;
+        }
+        .annotation.selected {
+            border: 1px dashed #4F46E5;
+            background-color: rgba(79, 70, 229, 0.1);
+        }
+        .delete-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background-color: #EF4444;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .annotation:hover .delete-btn {
+            opacity: 1;
+        }
+        #signature-pad {
+            border: 1px solid #e5e7eb;
+            background-color: white;
+            touch-action: none;
+            width: 100%;
+        }
+        .tool-panel {
+            position: absolute;
+            left: 70px;
+            top: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 100;
+            width: 250px;
+            display: none;
+        }
+        .color-option {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 3px;
+            border: 2px solid white;
+        }
+        .color-option.selected {
+            border-color: #4F46E5;
+            transform: scale(1.1);
+        }
+        .font-option {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .font-option.selected {
+            background-color: #E5E7EB;
+            font-weight: bold;
+        }
+        .tooltip-text {
+            position: absolute;
+            left: 60px;
+            background-color: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .group:hover .tooltip-text {
+            opacity: 1;
+        }
+        #signature-type-container {
+            margin-top: 10px;
+        }
+        #file-input {
+            display: none;
+        }
+        #initials-text {
+            display: none;
+        }
+        .active-tool {
+            background-color: #4F46E5 !important;
+            color: white !important;
+        }
+        /* Resize handle styling */
+        .annotation::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: #4F46E5;
+            border-radius: 2px;
+            cursor: nwse-resize;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .annotation:hover::after {
+            opacity: 1;
+        }
+        /* Editable text area */
+        .editable-text {
+            min-height: 20px;
+            width: 100%;
+            outline: none;
+            padding: 2px;
+            cursor: text;
         }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold">
-                 <i class="fa-regular fa-face-smile mr-2 text-yellow-300"></i>SmileyPDF
-            </a>
-            <div>
-                 <a href="index.html" class="hover:text-yellow-300">
-                    <i class="fa-solid fa-home mr-1"></i> Home
-                </a>
+    <div class="flex h-screen overflow-hidden">
+        <!-- Left Toolbar -->
+        <div class="w-16 bg-white shadow-md flex flex-col items-center py-4 space-y-6">
+            <!-- Upload PDF Button -->
+            <div class="group relative">
+                <button id="upload-btn" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+                    <i class="fas fa-file-upload text-gray-700"></i>
+                </button>
+                <input type="file" id="file-input" accept=".pdf">
+                <span class="tooltip-text">Upload PDF</span>
             </div>
-        </nav>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="container mx-auto px-6 py-12">
-        <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4 border-b pb-2">
-                <i class="fa-solid fa-pen-to-square mr-2 text-green-600"></i> PDF Editor
-            </h1>
-            <p class="text-gray-600 mb-6">Loading editor tool...</p>
-
-            <!-- Iframe to embed the functional tool -->
-            <iframe
-                src="editor_tool.html"
-                frameborder="0"
-                class="w-full embedded-tool border border-gray-200 rounded-md"
-                title="PDF Editor Tool"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
-                    Your browser doesn't support IFrames. Please access the tool directly.
-            </iframe>
-
-             <p class="text-xs text-gray-500 mt-4 italic">Note: The editor above is embedded from <code>editor_tool.html</code>. Functionality depends on the code within that file.</p>
+            
+            <!-- Text Tool -->
+            <div class="group relative">
+                <button id="text-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+                    <i class="fas fa-font text-gray-700"></i>
+                </button>
+                <span class="tooltip-text">Text Tool</span>
+            </div>
+            
+            <!-- Signature Tool -->
+            <div class="group relative">
+                <button id="signature-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+                    <i class="fas fa-signature text-gray-700"></i>
+                </button>
+                <span class="tooltip-text">Signature/Initials</span>
+            </div>
+            
+            <!-- Image Tool -->
+            <div class="group relative">
+                <button id="image-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+                    <i class="fas fa-image text-gray-700"></i>
+                </button>
+                <span class="tooltip-text">Image Tool</span>
+            </div>
+            
+            <!-- Highlight Tool -->
+            <div class="group relative">
+                <button id="highlight-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
+                    <i class="fas fa-highlighter text-gray-700"></i>
+                </button>
+                <span class="tooltip-text">Highlight Tool</span>
+            </div>
+            
+            <!-- Save Button -->
+            <div class="group relative mt-auto">
+                <button id="save-pdf" class="w-12 h-12 rounded-lg flex items-center justify-center bg-primary hover:bg-purple-700 transition text-white">
+                    <i class="fas fa-save"></i>
+                </button>
+                <span class="tooltip-text">Save PDF</span>
+            </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-700 text-gray-300 mt-12 py-6">
-        <div class="container mx-auto px-6 text-center text-sm">
-            &copy; 2025 SmileyPDF.
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <div class="bg-white shadow-sm py-3 px-4 flex items-center justify-between">
+                <h1 class="text-xl font-semibold text-gray-800">PDF Editor</h1>
+                <div class="flex items-center space-x-4">
+                    <div>
+                        <span class="text-gray-600 mr-2">Page:</span>
+                        <select id="page-select" class="border rounded px-2 py-1">
+                            <!-- Pages will be added dynamically -->
+                        </select>
+                    </div>
+                    <button id="zoom-in" class="w-8 h-8 rounded flex items-center justify-center hover:bg-gray-100">
+                        <i class="fas fa-search-plus text-gray-600"></i>
+                    </button>
+                    <button id="zoom-out" class="w-8 h-8 rounded flex items-center justify-center hover:bg-gray-100">
+                        <i class="fas fa-search-minus text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF Viewer -->
+            <div class="flex-1 overflow-auto p-6 bg-gray-50" id="pdf-viewer">
+                <div id="pdf-container" class="relative mx-auto">
+                    <div id="pdf-render" class="canvas-container">
+                        <canvas id="pdf-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
 
+        <!-- Text Tool Panel -->
+        <div id="text-tool-panel" class="tool-panel">
+            <h3 class="font-medium mb-2">Text Properties</h3>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Font Family</label>
+                <div class="flex flex-wrap">
+                    <div class="font-option selected" style="font-family: 'Arial'">Arial</div>
+                    <div class="font-option" style="font-family: 'Times New Roman'">Times</div>
+                    <div class="font-option" style="font-family: 'Courier New'">Courier</div>
+                    <div class="font-option" style="font-family: 'Georgia'">Georgia</div>
+                    <div class="font-option" style="font-family: 'Verdana'">Verdana</div>
+                    <div class="font-option" style="font-family: 'Comic Sans MS'">Comic</div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Font Size</label>
+                <input type="range" id="text-size" min="8" max="72" value="14" class="w-full">
+                <div class="flex justify-between text-xs text-gray-600">
+                    <span>8</span>
+                    <span>20</span>
+                    <span>32</span>
+                    <span>44</span>
+                    <span>56</span>
+                    <span>72</span>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Text Color</label>
+                <div class="flex flex-wrap">
+                    <div class="color-option bg-black selected" data-color="black"></div>
+                    <div class="color-option bg-red-500" data-color="red"></div>
+                    <div class="color-option bg-blue-500" data-color="blue"></div>
+                    <div class="color-option bg-green-500" data-color="green"></div>
+                    <div class="color-option bg-yellow-500" data-color="yellow"></div>
+                    <div class="color-option bg-purple-500" data-color="purple"></div>
+                    <div class="color-option bg-pink-500" data-color="pink"></div>
+                    <div class="color-option bg-gray-500" data-color="gray"></div>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Bold/Italic</label>
+                <div class="flex">
+                    <button id="bold-text" class="px-3 py-1 border rounded-l hover:bg-gray-100">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button id="italic-text" class="px-3 py-1 border-t border-b hover:bg-gray-100">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button id="underline-text" class="px-3 py-1 border rounded-r hover:bg-gray-100">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signature Tool Panel -->
+        <div id="signature-tool-panel" class="tool-panel">
+            <h3 class="font-medium mb-2">Add Signature/Initials</h3>
+            <div class="mb-4">
+                <div class="flex space-x-3 mb-3">
+                    <button id="draw-signature" class="flex-1 py-2 bg-primary text-white rounded hover:bg-purple-700">Draw</button>
+                    <button id="type-signature" class="flex-1 py-2 bg-gray-100 rounded hover:bg-gray-200">Type</button>
+                    <button id="initials-btn" class="flex-1 py-2 bg-gray-100 rounded hover:bg-gray-200">Initials</button>
+                </div>
+                <div id="signature-draw-container" class="border rounded mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-sm font-medium text-gray-700">Pen Color:</label>
+                        <div class="flex">
+                            <div class="color-option bg-black selected" data-color="black" onclick="setSignatureColor('black')"></div>
+                            <div class="color-option bg-red-500" data-color="red" onclick="setSignatureColor('red')"></div>
+                            <div class="color-option bg-blue-500" data-color="blue" onclick="setSignatureColor('blue')"></div>
+                            <div class="color-option bg-green-500" data-color="green" onclick="setSignatureColor('green')"></div>
+                        </div>
+                    </div>
+                    <canvas id="signature-pad" height="150"></canvas>
+                </div>
+                <div id="signature-type-container" class="mb-3 hidden">
+                    <input type="text" id="signature-text" placeholder="Type your name" class="w-full border rounded px-3 py-2">
+                    <input type="text" id="initials-text" placeholder="Type your initials" class="w-full border rounded px-3 py-2 mt-2 hidden">
+                    <div class="flex mt-2">
+                        <select id="signature-font" class="border rounded px-2 py-1 flex-1 mr-2">
+                            <option value="'Brush Script MT', cursive">Brush Script</option>
+                            <option value="'Dancing Script', cursive">Dancing Script</option>
+                            <option value="'Parisienne', cursive">Parisienne</option>
+                            <option value="'Great Vibes', cursive">Great Vibes</option>
+                        </select>
+                        <div class="flex">
+                            <div class="color-option bg-black selected" data-color="black" onclick="setTypedSignatureColor('black')"></div>
+                            <div class="color-option bg-red-500" data-color="red" onclick="setTypedSignatureColor('red')"></div>
+                            <div class="color-option bg-blue-500" data-color="blue" onclick="setTypedSignatureColor('blue')"></div>
+                            <div class="color-option bg-green-500" data-color="green" onclick="setTypedSignatureColor('green')"></div>
+                            <div class="color-option bg-purple-500" data-color="purple" onclick="setTypedSignatureColor('purple')"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <button id="clear-signature" class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                        Clear
+                    </button>
+                    <button id="save-signature" class="px-3 py-2 bg-primary text-white rounded hover:bg-purple-700">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Tool Panel -->
+        <div id="image-tool-panel" class="tool-panel">
+            <h3 class="font-medium mb-2">Add Image</h3>
+            <div class="mb-4">
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                    <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
+                    <p class="text-sm text-gray-500">Drag & drop image here or</p>
+                    <button id="browse-images" class="mt-2 px-4 py-2 bg-primary text-white rounded hover:bg-purple-700">
+                        Browse Files
+                    </button>
+                    <input type="file" id="image-input" accept="image/*" class="hidden">
+                </div>
+            </div>
+        </div>
+
+        <!-- Highlight Tool Panel -->
+        <div id="highlight-tool-panel" class="tool-panel">
+            <h3 class="font-medium mb-2">Highlight Properties</h3>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Highlight Color</label>
+                <div class="flex flex-wrap">
+                    <div class="color-option bg-yellow-200 selected" data-color="yellow"></div>
+                    <div class="color-option bg-green-200" data-color="green"></div>
+                    <div class="color-option bg-blue-200" data-color="blue"></div>
+                    <div class="color-option bg-pink-200" data-color="pink"></div>
+                    <div class="color-option bg-purple-200" data-color="purple"></div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Opacity</label>
+                <input type="range" id="highlight-opacity" min="30" max="100" value="50" class="w-full">
+                <div class="flex justify-between text-xs text-gray-600">
+                    <span>30%</span>
+                    <span>65%</span>
+                    <span>100%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PDF.js setup
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+        
+        // Global variables
+        let pdfDoc = null,
+            pageNum = 1,
+            pageRendering = false,
+            pageNumPending = null,
+            scale = 1.0,
+            canvas = document.getElementById('pdf-canvas'),
+            ctx = canvas.getContext('2d'),
+            activeTool = null,
+            annotations = [],
+            selectedAnnotation = null,
+            signaturePad = null,
+            currentSignatureColor = 'black',
+            currentTypedSignatureColor = 'black',
+            currentTextProperties = {
+                fontFamily: 'Arial',
+                fontSize: 14,
+                color: 'black',
+                bold: false,
+                italic: false,
+                underline: false
+            },
+            currentHighlightProperties = {
+                color: 'yellow',
+                opacity: 0.5
+            };
+
+        // Initialize the editor
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up UI event listeners
+            setupEventListeners();
+            
+            // Initialize signature pad with proper cursor positioning
+            const signatureCanvas = document.getElementById('signature-pad');
+            signaturePad = new SignaturePad(signatureCanvas, {
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                penColor: 'rgb(0, 0, 0)',
+                onBegin: function() {
+                    // Fix cursor positioning issue
+                    const rect = signatureCanvas.getBoundingClientRect();
+                    const lastPoint = signaturePad._data[signaturePad._data.length - 2];
+                    if (lastPoint) {
+                        signaturePad._data[signaturePad._data.length - 1] = {
+                            x: (lastPoint.x * rect.width) / signatureCanvas.offsetWidth,
+                            y: (lastPoint.y * rect.height) / signatureCanvas.offsetHeight,
+                            time: Date.now()
+                        };
+                    }
+                }
+            });
+            
+            // Resize signature canvas when window resizes
+            window.addEventListener('resize', resizeSignatureCanvas);
+            resizeSignatureCanvas();
+            
+            // Load a default blank state
+            renderBlankCanvas();
+        });
+
+        function resizeSignatureCanvas() {
+            const canvas = document.getElementById('signature-pad');
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+            signaturePad.clear(); // Clear the signature after resize
+        }
+
+        function setupEventListeners() {
+            // Tool buttons
+            document.getElementById('upload-btn').addEventListener('click', function() {
+                document.getElementById('file-input').click();
+            });
+            
+            document.getElementById('file-input').addEventListener('change', handleFileSelect);
+            
+            document.getElementById('text-tool').addEventListener('click', function() {
+                if (activeTool === 'text') {
+                    document.getElementById('text-tool-panel').style.display = 'none';
+                    setActiveTool(null);
+                } else {
+                    setActiveTool('text');
+                    showToolPanel('text-tool-panel');
+                }
+            });
+            
+            document.getElementById('signature-tool').addEventListener('click', function() {
+                if (activeTool === 'signature') {
+                    document.getElementById('signature-tool-panel').style.display = 'none';
+                    setActiveTool(null);
+                } else {
+                    setActiveTool('signature');
+                    showToolPanel('signature-tool-panel');
+                    document.getElementById('signature-draw-container').classList.remove('hidden');
+                    document.getElementById('signature-type-container').classList.add('hidden');
+                    document.getElementById('initials-text').classList.add('hidden');
+                    document.getElementById('signature-text').classList.remove('hidden');
+                    document.getElementById('draw-signature').classList.add('bg-primary', 'text-white');
+                    document.getElementById('type-signature').classList.remove('bg-primary', 'text-white');
+                    document.getElementById('initials-btn').classList.remove('bg-primary', 'text-white');
+                    setSignatureColor(currentSignatureColor);
+                }
+            });
+            
+            document.getElementById('image-tool').addEventListener('click', function() {
+                if (activeTool === 'image') {
+                    document.getElementById('image-tool-panel').style.display = 'none';
+                    setActiveTool(null);
+                } else {
+                    setActiveTool('image');
+                    showToolPanel('image-tool-panel');
+                }
+            });
+            
+            document.getElementById('highlight-tool').addEventListener('click', function() {
+                if (activeTool === 'highlight') {
+                    document.getElementById('highlight-tool-panel').style.display = 'none';
+                    setActiveTool(null);
+                } else {
+                    setActiveTool('highlight');
+                    showToolPanel('highlight-tool-panel');
+                }
+            });
+            
+            document.getElementById('save-pdf').addEventListener('click', savePDF);
+            
+            // Page navigation
+            document.getElementById('page-select').addEventListener('change', function() {
+                const selectedPage = parseInt(this.value);
+                if (pdfDoc && selectedPage !== pageNum) {
+                    pageNum = selectedPage;
+                    queueRenderPage(pageNum);
+                }
+            });
+            
+            document.getElementById('zoom-in').addEventListener('click', function() {
+                if (scale < 3.0) {
+                    scale += 0.25;
+                    queueRenderPage(pageNum);
+                }
+            });
+            
+            document.getElementById('zoom-out').addEventListener('click', function() {
+                if (scale > 0.5) {
+                    scale -= 0.25;
+                    queueRenderPage(pageNum);
+                }
+            });
+            
+            // Click on PDF viewer
+            document.getElementById('pdf-viewer').addEventListener('click', function(e) {
+                if (!activeTool) return;
+                
+                // Check if clicked on an annotation
+                const clickedAnnotation = e.target.closest('.annotation');
+                if (clickedAnnotation) {
+                    // If clicking on editable text, focus it
+                    if (clickedAnnotation.querySelector('.editable-text') && 
+                        e.target === clickedAnnotation.querySelector('.editable-text')) {
+                        return;
+                    }
+                    
+                    // Otherwise select the annotation
+                    selectAnnotation(clickedAnnotation);
+                    return;
+                }
+                
+                // Check if clicked on the canvas
+                if (e.target === canvas || e.target === document.getElementById('pdf-render') || 
+                    e.target === document.getElementById('pdf-container')) {
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    addAnnotation(x, y);
+                }
+            });
+            
+            // Text tool panel
+            document.querySelectorAll('.font-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.font-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    currentTextProperties.fontFamily = this.style.fontFamily;
+                    updateSelectedAnnotation();
+                });
+            });
+            
+            document.getElementById('text-size').addEventListener('input', function() {
+                currentTextProperties.fontSize = parseInt(this.value);
+                updateSelectedAnnotation();
+            });
+            
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const panel = this.closest('.tool-panel').id;
+                    document.querySelectorAll(`#${panel} .color-option`).forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    if (panel === 'text-tool-panel') {
+                        currentTextProperties.color = this.dataset.color;
+                    } else if (panel === 'signature-tool-panel') {
+                        if (this.closest('#signature-type-container')) {
+                            currentTypedSignatureColor = this.dataset.color;
+                        } else {
+                            currentSignatureColor = this.dataset.color;
+                        }
+                    } else {
+                        currentHighlightProperties.color = this.dataset.color;
+                    }
+                    
+                    updateSelectedAnnotation();
+                });
+            });
+            
+            document.getElementById('bold-text').addEventListener('click', function() {
+                currentTextProperties.bold = !currentTextProperties.bold;
+                this.classList.toggle('bg-gray-200');
+                updateSelectedAnnotation();
+            });
+            
+            document.getElementById('italic-text').addEventListener('click', function() {
+                currentTextProperties.italic = !currentTextProperties.italic;
+                this.classList.toggle('bg-gray-200');
+                updateSelectedAnnotation();
+            });
+            
+            document.getElementById('underline-text').addEventListener('click', function() {
+                currentTextProperties.underline = !currentTextProperties.underline;
+                this.classList.toggle('bg-gray-200');
+                updateSelectedAnnotation();
+            });
+            
+            // Signature tool panel
+            document.getElementById('draw-signature').addEventListener('click', function() {
+                document.getElementById('signature-draw-container').classList.remove('hidden');
+                document.getElementById('signature-type-container').classList.add('hidden');
+                document.getElementById('type-signature').classList.remove('bg-primary', 'text-white');
+                document.getElementById('initials-btn').classList.remove('bg-primary', 'text-white');
+                this.classList.add('bg-primary', 'text-white');
+            });
+            
+            document.getElementById('type-signature').addEventListener('click', function() {
+                document.getElementById('signature-draw-container').classList.add('hidden');
+                document.getElementById('signature-type-container').classList.remove('hidden');
+                document.getElementById('signature-text').classList.remove('hidden');
+                document.getElementById('initials-text').classList.add('hidden');
+                document.getElementById('draw-signature').classList.remove('bg-primary', 'text-white');
+                document.getElementById('initials-btn').classList.remove('bg-primary', 'text-white');
+                this.classList.add('bg-primary', 'text-white');
+            });
+            
+            document.getElementById('initials-btn').addEventListener('click', function() {
+                document.getElementById('signature-draw-container').classList.add('hidden');
+                document.getElementById('signature-type-container').classList.remove('hidden');
+                document.getElementById('signature-text').classList.add('hidden');
+                document.getElementById('initials-text').classList.remove('hidden');
+                document.getElementById('draw-signature').classList.remove('bg-primary', 'text-white');
+                document.getElementById('type-signature').classList.remove('bg-primary', 'text-white');
+                this.classList.add('bg-primary', 'text-white');
+            });
+            
+            document.getElementById('clear-signature').addEventListener('click', function() {
+                signaturePad.clear();
+                document.getElementById('signature-text').value = '';
+                document.getElementById('initials-text').value = '';
+            });
+            
+            document.getElementById('save-signature').addEventListener('click', function() {
+                if (!signaturePad.isEmpty()) {
+                    const signatureData = signaturePad.toDataURL();
+                    createSignatureAnnotation(signatureData, 'drawing');
+                } else if (document.getElementById('signature-text').value) {
+                    const text = document.getElementById('signature-text').value;
+                    createSignatureAnnotation(text, 'typed', currentTypedSignatureColor);
+                } else if (document.getElementById('initials-text').value) {
+                    const initials = document.getElementById('initials-text').value;
+                    createSignatureAnnotation(initials, 'initials', currentTypedSignatureColor);
+                }
+            });
+            
+            // Image tool panel
+            document.getElementById('browse-images').addEventListener('click', function() {
+                document.getElementById('image-input').click();
+            });
+            
+            document.getElementById('image-input').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        createImageAnnotation(event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Highlight tool panel
+            document.getElementById('highlight-opacity').addEventListener('input', function() {
+                currentHighlightProperties.opacity = parseInt(this.value) / 100;
+                updateSelectedAnnotation();
+            });
+        }
+
+        function setSignatureColor(color) {
+            currentSignatureColor = color;
+            const colorMap = {
+                black: '#000000',
+                red: '#FF0000',
+                blue: '#0000FF',
+                green: '#008000'
+            };
+            signaturePad.penColor = colorMap[color];
+            
+            // Update selected color indicator
+            document.querySelectorAll('#signature-draw-container .color-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.color === color) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function setTypedSignatureColor(color) {
+            currentTypedSignatureColor = color;
+            
+            // Update selected color indicator
+            document.querySelectorAll('#signature-type-container .color-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.color === color) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const typedArray = new Uint8Array(e.target.result);
+                    loadPDF(typedArray);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        }
+
+        function loadPDF(data) {
+            pdfjsLib.getDocument(data).promise.then(function(pdf) {
+                pdfDoc = pdf;
+                
+                // Update page select dropdown
+                const pageSelect = document.getElementById('page-select');
+                pageSelect.innerHTML = '';
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = 'Page ' + i;
+                    pageSelect.appendChild(option);
+                }
+                
+                // Render first page
+                queueRenderPage(1);
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF. Please try another file.');
+            });
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function renderPage(num) {
+            pageRendering = true;
+            pageNum = num;
+            
+            // Update page select
+            document.getElementById('page-select').value = num;
+            
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                const renderTask = page.render(renderContext);
+                
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                    
+                    // Redraw annotations for this page
+                    redrawAnnotations();
+                });
+            });
+        }
+
+        function renderBlankCanvas() {
+            canvas.width = 800;
+            canvas.height = 1000;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#000000';
+            ctx.font = '24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Upload a PDF to start editing', canvas.width / 2, canvas.height / 2);
+        }
+
+        function setActiveTool(tool) {
+            activeTool = tool;
+            
+            // Update active tool button styling
+            document.querySelectorAll('[id$="-tool"]').forEach(btn => {
+                btn.classList.remove('active-tool');
+            });
+            document.getElementById(`${tool}-tool`)?.classList.add('active-tool');
+            
+            // Clear any selected annotation
+            clearSelection();
+        }
+
+        function showToolPanel(panelId) {
+            // Hide all panels
+            document.querySelectorAll('.tool-panel').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            
+            // Show selected panel if a tool is active
+            if (activeTool) {
+                document.getElementById(panelId).style.display = 'block';
+            }
+        }
+
+        function addAnnotation(x, y) {
+            if (!activeTool) return;
+            
+            const annotationId = 'annotation-' + Date.now();
+            const annotationDiv = document.createElement('div');
+            annotationDiv.className = 'annotation';
+            annotationDiv.id = annotationId;
+            annotationDiv.style.left = x + 'px';
+            annotationDiv.style.top = y + 'px';
+            
+            // Set initial size based on tool
+            let innerHtml = '';
+            if (activeTool === 'text') {
+                annotationDiv.style.width = '200px';
+                annotationDiv.style.height = '30px';
+                
+                // Create an editable div with auto-focus
+                const editableDiv = document.createElement('div');
+                editableDiv.className = 'editable-text';
+                editableDiv.contentEditable = true;
+                editableDiv.textContent = "Type here";
+                editableDiv.style.fontFamily = currentTextProperties.fontFamily;
+                editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
+                editableDiv.style.color = currentTextProperties.color;
+                editableDiv.style.fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
+                editableDiv.style.fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
+                editableDiv.style.textDecoration = currentTextProperties.underline ? 'underline' : 'none';
+                
+                // Focus immediately
+                setTimeout(() => {
+                    editableDiv.focus();
+                    // Move cursor to end
+                    const range = document.createRange();
+                    range.selectNodeContents(editableDiv);
+                    range.collapse(false);
+                    const selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }, 0);
+                
+                // Update content when changed
+                editableDiv.addEventListener('input', function() {
+                    const annotation = annotations.find(a => a.id === annotationId);
+                    if (annotation) {
+                        annotation.content = editableDiv.textContent;
+                    }
+                });
+                
+                innerHtml = '';
+                annotationDiv.appendChild(editableDiv);
+                
+            } else if (activeTool === 'highlight') {
+                annotationDiv.style.width = '100px';
+                annotationDiv.style.height = '20px';
+                annotationDiv.style.backgroundColor = `rgba(255, 255, 0, ${currentHighlightProperties.opacity})`;
+            }
+            
+            // Add delete button
+            const deleteBtn = document.createElement('div');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.onclick = function() { deleteAnnotation(annotationDiv); };
+            annotationDiv.appendChild(deleteBtn);
+            
+            // Set up drag and resize
+            setupDraggable(annotationDiv);
+            
+            document.getElementById('pdf-container').appendChild(annotationDiv);
+            
+            // Store annotation data
+            const annotation = {
+                id: annotationId,
+                type: activeTool,
+                page: pageNum,
+                x: x,
+                y: y,
+                width: parseInt(annotationDiv.style.width),
+                height: parseInt(annotationDiv.style.height),
+                properties: activeTool === 'text' ? {...currentTextProperties} : 
+                           activeTool === 'highlight' ? {...currentHighlightProperties} : null,
+                content: activeTool === 'text' ? 'Type here' : null
+            };
+            
+            annotations.push(annotation);
+            
+            // Select the new annotation
+            selectAnnotation(annotationDiv);
+        }
+
+        function createSignatureAnnotation(content, type, color) {
+            const signatureId = 'signature-' + Date.now();
+            const signatureDiv = document.createElement('div');
+            signatureDiv.className = 'annotation';
+            signatureDiv.id = signatureId;
+            
+            // Set initial size and position
+            signatureDiv.style.width = '200px';
+            signatureDiv.style.height = type === 'drawing' ? '80px' : '60px';
+            signatureDiv.style.cursor = 'move';
+            
+            // Center the signature on the canvas
+            const rect = canvas.getBoundingClientRect();
+            const x = rect.width / 2 - 100;
+            const y = rect.height / 2 - 40;
+            signatureDiv.style.left = x + 'px';
+            signatureDiv.style.top = y + 'px';
+            
+            // Add content based on type
+            if (type === 'drawing') {
+                signatureDiv.innerHTML = `<img src="${content}" style="width:100%; height:100%" />
+                                         <div class="delete-btn" onclick="deleteAnnotation(this.parentNode)">&times;</div>`;
+            } else if (type === 'typed' || type === 'initials') {
+                const font = document.getElementById('signature-font').value;
+                const color = currentTypedSignatureColor;
+                const colorMap = {
+                    black: '#000000',
+                    red: '#FF0000',
+                    blue: '#0000FF',
+                    green: '#008000',
+                    purple: '#800080'
+                };
+                signatureDiv.innerHTML = `<div style="font-family:${font}; color:${colorMap[color]}; font-size:${type === 'initials' ? '32px' : '24px'}; width:100%; height:100%; display:flex; align-items:center; justify-content:center">${content}</div>
+                                         <div class="delete-btn" onclick="deleteAnnotation(this.parentNode)">&times;</div>`;
+            }
+            
+            // Set up drag and resize
+            setupDraggable(signatureDiv);
+            
+            document.getElementById('pdf-container').appendChild(signatureDiv);
+            
+            // Store annotation data
+            const annotation = {
+                id: signatureId,
+                type: 'signature',
+                signatureType: type,
+                page: pageNum,
+                x: x,
+                y: y,
+                width: 200,
+                height: type === 'drawing' ? 80 : 60,
+                content: content,
+                properties: type === 'typed' || type === 'initials' ? {
+                    font: document.getElementById('signature-font').value,
+                    color: color
+                } : null
+            };
+            
+            annotations.push(annotation);
+            
+            // Select the new signature
+            selectAnnotation(signatureDiv);
+            
+            // Clear signature inputs
+            signaturePad.clear();
+            document.getElementById('signature-text').value = '';
+            document.getElementById('initials-text').value = '';
+        }
+
+        function createImageAnnotation(imageData) {
+            const imageId = 'image-' + Date.now();
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'annotation';
+            imageDiv.id = imageId;
+            
+            // Set initial size and position
+            imageDiv.style.width = '200px';
+            imageDiv.style.height = 'auto';
+            
+            // Center the image on the canvas
+            const rect = canvas.getBoundingClientRect();
+            const x = rect.width / 2 - 100;
+            const y = rect.height / 2 - 100;
+            imageDiv.style.left = x + 'px';
+            imageDiv.style.top = y + 'px';
+            
+            // Add image content
+            const img = document.createElement('img');
+            img.src = imageData;
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            
+            imageDiv.innerHTML = '';
+            imageDiv.appendChild(img);
+            const deleteBtn = document.createElement('div');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.onclick = function() { deleteAnnotation(imageDiv); };
+            imageDiv.appendChild(deleteBtn);
+            
+            // Set up drag and resize
+            setupDraggable(imageDiv);
+            
+            // Set up image resize
+            img.onload = function() {
+                // Calculate aspect ratio
+                const aspectRatio = img.naturalWidth / img.naturalHeight;
+                
+                // Set up resize observer
+                new ResizeObserver(function() {
+                    if (imageDiv.style.height === 'auto') {
+                        imageDiv.style.height = (imageDiv.offsetWidth / aspectRatio) + 'px';
+                    }
+                    
+                    // Update annotation data
+                    const annotation = annotations.find(a => a.id === imageId);
+                    if (annotation) {
+                        annotation.width = imageDiv.offsetWidth;
+                        annotation.height = imageDiv.offsetHeight;
+                    }
+                }).observe(imageDiv);
+            };
+            
+            document.getElementById('pdf-container').appendChild(imageDiv);
+            
+            // Store annotation data
+            const annotation = {
+                id: imageId,
+                type: 'image',
+                page: pageNum,
+                x: x,
+                y: y,
+                width: 200,
+                height: 'auto',
+                content: imageData
+            };
+            
+            annotations.push(annotation);
+            
+            // Select the new image
+            selectAnnotation(imageDiv);
+            
+            // Clear file input
+            document.getElementById('image-input').value = '';
+        }
+
+        function setupDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let isResizing = false;
+            
+            element.onmousedown = dragMouseDown;
+            
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                
+                // Check if we're clicking on the resize handle
+                const rect = element.getBoundingClientRect();
+                const resizeHandleClicked = 
+                    e.clientX >= rect.right - 15 && 
+                    e.clientY >= rect.bottom - 15;
+                
+                if (resizeHandleClicked) {
+                    isResizing = true;
+                    element.style.cursor = 'nwse-resize';
+                } else {
+                    isResizing = false;
+                }
+                
+                // Get the mouse cursor position at startup
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+            
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                
+                if (isResizing) {
+                    // Calculate new width and height
+                    const width = e.clientX - element.getBoundingClientRect().left;
+                    const height = e.clientY - element.getBoundingClientRect().top;
+                    
+                    element.style.width = width + 'px';
+                    element.style.height = height + 'px';
+                    
+                    // For images, maintain aspect ratio if height is auto
+                    if (element.querySelector('img') && element.style.height === 'auto') {
+                        const img = element.querySelector('img');
+                        const aspectRatio = img.naturalWidth / img.naturalHeight;
+                        element.style.height = (width / aspectRatio) + 'px';
+                    }
+                } else {
+                    // Calculate the new cursor position
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    
+                    // Set the element's new position
+                    element.style.top = (element.offsetTop - pos2) + "px";
+                    element.style.left = (element.offsetLeft - pos1) + "px";
+                }
+                
+                // Update annotation position in the array
+                const annotation = annotations.find(a => a.id === element.id);
+                if (annotation) {
+                    annotation.x = element.offsetLeft;
+                    annotation.y = element.offsetTop;
+                    annotation.width = element.offsetWidth;
+                    annotation.height = element.offsetHeight;
+                }
+            }
+            
+            function closeDragElement() {
+                // Stop moving when mouse button is released
+                document.onmouseup = null;
+                document.onmousemove = null;
+                element.style.cursor = 'move';
+            }
+        }
+
+        function selectAnnotation(annotationElement) {
+            // Clear previous selection
+            clearSelection();
+            
+            // Set new selection
+            annotationElement.classList.add('selected');
+            selectedAnnotation = annotationElement;
+            
+            // Update properties panel if available
+            const annotation = annotations.find(a => a.id === annotationElement.id);
+            if (!annotation) return;
+            
+            if (annotation.type === 'text') {
+                showToolPanel('text-tool-panel');
+                
+                // Update text properties panel to match selected annotation
+                document.querySelector(`.font-option[style*="${annotation.properties.fontFamily}"]`).click();
+                document.getElementById('text-size').value = annotation.properties.fontSize;
+                
+                // Update color
+                document.querySelectorAll('#text-tool-panel .color-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                    if (opt.dataset.color === annotation.properties.color) {
+                        opt.classList.add('selected');
+                    }
+                });
+                
+                // Update bold/italic
+                document.getElementById('bold-text').classList.toggle('bg-gray-200', annotation.properties.bold);
+                document.getElementById('italic-text').classList.toggle('bg-gray-200', annotation.properties.italic);
+                document.getElementById('underline-text').classList.toggle('bg-gray-200', annotation.properties.underline);
+                
+                currentTextProperties = {...annotation.properties};
+                
+            } else if (annotation.type === 'highlight') {
+                showToolPanel('highlight-tool-panel');
+                
+                // Update highlight properties panel to match selected annotation
+                document.querySelectorAll('#highlight-tool-panel .color-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                    if (opt.dataset.color === annotation.properties.color) {
+                        opt.classList.add('selected');
+                    }
+                });
+                
+                document.getElementById('highlight-opacity').value = annotation.properties.opacity * 100;
+                
+                currentHighlightProperties = {...annotation.properties};
+            }
+        }
+
+        function clearSelection() {
+            document.querySelectorAll('.annotation.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            selectedAnnotation = null;
+        }
+
+        function updateSelectedAnnotation() {
+            if (!selectedAnnotation) return;
+            
+            const annotation = annotations.find(a => a.id === selectedAnnotation.id);
+            if (!annotation) return;
+            
+            if (annotation.type === 'text') {
+                // Update the properties in the annotation object
+                annotation.properties = {...currentTextProperties};
+                
+                // Update the visual appearance
+                const editableDiv = selectedAnnotation.querySelector('.editable-text');
+                if (editableDiv) {
+                    const fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
+                    const fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
+                    const textDecoration = currentTextProperties.underline ? 'underline' : 'none';
+                    
+                    editableDiv.style.fontFamily = currentTextProperties.fontFamily;
+                    editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
+                    editableDiv.style.color = currentTextProperties.color;
+                    editableDiv.style.fontWeight = fontWeight;
+                    editableDiv.style.fontStyle = fontStyle;
+                    editableDiv.style.textDecoration = textDecoration;
+                }
+                
+            } else if (annotation.type === 'highlight') {
+                // Update the properties in the annotation object
+                annotation.properties = {...currentHighlightProperties};
+                
+                // Update the visual appearance
+                const highlightColor = currentHighlightProperties.color === 'yellow' ? 'rgba(255, 255, 0, ' + currentHighlightProperties.opacity + ')' :
+                                     currentHighlightProperties.color === 'green' ? 'rgba(0, 255, 0, ' + currentHighlightProperties.opacity + ')' :
+                                     currentHighlightProperties.color === 'blue' ? 'rgba(0, 0, 255, ' + currentHighlightProperties.opacity + ')' :
+                                     currentHighlightProperties.color === 'pink' ? 'rgba(255, 192, 203, ' + currentHighlightProperties.opacity + ')' :
+                                     'rgba(128, 0, 128, ' + currentHighlightProperties.opacity + ')';
+                
+                selectedAnnotation.style.backgroundColor = highlightColor;
+            }
+        }
+
+        function deleteAnnotation(element) {
+            // Stop event propagation to prevent selecting the annotation
+            event.stopPropagation();
+            
+            // Remove from DOM
+            element.remove();
+            
+            // Remove from annotations array
+            annotations = annotations.filter(a => a.id !== element.id);
+            
+            // Clear selection if this was the selected annotation
+            if (selectedAnnotation && selectedAnnotation.id === element.id) {
+                clearSelection();
+            }
+        }
+
+        function redrawAnnotations() {
+            // First remove all existing annotation elements
+            document.querySelectorAll('.annotation').forEach(el => el.remove());
+            
+            // Then recreate them for the current page
+            annotations.forEach(annotation => {
+                // Only show annotations for current page
+                if (annotation.page !== pageNum) return;
+                
+                const annotationDiv = document.createElement('div');
+                annotationDiv.className = 'annotation';
+                annotationDiv.id = annotation.id;
+                annotationDiv.style.left = annotation.x + 'px';
+                annotationDiv.style.top = annotation.y + 'px';
+                annotationDiv.style.width = annotation.width + 'px';
+                annotationDiv.style.height = typeof annotation.height === 'number' ? annotation.height + 'px' : annotation.height;
+                
+                if (annotation.type === 'text') {
+                    const fontWeight = annotation.properties.bold ? 'bold' : 'normal';
+                    const fontStyle = annotation.properties.italic ? 'italic' : 'normal';
+                    const textDecoration = annotation.properties.underline ? 'underline' : 'none';
+                    
+                    const editableDiv = document.createElement('div');
+                    editableDiv.className = 'editable-text';
+                    editableDiv.contentEditable = true;
+                    editableDiv.textContent = annotation.content || 'Type here';
+                    editableDiv.style.fontFamily = annotation.properties.fontFamily;
+                    editableDiv.style.fontSize = annotation.properties.fontSize + 'px';
+                    editableDiv.style.color = annotation.properties.color;
+                    editableDiv.style.fontWeight = fontWeight;
+                    editableDiv.style.fontStyle = fontStyle;
+                    editableDiv.style.textDecoration = textDecoration;
+                    
+                    // Update content when changed
+                    editableDiv.addEventListener('input', function() {
+                        const anno = annotations.find(a => a.id === annotation.id);
+                        if (anno) {
+                            anno.content = editableDiv.textContent;
+                        }
+                    });
+                    
+                    annotationDiv.appendChild(editableDiv);
+                } 
+                else if (annotation.type === 'highlight') {
+                    const highlightColor = annotation.properties.color === 'yellow' ? 'rgba(255, 255, 0, ' + annotation.properties.opacity + ')' :
+                                         annotation.properties.color === 'green' ? 'rgba(0, 255, 0, ' + annotation.properties.opacity + ')' :
+                                         annotation.properties.color === 'blue' ? 'rgba(0, 0, 255, ' + annotation.properties.opacity + ')' :
+                                         annotation.properties.color === 'pink' ? 'rgba(255, 192, 203, ' + annotation.properties.opacity + ')' :
+                                         'rgba(128, 0, 128, ' + annotation.properties.opacity + ')';
+                    
+                    annotationDiv.style.backgroundColor = highlightColor;
+                }
+                else if (annotation.type === 'signature') {
+                    if (annotation.signatureType === 'drawing') {
+                        annotationDiv.innerHTML = `<img src="${annotation.content}" style="width:100%; height:100%" />
+                                                 <div class="delete-btn" onclick="deleteAnnotation(this.parentNode)">&times;</div>`;
+                    } else {
+                        const colorMap = {
+                            black: '#000000',
+                            red: '#FF0000',
+                            blue: '#0000FF',
+                            green: '#008000',
+                            purple: '#800080'
+                        };
+                        const color = annotation.properties?.color || 'black';
+                        annotationDiv.innerHTML = `<div style="font-family:${annotation.properties?.font || 'Arial'}; 
+                                               color:${colorMap[color]}; 
+                                               font-size:${annotation.signatureType === 'initials' ? '32px' : '24px'}; 
+                                               width:100%; 
+                                               height:100%;
+                                               display:flex;
+                                               align-items:center;
+                                               justify-content:center">${annotation.content}</div>
+                                              <div class="delete-btn" onclick="deleteAnnotation(this.parentNode)">&times;</div>`;
+                    }
+                }
+                else if (annotation.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = annotation.content;
+                    img.style.width = '100%';
+                    img.style.height = 'auto';
+                    
+                    annotationDiv.innerHTML = '';
+                    annotationDiv.appendChild(img);
+                    const deleteBtn = document.createElement('div');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.innerHTML = '&times;';
+                    deleteBtn.onclick = function() { deleteAnnotation(annotationDiv); };
+                    annotationDiv.appendChild(deleteBtn);
+                    
+                    // Set up image resize
+                    img.onload = function() {
+                        // Calculate aspect ratio
+                        const aspectRatio = img.naturalWidth / img.naturalHeight;
+                        
+                        // Set up resize observer
+                        new ResizeObserver(function() {
+                            if (annotationDiv.style.height === 'auto') {
+                                annotationDiv.style.height = (annotationDiv.offsetWidth / aspectRatio) + 'px';
+                            }
+                            
+                            // Update annotation data
+                            const annotationObj = annotations.find(a => a.id === annotation.id);
+                            if (annotationObj) {
+                                annotationObj.width = annotationDiv.offsetWidth;
+                                annotationObj.height = annotationDiv.offsetHeight;
+                            }
+                        }).observe(annotationDiv);
+                    };
+                }
+                
+                // Set up drag and resize
+                setupDraggable(annotationDiv);
+                
+                document.getElementById('pdf-container').appendChild(annotationDiv);
+                
+                // Re-select if this was the selected annotation
+                if (selectedAnnotation && selectedAnnotation.id === annotation.id) {
+                    selectAnnotation(annotationDiv);
+                }
+            });
+        }
+
+        async function savePDF() {
+            if (!pdfDoc) {
+                alert('No PDF loaded to save.');
+                return;
+            }
+            
+            // Show saving indicator
+            const saveBtn = document.getElementById('save-pdf');
+            const originalHtml = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            saveBtn.disabled = true;
+            
+            try {
+                const { PDFDocument, rgb, StandardFonts } = window.PDFLib;
+
+                const existingPdfBytes = await pdfDoc.getData();
+                const pdfDocToModify = await PDFDocument.load(existingPdfBytes);
+                const pages = pdfDocToModify.getPages();
+                
+                 const helveticaFont = await pdfDocToModify.embedFont(StandardFonts.Helvetica);
+                 const helveticaBold = await pdfDocToModify.embedFont(StandardFonts.HelveticaBold);
+                 const helveticaItalic = await pdfDocToModify.embedFont(StandardFonts.HelveticaItalic);
+                 const helveticaBoldItalic = await pdfDocToModify.embedFont(StandardFonts.HelveticaBoldItalic);
+                // Note: pdf-lib has limited font support by default. Need to embed other fonts if needed.
+
+                for (const annotation of annotations) {
+                    const page = pages[annotation.page - 1]; // 0-indexed
+                    const { width, height } = page.getSize();
+                    
+                    const jsPDFCanvasWidth = page.getViewport({ scale: 1.0 }).width;
+                    
+                     // Calculate scaling based on the original render scale
+                     const effectiveScale = jsPDFCanvasWidth / width;
+
+                    // Convert coordinates from screen space (pixels based on current zoom) to PDF points
+                    const pdfX = annotation.x / effectiveScale;
+                    const pdfY = height - (annotation.y / effectiveScale) - (annotation.height / effectiveScale); // Y is inverted
+                    const pdfWidth = annotation.width / effectiveScale;
+                    const pdfHeight = annotation.height / effectiveScale;
+
+                    if (annotation.type === 'text') {
+                         const options = {
+                             x: pdfX,
+                             y: pdfY,
+                             size: annotation.properties.fontSize / effectiveScale,
+                             font: helveticaFont, // Placeholder - font mapping needed
+                             color: rgb(0, 0, 0), // Placeholder - color mapping needed
+                             maxWidth: pdfWidth,
+                             lineHeight: (annotation.properties.fontSize * 1.2) / effectiveScale,
+                         };
+                         // TODO: Apply bold/italic/color/actual font family mapping
+                         page.drawText(annotation.content || '', options);
+                         
+                    } else if (annotation.type === 'highlight') {
+                        // Draw highlight
+                        page.drawRectangle({
+                            x: pdfX,
+                            y: pdfY,
+                            width: pdfWidth,
+                            height: pdfHeight,
+                            color: rgb(1, 1, 0), // Yellow, adjust color based on annotation.properties.color
+                            opacity: annotation.properties.opacity || 0.5,
+                        });
+                        
+                    } else if (annotation.type === 'signature') {
+                        // Draw signature (requires embedding the image or text)
+                        const signatureBytes = Uint8Array.from(atob(annotation.content.split(',')[1]), c => c.charCodeAt(0));
+                        const signatureImage = await pdfDocToModify.embedPng(signatureBytes);
+                         page.drawImage(signatureImage, {
+                             x: pdfX,
+                             y: pdfY,
+                             width: pdfWidth,
+                             height: pdfHeight,
+                         });
+
+                    } else if (annotation.type === 'image') {
+                         const imageBytes = Uint8Array.from(atob(annotation.content.split(',')[1]), c => c.charCodeAt(0));
+                         const imageEmbed = await pdfDocToModify.embedPng(imageBytes); // Assume PNG, might need logic for JPG/other
+                          page.drawImage(imageEmbed, {
+                             x: pdfX,
+                             y: pdfY,
+                             width: pdfWidth,
+                             height: pdfHeight,
+                         });
+                    }
+                }
+                
+                const pdfBytes = await pdfDocToModify.save();
+                
+                // Download the modified PDF
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'edited-document.pdf';
+                a.click();
+                URL.revokeObjectURL(url);
+
+            } catch(err) {
+                 console.error("Error saving PDF:", err);
+                 alert("Error saving PDF: " + err.message);
+             } finally {
+                 // Restore save button state
+                 saveBtn.innerHTML = originalHtml;
+                 saveBtn.disabled = false;
+             }
+         }
+
+        // Make functions available globally for event handlers
+        window.deleteAnnotation = deleteAnnotation;
+        window.setSignatureColor = setSignatureColor;
+        window.setTypedSignatureColor = setTypedSignatureColor;
+    </script>
 </body>
 </html>
