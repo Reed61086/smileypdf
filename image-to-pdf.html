@@ -4,12 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image to PDF - SmileyPDF</title>
+    <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Additional CDNs for functionality (violates original constraint per user request) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- Font Awesome for icons in user code -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Styles from user-provided code */
+        .dropzone { border: 2px dashed #6b7280; transition: all 0.3s ease; }
+        .dropzone.active { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.05); }
+        .image-preview { transition: all 0.3s ease; }
+        .image-preview:hover { transform: scale(1.03); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .progress-bar { height: 6px; transition: width 0.3s ease; }
+        .pdf-preview { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        @media (max-width: 640px) { .controls { flex-direction: column; } }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans">
 
-    <!-- Header -->
+    <!-- Header (Redesigned) -->
     <header class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold">
@@ -23,32 +41,484 @@
         </nav>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="container mx-auto px-6 py-12">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
-                <i class="fa-solid fa-file-pdf mr-2 text-red-600"></i> Image to PDF Converter
-            </h1>
-            <div class="text-gray-700">
-                <p class="mb-4">Combine one or more image files (JPG, PNG, etc.) into a single PDF document.</p>
-                 <p class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded">
-                     <i class="fa-solid fa-triangle-exclamation mr-2"></i> Actual conversion functionality needs to be implemented separately. This is a static placeholder page based on the redesigned site structure.
-                </p>
-                <div class="mt-6">
-                     <button disabled class="bg-red-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed">
-                         Select Images for PDF (Not functional)
-                    </button>
-                 </div>
+    <!-- Main Content Area - Using User Provided Structure/Code -->
+     <main class="container mx-auto px-6 py-12">
+        <div class="container mx-auto px-4 py-12 max-w-6xl">
+             <div class="text-center mb-12">
+                <!-- Title adapted -->
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                    <i class="fa-solid fa-file-pdf mr-2 text-red-600"></i> Image to PDF Converter
+                </h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Upload unlimited images and convert them into a single PDF document</p>
             </div>
+
+             <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                 <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-6">
+                    <div class="flex flex-col items-center justify-center space-y-4">
+                        <i class="fas fa-cloud-upload-alt text-5xl text-blue-500"></i>
+                        <h3 class="text-xl font-semibold text-gray-800">Drag & Drop Images Here</h3>
+                        <p class="text-gray-500">or click to browse your files</p>
+                        <input type="file" id="fileInput" class="hidden" multiple accept="image/*">
+                        <button id="browseBtn" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                            Select Images
+                        </button>
+                    </div>
+                 </div>
+
+                 <div class="w-full bg-gray-200 rounded-full h-2 mb-6 hidden" id="progressContainer">
+                     <div id="progressBar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                 </div>
+
+                 <div id="status" class="text-center text-gray-500 italic mb-6 hidden">
+                    <i class="fas fa-spinner spinner mr-2"></i>
+                    <span id="statusText">Processing your images...</span>
+                </div>
+
+                 <div id="error" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 hidden" role="alert">
+                     <p id="errorMessage"></p>
+                 </div>
+
+                 <div class="controls flex flex-wrap justify-between items-center mb-6">
+                    <div>
+                        <label for="orientation" class="block text-sm font-medium text-gray-700 mb-1">Page Orientation</label>
+                        <select id="orientation" class="border border-gray-300 rounded-md px-3 py-2">
+                            <option value="portrait">Portrait</option>
+                            <option value="landscape">Landscape</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="margin" class="block text-sm font-medium text-gray-700 mb-1">Margin (mm)</label>
+                        <input type="number" id="margin" min="0" max="20" value="5" class="border border-gray-300 rounded-md px-3 py-2 w-20">
+                    </div>
+                    <div>
+                        <label for="quality" class="block text-sm font-medium text-gray-700 mb-1">Quality</label>
+                        <select id="quality" class="border border-gray-300 rounded-md px-3 py-2">
+                            <option value="0.6">Medium</option>
+                            <option value="0.8">High</option>
+                            <option value="1">Maximum</option>
+                            <option value="0.3">Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="size" class="block text-sm font-medium text-gray-700 mb-1">Page Size</label>
+                        <select id="size" class="border border-gray-300 rounded-md px-3 py-2">
+                            <option value="a4">A4</option>
+                            <option value="letter">Letter</option>
+                            <option value="legal">Legal</option>
+                            <option value="a5">A5</option>
+                        </select>
+                    </div>
+                 </div>
+
+                 <div id="previewContainer" class="hidden">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Selected Images</h3>
+                    <div id="imagePreviews" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6"></div>
+                    <div class="flex justify-between items-center">
+                        <button id="clearBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300">
+                            <i class="fas fa-trash-alt mr-2"></i>Clear All
+                        </button>
+                        <button id="generateBtn" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 font-medium">
+                            <i class="fas fa-file-pdf mr-2"></i>Generate PDF
+                        </button>
+                    </div>
+                 </div>
+
+                 <div id="resultContainer" class="hidden mt-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between bg-blue-50 p-6 rounded-lg mb-6">
+                        <div class="mb-4 md:mb-0">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Your PDF is Ready!</h3>
+                            <p class="text-gray-600" id="downloadInfo">Click the button below to download your PDF file.</p>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button id="downloadBtn" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300">
+                                <i class="fas fa-download mr-2"></i>Download PDF
+                            </button>
+                            <button id="newPdfBtn" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+                                <i class="fas fa-plus mr-2"></i>New PDF
+                            </button>
+                        </div>
+                    </div>
+
+                     <div id="pdfPreviewContainer" class="border border-gray-200 rounded-lg p-4 hidden">
+                         <iframe id="pdfPreview" class="w-full h-96 pdf-preview rounded-lg" frameborder="0"></iframe>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="bg-white rounded-xl shadow-lg p-6 text-center text-gray-600 mt-8">
+                 <i class="fas fa-info-circle text-blue-500 text-2xl mb-2"></i>
+                <h3 class="font-medium text-gray-700 mb-2">How it works</h3>
+                <p class="mb-4">Simply upload multiple images, arrange them in order, and download as a single PDF file.</p>
+                <p class="text-sm">No file size limits • Supports JPG, PNG, WEBP • 100% client-side processing</p>
+             </div>
         </div>
     </main>
 
-    <!-- Footer -->
+
+    <!-- Footer (Redesigned) -->
     <footer class="bg-gray-700 text-gray-300 mt-12 py-6">
         <div class="container mx-auto px-6 text-center text-sm">
-            &copy; 2025 SmileyPDF (Recreated Page).
+            &copy; 2025 SmileyPDF (Functional Page Example).
         </div>
     </footer>
 
+    <!-- JavaScript logic from user-provided code -->
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize variables
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('fileInput');
+            const browseBtn = document.getElementById('browseBtn');
+            const previewContainer = document.getElementById('previewContainer');
+            const imagePreviews = document.getElementById('imagePreviews');
+            const clearBtn = document.getElementById('clearBtn');
+            const generateBtn = document.getElementById('generateBtn');
+            const resultContainer = document.getElementById('resultContainer');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const newPdfBtn = document.getElementById('newPdfBtn');
+            const error = document.getElementById('error');
+            const errorMessage = document.getElementById('errorMessage');
+            const status = document.getElementById('status');
+            const statusText = document.getElementById('statusText');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const pdfPreviewContainer = document.getElementById('pdfPreviewContainer');
+            const pdfPreview = document.getElementById('pdfPreview');
+
+            let files = [];
+            let pdfBlob = null;
+            let orientation = 'portrait';
+            let margin = 5;
+            let quality = 0.6;
+            let pageSize = 'a4';
+
+            // Check for library presence
+             if (typeof window.jspdf === 'undefined' || typeof window.PDFLib === 'undefined') {
+                showError("Required PDF libraries could not be loaded. Please check your internet connection or script tags.");
+                 console.error("jsPDF or pdf-lib not found.");
+                 return; // Stop execution if libraries are missing
+            }
+             const { jsPDF } = window.jspdf;
+             const { PDFDocument } = window.PDFLib; // Use PDFLib if needed (e.g., for merging later, not used in this specific example)
+
+             // Set up drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                dropzone.classList.add('active');
+            }
+
+            function unhighlight() {
+                dropzone.classList.remove('active');
+            }
+
+            dropzone.addEventListener('drop', handleDrop, false);
+            fileInput.addEventListener('change', handleFiles);
+            browseBtn.addEventListener('click', () => fileInput.click());
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const newFiles = dt.files;
+                handleFiles({target: {files: newFiles}});
+            }
+
+            function handleFiles(e) {
+                const newFiles = Array.from(e.target.files);
+
+                if (newFiles.length === 0) return;
+
+                 // Filter only image files
+                 const imageFiles = newFiles.filter(file => {
+                     return file.type.match('image.*');
+                });
+
+                 if (imageFiles.length === 0) {
+                    showError('Please upload only image files (JPG, PNG, etc.)');
+                    return;
+                }
+
+                 // Reset previous state if new files are selected after generating a PDF
+                 if (pdfBlob) {
+                    files = [];
+                    pdfBlob = null;
+                    resultContainer.classList.add('hidden');
+                 }
+
+
+                 files = files.concat(imageFiles);
+                updatePreviews();
+            }
+
+            function updatePreviews() {
+                imagePreviews.innerHTML = ''; // Clear previous previews
+
+                 files.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.createElement('div');
+                        preview.className = 'image-preview relative group rounded-lg overflow-hidden border border-gray-200';
+
+                         preview.innerHTML = `
+                            <img src="${e.target.result}" alt="${file.name}" class="w-full h-40 object-cover">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                                <button class="remove-btn px-3 py-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-300" data-index="${index}">
+                                    <i class="fas fa-times pointer-events-none"></i> <!-- Make icon non-interactive -->
+                                </button>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 truncate">
+                                ${file.name}
+                            </div>
+                            <div class="absolute top-0 left-0 p-1 text-white bg-blue-500 rounded-br-md text-xs">
+                                ${index + 1}
+                            </div>
+                        `;
+
+                         imagePreviews.appendChild(preview);
+
+                         // Add event listener for remove button
+                         preview.querySelector('.remove-btn').addEventListener('click', (event) => {
+                            event.stopPropagation(); // Prevent triggering other potential listeners
+                             const indexToRemove = parseInt(event.currentTarget.getAttribute('data-index'));
+                            files.splice(indexToRemove, 1);
+                            updatePreviews(); // Refresh previews and indices
+                        });
+                    };
+                     reader.onerror = () => {
+                        showError(`Failed to read file: ${file.name}`);
+                    };
+                    reader.readAsDataURL(file);
+                });
+
+                 previewContainer.classList.remove('hidden');
+                 resultContainer.classList.add('hidden'); // Hide result if showing previews
+                error.classList.add('hidden'); // Hide any previous errors
+                 generateBtn.disabled = files.length === 0; // Enable/disable based on files
+            }
+
+            clearBtn.addEventListener('click', () => {
+                files = [];
+                 pdfBlob = null;
+                updatePreviews(); // Update to show no files
+                previewContainer.classList.add('hidden');
+                 resultContainer.classList.add('hidden');
+            });
+
+            newPdfBtn.addEventListener('click', () => {
+                clearBtn.click(); // Same action as clear for now
+            });
+
+            generateBtn.addEventListener('click', generatePDF);
+
+            function generatePDF() {
+                if (files.length === 0) {
+                    showError('Please upload at least one image');
+                    return;
+                }
+
+                 showStatus('Preparing PDF...');
+                progressContainer.classList.remove('hidden');
+                progressBar.style.width = '0%';
+                 generateBtn.disabled = true;
+                clearBtn.disabled = true; // Disable while processing
+
+
+                 // Get options
+                 orientation = document.getElementById('orientation').value;
+                 margin = parseInt(document.getElementById('margin').value) || 0; // Default to 0 if invalid
+                 quality = parseFloat(document.getElementById('quality').value) || 0.6; // Default quality
+                 pageSize = document.getElementById('size').value;
+
+                 // Use setTimeout to ensure UI updates before heavy processing
+                setTimeout(() => {
+                    createPDFWithJsPDF(files); // Call the async function
+                }, 100);
+            }
+
+
+             async function createPDFWithJsPDF(images) {
+                 try {
+                    const pdf = new jsPDF({
+                         orientation: orientation,
+                         unit: 'mm',
+                         format: pageSize // Use format directly
+                    });
+
+                     // Get page dimensions based on selected size and orientation
+                     const dimensions = pdf.getPageInfo(1).pageContext.mediaBox;
+                     const pageWidth = dimensions.bottomRightX - dimensions.topLeftX;
+                     const pageHeight = dimensions.bottomRightY - dimensions.topLeftY;
+
+
+                     const usableWidth = pageWidth - (margin * 2);
+                     const usableHeight = pageHeight - (margin * 2);
+
+                     if (usableWidth <= 0 || usableHeight <= 0) {
+                        showError("Margins are too large for the selected page size.");
+                        throw new Error("Calculated usable dimensions are invalid.");
+                     }
+
+                     let processed = 0;
+
+                     for (let i = 0; i < images.length; i++) {
+                         const image = images[i];
+                         try {
+                             const imgDataUrl = await fileToDataUrl(image); // Convert file to Data URL
+                             const img = await loadImageFromDataUrl(imgDataUrl); // Load Image object
+
+                             let imgWidth = img.width;
+                             let imgHeight = img.height;
+
+                             // Calculate scaling factor to fit image within usable area
+                             const widthScale = usableWidth / imgWidth;
+                             const heightScale = usableHeight / imgHeight;
+                             const scale = Math.min(widthScale, heightScale); // Fit within both dimensions
+
+                             const scaledWidth = imgWidth * scale;
+                             const scaledHeight = imgHeight * scale;
+
+                             // Center the image within the usable area
+                             const x = margin + (usableWidth - scaledWidth) / 2;
+                             const y = margin + (usableHeight - scaledHeight) / 2;
+
+                             if (i > 0) {
+                                pdf.addPage(pageSize, orientation);
+                             }
+
+                              // Add image (ensure quality is passed if relevant to format, jsPDF handles compression)
+                              pdf.addImage(imgDataUrl, 'JPEG', x, y, scaledWidth, scaledHeight, undefined, 'FAST');
+
+
+                             processed++;
+                             const progress = Math.round((processed / images.length) * 100);
+                             progressBar.style.width = `${progress}%`;
+                             showStatus(`Processing image ${processed} of ${images.length}...`);
+
+                              // Optional small delay to help UI responsiveness in some browsers
+                              if (processed % 5 === 0) { // Delay every 5 images
+                                  await new Promise(resolve => setTimeout(resolve, 20));
+                             }
+                          } catch (imgErr) {
+                             console.error(`Skipping image ${image.name} due to error:`, imgErr);
+                             showError(`Could not process image: ${image.name}. Skipping.`);
+                             // Still update progress as if processed
+                              processed++;
+                             const progress = Math.round((processed / images.length) * 100);
+                             progressBar.style.width = `${progress}%`;
+                         }
+                     }
+
+                     // Generate PDF blob
+                     pdfBlob = pdf.output('blob'); // Assign to global variable
+                     showResult(pdfBlob);
+
+                 } catch (err) {
+                    showError('Error generating PDF: ' + err.message);
+                    console.error(err);
+                 } finally {
+                    hideStatus();
+                     generateBtn.disabled = files.length === 0; // Re-enable if there are still files
+                    clearBtn.disabled = false;
+                }
+            }
+
+             // Helper function to read file as Data URL
+             function fileToDataUrl(file) {
+                 return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = (e) => reject(reader.error);
+                    reader.readAsDataURL(file);
+                 });
+             }
+
+              // Helper function to load an Image object from a Data URL
+              function loadImageFromDataUrl(dataUrl) {
+                 return new Promise((resolve, reject) => {
+                     const img = new Image();
+                     img.onload = () => resolve(img);
+                     img.onerror = (e) => reject(new Error("Failed to load image from data URL"));
+                     img.src = dataUrl;
+                  });
+              }
+
+            function showResult(blob) {
+                 resultContainer.classList.remove('hidden');
+                 previewContainer.classList.add('hidden'); // Hide previews
+                progressContainer.classList.add('hidden');
+                 hideStatus(); // Hide processing status
+
+                 let pdfUrl = null; // Keep URL reference for revocation
+
+                 downloadBtn.onclick = function() {
+                     if (pdfUrl) URL.revokeObjectURL(pdfUrl); // Revoke previous if exists
+                     pdfUrl = URL.createObjectURL(blob); // Create fresh URL
+
+                     const a = document.createElement('a');
+                     a.href = pdfUrl;
+                     a.download = 'smileyPDF_image_to_pdf.pdf';
+                     document.body.appendChild(a);
+                     a.click();
+                     document.body.removeChild(a);
+
+                     // Note: Do not revoke immediately, allow browser time to initiate download
+                      setTimeout(() => {
+                        if(pdfUrl) URL.revokeObjectURL(pdfUrl);
+                        pdfUrl = null; // Clear reference after potential use
+                    }, 60000); // Revoke after 1 minute
+                 };
+
+                  // Handle Preview (create new URL each time)
+                  const previewUrl = URL.createObjectURL(blob);
+                  try {
+                     pdfPreview.src = previewUrl;
+                      pdfPreviewContainer.classList.remove('hidden');
+                  } catch (e) {
+                     pdfPreviewContainer.classList.add('hidden');
+                     console.log('PDF preview might not be available in this browser/context.');
+                 }
+                 // Do not revoke previewUrl immediately, needed for iframe
+             }
+
+
+            function showError(message) {
+                 errorMessage.textContent = message;
+                 error.classList.remove('hidden');
+                 hideStatus(); // Ensure status is hidden on error
+                 progressContainer.classList.add('hidden');
+                 generateBtn.disabled = files.length === 0; // Re-enable generate button based on files
+                clearBtn.disabled = false;
+                 // Optionally hide error message after some time
+                 // setTimeout(() => { error.classList.add('hidden'); }, 5000);
+             }
+
+            function showStatus(message) {
+                 statusText.textContent = message;
+                 status.classList.remove('hidden');
+                 // progressContainer should be visible if status is shown
+                 progressContainer.classList.remove('hidden');
+             }
+
+            function hideStatus() {
+                 status.classList.add('hidden');
+             }
+
+
+         });
+     </script>
 </body>
 </html>
