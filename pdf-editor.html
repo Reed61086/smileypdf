@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced PDF Editor</title>
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Required Tailwind -->
-    <!-- Required Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Additional Libraries from Source File (Violates Original Constraints) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
@@ -59,8 +56,8 @@
             position: absolute;
             top: -8px;
             right: -8px;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background-color: #EF4444;
             border-radius: 50%;
             color: white;
@@ -128,6 +125,7 @@
             transition: opacity 0.2s;
             pointer-events: none;
             white-space: nowrap;
+            z-index: 1000;
         }
         .group:hover .tooltip-text {
             opacity: 1;
@@ -501,7 +499,24 @@
                     setActiveTool('signature');
                     showToolPanel('signature-tool-panel');
                     document.getElementById('signature-draw-container').classList.remove('hidden');
-                    document.getElementById('signature-type-container').classList.add('hidden');
+     const signatureCanvas = document.getElementById('signature-pad');
+     signaturePad = new SignaturePad(signatureCanvas, {
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+      penColor: 'rgb(0, 0, 0)',
+      onBegin: function() {
+       // Fix cursor positioning issue
+       const rect = signatureCanvas.getBoundingClientRect();
+       const lastPoint = signaturePad._data[signaturePad._data.length - 2];
+       if (lastPoint) {
+        signaturePad._data[signaturePad._data.length - 1] = {
+         x: (lastPoint.x * rect.width) / signatureCanvas.offsetWidth,
+         y: (lastPoint.y * rect.height) / signatureCanvas.offsetHeight,
+         time: Date.now()
+        };
+       }
+      }
+     });
+     document.getElementById('signature-type-container').classList.add('hidden');
                     document.getElementById('initials-text').classList.add('hidden');
                     document.getElementById('signature-text').classList.remove('hidden');
                     document.getElementById('draw-signature').classList.add('bg-primary', 'text-white');
@@ -583,6 +598,8 @@
                     const y = e.clientY - rect.top;
                     
                     addAnnotation(x, y);
+     document.getElementById('text-tool-panel').style.display = 'none';
+     setActiveTool(null);
                 }
             });
             
@@ -1116,7 +1133,9 @@
                 pos4 = e.clientY;
                 
                 document.onmouseup = closeDragElement;
+                document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
+                e.stopPropagation();
             }
             
             function elementDrag(e) {
@@ -1409,108 +1428,172 @@
                 alert('No PDF loaded to save.');
                 return;
             }
-            
+
             // Show saving indicator
             const saveBtn = document.getElementById('save-pdf');
-            const originalHtml = saveBtn.innerHTML;
+            const originalText = saveBtn.innerHTML;
             saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             saveBtn.disabled = true;
-            
+
             try {
-                const { PDFDocument, rgb, StandardFonts } = window.PDFLib;
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    unit: 'pt',
+                    compress: true
+                });
 
-                const existingPdfBytes = await pdfDoc.getData();
-                const pdfDocToModify = await PDFDocument.load(existingPdfBytes);
-                const pages = pdfDocToModify.getPages();
-                
-                 const helveticaFont = await pdfDocToModify.embedFont(StandardFonts.Helvetica);
-                 const helveticaBold = await pdfDocToModify.embedFont(StandardFonts.HelveticaBold);
-                 const helveticaItalic = await pdfDocToModify.embedFont(StandardFonts.HelveticaItalic);
-                 const helveticaBoldItalic = await pdfDocToModify.embedFont(StandardFonts.HelveticaBoldItalic);
-                // Note: pdf-lib has limited font support by default. Need to embed other fonts if needed.
+                // Helper to load images
+                const loadImage = (src) => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                        img.src = src;
+                    });
+                };
 
-                for (const annotation of annotations) {
-                    const page = pages[annotation.page - 1]; // 0-indexed
-                    const { width, height } = page.getSize();
-                    
-                    const jsPDFCanvasWidth = page.getViewport({ scale: 1.0 }).width;
-                    
-                     // Calculate scaling based on the original render scale
-                     const effectiveScale = jsPDFCanvasWidth / width;
+                // Process pages sequentially
+                for (let i = 1; i <= pdfDoc.numPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: 1.0 }); // Save at scale 1.0
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
 
-                    // Convert coordinates from screen space (pixels based on current zoom) to PDF points
-                    const pdfX = annotation.x / effectiveScale;
-                    const pdfY = height - (annotation.y / effectiveScale) - (annotation.height / effectiveScale); // Y is inverted
-                    const pdfWidth = annotation.width / effectiveScale;
-                    const pdfHeight = annotation.height / effectiveScale;
+                    tempCanvas.width = viewport.width;
+                    tempCanvas.height = viewport.height;
 
-                    if (annotation.type === 'text') {
-                         const options = {
-                             x: pdfX,
-                             y: pdfY,
-                             size: annotation.properties.fontSize / effectiveScale,
-                             font: helveticaFont, // Placeholder - font mapping needed
-                             color: rgb(0, 0, 0), // Placeholder - color mapping needed
-                             maxWidth: pdfWidth,
-                             lineHeight: (annotation.properties.fontSize * 1.2) / effectiveScale,
-                         };
-                         // TODO: Apply bold/italic/color/actual font family mapping
-                         page.drawText(annotation.content || '', options);
-                         
-                    } else if (annotation.type === 'highlight') {
-                        // Draw highlight
-                        page.drawRectangle({
-                            x: pdfX,
-                            y: pdfY,
-                            width: pdfWidth,
-                            height: pdfHeight,
-                            color: rgb(1, 1, 0), // Yellow, adjust color based on annotation.properties.color
-                            opacity: annotation.properties.opacity || 0.5,
-                        });
-                        
-                    } else if (annotation.type === 'signature') {
-                        // Draw signature (requires embedding the image or text)
-                        const signatureBytes = Uint8Array.from(atob(annotation.content.split(',')[1]), c => c.charCodeAt(0));
-                        const signatureImage = await pdfDocToModify.embedPng(signatureBytes);
-                         page.drawImage(signatureImage, {
-                             x: pdfX,
-                             y: pdfY,
-                             width: pdfWidth,
-                             height: pdfHeight,
-                         });
+                    // Render PDF page
+                    const renderContext = {
+                        canvasContext: tempCtx,
+                        viewport: viewport
+                    };
+                    await page.render(renderContext).promise;
 
-                    } else if (annotation.type === 'image') {
-                         const imageBytes = Uint8Array.from(atob(annotation.content.split(',')[1]), c => c.charCodeAt(0));
-                         const imageEmbed = await pdfDocToModify.embedPng(imageBytes); // Assume PNG, might need logic for JPG/other
-                          page.drawImage(imageEmbed, {
-                             x: pdfX,
-                             y: pdfY,
-                             width: pdfWidth,
-                             height: pdfHeight,
-                         });
+                    // Prepare promises for drawing annotations
+                    const pageAnnotations = annotations.filter(a => a.page === i);
+                    const drawingPromises = [];
+
+                    pageAnnotations.forEach(annotation => {
+                        // Adjust coordinates and dimensions from display scale to save scale (1.0)
+                        const scaledX = annotation.x / scale;
+                        const scaledY = annotation.y / scale;
+                        const scaledWidth = annotation.width / scale;
+                        const scaledHeight = typeof annotation.height === 'number' ? annotation.height / scale : 'auto'; // Height might be 'auto' for images initially
+                        const scaledFontSize = annotation.properties?.fontSize / scale;
+
+                        if (annotation.type === 'text') {
+                            drawingPromises.push(new Promise((resolve) => {
+                                tempCtx.save();
+                                const fontWeight = annotation.properties.bold ? 'bold ' : '';
+                                const fontStyle = annotation.properties.italic ? 'italic ' : '';
+                                const fontSize = scaledFontSize || (14 / scale); // Default font size fallback
+                                const fontFamily = annotation.properties.fontFamily || 'Arial';
+                                tempCtx.font = `${fontWeight}${fontStyle}${fontSize}px ${fontFamily}`;
+                                tempCtx.fillStyle = annotation.properties.color || 'black';
+
+                                // Split text and draw line by line, considering basic height
+                                const lines = (annotation.content || '').split('\n');
+                                let currentY = scaledY + fontSize; // Start drawing at the baseline
+
+                                lines.forEach(line => {
+                                    tempCtx.fillText(line, scaledX, currentY);
+
+                                    if (annotation.properties.underline) {
+                                        tempCtx.beginPath();
+                                        tempCtx.strokeStyle = tempCtx.fillStyle;
+                                        tempCtx.lineWidth = 1 / scale; // Scale underline thickness
+                                        tempCtx.moveTo(scaledX, currentY + 2 / scale);
+                                        tempCtx.lineTo(scaledX + tempCtx.measureText(line).width, currentY + 2 / scale);
+                                        tempCtx.stroke();
+                                    }
+                                    currentY += fontSize * 1.2; // Move to the next line
+                                });
+                                tempCtx.restore();
+                                resolve();
+                            }));
+                        }
+                        else if (annotation.type === 'highlight') {
+                            drawingPromises.push(new Promise((resolve) => {
+                                tempCtx.save();
+                                const opacity = annotation.properties.opacity || 0.5;
+                                let colorRgba = 'rgba(255, 255, 0, 0.5)'; // Default yellow
+                                switch (annotation.properties.color) {
+                                     case 'green': colorRgba = `rgba(0, 255, 0, ${opacity})`; break;
+                                     case 'blue': colorRgba = `rgba(0, 0, 255, ${opacity})`; break;
+                                     case 'pink': colorRgba = `rgba(255, 192, 203, ${opacity})`; break;
+                                     case 'purple': colorRgba = `rgba(128, 0, 128, ${opacity})`; break;
+                                     case 'yellow': colorRgba = `rgba(255, 255, 0, ${opacity})`; break;
+                                }
+                                tempCtx.fillStyle = colorRgba;
+                                tempCtx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
+                                tempCtx.restore();
+                                resolve();
+                            }));
+                        }
+                        else if (annotation.type === 'signature' || annotation.type === 'image') {
+                            drawingPromises.push(
+                                loadImage(annotation.content).then(img => {
+                                    let drawWidth = scaledWidth;
+                                    let drawHeight = scaledHeight;
+                                    // Handle 'auto' height for images, calculate based on aspect ratio
+                                    if (annotation.type === 'image' && drawHeight === 'auto') {
+                                        const aspectRatio = img.naturalWidth / img.naturalHeight;
+                                        drawHeight = drawWidth / aspectRatio;
+                                    } else if (typeof drawHeight !== 'number' || drawHeight <= 0) {
+                                         // Fallback if height calculation failed or is invalid
+                                         drawHeight = (annotation.type === 'signature' && annotation.signatureType === 'drawing') ? 80 / scale : 60/scale;
+                                    }
+
+                                    tempCtx.drawImage(img, scaledX, scaledY, drawWidth, drawHeight);
+                                }).catch(err => {
+                                    console.error(`Error loading image for annotation ${annotation.id}:`, err);
+                                    // Optionally draw a placeholder or skip
+                                })
+                            );
+                        }
+                        // Typed signatures are treated like text
+                        else if (annotation.type === 'signature' && (annotation.signatureType === 'typed' || annotation.signatureType === 'initials')) {
+                             drawingPromises.push(new Promise((resolve) => {
+                                tempCtx.save();
+                                const colorMap = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' };
+                                const color = annotation.properties?.color || 'black';
+                                const fontSize = annotation.signatureType === 'initials' ? (32 / scale) : (24 / scale);
+                                const fontFamily = annotation.properties?.font || 'Arial';
+
+                                tempCtx.font = `${fontSize}px ${fontFamily}`;
+                                tempCtx.fillStyle = colorMap[color] || '#000000';
+                                tempCtx.textBaseline = 'middle'; // Align text vertically
+                                tempCtx.fillText(annotation.content, scaledX, scaledY + scaledHeight / 2);
+                                tempCtx.restore();
+                                resolve();
+                             }));
+                        }
+                    });
+
+                    // Wait for all annotations on the current page to be drawn
+                    await Promise.all(drawingPromises);
+
+                    // Add the rendered page (with annotations) to the PDF
+                    const imgData = tempCanvas.toDataURL('image/jpeg', 0.9);
+                    if (i > 1) {
+                        doc.addPage([viewport.width, viewport.height], 'portrait');
                     }
-                }
-                
-                const pdfBytes = await pdfDocToModify.save();
-                
-                // Download the modified PDF
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'edited-document.pdf';
-                a.click();
-                URL.revokeObjectURL(url);
+                    doc.addImage(imgData, 'JPEG', 0, 0, viewport.width, viewport.height);
 
-            } catch(err) {
-                 console.error("Error saving PDF:", err);
-                 alert("Error saving PDF: " + err.message);
-             } finally {
-                 // Restore save button state
-                 saveBtn.innerHTML = originalHtml;
-                 saveBtn.disabled = false;
-             }
-         }
+                } // End page loop
+
+                // Save the final PDF
+                doc.save('edited-document.pdf');
+
+            } catch (error) {
+                console.error('Error during PDF saving:', error);
+                alert('An error occurred while saving the PDF. Please try again.');
+            } finally {
+                // Restore save button state regardless of success or failure
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }
+        }
 
         // Make functions available globally for event handlers
         window.deleteAnnotation = deleteAnnotation;
