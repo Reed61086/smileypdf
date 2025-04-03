@@ -321,16 +321,6 @@
                 return mm * 2.83464566929;
             }
             
-            // Function to get PDFLib Page Size enum
-            function getPdfLibPageSize(sizeStr) {
-                switch (sizeStr.toUpperCase()) {
-                    case 'LETTER': return PageSizes.Letter;
-                    case 'LEGAL': return PageSizes.Legal;
-                    case 'A5': return PageSizes.A5;
-                    case 'A4': 
-                    default: return PageSizes.A4;
-                }
-            }
 
             async function generatePDF() {
                 if (files.length === 0) {
@@ -354,7 +344,19 @@
                  // Use setTimeout to allow UI to update
                 setTimeout(async () => {
                     try {
-                        const { PDFDocument, PageSizes, StandardFonts, rgb, RotationTypes } = window.pdfLib; // Correct initialization location
+                        const { PDFDocument, PageSizes, StandardFonts, rgb, RotationTypes } = window.PDFLib; // Use uppercase PDFLib
+                        const pdfDoc = await PDFDocument.create();
+
+                        // Function to get PDFLib Page Size enum (moved inside generatePDF scope)
+                        function getPdfLibPageSize(sizeStr) {
+                            switch (sizeStr.toUpperCase()) {
+                                case 'LETTER': return PageSizes.Letter;
+                                case 'LEGAL': return PageSizes.Legal;
+                                case 'A5': return PageSizes.A5;
+                                case 'A4':
+                                default: return PageSizes.A4;
+                            }
+                        }
                         let processed = 0;
                         
                         for (let i = 0; i < files.length; i++) {
