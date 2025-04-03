@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image to PDF Converter</title>
-     <!-- Base CDNs -->
+    <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <!-- Additional Libraries from Source File (Violates Original Constraints) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-     <!-- Repeated jsPDF CDN link removed, included once above -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Font Awesome (from source) -->
+    <!-- PDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script> 
     <style>
         .dropzone {
             border: 2px dashed #6b7280;
@@ -45,6 +43,11 @@
         @media (max-width: 640px) {
             .controls {
                 flex-direction: column;
+                align-items: stretch; /* Ensure controls take full width */
+            }
+            .controls > div {
+                margin-bottom: 0.75rem; /* Add space between controls */
+                width: 100%; /* Make each control group take full width */
             }
         }
     </style>
@@ -82,8 +85,8 @@
                 <p id="errorMessage"></p>
             </div>
 
-            <div class="controls flex flex-wrap justify-between items-center mb-6">
-                <div>
+            <div class="controls flex flex-wrap justify-between items-center mb-6 gap-4">
+                 <div>
                     <label for="orientation" class="block text-sm font-medium text-gray-700 mb-1">Page Orientation</label>
                     <select id="orientation" class="border border-gray-300 rounded-md px-3 py-2">
                         <option value="portrait">Portrait</option>
@@ -94,22 +97,14 @@
                     <label for="margin" class="block text-sm font-medium text-gray-700 mb-1">Margin (mm)</label>
                     <input type="number" id="margin" min="0" max="20" value="5" class="border border-gray-300 rounded-md px-3 py-2 w-20">
                 </div>
-                <div>
-                    <label for="quality" class="block text-sm font-medium text-gray-700 mb-1">Quality</label>
-                    <select id="quality" class="border border-gray-300 rounded-md px-3 py-2">
-                        <option value="0.6">Medium</option>
-                        <option value="0.8">High</option>
-                        <option value="1">Maximum</option>
-                        <option value="0.3">Low</option>
-                    </select>
-                </div>
+                <!-- Quality removed as it's less relevant for pdf-lib -->
                 <div>
                     <label for="size" class="block text-sm font-medium text-gray-700 mb-1">Page Size</label>
                     <select id="size" class="border border-gray-300 rounded-md px-3 py-2">
-                        <option value="a4">A4</option>
-                        <option value="letter">Letter</option>
-                        <option value="legal">Legal</option>
-                        <option value="a5">A5</option>
+                        <option value="A4">A4</option>
+                        <option value="Letter">Letter</option>
+                        <option value="Legal">Legal</option>
+                        <option value="A5">A5</option>
                     </select>
                 </div>
             </div>
@@ -181,21 +176,20 @@
 
             let files = [];
             let pdfBlob = null;
+            // Default settings
             let orientation = 'portrait';
             let margin = 5;
-            let quality = 0.6;
-            let pageSize = 'a4';
+            let pageSizeStr = 'A4';
 
              // Check for library presence
-             if (typeof window.jspdf === 'undefined' || typeof window.PDFLib === 'undefined') {
-                 showError("Required PDF libraries could not be loaded. Please check your internet connection or script tags.");
-                 console.error("jsPDF or pdf-lib not found.");
+             if (typeof window.pdfLib === 'undefined') {
+                 showError("Required PDF library (pdf-lib) could not be loaded. Please check your internet connection or script tags.");
+                 console.error("pdf-lib not found.");
                  return; // Stop execution if libraries are missing
              }
-             const { jsPDF } = window.jspdf;
-             const { PDFDocument } = window.PDFLib; // Use PDFLib if needed (e.g., for merging later, not used in this specific example)
+             const { PDFDocument, PageSizes, StandardFonts, rgb, RotationTypes } = window.pdfLib; 
 
-             // Set up drag and drop
+             // Setup drag and drop
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                 dropzone.addEventListener(eventName, preventDefaults, false);
             });
@@ -236,14 +230,18 @@
 
                 if (newFiles.length === 0) return;
 
-                 // Filter only image files
-                 const imageFiles = newFiles.filter(file => {
-                     return file.type.match('image.*');
-                });
+                 // Filter only specified image files
+                 const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                 const imageFiles = newFiles.filter(file => allowedTypes.includes(file.type));
 
                  if (imageFiles.length === 0) {
-                    showError('Please upload only image files (JPG, PNG, etc.)');
+                    showError('Please upload only JPG, PNG, or WEBP image files.');
+                    fileInput.value = ''; // Reset input
                     return;
+                }
+
+                 if (imageFiles.length !== newFiles.length) {
+                    showError(`Some files were skipped. Only JPG, PNG, and WEBP images are supported.`);
                 }
 
                  // Reset previous state if new files are selected after generating a PDF
@@ -251,11 +249,15 @@
                     files = [];
                     pdfBlob = null;
                     resultContainer.classList.add('hidden');
+                    if (pdfPreview.src.startsWith('blob:')) {
+                         URL.revokeObjectURL(pdfPreview.src); // Clean up old preview URL
+                    }
                  }
 
 
                  files = files.concat(imageFiles);
                 updatePreviews();
+                fileInput.value = ''; // Reset input after handling
             }
 
             function updatePreviews() {
@@ -302,11 +304,15 @@
                  resultContainer.classList.add('hidden'); // Hide result if showing previews
                 error.classList.add('hidden'); // Hide any previous errors
                  generateBtn.disabled = files.length === 0; // Enable/disable based on files
+                 generateBtn.innerText = 'Generate PDF';
             }
 
             clearBtn.addEventListener('click', () => {
                 files = [];
                  pdfBlob = null;
+                 if (pdfPreview.src.startsWith('blob:')) {
+                     URL.revokeObjectURL(pdfPreview.src); // Clean up old preview URL
+                }
                 updatePreviews(); // Update to show no files
                 previewContainer.classList.add('hidden');
                  resultContainer.classList.add('hidden');
@@ -318,7 +324,23 @@
 
             generateBtn.addEventListener('click', generatePDF);
 
-            function generatePDF() {
+            // Function to convert mm to points (1mm = 2.83465 points)
+            function mmToPoints(mm) {
+                return mm * 2.83464566929;
+            }
+            
+            // Function to get PDFLib Page Size enum
+            function getPdfLibPageSize(sizeStr) {
+                switch (sizeStr.toUpperCase()) {
+                    case 'LETTER': return PageSizes.Letter;
+                    case 'LEGAL': return PageSizes.Legal;
+                    case 'A5': return PageSizes.A5;
+                    case 'A4': 
+                    default: return PageSizes.A4;
+                }
+            }
+
+            async function generatePDF() {
                 if (files.length === 0) {
                     showError('Please upload at least one image');
                     return;
@@ -328,135 +350,126 @@
                 progressContainer.classList.remove('hidden');
                 progressBar.style.width = '0%';
                  generateBtn.disabled = true;
+                 generateBtn.innerHTML = '<i class="fas fa-spinner spinner mr-2"></i>Generating...';
                 clearBtn.disabled = true; // Disable while processing
 
 
                  // Get options
-                 orientation = document.getElementById('orientation').value;
-                 margin = parseInt(document.getElementById('margin').value) || 0; // Default to 0 if invalid
-                 quality = parseFloat(document.getElementById('quality').value) || 0.6; // Default quality
-                 pageSize = document.getElementById('size').value;
+                 orientation = document.getElementById('orientation').value; // portrait or landscape
+                 margin = mmToPoints(parseInt(document.getElementById('margin').value) || 0); // Convert mm to points
+                 pageSizeStr = document.getElementById('size').value; // A4, Letter, etc. (string)
+                 
+                 // Use setTimeout to allow UI to update
+                setTimeout(async () => {
+                    try {
+                        const pdfDoc = await PDFDocument.create();
+                        let processed = 0;
+                        
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            showStatus(`Processing image ${i + 1} of ${files.length}: ${file.name}`);
+                             try {
+                                const imageBytes = await file.arrayBuffer();
+                                let embeddedImage;
+                                
+                                if (file.type === 'image/png') {
+                                    embeddedImage = await pdfDoc.embedPng(imageBytes);
+                                } else if (file.type === 'image/jpeg') {
+                                    embeddedImage = await pdfDoc.embedJpg(imageBytes);
+                                } else if (file.type === 'image/webp') {
+                                     // Convert WEBP via canvas
+                                    const dataUrl = await fileToDataUrl(file);
+                                    const img = await loadImageFromDataUrl(dataUrl);
+                                    const tempCanvas = document.createElement('canvas');
+                                    tempCanvas.width = img.naturalWidth;
+                                    tempCanvas.height = img.naturalHeight;
+                                    const ctx = tempCanvas.getContext('2d');
+                                    ctx.drawImage(img, 0, 0);
+                                    const jpgDataUri = tempCanvas.toDataURL('image/jpeg', 0.9); // Convert to JPEG for embedding
+                                    const jpgBytes = await fetch(jpgDataUri).then(res => res.arrayBuffer());
+                                    embeddedImage = await pdfDoc.embedJpg(jpgBytes);
+                                 } else {
+                                    console.warn(`Unsupported image type: ${file.type}. Skipping file ${file.name}.`);
+                                     throw new Error(`Unsupported type: ${file.type}`);
+                                 }
+                                
+                                const pageSize = getPdfLibPageSize(pageSizeStr); // Get dimensions array [width, height]
+                                
+                                // Adjust page size based on orientation and image aspect ratio
+                                const imgDims = embeddedImage.scale(1);
+                                let pageW = pageSize[0];
+                                let pageH = pageSize[1];
 
-                 // Use setTimeout to ensure UI updates before heavy processing
-                setTimeout(() => {
-                    createPDFWithJsPDF(files); // Call the async function
-                }, 100);
+                                // Swap if landscape is selected AND page format is portrait naturally (W < H)
+                                if (orientation === 'landscape' && pageW < pageH) {
+                                     [pageW, pageH] = [pageH, pageW]; 
+                                 }
+                                 // Swap if portrait is selected AND page format is landscape naturally (W > H)
+                                 else if (orientation === 'portrait' && pageW > pageH) {
+                                    [pageH, pageW] = [pageW, pageH];
+                                 }
+
+                                 const page = pdfDoc.addPage([pageW, pageH]);
+
+                                 const { width: currentPageWidth, height: currentPageHeight } = page.getSize(); // Use dimensions from added page
+                                 const usableWidth = currentPageWidth - (margin * 2);
+                                 const usableHeight = currentPageHeight - (margin * 2);
+ 
+                                 // Calculate scaling
+                                 const widthScale = usableWidth / imgDims.width;
+                                 const heightScale = usableHeight / imgDims.height;
+                                 const scale = Math.min(widthScale, heightScale);
+ 
+                                 const scaledWidth = imgDims.width * scale;
+                                 const scaledHeight = imgDims.height * scale;
+ 
+                                 if (!isFinite(scaledWidth) || !isFinite(scaledHeight) || scaledWidth <= 0 || scaledHeight <= 0) {
+                                    throw new Error("Calculated invalid dimensions for drawing.");
+                                }
+
+                                 // Center image
+                                 const x = margin + (usableWidth - scaledWidth) / 2;
+                                 const y = currentPageHeight - margin - scaledHeight - (usableHeight - scaledHeight) / 2; // pdf-lib y is from bottom
+
+                                page.drawImage(embeddedImage, {
+                                    x: x,
+                                    y: y,
+                                    width: scaledWidth,
+                                    height: scaledHeight,
+                                });
+
+                            } catch (imgErr) {
+                                console.error(`Skipping image ${file.name} due to error:`, imgErr);
+                                showError(`Could not process image: ${file.name}. Error: ${imgErr.message}. Skipping.`);
+                           } finally {
+                               processed++;
+                               const progress = Math.round((processed / files.length) * 100);
+                               progressBar.style.width = `${progress}%`;
+                           }
+                           
+                           // Optional delay
+                            if (processed % 5 === 0) {
+                                await new Promise(resolve => setTimeout(resolve, 20));
+                           }
+                        }
+                        
+                        showStatus('Saving PDF...');
+                        const pdfBytes = await pdfDoc.save();
+                        pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+                        showResult(pdfBlob);
+
+                    } catch (err) {
+                        showError('Error generating PDF: ' + err.message);
+                        console.error(err);
+                    } finally {
+                        hideStatus();
+                        generateBtn.disabled = files.length === 0;
+                         generateBtn.innerHTML = '<i class="fas fa-file-pdf mr-2"></i>Generate PDF';
+                        clearBtn.disabled = false;
+                    }
+                }, 50); // Short delay for UI update
             }
-
-
-             async function createPDFWithJsPDF(images) {
-                 try {
-                    const pdf = new jsPDF({
-                         orientation: orientation,
-                         unit: 'mm',
-                         format: pageSize // Use format directly
-                    });
-
-                     // Get page dimensions based on selected size and orientation
-                     const dimensions = pdf.getPageInfo(1).pageContext.mediaBox;
-                     const pageWidth = dimensions.bottomRightX - dimensions.topLeftX;
-                     const pageHeight = dimensions.bottomRightY - dimensions.topLeftY;
-
-
-                     const usableWidth = pageWidth - (margin * 2);
-                     const usableHeight = pageHeight - (margin * 2);
-
-                     if (usableWidth <= 0 || usableHeight <= 0) {
-                        showError("Margins are too large for the selected page size.");
-                        throw new Error("Calculated usable dimensions are invalid.");
-                     }
-
-                     let processed = 0;
-
-                     for (let i = 0; i < images.length; i++) {
-                         const image = images[i];
-                         try {
-                             const imgDataUrl = await fileToDataUrl(image); // Convert file to Data URL
-                             const img = await loadImageFromDataUrl(imgDataUrl); // Load Image object
-                             console.log(`Loaded image ${image.name}: Original dimensions [${img.width}, ${img.height}]`); // Log original dimensions
-
-                             // Check for zero dimensions immediately after loading
-                             if (img.width <= 0 || img.height <= 0) {
-                                console.error(`Image ${image.name} has zero dimensions [${img.width}, ${img.height}]. Skipping.`);
-                                throw new Error("Image has zero dimensions");
-                             }
-
-                             let imgWidth = img.width;
-                             let imgHeight = img.height;
-
-                             // Calculate scaling factor to fit image within usable area
-                             const widthScale = usableWidth / imgWidth;
-                             const heightScale = usableHeight / imgHeight;
-                             const scale = Math.min(widthScale, heightScale); // Fit within both dimensions
-
-                             const scaledWidth = imgWidth * scale;
-                             const scaledHeight = imgHeight * scale;
-// Validate scaled dimensions before proceeding
-if (!isFinite(scaledWidth) || !isFinite(scaledHeight) || scaledWidth <= 0 || scaledHeight <= 0) {
-   console.error(`Invalid dimensions calculated for image ${image.name}: [${scaledWidth}, ${scaledHeight}]. Skipping.`);
-   throw new Error("Invalid image dimensions"); // Throw error to trigger catch block for skipping
-}
-
-// Center the image within the usable area
-const x = margin + (usableWidth - scaledWidth) / 2;
-const y = margin + (usableHeight - scaledHeight) / 2;
-
-
-                             if (i > 0) {
-                                pdf.addPage(pageSize, orientation);
-                             }
-
-                             // Create a temporary canvas to draw the image (normalizes format)
-                             const tempImageCanvas = document.createElement('canvas');
-                             tempImageCanvas.width = scaledWidth * 2; // Increase resolution for better quality
-                             tempImageCanvas.height = scaledHeight * 2;
-                             const tempImageCtx = tempImageCanvas.getContext('2d');
-                             
-                             // Draw the loaded image onto the temporary canvas
-                             tempImageCtx.drawImage(img, 0, 0, tempImageCanvas.width, tempImageCanvas.height);
-                             
-                             // Get the data URL from the temporary canvas as JPEG
-                             const canvasDataUrl = tempImageCanvas.toDataURL('image/jpeg', quality); // Use quality setting
-                             
-                             // Log coordinates and dimensions just before adding
-                             console.log(`Attempting pdf.addImage for ${image.name}: x=${x}, y=${y}, w=${scaledWidth}, h=${scaledHeight}, format=JPEG`);
-                             // Add image from the temporary canvas data URL
-                             pdf.addImage(canvasDataUrl, 'JPEG', x, y, scaledWidth, scaledHeight, undefined, 'FAST');
-
-
-                             processed++;
-                             const progress = Math.round((processed / images.length) * 100);
-                             progressBar.style.width = `${progress}%`;
-                             showStatus(`Processing image ${processed} of ${images.length}...`);
-
-                              // Optional small delay to help UI responsiveness in some browsers
-                              if (processed % 5 === 0) { // Delay every 5 images
-                                  await new Promise(resolve => setTimeout(resolve, 20));
-                             }
-                          } catch (imgErr) {
-                             console.error(`Skipping image ${image.name} due to error:`, imgErr);
-                             showError(`Could not process image: ${image.name}. Skipping.`);
-                             // Still update progress as if processed
-                              processed++;
-                             const progress = Math.round((processed / images.length) * 100);
-                             progressBar.style.width = `${progress}%`;
-                         }
-                     }
-
-                     // Generate PDF blob
-                     pdfBlob = pdf.output('blob'); // Assign to global variable
-                     showResult(pdfBlob);
-
-                 } catch (err) {
-                    showError('Error generating PDF: ' + err.message);
-                    console.error(err);
-                 } finally {
-                    hideStatus();
-                     generateBtn.disabled = files.length === 0; // Re-enable if there are still files
-                    clearBtn.disabled = false;
-                }
-            }
-
+            
              // Helper function to read file as Data URL
              function fileToDataUrl(file) {
                  return new Promise((resolve, reject) => {
@@ -467,8 +480,8 @@ const y = margin + (usableHeight - scaledHeight) / 2;
                  });
              }
 
-              // Helper function to load an Image object from a Data URL
-              function loadImageFromDataUrl(dataUrl) {
+              // Helper function to load an Image object from various sources
+              function loadImageFromDataUrl(src) { // src can be Data URL or Object URL
                  return new Promise((resolve, reject) => {
                      const img = new Image();
                      img.onload = () => {
@@ -476,14 +489,19 @@ const y = margin + (usableHeight - scaledHeight) / 2;
                          if (img.naturalWidth > 0 && img.naturalHeight > 0) {
                             resolve(img);
                          } else {
-                             console.error(`Loaded image has invalid natural dimensions: [${img.naturalWidth}, ${img.naturalHeight}]`);
-                             reject(new Error(`Image loaded with invalid natural dimensions: [${img.naturalWidth}, ${img.naturalHeight}]`));
+                             const errMsg = `Image loaded with invalid natural dimensions: [${img.naturalWidth}, ${img.naturalHeight}]`;
+                             console.error(errMsg, "Source:", src.substring(0,100) + "..."); // Log part of source
+                             reject(new Error(errMsg));
                          }
                      };
-                     img.onerror = (e) => { console.error("loadImageFromDataUrl Error:", e); reject(new Error("Failed to load image from data URL")); };
-                     img.src = dataUrl;
+                      img.onerror = (e) => {
+                         console.error("loadImageFromDataUrl Error Event:", e, "Source:", src.substring(0, 100) + "...");
+                         reject(new Error("Failed to load image"));
+                      };
+                     img.src = src;
                   });
               }
+
 
             function showResult(blob) {
                  resultContainer.classList.remove('hidden');
@@ -530,6 +548,7 @@ const y = margin + (usableHeight - scaledHeight) / 2;
                  hideStatus(); // Ensure status is hidden on error
                  progressContainer.classList.add('hidden');
                  generateBtn.disabled = files.length === 0; // Re-enable generate button based on files
+                 generateBtn.innerHTML = '<i class="fas fa-file-pdf mr-2"></i>Generate PDF';
                 clearBtn.disabled = false;
                  // Optionally hide error message after some time
                  // setTimeout(() => { error.classList.add('hidden'); }, 5000);
