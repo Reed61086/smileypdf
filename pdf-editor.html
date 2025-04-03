@@ -6,6 +6,12 @@
     <title>PDF Editor - SmileyPDF</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Adjust iframe height as needed */
+        .embedded-tool {
+            min-height: 70vh; /* Ensure iframe takes significant vertical space */
+        }
+    </style>
 </head>
 <body class="bg-gray-100 font-sans">
 
@@ -25,28 +31,30 @@
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-6 py-12">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
+        <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4 border-b pb-2">
                 <i class="fa-solid fa-pen-to-square mr-2 text-green-600"></i> PDF Editor
             </h1>
-            <div class="text-gray-700">
-                <p class="mb-4">Edit your PDF documents here (e.g., add text, images, shapes).</p>
-                 <p class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded">
-                     <i class="fa-solid fa-triangle-exclamation mr-2"></i> Actual PDF editing functionality requires complex implementation (potentially a backend or heavy JavaScript library) and is not available on this static placeholder page.
-                </p>
-                 <div class="mt-6">
-                     <button disabled class="bg-green-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed">
-                        Upload PDF for Editing (Not functional)
-                    </button>
-                 </div>
-            </div>
+            <p class="text-gray-600 mb-6">Loading editor tool...</p>
+
+            <!-- Iframe to embed the functional tool -->
+            <iframe
+                src="editor_tool.html"
+                frameborder="0"
+                class="w-full embedded-tool border border-gray-200 rounded-md"
+                title="PDF Editor Tool"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
+                    Your browser doesn't support IFrames. Please access the tool directly.
+            </iframe>
+
+             <p class="text-xs text-gray-500 mt-4 italic">Note: The editor above is embedded from <code>editor_tool.html</code>. Functionality depends on the code within that file.</p>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-gray-700 text-gray-300 mt-12 py-6">
         <div class="container mx-auto px-6 text-center text-sm">
-            &copy; 2025 SmileyPDF (Recreated Page).
+            &copy; 2025 SmileyPDF.
         </div>
     </footer>
 
