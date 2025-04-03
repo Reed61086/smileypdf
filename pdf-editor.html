@@ -44,7 +44,7 @@
             min-width: 50px;
             min-height: 20px;
             border: 1px dashed transparent;
-            z-index: 5; /* Ensure annotations are above the canvas - Re-applying for certainty */
+            z-index: 5; /* Ensure annotations are above the canvas */
         }
         .annotation:hover {
             border-color: #4F46E5;
@@ -169,7 +169,7 @@
             outline: none;
             padding: 4px; /* Slightly more padding */
             cursor: text;
-             color: black; /* Explicitly set default text color */
+             color: black; /* Explicitly set default text color (Fallback) */
              background-color: transparent; /* Ensure no background */
              position: relative; /* Needed? Maybe not, but doesn't hurt */
              z-index: 1; /* Ensure text is above annotation background if any */
@@ -190,7 +190,7 @@
                 <input type="file" id="file-input" accept=".pdf">
                 <span class="tooltip-text">Upload PDF</span>
             </div>
-            
+
             <!-- Text Tool -->
             <div class="group relative">
                 <button id="text-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -198,7 +198,7 @@
                 </button>
                 <span class="tooltip-text">Text Tool</span>
             </div>
-            
+
             <!-- Signature Tool -->
             <div class="group relative">
                 <button id="signature-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -206,7 +206,7 @@
                 </button>
                 <span class="tooltip-text">Signature/Initials</span>
             </div>
-            
+
             <!-- Image Tool -->
             <div class="group relative">
                 <button id="image-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -214,7 +214,7 @@
                 </button>
                 <span class="tooltip-text">Image Tool</span>
             </div>
-            
+
             <!-- Highlight Tool -->
             <div class="group relative">
                 <button id="highlight-tool" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition">
@@ -222,7 +222,7 @@
                 </button>
                 <span class="tooltip-text">Highlight Tool</span>
             </div>
-            
+
             <!-- Save Button -->
             <div class="group relative mt-auto">
                 <button id="save-pdf" class="w-12 h-12 rounded-lg flex items-center justify-center bg-primary hover:bg-purple-700 transition text-white">
@@ -412,7 +412,7 @@
     <script>
         // PDF.js setup
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
-        
+
         // Global variables
         let pdfDoc = null,
             pageNum = 1,
@@ -430,7 +430,7 @@
             currentTextProperties = {
                 fontFamily: 'Arial',
                 fontSize: 14,
-                color: 'black',
+                color: 'black', // Default text color is black
                 bold: false,
                 italic: false,
                 underline: false
@@ -444,7 +444,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Set up UI event listeners
             setupEventListeners();
-            
+
             // Initialize signature pad with proper cursor positioning
             const signatureCanvas = document.getElementById('signature-pad');
             signaturePad = new SignaturePad(signatureCanvas, {
@@ -463,11 +463,11 @@
                     }
                 }
             });
-            
+
             // Resize signature canvas when window resizes
             window.addEventListener('resize', resizeSignatureCanvas);
             resizeSignatureCanvas();
-            
+
             // Load a default blank state
             renderBlankCanvas();
         });
@@ -478,7 +478,9 @@
             canvas.width = canvas.offsetWidth * ratio;
             canvas.height = canvas.offsetHeight * ratio;
             canvas.getContext('2d').scale(ratio, ratio);
-            signaturePad.clear(); // Clear the signature after resize
+            if (signaturePad) {
+                signaturePad.clear(); // Clear the signature after resize
+            }
         }
 
         function setupEventListeners() {
@@ -486,9 +488,9 @@
             document.getElementById('upload-btn').addEventListener('click', function() {
                 document.getElementById('file-input').click();
             });
-            
+
             document.getElementById('file-input').addEventListener('change', handleFileSelect);
-            
+
             document.getElementById('text-tool').addEventListener('click', function() {
                 if (activeTool === 'text') {
                     document.getElementById('text-tool-panel').style.display = 'none';
@@ -498,7 +500,7 @@
                     showToolPanel('text-tool-panel');
                 }
             });
-            
+
             document.getElementById('signature-tool').addEventListener('click', function() {
                 if (activeTool === 'signature') {
                     document.getElementById('signature-tool-panel').style.display = 'none';
@@ -507,24 +509,29 @@
                     setActiveTool('signature');
                     showToolPanel('signature-tool-panel');
                     document.getElementById('signature-draw-container').classList.remove('hidden');
-                 const signatureCanvas = document.getElementById('signature-pad');
-                 signaturePad = new SignaturePad(signatureCanvas, {
-                      backgroundColor: 'rgba(255, 255, 255, 0)',
-                      penColor: 'rgb(0, 0, 0)',
-                      onBegin: function() {
-                           // Fix cursor positioning issue
-                           const rect = signatureCanvas.getBoundingClientRect();
-                           const lastPoint = signaturePad._data[signaturePad._data.length - 2];
-                           if (lastPoint) {
-                            signaturePad._data[signaturePad._data.length - 1] = {
-                                 x: (lastPoint.x * rect.width) / signatureCanvas.offsetWidth,
-                                 y: (lastPoint.y * rect.height) / signatureCanvas.offsetHeight,
-                                 time: Date.now()
-                            };
-                           }
-                      }
-                 });
-                 document.getElementById('signature-type-container').classList.add('hidden');
+                    const signatureCanvas = document.getElementById('signature-pad');
+                    if (!signaturePad) { // Initialize if not already done
+                        signaturePad = new SignaturePad(signatureCanvas, {
+                            backgroundColor: 'rgba(255, 255, 255, 0)',
+                            penColor: 'rgb(0, 0, 0)',
+                             onBegin: function() {
+                                 // Fix cursor positioning issue
+                                 const rect = signatureCanvas.getBoundingClientRect();
+                                 const lastPoint = signaturePad._data[signaturePad._data.length - 2];
+                                 if (lastPoint) {
+                                     signaturePad._data[signaturePad._data.length - 1] = {
+                                         x: (lastPoint.x * rect.width) / signatureCanvas.offsetWidth,
+                                         y: (lastPoint.y * rect.height) / signatureCanvas.offsetHeight,
+                                         time: Date.now()
+                                     };
+                                 }
+                             }
+                         });
+                        resizeSignatureCanvas(); // Ensure correct scaling
+                     } else {
+                         signaturePad.clear(); // Clear previous drawing if any
+                     }
+                    document.getElementById('signature-type-container').classList.add('hidden');
                     document.getElementById('initials-text').classList.add('hidden');
                     document.getElementById('signature-text').classList.remove('hidden');
                     document.getElementById('draw-signature').classList.add('bg-primary', 'text-white');
@@ -533,7 +540,7 @@
                     setSignatureColor(currentSignatureColor);
                 }
             });
-            
+
             document.getElementById('image-tool').addEventListener('click', function() {
                 if (activeTool === 'image') {
                     document.getElementById('image-tool-panel').style.display = 'none';
@@ -543,7 +550,7 @@
                     showToolPanel('image-tool-panel');
                 }
             });
-            
+
             document.getElementById('highlight-tool').addEventListener('click', function() {
                 if (activeTool === 'highlight') {
                     document.getElementById('highlight-tool-panel').style.display = 'none';
@@ -553,9 +560,9 @@
                     showToolPanel('highlight-tool-panel');
                 }
             });
-            
+
             document.getElementById('save-pdf').addEventListener('click', savePDF);
-            
+
             // Page navigation
             document.getElementById('page-select').addEventListener('change', function() {
                 const selectedPage = parseInt(this.value);
@@ -564,25 +571,25 @@
                     queueRenderPage(pageNum);
                 }
             });
-            
+
             document.getElementById('zoom-in').addEventListener('click', function() {
-                if (scale < 3.0) {
+                if (scale < 3.0 && pdfDoc) { // Only zoom if PDF is loaded
                     scale += 0.25;
                     queueRenderPage(pageNum);
                 }
             });
-            
+
             document.getElementById('zoom-out').addEventListener('click', function() {
-                if (scale > 0.5) {
+                if (scale > 0.5 && pdfDoc) { // Only zoom if PDF is loaded
                     scale -= 0.25;
                     queueRenderPage(pageNum);
                 }
             });
-            
+
             // Click on PDF viewer
             document.getElementById('pdf-viewer').addEventListener('click', function(e) {
-                if (!activeTool) return;
-                
+                if (!activeTool || !pdfDoc) return; // Don't add annotations if no PDF or tool
+
                 // Check if clicked on an annotation
                 const clickedAnnotation = e.target.closest('.annotation');
                 if (clickedAnnotation) {
@@ -592,12 +599,12 @@
                          selectAnnotation(clickedAnnotation); // Re-select to ensure panel updates
                          return;
                     }
-                    
+
                     // Otherwise select the annotation
                     selectAnnotation(clickedAnnotation);
                     return;
                 }
-                
+
                 // Check if clicked on the canvas area (not on an existing annotation or panel)
                  if (!e.target.closest('.tool-panel') && (e.target === canvas || e.target === document.getElementById('pdf-render') ||
                      e.target === document.getElementById('pdf-container'))) {
@@ -605,28 +612,28 @@
                     const rect = canvas.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
-                    
+
                     addAnnotation(x, y);
                      // Don't hide panel or deactivate tool immediately after adding
                      // Deactivation/panel hiding is now handled by the global listener
                 }
             });
-            
+
             // Text tool panel interactions
-            document.querySelectorAll('.font-option').forEach(option => {
+            document.querySelectorAll('#text-tool-panel .font-option').forEach(option => {
                 option.addEventListener('click', function() {
-                    document.querySelectorAll('.font-option').forEach(opt => opt.classList.remove('selected'));
+                    document.querySelectorAll('#text-tool-panel .font-option').forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
                     currentTextProperties.fontFamily = this.style.fontFamily;
                     updateSelectedAnnotation();
                 });
             });
-            
+
             document.getElementById('text-size').addEventListener('input', function() {
                 currentTextProperties.fontSize = parseInt(this.value);
                 updateSelectedAnnotation();
             });
-            
+
             document.querySelectorAll('.color-option').forEach(option => {
                 option.addEventListener('click', function() {
                     const panelId = this.closest('.tool-panel')?.id;
@@ -634,7 +641,7 @@
 
                     document.querySelectorAll(`#${panelId} .color-option`).forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
-                    
+
                     const color = this.dataset.color;
 
                     if (panelId === 'text-tool-panel') {
@@ -652,25 +659,25 @@
                     }
                 });
             });
-            
+
             document.getElementById('bold-text').addEventListener('click', function() {
                 currentTextProperties.bold = !currentTextProperties.bold;
                 this.classList.toggle('bg-gray-200');
                 updateSelectedAnnotation();
             });
-            
+
             document.getElementById('italic-text').addEventListener('click', function() {
                 currentTextProperties.italic = !currentTextProperties.italic;
                 this.classList.toggle('bg-gray-200');
                 updateSelectedAnnotation();
             });
-            
+
             document.getElementById('underline-text').addEventListener('click', function() {
                 currentTextProperties.underline = !currentTextProperties.underline;
                 this.classList.toggle('bg-gray-200');
                 updateSelectedAnnotation();
             });
-            
+
             // Signature tool panel
             document.getElementById('draw-signature').addEventListener('click', function() {
                 document.getElementById('signature-draw-container').classList.remove('hidden');
@@ -678,8 +685,9 @@
                 document.getElementById('type-signature').classList.remove('bg-primary', 'text-white');
                 document.getElementById('initials-btn').classList.remove('bg-primary', 'text-white');
                 this.classList.add('bg-primary', 'text-white');
+                resizeSignatureCanvas(); // Ensure canvas is ready
             });
-            
+
             document.getElementById('type-signature').addEventListener('click', function() {
                 document.getElementById('signature-draw-container').classList.add('hidden');
                 document.getElementById('signature-type-container').classList.remove('hidden');
@@ -689,7 +697,7 @@
                 document.getElementById('initials-btn').classList.remove('bg-primary', 'text-white');
                 this.classList.add('bg-primary', 'text-white');
             });
-            
+
             document.getElementById('initials-btn').addEventListener('click', function() {
                 document.getElementById('signature-draw-container').classList.add('hidden');
                 document.getElementById('signature-type-container').classList.remove('hidden');
@@ -699,17 +707,17 @@
                 document.getElementById('type-signature').classList.remove('bg-primary', 'text-white');
                 this.classList.add('bg-primary', 'text-white');
             });
-            
+
             document.getElementById('clear-signature').addEventListener('click', function() {
-                signaturePad.clear();
+                if (signaturePad) signaturePad.clear();
                 document.getElementById('signature-text').value = '';
                 document.getElementById('initials-text').value = '';
             });
-            
+
             document.getElementById('save-signature').addEventListener('click', function() {
                  const drawContainerVisible = !document.getElementById('signature-draw-container').classList.contains('hidden');
 
-                if (drawContainerVisible && !signaturePad.isEmpty()) {
+                if (drawContainerVisible && signaturePad && !signaturePad.isEmpty()) {
                     const signatureData = signaturePad.toDataURL();
                     createSignatureAnnotation(signatureData, 'drawing');
                 } else if (document.getElementById('initials-text').offsetParent !== null && document.getElementById('initials-text').value) { // Check if initials input is visible and has value
@@ -718,19 +726,21 @@
                  } else if (document.getElementById('signature-text').offsetParent !== null && document.getElementById('signature-text').value) { // Check if text input is visible and has value
                     const text = document.getElementById('signature-text').value;
                     createSignatureAnnotation(text, 'typed'); // color taken from global
-                 } else if (!drawContainerVisible) {
-                     alert('Please type your signature or initials.');
-                 } else if (signaturePad.isEmpty()) {
+                 } else if (!drawContainerVisible && document.getElementById('initials-text').offsetParent !== null && !document.getElementById('initials-text').value) {
+                     alert('Please type your initials.');
+                 } else if (!drawContainerVisible && document.getElementById('signature-text').offsetParent !== null && !document.getElementById('signature-text').value) {
+                     alert('Please type your signature.');
+                 } else if (drawContainerVisible && signaturePad && signaturePad.isEmpty()) {
                     alert('Please draw your signature.');
                  }
                  // Panel hiding is now handled globally
             });
-            
+
             // Image tool panel
             document.getElementById('browse-images').addEventListener('click', function() {
                 document.getElementById('image-input').click();
             });
-            
+
             document.getElementById('image-input').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
@@ -741,7 +751,7 @@
                     reader.readAsDataURL(file);
                 }
             });
-            
+
             // Highlight tool panel
             document.getElementById('highlight-opacity').addEventListener('input', function() {
                 currentHighlightProperties.opacity = parseInt(this.value) / 100;
@@ -754,9 +764,11 @@
                 const clickedPanel = e.target.closest('.tool-panel');
                 const clickedToolButton = e.target.closest('.group > button[id$="-tool"]'); // Specifically target tool buttons
                 const clickedSaveButton = e.target.closest('#save-pdf');
+                 const clickedPanelButton = e.target.closest('.tool-panel button, .tool-panel input, .tool-panel select, .tool-panel .color-option, .tool-panel .font-option');
 
-                // If the click is outside an annotation, panel, and *any* toolbar button (or save)
-                if (!clickedAnnotation && !clickedPanel && !clickedToolButton && !clickedSaveButton) {
+                 // If the click is outside an annotation, panel, and *any* toolbar button (or save)
+                 // Also check if the click was NOT inside a panel control element
+                if (!clickedAnnotation && !clickedPanel && !clickedToolButton && !clickedSaveButton && !clickedPanelButton) {
                      if (selectedAnnotation || activeTool) { // Only clear if something *was* selected/active
                            clearSelection(); // Hides panels
                            setActiveTool(null); // Deactivates tool
@@ -776,7 +788,7 @@
                          selectAnnotation(clickedAnnotation);
                     }
                  }
-                 // Clicks inside panels or on tool buttons are ignored here, they manage themselves
+                 // Clicks inside panels, on panel controls, or on tool buttons are ignored here, they manage themselves
 
              }, true); // Use capture phase
         }
@@ -789,8 +801,10 @@
                 blue: '#0000FF',
                 green: '#008000'
             };
-            signaturePad.penColor = colorMap[color];
-            
+            if (signaturePad) {
+                signaturePad.penColor = colorMap[color];
+            }
+
             // Update selected color indicator
             document.querySelectorAll('#signature-draw-container .color-option').forEach(opt => {
                 opt.classList.remove('selected');
@@ -802,7 +816,7 @@
 
         function setTypedSignatureColor(color) {
             currentTypedSignatureColor = color;
-            
+
             // Update selected color indicator
             document.querySelectorAll('#signature-type-container .color-option').forEach(opt => {
                 opt.classList.remove('selected');
@@ -814,35 +828,53 @@
 
         function handleFileSelect(event) {
             const file = event.target.files[0];
-            if (file) {
+            if (file && file.type === 'application/pdf') {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const typedArray = new Uint8Array(e.target.result);
+                    // Clear existing state before loading new PDF
+                    annotations = [];
+                    clearSelection();
+                    setActiveTool(null);
+                    pageNum = 1;
+                    scale = 1.0;
+                    pdfDoc = null; // Reset pdfDoc
+
                     loadPDF(typedArray);
                 };
+                reader.onerror = function(e) {
+                    console.error("File reading error:", e);
+                    alert('Error reading file.');
+                };
                 reader.readAsArrayBuffer(file);
+            } else if (file) {
+                alert('Please select a valid PDF file.');
+                 event.target.value = null; // Reset file input
             }
         }
 
         function loadPDF(data) {
             pdfjsLib.getDocument(data).promise.then(function(pdf) {
                 pdfDoc = pdf;
-                
+
                 // Update page select dropdown
                 const pageSelect = document.getElementById('page-select');
                 pageSelect.innerHTML = '';
                 for (let i = 1; i <= pdf.numPages; i++) {
                     const option = document.createElement('option');
                     option.value = i;
-                    option.textContent = 'Page ' + i;
+                    option.textContent = '' + i; // Just page number
                     pageSelect.appendChild(option);
                 }
-                
+                 document.getElementById('page-select').value = 1; // Ensure first page selected
+
                 // Render first page
+                pageNum = 1; // Explicitly set pageNum to 1
                 queueRenderPage(1);
             }).catch(function(error) {
                 console.error('Error loading PDF:', error);
-                alert('Error loading PDF. Please try another file.');
+                alert('Error loading PDF. The file might be corrupted or invalid.');
+                renderBlankCanvas(); // Show blank canvas on error
             });
         }
 
@@ -856,45 +888,68 @@
 
         function renderPage(num) {
             pageRendering = true;
-            pageNum = num;
-            
-            // Update page select
+            pageNum = num; // Ensure pageNum is updated
+
+            // Update page select visually
             document.getElementById('page-select').value = num;
-            
+
             pdfDoc.getPage(num).then(function(page) {
                 const viewport = page.getViewport({ scale: scale });
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
-                
+
+                // Adjust container div to match canvas size for annotation positioning
+                const pdfRenderDiv = document.getElementById('pdf-render');
+                pdfRenderDiv.style.width = viewport.width + 'px';
+                pdfRenderDiv.style.height = viewport.height + 'px';
+
+
                 const renderContext = {
                     canvasContext: ctx,
                     viewport: viewport
                 };
-                
+
                 const renderTask = page.render(renderContext);
-                
+
                 renderTask.promise.then(function() {
                     pageRendering = false;
                     if (pageNumPending !== null) {
                         renderPage(pageNumPending);
                         pageNumPending = null;
                     }
-                    
+
                     // Redraw annotations for this page
                     redrawAnnotations();
+                }).catch(function(error) {
+                    console.error('Error rendering page:', error);
+                    pageRendering = false;
+                    // Optionally display an error message on the canvas
                 });
+            }).catch(function(error) {
+                console.error('Error getting page:', error);
+                pageRendering = false;
             });
         }
 
         function renderBlankCanvas() {
-            canvas.width = 800;
-            canvas.height = 1000;
+            canvas.width = 800; // Default width
+            canvas.height = 1000; // Default height
+             // Reset container size as well
+            const pdfRenderDiv = document.getElementById('pdf-render');
+            pdfRenderDiv.style.width = canvas.width + 'px';
+            pdfRenderDiv.style.height = canvas.height + 'px';
+
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#000000';
-            ctx.font = '24px Arial';
+            ctx.fillStyle = '#555555'; // Dark gray text
+            ctx.font = '20px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('Upload a PDF to start editing', canvas.width / 2, canvas.height / 2);
+            ctx.fillText('Upload a PDF to start editing', canvas.width / 2, canvas.height / 2 - 20);
+             ctx.font = '14px Arial';
+             ctx.fillText('(Use the upload button on the left)', canvas.width / 2, canvas.height / 2 + 10);
+
+             // Clear page select
+             document.getElementById('page-select').innerHTML = '<option>N/A</option>';
         }
 
         function setActiveTool(tool) {
@@ -911,7 +966,6 @@
              }
 
              // Don't clear selection here - let selection logic handle it
-             // clearSelection(); // OLD - remove this line
         }
 
         function showToolPanel(panelId) {
@@ -927,15 +981,15 @@
         }
 
         function addAnnotation(x, y) {
-            if (!activeTool) return;
-            
+            if (!activeTool || !pdfDoc) return; // Prevent adding if no tool or no pdf
+
             const annotationId = 'annotation-' + Date.now();
             const annotationDiv = document.createElement('div');
             annotationDiv.className = 'annotation';
             annotationDiv.id = annotationId;
             annotationDiv.style.left = x + 'px';
             annotationDiv.style.top = y + 'px';
-            
+
             // Set initial size based on tool
             let innerHtml = '';
              let initialHeight = 30; // Default height
@@ -943,7 +997,7 @@
                 annotationDiv.style.width = '200px';
                  initialHeight = Math.max(30, currentTextProperties.fontSize * 1.5 + 5); // Calculate height based on font, min 30px + padding
                 annotationDiv.style.height = initialHeight + 'px';
-                
+
                 // Create an editable div with auto-focus
                 const editableDiv = document.createElement('div');
                 editableDiv.className = 'editable-text';
@@ -951,11 +1005,13 @@
                 editableDiv.textContent = "Type here";
                 editableDiv.style.fontFamily = currentTextProperties.fontFamily;
                 editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
-                editableDiv.style.color = 'black'; // Force black color on creation for visibility
+                // --- FIX APPLIED HERE ---
+                editableDiv.style.color = currentTextProperties.color; // Use the current color property
+                // --- END FIX ---
                 editableDiv.style.fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
                 editableDiv.style.fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
                 editableDiv.style.textDecoration = currentTextProperties.underline ? 'underline' : 'none';
-                
+
                 // Focus immediately
                 setTimeout(() => {
                     editableDiv.focus();
@@ -967,46 +1023,67 @@
                     selection.removeAllRanges();
                     selection.addRange(range);
                 }, 0);
-                
+
                 // Update content when changed
                 editableDiv.addEventListener('input', function() {
                     const annotation = annotations.find(a => a.id === annotationId);
                     if (annotation) {
                         annotation.content = editableDiv.textContent;
+                         // Optionally adjust height dynamically based on text content
+                         // editableDiv.parentNode.style.height = Math.max(initialHeight, editableDiv.scrollHeight) + 'px';
                     }
                 });
-                
-                innerHtml = '';
+
+                innerHtml = ''; // Clear innerHTML since we are appending a node
                 annotationDiv.appendChild(editableDiv);
-                
+
             } else if (activeTool === 'highlight') {
                  annotationDiv.style.width = '100px';
                  initialHeight = 20; // Fixed height for highlight
                 annotationDiv.style.height = initialHeight + 'px';
-                 annotationDiv.style.backgroundColor = `rgba(255, 255, 0, ${currentHighlightProperties.opacity})`;
+                 let colorRgba = `rgba(255, 255, 0, ${currentHighlightProperties.opacity})`; // Default yellow
+                 switch(currentHighlightProperties.color) {
+                    case 'green': colorRgba = `rgba(0, 255, 0, ${currentHighlightProperties.opacity})`; break;
+                    case 'blue': colorRgba = `rgba(0, 0, 255, ${currentHighlightProperties.opacity})`; break;
+                    case 'pink': colorRgba = `rgba(255, 192, 203, ${currentHighlightProperties.opacity})`; break;
+                    case 'purple': colorRgba = `rgba(128, 0, 128, ${currentHighlightProperties.opacity})`; break;
+                 }
+                 annotationDiv.style.backgroundColor = colorRgba;
+                 annotationDiv.style.zIndex = 4; // Place highlights slightly below text/signatures if needed
             } else if (activeTool === 'signature') {
                 // Placeholder size, will be adjusted by signature logic later if needed
                 annotationDiv.style.width = '200px';
                  initialHeight = 80; // Default for drawing signature
                  annotationDiv.style.height = initialHeight + 'px';
+                 // The actual signature content is added by createSignatureAnnotation
+                 // We don't add this placeholder div directly here for signatures.
+                 console.warn("addAnnotation called for signature - should be handled by createSignatureAnnotation");
+                 return; // Exit early, signature is handled differently
              } else if (activeTool === 'image') {
+                 // Placeholder size, will be adjusted by image logic later if needed
                  annotationDiv.style.width = '200px';
                  initialHeight = 150; // Default guess for image, will adjust on load
                  annotationDiv.style.height = initialHeight + 'px';
+                 // Image content is handled by createImageAnnotation
+                 console.warn("addAnnotation called for image - should be handled by createImageAnnotation");
+                 return; // Exit early, image is handled differently
             }
 
-            // Add delete button
+            // Add delete button (common to text and highlight added here)
             const deleteBtn = document.createElement('div');
             deleteBtn.className = 'delete-btn';
             deleteBtn.innerHTML = '&times;';
-            deleteBtn.onclick = function() { deleteAnnotation(annotationDiv); };
+            deleteBtn.onclick = function(event) {
+                event.stopPropagation(); // Prevent selection change
+                deleteAnnotation(annotationDiv);
+            };
             annotationDiv.appendChild(deleteBtn);
-            
+
             // Set up drag and resize
             setupDraggable(annotationDiv);
-            
+
             document.getElementById('pdf-container').appendChild(annotationDiv);
-            
+
             // Store annotation data
             const annotation = {
                 id: annotationId,
@@ -1016,19 +1093,33 @@
                 y: y,
                 width: parseInt(annotationDiv.style.width),
                  height: initialHeight, // Store calculated initial height or default
-                properties: activeTool === 'text' ? {...currentTextProperties} : 
+                properties: activeTool === 'text' ? {...currentTextProperties} :
                            activeTool === 'highlight' ? {...currentHighlightProperties} : null,
-                content: activeTool === 'text' ? 'Type here' : null
+                content: activeTool === 'text' ? 'Type here' : null // Initial text content
                  // Signature/Image content added separately
             };
-            
+
             annotations.push(annotation);
-            
+
             // Select the new annotation (this will also handle showing the correct panel)
             selectAnnotation(annotationDiv);
+
+            // For text, make sure the panel is shown and properties match
+             if (activeTool === 'text') {
+                 setActiveTool('text'); // Ensure tool is active
+                 showToolPanel('text-tool-panel'); // Ensure panel is visible
+                 // Update panel to match current properties (should already match, but good practice)
+                 updateTextPanelControls(currentTextProperties);
+             } else if (activeTool === 'highlight') {
+                 setActiveTool('highlight');
+                 showToolPanel('highlight-tool-panel');
+                 updateHighlightPanelControls(currentHighlightProperties);
+            }
         }
 
-        function createSignatureAnnotation(content, type, color) { // color parameter may not be needed if global is used
+        function createSignatureAnnotation(content, type) {
+             if (!pdfDoc) return; // Don't add if no PDF loaded
+
              const signatureId = 'signature-' + Date.now();
              const signatureDiv = document.createElement('div');
              signatureDiv.className = 'annotation';
@@ -1040,24 +1131,25 @@
             signatureDiv.style.width = sigWidth + 'px';
              signatureDiv.style.height = sigHeight + 'px';
             signatureDiv.style.cursor = 'move';
-            
-            // Center the signature on the canvas
-            const rect = canvas.getBoundingClientRect();
-            const x = rect.width / 2 - (sigWidth / 2);
-            const y = rect.height / 2 - (sigHeight / 2);
-            signatureDiv.style.left = x + 'px';
-            signatureDiv.style.top = y + 'px';
-            
+
+            // Center the signature on the canvas view
+             const containerRect = document.getElementById('pdf-render').getBoundingClientRect();
+             const x = containerRect.width / 2 - (sigWidth / 2);
+             const y = containerRect.height / 2 - (sigHeight / 2);
+             // Ensure position is within bounds
+            signatureDiv.style.left = Math.max(0, x) + 'px';
+            signatureDiv.style.top = Math.max(0, y) + 'px';
+
              // Add content based on type
              if (type === 'drawing') {
-                 signatureDiv.innerHTML = `<img src="${content}" style="width:100%; height:100%; object-fit: contain;" />`; // Added object-fit
+                 signatureDiv.innerHTML = `<img src="${content}" style="width:100%; height:100%; object-fit: contain; display: block;" />`; // Added object-fit and display block
              } else if (type === 'typed' || type === 'initials') {
                 const font = document.getElementById('signature-font').value;
                  const textColor = currentTypedSignatureColor; // Use the global for typed
                 const colorMap = {
                     black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080'
                  };
-                 signatureDiv.innerHTML = `<div style="font-family:${font}; color:${colorMap[textColor]}; font-size:${type === 'initials' ? '32px' : '24px'}; width:100%; height:100%; display:flex; align-items:center; justify-content:center; white-space: nowrap;">${content}</div>`;
+                 signatureDiv.innerHTML = `<div style="font-family:${font}; color:${colorMap[textColor]}; font-size:${type === 'initials' ? '32px' : '24px'}; width:100%; height:100%; display:flex; align-items:center; justify-content:center; white-space: nowrap; box-sizing: border-box; overflow: hidden;">${content}</div>`;
              }
 
             // Add delete button consistently
@@ -1072,17 +1164,17 @@
 
             // Set up drag and resize
             setupDraggable(signatureDiv);
-            
+
             document.getElementById('pdf-container').appendChild(signatureDiv);
-            
+
             // Store annotation data
             const annotation = {
                 id: signatureId,
                 type: 'signature',
                 signatureType: type,
                 page: pageNum,
-                x: x,
-                y: y,
+                 x: parseFloat(signatureDiv.style.left), // Store numerical position
+                 y: parseFloat(signatureDiv.style.top),
                  width: sigWidth, // Store initial width
                  height: sigHeight, // Store initial height
                 content: content,
@@ -1091,44 +1183,49 @@
                      color: currentTypedSignatureColor // Store the typed color specifically
                 } : null
             };
-            
+
             annotations.push(annotation);
-            
+
             // Select the new signature
             selectAnnotation(signatureDiv);
-            
+
             // Clear signature inputs
              if (signaturePad) signaturePad.clear();
             document.getElementById('signature-text').value = '';
             document.getElementById('initials-text').value = '';
 
-            // No longer hide panel globally here
+            // Close panel and deactivate tool
+             // document.getElementById('signature-tool-panel').style.display = 'none'; // Global handler does this
+             // setActiveTool(null); // Global handler does this
         }
 
         function createImageAnnotation(imageData) {
+             if (!pdfDoc) return; // Don't add if no PDF loaded
+
             const imageId = 'image-' + Date.now();
             const imageDiv = document.createElement('div');
             imageDiv.className = 'annotation';
             imageDiv.id = imageId;
-            
+
             // Set initial size and position
              let initialWidth = 200;
             imageDiv.style.width = initialWidth + 'px';
              imageDiv.style.height = 'auto'; // Let image load determine initial height
-            
-            // Center the image on the canvas
-            const rect = canvas.getBoundingClientRect();
-            const x = rect.width / 2 - (initialWidth / 2);
-            const y = rect.height / 2 - 100; // Adjust initial Y placement maybe?
-            imageDiv.style.left = x + 'px';
-            imageDiv.style.top = y + 'px';
-            
+
+            // Center the image on the canvas view
+            const containerRect = document.getElementById('pdf-render').getBoundingClientRect();
+            const x = containerRect.width / 2 - (initialWidth / 2);
+            const y = containerRect.height / 2 - 100; // Adjust initial Y placement maybe?
+             imageDiv.style.left = Math.max(0, x) + 'px';
+            imageDiv.style.top = Math.max(0, y) + 'px';
+
             // Add image content
             const img = document.createElement('img');
             img.src = imageData;
             img.style.width = '100%';
             img.style.height = 'auto'; // Maintain aspect ratio
              img.style.display = 'block'; // Prevent extra space below image
+             img.style.userSelect = 'none'; // Prevent image dragging issues
 
             imageDiv.innerHTML = '';
             imageDiv.appendChild(img);
@@ -1147,8 +1244,8 @@
                  id: imageId,
                  type: 'image',
                  page: pageNum,
-                 x: x,
-                 y: y,
+                 x: parseFloat(imageDiv.style.left),
+                 y: parseFloat(imageDiv.style.top),
                  width: initialWidth,
                  height: 'auto', // Update after load
                  content: imageData
@@ -1157,14 +1254,20 @@
             // Set up image load logic BEFORE adding to DOM
             img.onload = function() {
                 const aspectRatio = img.naturalWidth / img.naturalHeight;
-                const initialHeight = initialWidth / aspectRatio;
-                imageDiv.style.height = initialHeight + 'px';
+                 if (!aspectRatio || !isFinite(aspectRatio)) {
+                     console.warn("Invalid aspect ratio for image:", img.src);
+                     // Use a default height if aspect ratio is invalid
+                     imageDiv.style.height = '150px'; // Default fallback height
+                } else {
+                     const initialHeight = initialWidth / aspectRatio;
+                     imageDiv.style.height = initialHeight + 'px';
+                }
 
-                 // Update stored annotation height
+                 // Update stored annotation height and width (now definite)
                  const storedAnnotation = annotations.find(a => a.id === imageId);
                  if (storedAnnotation) {
-                     storedAnnotation.height = initialHeight;
-                     storedAnnotation.width = initialWidth; // Width is already set
+                     storedAnnotation.height = parseFloat(imageDiv.style.height);
+                     storedAnnotation.width = initialWidth;
                 }
 
                  // Now add to DOM and setup draggable/observer *after* initial size is known
@@ -1173,8 +1276,12 @@
 
                 // Setup resize observer *after* imageDiv is in the DOM and has size
                  new ResizeObserver(() => {
+                     if (!img.naturalWidth || !img.naturalHeight) return; // Skip if natural dims aren't available
                      const currentWidth = imageDiv.offsetWidth;
-                    imageDiv.style.height = (currentWidth / aspectRatio) + 'px'; // Maintain aspect ratio on resize
+                     const aspectRatio = img.naturalWidth / img.naturalHeight;
+                      if (aspectRatio && isFinite(aspectRatio)) {
+                          imageDiv.style.height = (currentWidth / aspectRatio) + 'px'; // Maintain aspect ratio on resize
+                     }
                      // Update stored annotation width/height on resize
                      const anno = annotations.find(a => a.id === imageId);
                      if (anno) {
@@ -1187,156 +1294,263 @@
                  selectAnnotation(imageDiv);
             };
              img.onerror = function() {
-                 console.error("Failed to load image for annotation");
+                 console.error("Failed to load image for annotation:", img.src);
                  // Maybe remove the annotation placeholder or show an error
+                 // Remove the potentially broken annotation data
+                 annotations = annotations.filter(a => a.id !== imageId);
             };
 
-            // Only add annotation data, wait for onload to add element/setup drag/resize
+            // Add annotation data, wait for onload to add element/setup drag/resize/select
              annotations.push(annotation);
 
             // Clear file input
             document.getElementById('image-input').value = '';
-            // Global click handler will hide panel if necessary
+            // Close panel and deactivate tool
+            // document.getElementById('image-tool-panel').style.display = 'none'; // Global handler
+            // setActiveTool(null); // Global handler
         }
 
         function setupDraggable(element) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let isDragging = false;
             let isResizing = false;
-            
+
             element.onmousedown = dragMouseDown;
-            
+
             function dragMouseDown(e) {
                 e = e || window.event;
                  // Prevent triggering document click listener (for panel closing) or canvas click (for adding new items)
                  e.stopPropagation();
-                e.preventDefault(); // Prevent text selection while dragging/resizing
-                
-                // Check if we're clicking on the resize handle
+                // Prevent text selection/image dragging only if dragging/resizing starts
+                // e.preventDefault(); // Delay this
+
+                // Check if we're clicking on the resize handle (bottom-right corner)
                 const rect = element.getBoundingClientRect();
-                const resizeHandleClicked = 
-                    e.clientX >= rect.right - 15 && 
-                    e.clientY >= rect.bottom - 15;
-                
-                if (resizeHandleClicked) {
+                const resizeHandleSize = 15; // Size of the clickable resize area
+                const resizeHandleClicked =
+                    e.clientX >= rect.right - resizeHandleSize && e.clientX <= rect.right &&
+                    e.clientY >= rect.bottom - resizeHandleSize && e.clientY <= rect.bottom;
+
+                if (resizeHandleClicked && element.style.resize !== 'none') { // Check if resizing is allowed
                     isResizing = true;
+                    isDragging = false; // Ensure not dragging
                     element.style.cursor = 'nwse-resize';
+                    e.preventDefault(); // Prevent selection/dragging now
                 } else {
                     isResizing = false;
+                    isDragging = true; // Assume dragging if not resizing
                     element.style.cursor = 'move'; // Ensure move cursor if not resizing
+                     // Don't preventDefault here immediately, allow text selection inside if not moved
                 }
-                
+
                 // Get the mouse cursor position at startup
                 pos3 = e.clientX;
                 pos4 = e.clientY;
-                
+
                 document.onmouseup = closeDragElement;
-                 document.onmousemove = elementDrag; // Moved inside mousedown
-                 // e.stopPropagation(); // Already done above
+                document.onmousemove = elementDrag;
             }
-            
+
             function elementDrag(e) {
                 e = e || window.event;
-                e.preventDefault(); // Prevent default browser drag behavior
-                
+
                 if (isResizing) {
-                    // Calculate new width and height
-                    const newWidth = element.offsetLeft + (e.clientX - pos3) + (pos3 - element.getBoundingClientRect().left) - element.offsetLeft;
-                     const newHeight = element.offsetTop + (e.clientY - pos4) + (pos4 - element.getBoundingClientRect().top) - element.offsetTop;
+                    e.preventDefault(); // Prevent selection during resize
+                    // Calculate new width and height based on mouse movement
+                    const dx = e.clientX - pos3;
+                    const dy = e.clientY - pos4;
+
+                    const currentWidth = element.offsetWidth;
+                    const currentHeight = element.offsetHeight;
+
+                    let newWidth = currentWidth + dx;
+                    let newHeight = currentHeight + dy;
 
                     const minWidth = 50; // Minimum dimensions
                     const minHeight = 20;
 
-                    element.style.width = Math.max(minWidth, newWidth) + 'px';
-                     element.style.height = Math.max(minHeight, newHeight) + 'px'; // Use calculated height, apply min
+                    newWidth = Math.max(minWidth, newWidth);
+                    newHeight = Math.max(minHeight, newHeight);
+
+                    element.style.width = newWidth + 'px';
 
                     // Maintain aspect ratio for images during resize
                     const img = element.querySelector('img');
-                     if (img) {
+                     if (img && img.naturalWidth && img.naturalHeight) {
                          const aspectRatio = img.naturalWidth / img.naturalHeight;
-                         const currentWidth = element.offsetWidth;
-                         element.style.height = (currentWidth / aspectRatio) + 'px'; // Adjust height based on width
-                     }
+                         newHeight = newWidth / aspectRatio; // Adjust height based on width
+                         element.style.height = Math.max(minHeight, newHeight) + 'px';
+                     } else {
+                         // For non-image or non-aspect-ratio elements, allow free resize
+                         element.style.height = newHeight + 'px';
+                    }
 
-                } else {
-                    // Calculate the new cursor position
-                    pos1 = pos3 - e.clientX;
-                    pos2 = pos4 - e.clientY;
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                    
-                    // Set the element's new position
-                    element.style.top = (element.offsetTop - pos2) + "px";
-                    element.style.left = (element.offsetLeft - pos1) + "px";
+                     // Update start positions for next move calculation
+                     pos3 = e.clientX;
+                     pos4 = e.clientY;
+
+                } else if (isDragging) {
+                     // Only prevent default and start dragging if mouse actually moved
+                     if (Math.abs(e.clientX - pos3) > 2 || Math.abs(e.clientY - pos4) > 2) {
+                         e.preventDefault(); // Prevent text selection once dragging starts
+
+                        // Calculate the new cursor position
+                        pos1 = pos3 - e.clientX;
+                        pos2 = pos4 - e.clientY;
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+
+                        // Set the element's new position
+                         let newTop = element.offsetTop - pos2;
+                         let newLeft = element.offsetLeft - pos1;
+
+                         // // Optional: Constrain within parent bounds (pdf-container)
+                         // const parentRect = element.parentElement.getBoundingClientRect();
+                         // const elemRect = element.getBoundingClientRect();
+                         // newLeft = Math.max(0, Math.min(newLeft, parentRect.width - element.offsetWidth));
+                         // newTop = Math.max(0, Math.min(newTop, parentRect.height - element.offsetHeight));
+
+
+                        element.style.top = newTop + "px";
+                        element.style.left = newLeft + "px";
+                     }
                 }
-                
-                // Update annotation position/size in the array (debounce might be good here for performance)
-                const annotation = annotations.find(a => a.id === element.id);
-                if (annotation) {
-                    annotation.x = element.offsetLeft;
-                    annotation.y = element.offsetTop;
-                    annotation.width = element.offsetWidth;
-                     annotation.height = element.offsetHeight; // Use offsetHeight after styles applied
-                }
+
+                // Update annotation position/size in the array (throttle/debounce recommended for high frequency)
+                updateAnnotationData(element);
             }
-            
+
             function closeDragElement() {
                 // Stop moving/resizing when mouse button is released
                 document.onmouseup = null;
                 document.onmousemove = null;
-                 element.style.cursor = 'move'; // Reset cursor
-                 isResizing = false; // Ensure resizing state is reset
+                element.style.cursor = 'move'; // Reset cursor
+                isDragging = false;
+                isResizing = false;
+
+                 // Final update of annotation data
+                 updateAnnotationData(element);
+            }
+
+            function updateAnnotationData(el) {
+                const annotation = annotations.find(a => a.id === el.id);
+                if (annotation) {
+                    annotation.x = el.offsetLeft;
+                    annotation.y = el.offsetTop;
+                    annotation.width = el.offsetWidth;
+                    annotation.height = el.offsetHeight;
+                    // If it's text, update content too (as it might change height)
+                    if (annotation.type === 'text') {
+                        const editableDiv = el.querySelector('.editable-text');
+                        if (editableDiv) {
+                            annotation.content = editableDiv.textContent;
+                        }
+                    }
+                }
             }
         }
 
-        function selectAnnotation(annotationElement) {
-             if (selectedAnnotation === annotationElement) {
-                 // If clicking the already selected annotation, just ensure its panel is visible
-                  const annotation = annotations.find(a => a.id === annotationElement.id);
-                  if (annotation && annotation.type === 'text') showToolPanel('text-tool-panel');
-                  else if (annotation && annotation.type === 'highlight') showToolPanel('highlight-tool-panel');
-                  // Signature and image panels handled by tool activation usually
-                 return; // Do nothing else if clicking the same selected annotation
+        // Helper function to update text panel controls based on properties object
+        function updateTextPanelControls(properties) {
+             // Font Family
+             document.querySelectorAll('#text-tool-panel .font-option').forEach(opt => {
+                 opt.classList.remove('selected');
+                 // Need a robust way to compare font families, simple string compare might fail due to quotes/spacing
+                 const targetFont = properties.fontFamily.replace(/['"]/g, '').toLowerCase();
+                 const optionFont = opt.style.fontFamily.replace(/['"]/g, '').toLowerCase();
+                 if (optionFont.includes(targetFont) || targetFont.includes(optionFont)) { // Allow partial match
+                     opt.classList.add('selected');
+                 }
+             });
+             if (!document.querySelector('#text-tool-panel .font-option.selected')) {
+                 // Fallback to selecting Arial if current font not found
+                 document.querySelector('#text-tool-panel .font-option[style*="Arial"]')?.classList.add('selected');
              }
+             // Font Size
+             document.getElementById('text-size').value = properties.fontSize;
+             // Color
+             document.querySelectorAll('#text-tool-panel .color-option').forEach(opt => {
+                 opt.classList.toggle('selected', opt.dataset.color === properties.color);
+             });
+             // Styles
+             document.getElementById('bold-text').classList.toggle('bg-gray-200', properties.bold);
+             document.getElementById('italic-text').classList.toggle('bg-gray-200', properties.italic);
+             document.getElementById('underline-text').classList.toggle('bg-gray-200', properties.underline);
+        }
+
+         // Helper function to update highlight panel controls
+         function updateHighlightPanelControls(properties) {
+             document.querySelectorAll('#highlight-tool-panel .color-option').forEach(opt => {
+                 opt.classList.toggle('selected', opt.dataset.color === properties.color);
+             });
+             document.getElementById('highlight-opacity').value = properties.opacity * 100;
+         }
+
+
+        function selectAnnotation(annotationElement) {
+             if (!annotationElement) {
+                 clearSelection();
+                 return;
+             }
+             // If clicking the already selected annotation's text, do nothing extra
+             if (selectedAnnotation === annotationElement && event.target.classList.contains('editable-text')) {
+                 return;
+             }
+              // If clicking the same annotation again, don't re-process unless it's text focus
+              if (selectedAnnotation === annotationElement) {
+                  return;
+              }
+
 
             // Clear previous selection (will also hide old panel)
             clearSelection();
-            
+
             // Set new selection
             annotationElement.classList.add('selected');
             selectedAnnotation = annotationElement;
-            
+
             // Update properties panel based on the newly selected annotation
             const annotation = annotations.find(a => a.id === annotationElement.id);
             if (!annotation) return;
-            
-             // Determine which panel to show
-             let panelToShow = null;
-             if (annotation.type === 'text') panelToShow = 'text-tool-panel';
-             else if (annotation.type === 'highlight') panelToShow = 'highlight-tool-panel';
-             // Add other types here if needed, like signature or image specific panels
-             // else if (annotation.type === 'signature') panelToShow = 'signature-tool-panel';
-             // else if (annotation.type === 'image') panelToShow = 'image-tool-panel';
 
-             if(panelToShow){
-                 showToolPanel(panelToShow); // showToolPanel now hides others first
-                 // Update the panel controls with the properties of the selected annotation
-                if (annotation.type === 'text') {
-                     document.querySelector(`#text-tool-panel .font-option[style*="${annotation.properties.fontFamily}"]`)?.click();
-                    document.getElementById('text-size').value = annotation.properties.fontSize;
-                    document.querySelectorAll('#text-tool-panel .color-option').forEach(opt => {
-                        opt.classList.toggle('selected', opt.dataset.color === annotation.properties.color);
-                    });
-                     document.getElementById('bold-text').classList.toggle('bg-gray-200', annotation.properties.bold);
-                     document.getElementById('italic-text').classList.toggle('bg-gray-200', annotation.properties.italic);
-                     document.getElementById('underline-text').classList.toggle('bg-gray-200', annotation.properties.underline);
-                    currentTextProperties = {...annotation.properties}; // Sync global state
-                 } else if (annotation.type === 'highlight') {
-                    document.querySelectorAll('#highlight-tool-panel .color-option').forEach(opt => {
-                         opt.classList.toggle('selected', opt.dataset.color === annotation.properties.color);
-                    });
-                    document.getElementById('highlight-opacity').value = annotation.properties.opacity * 100;
-                    currentHighlightProperties = {...annotation.properties}; // Sync global state
-                 }
+             // Determine which tool and panel correspond to the annotation type
+             let toolToActivate = null;
+             let panelToShow = null;
+
+             switch (annotation.type) {
+                 case 'text':
+                     toolToActivate = 'text';
+                     panelToShow = 'text-tool-panel';
+                     setActiveTool(toolToActivate); // Activate the tool
+                     showToolPanel(panelToShow);   // Show the panel
+                     updateTextPanelControls(annotation.properties); // Update controls
+                     currentTextProperties = {...annotation.properties}; // Sync global state
+                     break;
+                 case 'highlight':
+                     toolToActivate = 'highlight';
+                     panelToShow = 'highlight-tool-panel';
+                     setActiveTool(toolToActivate);
+                     showToolPanel(panelToShow);
+                     updateHighlightPanelControls(annotation.properties);
+                     currentHighlightProperties = {...annotation.properties}; // Sync global state
+                     break;
+                 case 'signature':
+                     // Selecting a signature doesn't usually open the creation panel
+                     // No panel to show, maybe deactivate current tool? Or keep active tool?
+                     // Let's deactivate the tool for now when selecting existing signature/image
+                      // setActiveTool(null); // Or keep the current tool active? Let's try keeping it active.
+                      // showToolPanel(null); // Hide panels
+                     break;
+                 case 'image':
+                      // Similar to signature, selecting doesn't open the 'add image' panel
+                      // setActiveTool(null);
+                      // showToolPanel(null);
+                     break;
+                 default:
+                     // Unknown type, clear tool and panel
+                     setActiveTool(null);
+                     showToolPanel(null);
+                     break;
              }
         }
 
@@ -1345,27 +1559,29 @@
                  selectedAnnotation.classList.remove('selected');
              }
             selectedAnnotation = null;
-            // Hide all tool panels when clearing selection
-             document.querySelectorAll('.tool-panel').forEach(panel => panel.style.display = 'none');
+            // Hide all tool panels when clearing selection (unless a tool remains active)
+             if (!activeTool) {
+                 document.querySelectorAll('.tool-panel').forEach(panel => panel.style.display = 'none');
+            }
         }
 
         function updateSelectedAnnotation() {
             if (!selectedAnnotation) return;
-            
+
             const annotation = annotations.find(a => a.id === selectedAnnotation.id);
             if (!annotation) return;
-            
+
             if (annotation.type === 'text') {
-                // Update the properties in the annotation object
+                // Update the properties in the annotation object FIRST
                 annotation.properties = {...currentTextProperties};
-                
+
                 // Update the visual appearance
                 const editableDiv = selectedAnnotation.querySelector('.editable-text');
                 if (editableDiv) {
                     const fontWeight = currentTextProperties.bold ? 'bold' : 'normal';
                     const fontStyle = currentTextProperties.italic ? 'italic' : 'normal';
                     const textDecoration = currentTextProperties.underline ? 'underline' : 'none';
-                    
+
                     editableDiv.style.fontFamily = currentTextProperties.fontFamily;
                     editableDiv.style.fontSize = currentTextProperties.fontSize + 'px';
                     editableDiv.style.color = currentTextProperties.color;
@@ -1373,167 +1589,210 @@
                     editableDiv.style.fontStyle = fontStyle;
                     editableDiv.style.textDecoration = textDecoration;
 
-                     // Adjust height dynamically based on content? Could be complex.
-                     // For now, rely on manual resize.
-                     // editableDiv.style.height = 'auto';
-                    // editableDiv.style.height = editableDiv.scrollHeight + 'px';
+                     // Also update the stored content in case it changed font size etc.
+                     annotation.content = editableDiv.textContent;
+                     // Optionally adjust height
+                     // selectedAnnotation.style.height = Math.max(30, editableDiv.scrollHeight) + 'px';
+                     // annotation.height = selectedAnnotation.offsetHeight;
                 }
-                
+
             } else if (annotation.type === 'highlight') {
                 // Update the properties in the annotation object
                 annotation.properties = {...currentHighlightProperties};
-                
+
                 // Update the visual appearance
                  let colorRgba = 'rgba(255, 255, 0, 0.5)'; // Default
                  switch(currentHighlightProperties.color) {
-                    case 'green': colorRgba = `rgba(0, 255, 0, ${currentHighlightProperties.opacity})`; break;
-                    case 'blue': colorRgba = `rgba(0, 0, 255, ${currentHighlightProperties.opacity})`; break;
-                    case 'pink': colorRgba = `rgba(255, 192, 203, ${currentHighlightProperties.opacity})`; break;
-                    case 'purple': colorRgba = `rgba(128, 0, 128, ${currentHighlightProperties.opacity})`; break;
-                     case 'yellow': colorRgba = `rgba(255, 255, 0, ${currentHighlightProperties.opacity})`; break;
+                    case 'green': colorRgba = `rgba(75, 181, 67, ${currentHighlightProperties.opacity})`; break; // Tailwind green-500 ish
+                    case 'blue': colorRgba = `rgba(59, 130, 246, ${currentHighlightProperties.opacity})`; break; // Tailwind blue-500 ish
+                    case 'pink': colorRgba = `rgba(236, 72, 153, ${currentHighlightProperties.opacity})`; break; // Tailwind pink-500 ish
+                    case 'purple': colorRgba = `rgba(139, 92, 246, ${currentHighlightProperties.opacity})`; break; // Tailwind purple-500 ish
+                     case 'yellow': colorRgba = `rgba(253, 224, 71, ${currentHighlightProperties.opacity})`; break; // Tailwind yellow-400 ish
                 }
                 selectedAnnotation.style.backgroundColor = colorRgba;
             }
+            // No updates needed for signature/image appearance based on panels shown here
         }
 
         function deleteAnnotation(element) {
-            // Stop event propagation is handled in the onclick handler now
-            // event.stopPropagation();
-            
+            if (!element || !element.id) return;
+            const annotationId = element.id;
+
             // Remove from DOM
             element.remove();
-            
+
             // Remove from annotations array
-            annotations = annotations.filter(a => a.id !== element.id);
-            
+            annotations = annotations.filter(a => a.id !== annotationId);
+
             // Clear selection if this was the selected annotation
-            if (selectedAnnotation && selectedAnnotation.id === element.id) {
+            if (selectedAnnotation && selectedAnnotation.id === annotationId) {
                 clearSelection();
-                 setActiveTool(null); // Also deactivate tool if the item was deleted
+                 // If deleting the item also means stopping the current tool action
+                 // setActiveTool(null); // This is handled by global click now
             }
         }
 
         function redrawAnnotations() {
-            // First remove all existing annotation elements
-            document.querySelectorAll('.annotation').forEach(el => el.remove());
-            
-            // Then recreate them for the current page
-            annotations.forEach(annotation => {
-                // Only show annotations for current page
-                if (annotation.page !== pageNum) return;
-                
-                const annotationDiv = document.createElement('div');
+             // Get the container for annotations
+             const container = document.getElementById('pdf-container');
+             if (!container) return;
+
+             // Cache existing DOM annotation elements by ID
+             const existingElements = {};
+             container.querySelectorAll('.annotation').forEach(el => {
+                 if (el.id) existingElements[el.id] = el;
+             });
+
+             // Process annotations for the current page
+             annotations.forEach(annotation => {
+                 if (annotation.page !== pageNum) {
+                     // If annotation is not for current page, remove its DOM element if it exists
+                     if (existingElements[annotation.id]) {
+                         existingElements[annotation.id].remove();
+                         delete existingElements[annotation.id]; // Remove from cache
+                     }
+                     return; // Skip to next annotation
+                 }
+
+                 let annotationDiv = existingElements[annotation.id];
+
+                 if (annotationDiv) {
+                     // Annotation element already exists, maybe update position/size?
+                     // For now, we assume full redraw logic is needed or position hasn't changed drastically on zoom/pan
+                     // If performance becomes an issue, optimize this to only update styles/content
+                     annotationDiv.remove(); // Remove old one, create new one below
+                 }
+
+                // Create the annotation element
+                annotationDiv = document.createElement('div');
                 annotationDiv.className = 'annotation';
                 annotationDiv.id = annotation.id;
-                annotationDiv.style.left = annotation.x + 'px';
-                annotationDiv.style.top = annotation.y + 'px';
-                 annotationDiv.style.width = annotation.width + 'px'; // Use stored width
-                 // Use stored height, handling 'auto' maybe? Let browser handle or recalculate if needed
-                 annotationDiv.style.height = (typeof annotation.height === 'number' && annotation.height > 0) ? annotation.height + 'px' : (annotation.type === 'image' ? 'auto' : '30px'); // Fallback height
-                
-                if (annotation.type === 'text') {
-                    console.log(`Redrawing text annotation ${annotation.id}, content: "${annotation.content}"`); // DIAGNOSTIC
-                    const fontWeight = annotation.properties.bold ? 'bold' : 'normal';
-                    const fontStyle = annotation.properties.italic ? 'italic' : 'normal';
-                    const textDecoration = annotation.properties.underline ? 'underline' : 'none';
-                    
-                    const editableDiv = document.createElement('div');
-                     console.log(' > editableDiv created'); // DIAGNOSTIC
-                    editableDiv.className = 'editable-text';
-                    editableDiv.contentEditable = true;
-                    editableDiv.textContent = annotation.content || 'Type here';
-                    console.log(` > editableDiv.textContent set to: "${editableDiv.textContent}"`); // DIAGNOSTIC
-                    editableDiv.style.fontFamily = annotation.properties.fontFamily;
-                    editableDiv.style.fontSize = annotation.properties.fontSize + 'px';
-                     editableDiv.style.color = annotation.properties.color || 'black'; // Ensure color default on redraw too
-                     console.log(` > editableDiv.style.color set to: "${editableDiv.style.color}"`); // DIAGNOSTIC
-                    editableDiv.style.fontWeight = fontWeight;
-                    editableDiv.style.fontStyle = fontStyle;
-                    editableDiv.style.textDecoration = textDecoration;
-                    
-                    // Update content when changed
-                    editableDiv.addEventListener('input', function() {
-                        const anno = annotations.find(a => a.id === annotation.id);
-                        if (anno) {
-                            anno.content = editableDiv.textContent;
-                        }
-                    });
-                    
-                    annotationDiv.appendChild(editableDiv);
-                    console.log(' > editableDiv appended'); // DIAGNOSTIC
-                } 
-                else if (annotation.type === 'highlight') {
-                     const opacity = annotation.properties.opacity || 0.5;
-                     let colorRgba = `rgba(255, 255, 0, ${opacity})`; // Default yellow
-                     switch (annotation.properties.color) {
-                         case 'green': colorRgba = `rgba(0, 255, 0, ${opacity})`; break;
-                         case 'blue': colorRgba = `rgba(0, 0, 255, ${opacity})`; break;
-                         case 'pink': colorRgba = `rgba(255, 192, 203, ${opacity})`; break;
-                         case 'purple': colorRgba = `rgba(128, 0, 128, ${opacity})`; break;
+                 annotationDiv.style.left = annotation.x + 'px';
+                 annotationDiv.style.top = annotation.y + 'px';
+                 annotationDiv.style.width = annotation.width + 'px';
+                annotationDiv.style.height = (typeof annotation.height === 'number' && annotation.height > 0) ? annotation.height + 'px' : 'auto';
+
+                 // Common delete button
+                 const deleteBtn = document.createElement('div');
+                 deleteBtn.className = 'delete-btn';
+                 deleteBtn.innerHTML = '&times;';
+                 deleteBtn.onclick = function(event) { event.stopPropagation(); deleteAnnotation(annotationDiv); };
+
+
+                 // Type-specific content and styling
+                 if (annotation.type === 'text') {
+                     const props = annotation.properties;
+                     const fontWeight = props.bold ? 'bold' : 'normal';
+                     const fontStyle = props.italic ? 'italic' : 'normal';
+                     const textDecoration = props.underline ? 'underline' : 'none';
+
+                     const editableDiv = document.createElement('div');
+                     editableDiv.className = 'editable-text';
+                     editableDiv.contentEditable = true;
+                     editableDiv.textContent = annotation.content || ''; // Use empty string if null
+                     editableDiv.style.fontFamily = props.fontFamily;
+                     editableDiv.style.fontSize = props.fontSize + 'px';
+                     editableDiv.style.color = props.color || 'black'; // Default to black
+                     editableDiv.style.fontWeight = fontWeight;
+                     editableDiv.style.fontStyle = fontStyle;
+                     editableDiv.style.textDecoration = textDecoration;
+                     editableDiv.style.minHeight = annotation.height + 'px'; // Ensure div fills annotation initially
+
+                     // Update content when changed
+                     editableDiv.addEventListener('input', function() {
+                         const anno = annotations.find(a => a.id === annotation.id);
+                         if (anno) {
+                             anno.content = editableDiv.textContent;
+                             // Adjust parent height based on content? Might need debouncing.
+                             // annotationDiv.style.height = Math.max(anno.height, editableDiv.scrollHeight) + 'px';
+                         }
+                     });
+
+                     annotationDiv.appendChild(editableDiv);
+                     annotationDiv.appendChild(deleteBtn); // Append delete button after content
+
+                 } else if (annotation.type === 'highlight') {
+                     const props = annotation.properties;
+                     const opacity = props.opacity || 0.5;
+                     let colorRgba = `rgba(253, 224, 71, ${opacity})`; // Tailwind yellow-400 ish default
+                     switch (props.color) {
+                         case 'green': colorRgba = `rgba(75, 181, 67, ${opacity})`; break;
+                         case 'blue': colorRgba = `rgba(59, 130, 246, ${opacity})`; break;
+                         case 'pink': colorRgba = `rgba(236, 72, 153, ${opacity})`; break;
+                         case 'purple': colorRgba = `rgba(139, 92, 246, ${opacity})`; break;
                      }
-                    annotationDiv.style.backgroundColor = colorRgba;
-                }
-                else if (annotation.type === 'signature') {
-                    if (annotation.signatureType === 'drawing') {
-                         annotationDiv.innerHTML = `<img src="${annotation.content}" style="width:100%; height:100%; object-fit: contain;" />`; // contain added
-                    } else {
-                        const colorMap = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' };
-                        const color = annotation.properties?.color || 'black';
-                         annotationDiv.innerHTML = `<div style="font-family:${annotation.properties?.font || 'Arial'}; 
-                                                color:${colorMap[color]}; 
-                                                font-size:${annotation.signatureType === 'initials' ? '32px' : '24px'}; 
-                                                width:100%; height:100%;
-                                                display:flex; align-items:center; justify-content:center;
-                                                 white-space: nowrap; overflow: hidden;">${annotation.content}</div>`; // Added overflow/nowrap
-                    }
-                     // Add delete button after innerHTML is set
-                     const deleteBtn = document.createElement('div');
-                     deleteBtn.className = 'delete-btn';
-                     deleteBtn.innerHTML = '&times;';
-                     deleteBtn.onclick = function(event) { event.stopPropagation(); deleteAnnotation(annotationDiv); };
+                     annotationDiv.style.backgroundColor = colorRgba;
+                     annotationDiv.style.zIndex = 4; // Ensure highlights are below text/signatures
                      annotationDiv.appendChild(deleteBtn);
 
-                }
-                else if (annotation.type === 'image') {
-                    const img = document.createElement('img');
-                    img.src = annotation.content;
-                    img.style.width = '100%';
-                    img.style.height = 'auto';
-                     img.style.display = 'block';
-                    
-                    annotationDiv.innerHTML = ''; // Clear potential old content
-                    annotationDiv.appendChild(img);
-
-                    const deleteBtn = document.createElement('div');
-                    deleteBtn.className = 'delete-btn';
-                    deleteBtn.innerHTML = '&times;';
-                     deleteBtn.onclick = function(event) { event.stopPropagation(); deleteAnnotation(annotationDiv); };
-                    annotationDiv.appendChild(deleteBtn);
-
-                    // We might need the resize observer setup here too if 'auto' height causes issues on redraw
-                     img.onload = () => {
-                          if (annotationDiv.style.height === 'auto') { // If still auto, calculate from aspect ratio
-                              const aspectRatio = img.naturalWidth / img.naturalHeight;
-                              annotationDiv.style.height = (annotationDiv.offsetWidth / aspectRatio) + 'px';
-                              // Update stored height if it changed from 'auto'
-                              annotation.height = annotationDiv.offsetHeight;
-                          }
+                 } else if (annotation.type === 'signature') {
+                     if (annotation.signatureType === 'drawing') {
+                         annotationDiv.innerHTML = `<img src="${annotation.content}" style="width:100%; height:100%; object-fit: contain; display: block; user-select: none;" />`;
+                     } else { // Typed or Initials
+                         const props = annotation.properties;
+                         const colorMap = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' };
+                         const color = props?.color || 'black';
+                         annotationDiv.innerHTML = `<div style="font-family:${props?.font || 'Arial'};
+                                                 color:${colorMap[color] || '#000000'};
+                                                 font-size:${annotation.signatureType === 'initials' ? '32px' : '24px'};
+                                                 width:100%; height:100%;
+                                                 display:flex; align-items:center; justify-content:center;
+                                                 white-space: nowrap; overflow: hidden; box-sizing: border-box; user-select: none;">${annotation.content}</div>`;
                      }
-                }
-                
-                // Set up drag and resize AFTER element is configured
-                setupDraggable(annotationDiv);
-                
-                document.getElementById('pdf-container').appendChild(annotationDiv);
-                
-                // Re-select if this was the selected annotation when page was changed
-                if (selectedAnnotation && selectedAnnotation.id === annotation.id) {
-                     // Re-apply selected class visually, but don't re-trigger full select logic (panel etc)
+                     annotationDiv.appendChild(deleteBtn); // Add delete button after setting innerHTML
+
+                 } else if (annotation.type === 'image') {
+                     const img = document.createElement('img');
+                     img.src = annotation.content;
+                     img.style.width = '100%';
+                     img.style.height = '100%'; // Let parent div control size via object-fit
+                     img.style.display = 'block';
+                     img.style.objectFit = 'contain'; // Use contain to preserve aspect ratio within the div bounds
+                     img.style.userSelect = 'none';
+
+                     annotationDiv.innerHTML = ''; // Clear potential old content
+                     annotationDiv.appendChild(img);
+                     annotationDiv.appendChild(deleteBtn);
+
+                      // Ensure correct height is applied after image potentially loads again if 'auto' was used
+                     img.onload = () => {
+                         if (annotationDiv.style.height === 'auto') {
+                             const aspectRatio = img.naturalWidth / img.naturalHeight;
+                              if (aspectRatio && isFinite(aspectRatio)) {
+                                  annotationDiv.style.height = (annotationDiv.offsetWidth / aspectRatio) + 'px';
+                                  annotation.height = annotationDiv.offsetHeight; // Update stored height
+                              } else {
+                                  annotationDiv.style.height = '150px'; // Fallback
+                                  annotation.height = 150;
+                              }
+                         }
+                     };
+                     img.onerror = () => {
+                         console.error("Failed to reload image:", img.src);
+                         annotationDiv.innerHTML = 'Error loading image'; // Show error in place
+                         annotationDiv.appendChild(deleteBtn);
+                     }
+                 }
+
+                 // Set up drag and resize AFTER element is fully configured
+                 setupDraggable(annotationDiv);
+
+                 container.appendChild(annotationDiv);
+
+                 // Re-select if this was the selected annotation
+                 if (selectedAnnotation && selectedAnnotation.id === annotation.id) {
                      annotationDiv.classList.add('selected');
-                     // Re-assign the DOM element reference to the new one
-                    selectedAnnotation = annotationDiv;
-                }
-            });
+                     selectedAnnotation = annotationDiv; // Update reference to the new DOM element
+                 }
+
+                 // Remove from cache as it's processed
+                 if (existingElements[annotation.id]) {
+                     delete existingElements[annotation.id];
+                 }
+             });
+
+             // Remove any leftover elements from the DOM that are no longer in the annotations list for this page
+             Object.values(existingElements).forEach(el => el.remove());
         }
 
         async function savePDF() {
@@ -1542,201 +1801,198 @@
                 return;
             }
 
-            // Show saving indicator
             const saveBtn = document.getElementById('save-pdf');
-            const originalText = saveBtn.innerHTML;
+            const originalIcon = saveBtn.innerHTML;
             saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             saveBtn.disabled = true;
 
             try {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({
-                    unit: 'pt',
+                    unit: 'pt', // Use points, as PDF coordinates are usually in points
                     compress: true
                 });
 
-                // Helper to load images
+                const originalFilename = document.getElementById('file-input').files[0]?.name || 'edited-document.pdf';
+                const newFilename = originalFilename.replace(/\.pdf$/i, '-edited.pdf');
+
+
                 const loadImage = (src) => {
                     return new Promise((resolve, reject) => {
                         const img = new Image();
                         img.onload = () => resolve(img);
-                         img.onerror = (err) => { console.error("Image load error:", src, err); reject(err); }; // Log errors
+                        img.onerror = (err) => { console.error("Image load error:", src, err); reject(new Error('Failed to load image: ' + src)); };
                         img.src = src;
                     });
                 };
 
-                // Process pages sequentially
+                 // Use a temporary canvas for drawing annotations to avoid CORS issues with toDataURL on the main canvas if PDF is cross-origin
+                 const tempCanvas = document.createElement('canvas');
+                 const tempCtx = tempCanvas.getContext('2d');
+
                 for (let i = 1; i <= pdfDoc.numPages; i++) {
                     console.log(`Processing page ${i}`);
                     const page = await pdfDoc.getPage(i);
-                    const viewport = page.getViewport({ scale: 1.0 }); // Save at scale 1.0
-                    const tempCanvas = document.createElement('canvas');
-                    const tempCtx = tempCanvas.getContext('2d');
+                     // Render at scale 1.0 for saving
+                     const viewport = page.getViewport({ scale: 1.0 });
 
                     tempCanvas.width = viewport.width;
                     tempCanvas.height = viewport.height;
 
-                    // Render PDF page
+                    // Render PDF page onto temp canvas
                     const renderContext = {
                         canvasContext: tempCtx,
                         viewport: viewport
                     };
                     await page.render(renderContext).promise;
-                    console.log(` Page ${i} rendered`);
+                    console.log(` Page ${i} rendered to temp canvas`);
 
-                    // Prepare promises for drawing annotations
+                    // Draw annotations for this page onto the temp canvas
                     const pageAnnotations = annotations.filter(a => a.page === i);
-                     console.log(` Found ${pageAnnotations.length} annotations for page ${i}`);
-                    const drawingPromises = [];
+                    console.log(` Found ${pageAnnotations.length} annotations for page ${i}`);
 
-                    pageAnnotations.forEach(annotation => {
-                        // Adjust coordinates and dimensions from display scale to save scale (1.0)
-                         // Use annotation.width/height directly if they are numbers, otherwise recalculate? Needs care.
-                         // Assuming annotation.x/y/width/height were stored based on the display 'scale'
-                        const scaledX = annotation.x / scale;
-                        const scaledY = annotation.y / scale;
+                     // Process annotations sequentially to avoid race conditions with canvas context
+                     for (const annotation of pageAnnotations) {
+                         // Coordinates are assumed to be relative to the canvas at display 'scale'
+                         // We need to map them to the save scale (1.0)
+                         const scaledX = annotation.x / scale;
+                         const scaledY = annotation.y / scale;
                          const scaledWidth = annotation.width / scale;
-                        let scaledHeight = (typeof annotation.height === 'number') ? annotation.height / scale : 0; // Initial default, adjust per type
-                         const scaledFontSize = (annotation.properties?.fontSize || 14) / scale; // Use default if needed
+                         // Height might be 'auto' or number
+                         let scaledHeight = (typeof annotation.height === 'number') ? annotation.height / scale : 0;
+                         const scaledFontSize = (annotation.properties?.fontSize || 14) / scale;
 
-                         console.log(` Drawing annotation ${annotation.id} (type: ${annotation.type}) at [${scaledX}, ${scaledY}], size [${scaledWidth}, ${scaledHeight}]`);
+                        console.log(` Drawing annotation ${annotation.id} (type: ${annotation.type}) at [${scaledX.toFixed(2)}, ${scaledY.toFixed(2)}], size [${scaledWidth.toFixed(2)}, ${scaledHeight > 0 ? scaledHeight.toFixed(2) : 'auto'}]`);
 
+                         try {
+                             tempCtx.save(); // Save context state before drawing each annotation
 
-                        if (annotation.type === 'text') {
-                            // Ensure scaledHeight is calculated for text based on lines and font size for saving
-                             const lines = (annotation.content || '').split('\n');
-                             const lineHeight = scaledFontSize * 1.2;
-                             scaledHeight = lines.length * lineHeight; // Approximate height for drawing bounding box (optional)
+                             if (annotation.type === 'text') {
+                                const props = annotation.properties;
+                                const fontWeight = props.bold ? 'bold ' : '';
+                                const fontStyle = props.italic ? 'italic ' : '';
+                                const fontFamily = props.fontFamily || 'Arial'; // Ensure fallback font
+                                const lines = (annotation.content || '').split('\n');
+                                const lineHeight = scaledFontSize * 1.2; // Approximate line height
 
+                                // Calculate text height more accurately if needed (scaledHeight might be from div)
+                                if (scaledHeight <= 0) scaledHeight = lines.length * lineHeight;
 
-                            drawingPromises.push(new Promise((resolve) => {
-                                tempCtx.save();
-                                const fontWeight = annotation.properties.bold ? 'bold ' : '';
-                                const fontStyle = annotation.properties.italic ? 'italic ' : '';
-                                const fontSize = scaledFontSize;
-                                const fontFamily = annotation.properties.fontFamily || 'Arial';
-                                tempCtx.font = `${fontWeight}${fontStyle}${fontSize}px ${fontFamily}`;
-                                tempCtx.fillStyle = annotation.properties.color || 'black';
-                                 tempCtx.textBaseline = 'top'; // Draw from top-left
+                                tempCtx.font = `${fontWeight}${fontStyle}${scaledFontSize}px ${fontFamily}`;
+                                tempCtx.fillStyle = props.color || 'black';
+                                tempCtx.textBaseline = 'top'; // Align text drawing
 
                                 let currentY = scaledY;
                                 lines.forEach(line => {
                                     tempCtx.fillText(line, scaledX, currentY);
 
-                                    if (annotation.properties.underline) {
+                                    // Apply underline after filling text
+                                    if (props.underline) {
+                                        const textWidth = tempCtx.measureText(line).width;
+                                         const underlineY = currentY + scaledFontSize + 1; // Position below baseline
                                         tempCtx.beginPath();
-                                        tempCtx.strokeStyle = tempCtx.fillStyle;
-                                         tempCtx.lineWidth = Math.max(1, 1 / scale); // Ensure minimum 1px
-                                         // Underline position needs careful adjustment based on font metrics - approximation:
-                                         tempCtx.moveTo(scaledX, currentY + fontSize + 1/scale );
-                                         tempCtx.lineTo(scaledX + tempCtx.measureText(line).width, currentY + fontSize + 1/scale);
+                                        tempCtx.strokeStyle = tempCtx.fillStyle; // Use same color for underline
+                                         tempCtx.lineWidth = Math.max(0.5, 1 / scale); // Thin underline, min 0.5pt
+                                        tempCtx.moveTo(scaledX, underlineY);
+                                        tempCtx.lineTo(scaledX + textWidth, underlineY);
                                         tempCtx.stroke();
                                     }
                                     currentY += lineHeight;
                                 });
-                                tempCtx.restore();
-                                resolve();
-                            }));
-                        }
-                        else if (annotation.type === 'highlight') {
-                             scaledHeight = (typeof annotation.height === 'number') ? annotation.height / scale : 20 / scale; // Default highlight height scaled
-                            drawingPromises.push(new Promise((resolve) => {
-                                tempCtx.save();
-                                const opacity = annotation.properties.opacity || 0.5;
-                                let colorRgba = `rgba(255, 255, 0, ${opacity})`; // Default yellow
-                                switch (annotation.properties.color) {
-                                     case 'green': colorRgba = `rgba(0, 255, 0, ${opacity})`; break;
-                                     case 'blue': colorRgba = `rgba(0, 0, 255, ${opacity})`; break;
-                                     case 'pink': colorRgba = `rgba(255, 192, 203, ${opacity})`; break;
-                                     case 'purple': colorRgba = `rgba(128, 0, 128, ${opacity})`; break;
-                                     // yellow is default
-                                }
+
+                            } else if (annotation.type === 'highlight') {
+                                 if (scaledHeight <= 0) scaledHeight = 20 / scale; // Default height if unknown
+                                const props = annotation.properties;
+                                const opacity = props.opacity || 0.5;
+                                let colorRgba = `rgba(253, 224, 71, ${opacity})`; // Yellow default
+                                 switch (props.color) {
+                                    case 'green': colorRgba = `rgba(75, 181, 67, ${opacity})`; break;
+                                    case 'blue': colorRgba = `rgba(59, 130, 246, ${opacity})`; break;
+                                    case 'pink': colorRgba = `rgba(236, 72, 153, ${opacity})`; break;
+                                    case 'purple': colorRgba = `rgba(139, 92, 246, ${opacity})`; break;
+                                 }
                                 tempCtx.fillStyle = colorRgba;
+                                tempCtx.globalAlpha = opacity; // Apply opacity this way too
                                 tempCtx.fillRect(scaledX, scaledY, scaledWidth, scaledHeight);
-                                tempCtx.restore();
-                                resolve();
-                            }));
-                        }
-                         else if (annotation.type === 'signature' && annotation.signatureType === 'drawing') {
-                            scaledHeight = (typeof annotation.height === 'number' && annotation.height > 0) ? annotation.height / scale : 80 / scale; // Drawing default
-                            drawingPromises.push(
-                                 loadImage(annotation.content).then(img => {
-                                     console.log(` Drawing image/signature ${annotation.id}`);
-                                     tempCtx.drawImage(img, scaledX, scaledY, scaledWidth, scaledHeight);
-                                }).catch(err => console.error(` Error loading signature image ${annotation.id}:`, err))
-                             );
-                         }
-                         else if (annotation.type === 'image') {
-                             // Height calculation should happen within loadImage if still 'auto'
-                             drawingPromises.push(
-                                 loadImage(annotation.content).then(img => {
-                                    let drawWidth = scaledWidth;
-                                     let drawHeight = scaledHeight;
-                                     if (drawHeight === 0) { // Was 'auto', calc now
-                                         const aspectRatio = img.naturalWidth / img.naturalHeight;
-                                         drawHeight = drawWidth / aspectRatio;
-                                        if (!isFinite(drawHeight)) drawHeight = 150/scale; // Fallback if calc fails
-                                     }
-                                     console.log(` Drawing image ${annotation.id}`);
-                                     tempCtx.drawImage(img, scaledX, scaledY, drawWidth, drawHeight);
-                                }).catch(err => console.error(` Error loading image ${annotation.id}:`, err))
-                             );
-                         }
-                         else if (annotation.type === 'signature' && (annotation.signatureType === 'typed' || annotation.signatureType === 'initials')) {
-                            scaledHeight = (typeof annotation.height === 'number' && annotation.height > 0) ? annotation.height / scale : 60 / scale; // Typed/initial default
-                            drawingPromises.push(new Promise((resolve) => {
-                                tempCtx.save();
+                                tempCtx.globalAlpha = 1.0; // Reset global alpha
+
+
+                             } else if (annotation.type === 'signature' && annotation.signatureType === 'drawing') {
+                                 if (scaledHeight <= 0) scaledHeight = 80 / scale; // Default height
+                                 const img = await loadImage(annotation.content);
+                                 tempCtx.drawImage(img, scaledX, scaledY, scaledWidth, scaledHeight);
+
+                             } else if (annotation.type === 'image') {
+                                 const img = await loadImage(annotation.content);
+                                 // If height wasn't determined, calculate from aspect ratio now
+                                 if (scaledHeight <= 0 && img.naturalWidth && img.naturalHeight) {
+                                     const aspectRatio = img.naturalWidth / img.naturalHeight;
+                                     scaledHeight = scaledWidth / aspectRatio;
+                                     if (!isFinite(scaledHeight)) scaledHeight = 150 / scale; // Fallback
+                                 } else if (scaledHeight <= 0) {
+                                     scaledHeight = 150 / scale; // Fallback if natural dims missing
+                                 }
+                                 tempCtx.drawImage(img, scaledX, scaledY, scaledWidth, scaledHeight);
+
+                             } else if (annotation.type === 'signature' && (annotation.signatureType === 'typed' || annotation.signatureType === 'initials')) {
+                                 if (scaledHeight <= 0) scaledHeight = 60 / scale; // Default height
+                                const props = annotation.properties;
                                 const colorMap = { black: '#000000', red: '#FF0000', blue: '#0000FF', green: '#008000', purple: '#800080' };
-                                const color = annotation.properties?.color || 'black';
-                                const fontSize = scaledFontSize; // Use calculated size
-                                const fontFamily = annotation.properties?.font || 'Arial';
+                                const color = props?.color || 'black';
+                                const fontFamily = props?.font || 'Arial'; // Fallback font
+                                const fontSize = scaledFontSize * (annotation.signatureType === 'initials' ? 1.5 : 1); // Slightly larger initials? Adjusted scale here instead
 
                                 tempCtx.font = `${fontSize}px ${fontFamily}`;
                                 tempCtx.fillStyle = colorMap[color] || '#000000';
-                                 tempCtx.textAlign = 'center';
-                                 tempCtx.textBaseline = 'middle';
-                                 tempCtx.fillText(annotation.content, scaledX + scaledWidth / 2, scaledY + scaledHeight / 2);
-                                tempCtx.restore();
-                                resolve();
-                            }));
-                        }
-                    });
+                                tempCtx.textAlign = 'center';
+                                tempCtx.textBaseline = 'middle';
 
-                    // Wait for all annotations on the current page to be drawn
-                     console.log(` Awaiting ${drawingPromises.length} drawing promises for page ${i}...`);
-                    await Promise.all(drawingPromises);
-                     console.log(` Drawings complete for page ${i}`);
+                                // Draw text centered within the annotation bounds
+                                tempCtx.fillText(annotation.content, scaledX + scaledWidth / 2, scaledY + scaledHeight / 2);
+                            }
 
-                    // Add the rendered page (with annotations) to the PDF
-                    const imgData = tempCanvas.toDataURL('image/jpeg', 0.9);
+                         } catch (drawError) {
+                             console.error(`Error drawing annotation ${annotation.id} on page ${i}:`, drawError);
+                             // Optionally skip this annotation or log failure
+                         } finally {
+                             tempCtx.restore(); // Restore context state after drawing each annotation
+                         }
+                     } // End loop through annotations for the page
+
+
+                    // Add the completed page (canvas content) to the PDF
+                    const imgData = tempCanvas.toDataURL('image/png'); // Use PNG for better quality of text/lines
+
                     if (i > 1) {
                         doc.addPage([viewport.width, viewport.height], 'portrait');
                     }
-                    doc.addImage(imgData, 'JPEG', 0, 0, viewport.width, viewport.height);
-                     console.log(` Page ${i} added to doc.`);
+                    // Add image stretched to full page size
+                    doc.addImage(imgData, 'PNG', 0, 0, viewport.width, viewport.height, undefined, 'FAST'); // Use FAST compression
+                    console.log(` Page ${i} added to jsPDF doc.`);
 
                 } // End page loop
 
-                // Save the final PDF
-                 console.log('Saving PDF...');
-                doc.save('edited-document.pdf');
-                 console.log('PDF save initiated.');
+                console.log('Saving PDF...');
+                doc.save(newFilename);
+                console.log('PDF save initiated.');
 
             } catch (error) {
-                console.error('Error during PDF saving:', error);
-                alert('An error occurred while saving the PDF. Please try again.');
+                console.error('Error during PDF saving process:', error);
+                alert('An error occurred while saving the PDF. Please check the console for details.');
             } finally {
-                // Restore save button state regardless of success or failure
-                saveBtn.innerHTML = originalText;
+                // Restore save button state
+                saveBtn.innerHTML = originalIcon;
                 saveBtn.disabled = false;
-                 console.log('Save button state restored.');
+                console.log('Save process finished.');
             }
         }
 
-        // Make functions available globally for event handlers
-        window.deleteAnnotation = deleteAnnotation;
+
+        // Make functions globally accessible for inline event handlers (like color pickers)
         window.setSignatureColor = setSignatureColor;
         window.setTypedSignatureColor = setTypedSignatureColor;
+        // Note: deleteAnnotation is now called via event listener setup in redraw/create, no longer needs global scope
+
     </script>
 </body>
 </html>
