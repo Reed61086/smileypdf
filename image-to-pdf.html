@@ -373,6 +373,13 @@
                          try {
                              const imgDataUrl = await fileToDataUrl(image); // Convert file to Data URL
                              const img = await loadImageFromDataUrl(imgDataUrl); // Load Image object
+                             console.log(`Loaded image ${image.name}: Original dimensions [${img.width}, ${img.height}]`); // Log original dimensions
+
+                             // Check for zero dimensions immediately after loading
+                             if (img.width <= 0 || img.height <= 0) {
+                                console.error(`Image ${image.name} has zero dimensions [${img.width}, ${img.height}]. Skipping.`);
+                                throw new Error("Image has zero dimensions");
+                             }
 
                              let imgWidth = img.width;
                              let imgHeight = img.height;
@@ -411,6 +418,8 @@ const y = margin + (usableHeight - scaledHeight) / 2;
                              // Get the data URL from the temporary canvas as JPEG
                              const canvasDataUrl = tempImageCanvas.toDataURL('image/jpeg', quality); // Use quality setting
                              
+                             // Log coordinates and dimensions just before adding
+                             console.log(`Attempting pdf.addImage for ${image.name}: x=${x}, y=${y}, w=${scaledWidth}, h=${scaledHeight}, format=JPEG`);
                              // Add image from the temporary canvas data URL
                              pdf.addImage(canvasDataUrl, 'JPEG', x, y, scaledWidth, scaledHeight, undefined, 'FAST');
 
