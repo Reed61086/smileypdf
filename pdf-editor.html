@@ -44,7 +44,7 @@
             min-width: 50px;
             min-height: 20px;
             border: 1px dashed transparent;
-            z-index: 5; /* Ensure annotations are above the canvas */
+            z-index: 5; /* Ensure annotations are above the canvas - Re-applying for certainty */
         }
         .annotation:hover {
             border-color: #4F46E5;
@@ -165,9 +165,16 @@
         .editable-text {
             min-height: 20px;
             width: 100%;
+             height: 100%; /* Make it fill the annotation */
             outline: none;
-            padding: 2px;
+            padding: 4px; /* Slightly more padding */
             cursor: text;
+             color: black; /* Explicitly set default text color */
+             background-color: transparent; /* Ensure no background */
+             position: relative; /* Needed? Maybe not, but doesn't hurt */
+             z-index: 1; /* Ensure text is above annotation background if any */
+             box-sizing: border-box; /* Include padding in height/width */
+             word-wrap: break-word; /* Wrap long text */
         }
     </style>
 </head>
@@ -1425,17 +1432,21 @@
                  annotationDiv.style.height = (typeof annotation.height === 'number' && annotation.height > 0) ? annotation.height + 'px' : (annotation.type === 'image' ? 'auto' : '30px'); // Fallback height
                 
                 if (annotation.type === 'text') {
+                    console.log(`Redrawing text annotation ${annotation.id}, content: "${annotation.content}"`); // DIAGNOSTIC
                     const fontWeight = annotation.properties.bold ? 'bold' : 'normal';
                     const fontStyle = annotation.properties.italic ? 'italic' : 'normal';
                     const textDecoration = annotation.properties.underline ? 'underline' : 'none';
                     
                     const editableDiv = document.createElement('div');
+                     console.log(' > editableDiv created'); // DIAGNOSTIC
                     editableDiv.className = 'editable-text';
                     editableDiv.contentEditable = true;
                     editableDiv.textContent = annotation.content || 'Type here';
+                    console.log(` > editableDiv.textContent set to: "${editableDiv.textContent}"`); // DIAGNOSTIC
                     editableDiv.style.fontFamily = annotation.properties.fontFamily;
                     editableDiv.style.fontSize = annotation.properties.fontSize + 'px';
-                    editableDiv.style.color = annotation.properties.color;
+                     editableDiv.style.color = annotation.properties.color || 'black'; // Ensure color default on redraw too
+                     console.log(` > editableDiv.style.color set to: "${editableDiv.style.color}"`); // DIAGNOSTIC
                     editableDiv.style.fontWeight = fontWeight;
                     editableDiv.style.fontStyle = fontStyle;
                     editableDiv.style.textDecoration = textDecoration;
@@ -1449,6 +1460,7 @@
                     });
                     
                     annotationDiv.appendChild(editableDiv);
+                    console.log(' > editableDiv appended'); // DIAGNOSTIC
                 } 
                 else if (annotation.type === 'highlight') {
                      const opacity = annotation.properties.opacity || 0.5;
