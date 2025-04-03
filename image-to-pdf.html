@@ -394,7 +394,7 @@
                              }
 
                               // Add image (ensure quality is passed if relevant to format, jsPDF handles compression)
-                              pdf.addImage(imgDataUrl, 'JPEG', x, y, scaledWidth, scaledHeight, undefined, 'FAST');
+                              pdf.addImage(imgDataUrl, 'PNG', x, y, scaledWidth, scaledHeight, undefined, 'FAST'); // Use PNG format for image data URL
 
 
                              processed++;
