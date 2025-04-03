@@ -496,6 +496,17 @@
         elements.dropzone.addEventListener('drop', handleDropEvent);
         elements.pdfUpload.addEventListener('change', handleFileSelectEvent);
         elements.selectAllBtn.addEventListener('click', selectAllPages);
+        function updateProgress(progress) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            if (progressBar && progressText) {
+                progress = Math.round(progress); // Ensure integer
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${progress}%`;
+            }
+        }
+
+
         elements.selectNoneBtn.addEventListener('click', clearPageSelection);
         elements.convertBtn.addEventListener('click', startConversion);
         elements.downloadAllBtn.addEventListener('click', downloadAllImages);
