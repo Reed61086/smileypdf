@@ -180,8 +180,6 @@
             let margin = 5;
             let pageSizeStr = 'A4';
 
-             // Library presence check removed - will rely on error handling during PDF generation
-             const { PDFDocument, PageSizes, StandardFonts, rgb, RotationTypes } = window.pdfLib; 
 
              // Setup drag and drop
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -356,7 +354,7 @@
                  // Use setTimeout to allow UI to update
                 setTimeout(async () => {
                     try {
-                        const pdfDoc = await PDFDocument.create();
+                        const { PDFDocument, PageSizes, StandardFonts, rgb, RotationTypes } = window.pdfLib; // Correct initialization location
                         let processed = 0;
                         
                         for (let i = 0; i < files.length; i++) {
