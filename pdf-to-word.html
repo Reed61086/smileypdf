@@ -34,19 +34,19 @@
 </head>
 <body class="bg-gray-50 min-h-screen">
 <!-- Header -->
- <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md sticky top-0 z-50">
-    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-        <div class="text-2xl font-bold">
-             <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
-                <i class="fa-regular fa-face-smile mr-2 text-yellow-300"></i>SmileyPDF
-             </a>
-        </div>
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50"> <!-- Blue gradient -->
+    <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2"> <!-- NEW: Doubled size h-20 -->
+        </a>
+
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
-            <a href="index.html" class="hover:text-yellow-300 font-semibold px-3 py-2 rounded-md">Home</a>
+            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
             <!-- Tools Dropdown -->
              <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open" class="hover:text-yellow-300 font-semibold focus:outline-none flex items-center px-3 py-2 rounded-md">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
                     Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
                 </button>
                 <div x-show="open" @click.away="open = false"
@@ -56,7 +56,7 @@
                      x-transition:leave="transition ease-in duration-75 transform"
                      x-transition:leave-start="opacity-100 scale-100"
                      x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1"
+                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
                      style="display: none;" x-cloak>
                      <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
                      <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
@@ -70,7 +70,7 @@
          </div>
           <!-- Mobile Menu Button -->
           <div class="md:hidden">
-              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-700">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
                   <span class="sr-only">Open menu</span>
                   <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
                   <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
@@ -79,17 +79,18 @@
     </nav>
      <!-- Mobile Menu Panel -->
      <div x-show="mobileMenuOpen"
-         class="md:hidden border-t border-blue-500"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
          x-transition:enter="transition ease-out duration-200 transform origin-top"
          x-transition:enter-start="opacity-0 scale-95"
          x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-100 transform origin-top"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
          x-transition:leave-start="opacity-100 scale-100"
          x-transition:leave-end="opacity-0 scale-95"
          style="display: none;" x-cloak>
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
-            <h3 class="px-3 pt-2 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
             <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
             <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
             <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
@@ -101,7 +102,7 @@
      </div>
 </header>
     <div class="container mx-auto px-4 py-8 max-w-3xl">
-        <!-- Header -->
+        <!-- Main Title -->
         <header class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800 mb-3">
                 <span class="text-blue-600">PDF</span> to <span class="text-green-600">Word</span> Converter
@@ -494,7 +495,7 @@
             });
         });
     </script>
-    <!-- Ad Block -->
+     <!-- Ad Block -->
     <div class="w-full max-w-4xl mx-auto my-8 text-center">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552"
              crossorigin="anonymous"></script>
