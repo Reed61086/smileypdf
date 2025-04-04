@@ -84,13 +84,13 @@
 </header>
 
     <!-- Main Content Area -->
-    <main class="container mx-auto px-6 py-12">
+    <main class="container mx-auto px-6 py-8"> <!-- Reduced py from 12 to 8 -->
 
         <!-- Hero Section -->
-        <section class="text-center mb-16">
-            <div class="flex justify-center items-center space-x-8 mb-6">
+        <section class="text-center mb-8"> <!-- Reduced mb from 16 to 8 -->
+            <div class="flex flex-col justify-center items-center mb-4"> <!-- Changed to flex-col, Reduced mb from 6 to 4 -->
                  <div>
-                    <img src="logo.png" alt="SmileyPDF Logo" class="h-72 mx-auto mb-4"> <!-- Larger logo in hero -->
+                    <img src="logo.png" alt="SmileyPDF Logo" class="h-72 mx-auto mb-2"> <!-- Reduced mb from 4 to 2 -->
                     <p class="text-xl text-orange-600 font-semibold">Free, Online, No Sign-Up Required</p>
                  </div>
              </div>
@@ -135,13 +135,8 @@
 
     <!-- JavaScript (if needed) -->
     <script>
-        // Add any simple, static-site compatible JavaScript here
-        // Example: Mobile menu toggle
-        // Note: This is a basic example and needs more implementation if used.
-        // const mobileMenuButton = document.querySelector('.md\\:hidden button');
-        // mobileMenuButton?.addEventListener('click', () => {
-        //    console.log('Mobile menu clicked - toggle logic needed');
-        // });
+        // AlpineJS handles the dropdown and mobile menu.
+        // No additional JS needed for basic functionality shown.
     </script>
      <!-- Ad Block -->
     <div class="w-full max-w-4xl mx-auto my-8 text-center">
