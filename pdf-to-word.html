@@ -3,45 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to Word Converter</title>
+    <title>PDF to Word Converter - SmileyPDF</title>
     <link rel="icon" type="image/png" href="logo.png">
     <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Additional Libraries from Source File (Violates Original Constraints) -->
+    <!-- Additional Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+     <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
     <style>
-        .dropzone {
-            border: 2px dashed #ccc;
-            transition: all 0.3s ease;
-        }
-        .dropzone.active {
-            border-color: #3b82f6;
-            background-color: #f0f7ff;
-        }
-        .progress-bar {
-            transition: width 0.5s ease;
-        }
-        #pdfjs-container {
-            position: absolute;
-            left: -9999px;
-            visibility: hidden;
-        }
+        /* Styles remain the same */
+        .dropzone { border: 2px dashed #cbd5e0; transition: all 0.3s ease; border-radius: 0.5rem; }
+        .dropzone.active { border-color: #3b82f6; background-color: #eff6ff; }
+        .progress-bar { transition: width 0.5s ease; background-color: #3b82f6; height: 0.625rem; border-radius: 9999px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .spinner { animation: spin 1s linear infinite; display: inline-block; }
+        #pdfjs-container { position: absolute; left: -9999px; visibility: hidden; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen flex flex-col">
 <!-- Header -->
- <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50"> <!-- Blue gradient -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
     <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
         <!-- Logo Link -->
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
-           <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2"> <!-- NEW: Doubled size h-20 -->
+           <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
         </a>
-
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
@@ -68,6 +60,9 @@
                      <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
                  </div>
              </div>
+             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
          </div>
           <!-- Mobile Menu Button -->
           <div class="md:hidden">
@@ -91,6 +86,9 @@
          style="display: none;" x-cloak>
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
             <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
             <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
             <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
@@ -102,414 +100,235 @@
         </div>
      </div>
 </header>
-    <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <main class="container mx-auto px-4 py-8 max-w-3xl flex-grow">
         <!-- Main Title -->
         <header class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800 mb-3">
                 <span class="text-blue-600">PDF</span> to <span class="text-green-600">Word</span> Converter
             </h1>
-            <p class="text-gray-600 text-lg">Convert PDF documents to editable Word files with one click</p>
+            <p class="text-gray-600 text-lg">Easily convert your PDF documents into editable Microsoft Word (.docx) files. This tool attempts to preserve basic text layout.</p>
             <div class="flex justify-center items-center mt-4 space-x-2">
-                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                    <i class="fas fa-infinity mr-1"></i> No size limit
-                </span>
-                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                    <i class="fas fa-lock mr-1"></i> Secure processing
-                </span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"><i class="fas fa-infinity mr-1"></i> No size limit</span>
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"><i class="fas fa-lock mr-1"></i> Secure processing</span>
             </div>
         </header>
 
         <!-- Main Converter Section -->
         <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-10 p-8">
             <div class="text-center mb-8">
-                <h2 class="text-2xl font-semibold text-gray-700 mb-2">Convert PDF to Word</h2>
-                <p class="text-gray-500">Drag & drop or click to upload your PDF file</p>
+                <h2 class="text-2xl font-semibold text-gray-700 mb-2">Upload your PDF</h2>
+                <p class="text-gray-500">Drag & drop or click to select your PDF file</p>
             </div>
-            
-            <!-- Dropzone -->
+
+            {/* Dropzone */}
             <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-8">
                 <div id="uploadContent" class="flex flex-col items-center justify-center">
                     <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
                     <p class="text-gray-500 mb-1">Drag & drop PDF file here</p>
                     <p class="text-sm text-gray-400 mb-4">or</p>
-                    <button id="browseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full transition">
-                        Browse Files
-                    </button>
+                     <button type="button" id="browseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Browse Files</button>
                     <input type="file" id="fileInput" class="hidden" accept=".pdf">
                 </div>
-                <div id="uploadingContent" class="hidden">
+                 <div id="uploadingContent" class="hidden"> {/* Hidden by default */}
                     <div class="flex items-center justify-center mb-4">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    </div>
-                    <p class="text-gray-700">Converting your PDF to Word...</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-                        <div id="progressBar" class="progress-bar bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
-                    </div>
+                         <i class="fas fa-spinner fa-spin text-3xl text-blue-600 spinner"></i>
+                     </div>
+                    <p id="uploadStatusText" class="text-gray-700">Processing your PDF...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4 overflow-hidden"><div id="progressBar" class="progress-bar" style="width: 0%"></div></div>
                     <p id="progressText" class="text-sm text-gray-500 mt-2">0% completed</p>
                 </div>
             </div>
-            
-            <!-- Results Section (Hidden Initially) -->
-            <div id="resultSection" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <i class="fas fa-file-word text-3xl text-blue-700 mr-3"></i>
-                        <div>
-                            <p id="fileName" class="font-medium text-gray-800">document.docx</p>
+
+             {/* Error Section */}
+            <div id="errorSection" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6" role="alert">
+                <div class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i><p id="errorMessage" class="text-red-700 text-sm"></p></div>
+            </div>
+
+            {/* Results Section */}
+             <div id="resultSection" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4">
+                 <div class="flex flex-col sm:flex-row items-center justify-between">
+                     <div class="flex items-center mb-3 sm:mb-0 flex-grow min-w-0">
+                        <i class="fas fa-file-word text-3xl text-blue-700 mr-3 flex-shrink-0"></i>
+                        <div class="min-w-0">
+                            <p id="fileName" class="font-medium text-gray-800 truncate max-w-xs">document.docx</p>
                             <p id="fileStatus" class="text-sm text-gray-600">Ready for download</p>
                         </div>
                     </div>
-                    <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition flex items-center">
-                        <i class="fas fa-download mr-2"></i> Download
-                    </button>
-                </div>
-            </div>
-            
-            <div id="errorSection" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                <div class="flex items-center">
-                    <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
-                    <p id="errorMessage" class="text-red-700">Error converting file</p>
-                </div>
-            </div>
-            
-            <!-- Features -->
-            <div class="grid grid-cols-2 gap-4 mt-8">
-                <div class="flex items-start">
-                    <div class="bg-blue-100 p-2 rounded-full mr-3">
-                        <i class="fas fa-check-circle text-blue-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-medium text-gray-800">No registration</h3>
-                        <p class="text-sm text-gray-500">Convert without signing up</p>
+                     <div class="flex space-x-2 flex-shrink-0">
+                        <button id="downloadBtn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition flex items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                             <i class="fas fa-download mr-2"></i> Download
+                         </button>
+                        <button id="newFileBtn" type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg text-sm transition flex items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                             <i class="fas fa-redo mr-2"></i> New File
+                         </button>
                     </div>
                 </div>
-                <div class="flex items-start">
-                    <div class="bg-blue-100 p-2 rounded-full mr-3">
-                        <i class="fas fa-clock text-blue-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-medium text-gray-800">Fast conversion</h3>
-                        <p class="text-sm text-gray-500">Processed in seconds</p>
-                    </div>
-                </div>
-                <div class="flex items-start">
-                    <div class="bg-blue-100 p-2 rounded-full mr-3">
-                        <i class="fas fa-mobile-alt text-blue-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-medium text-gray-800">Mobile friendly</h3>
-                        <p class="text-sm text-gray-500">Works on all devices</p>
-                    </div>
-                </div>
-                <div class="flex items-start">
-                    <div class="bg-blue-100 p-2 rounded-full mr-3">
-                        <i class="fas fa-cloud text-blue-600"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-medium text-gray-800">No storage</h3>
-                        <p class="text-sm text-gray-500">Files deleted after conversion</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Footer -->
-        <footer class="text-center text-gray-500 text-sm pt-6 border-t border-gray-200">
-            <p>© 2023 PDF to Word Converter. All rights reserved.</p>
-            <p class="mt-1">Convert PDF to DOCX format with ease.</p>
-        </footer>
-    </div>
+             </div>
 
-    <!-- Hidden container for PDF.js processing -->
-    <div id="pdfjs-container"></div>
+             <!-- How to Use Section -->
+             <div class="mt-8 pt-6 border-t border-gray-200">
+                 <h3 class="text-lg font-semibold text-gray-700 mb-3">How to Convert PDF to Word</h3>
+                 <ol class="list-decimal list-inside space-y-1 text-gray-600 text-sm">
+                     <li>Drag your PDF file onto the upload area, or click "Browse Files" to select it.</li>
+                     <li>The conversion process will start automatically. Wait for the progress bar.</li>
+                     <li>The tool extracts text and aims to preserve basic paragraphs.</li>
+                     <li>Once finished, click the "Download" button to save your Word (.docx) file.</li>
+                 </ol>
+                 <p class="text-xs text-gray-500 mt-3">* Note: Complex layouts, tables, and images may not be perfectly preserved. This focuses on editable text content.</p>
+             </div>
+
+             <!-- Features Section -->
+             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-check-circle text-blue-600"></i></div><div><h4 class="font-medium text-gray-800">Free & Unlimited</h4><p class="text-sm text-gray-500">Convert as many files as needed.</p></div></div>
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-lock text-green-600"></i></div><div><h4 class="font-medium text-gray-800">Client-Side Secure</h4><p class="text-sm text-gray-500">Your files are processed in browser.</p></div></div>
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-file-word text-purple-600"></i></div><div><h4 class="font-medium text-gray-800">DOCX Output</h4><p class="text-sm text-gray-500">Modern Word document format.</p></div></div>
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-mobile-alt text-yellow-600"></i></div><div><h4 class="font-medium text-gray-800">Works Everywhere</h4><p class="text-sm text-gray-500">Use on desktop or mobile.</p></div></div>
+             </div>
+         </div>
+
+         <!-- Ad Block -->
+         <div class="w-full max-w-4xl mx-auto my-8 text-center">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+         </div>
+     </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+         <div class="container mx-auto px-6 text-center">
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                 <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>Free online tools for PDF tasks.</p></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">Quick Links</h4><ul><li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About</a></li><li><a href="blog.html" class="hover:text-white">Blog</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li></ul></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">Legal</h4><ul><li><a href="privacy.html" class="hover:text-white">Privacy</a></li><li><a href="terms.html" class="hover:text-white">Terms</a></li></ul></div>
+             </div>
+             <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
+         </div>
+     </footer>
+
+     <div id="pdfjs-container" class="hidden"></div>
 
     <script>
-        // Initialize PDF.js worker
-         // Library Checks
-         if (typeof window.pdfjsLib === 'undefined') {
-             alert('Error: pdf.js library not loaded. Cannot proceed.'); console.error('pdf.js not loaded');
-         } else {
-             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
+        // --- Library Checks ---
+         let PDFJS, DOCX, SAVEAS;
+         try {
+             if (typeof window.pdfjsLib !== 'undefined') {
+                 PDFJS=window.pdfjsLib;
+                 // Set worker source right after checking
+                 PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;
+            } else { throw new Error("pdf.js missing!"); }
+             if (typeof window.docx !== 'undefined') { DOCX=window.docx; } else { throw new Error("docx library missing!");}
+             if (typeof window.saveAs !== 'undefined') { SAVEAS=window.saveAs; } else { console.warn("FileSaver.js missing.");}
+         } catch (libError) {
+            console.error(libError);
+             // Display a user-friendly error and potentially disable the tool
+             document.body.innerHTML = `<div class="p-8 text-center text-red-600 bg-red-50 min-h-screen flex flex-col justify-center items-center"> <h1 class="text-2xl font-bold mb-4">Initialization Error</h1> <p>A required library (${libError.message}) failed to load. The tool cannot function.</p><p class="mt-2 text-sm">Please check your internet connection, browser extensions, or try refreshing the page.</p></div>`;
          }
-         if (typeof window.docx === 'undefined') { alert('Error: docx library not loaded. Cannot proceed.'); console.error('docx not loaded'); }
-         if (typeof window.saveAs === 'undefined') { console.warn('FileSaver.js not loaded. Download may not work correctly.'); }
 
 
-         // Make docx available globally if needed
-         const docxLib = window.docx;
+         document.addEventListener('DOMContentLoaded', function() {
+             // Check if libraries were loaded before proceeding
+             if (!PDFJS || !DOCX) return; // Stop if libs failed
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropzone = document.getElementById('dropzone');
-            const fileInput = document.getElementById('fileInput');
-            const browseBtn = document.getElementById('browseBtn');
-            const uploadContent = document.getElementById('uploadContent');
-            const uploadingContent = document.getElementById('uploadingContent');
-            const resultSection = document.getElementById('resultSection');
-            const errorSection = document.getElementById('errorSection');
-            const fileNameEl = document.getElementById('fileName'); // Use specific variable name
-            const fileStatus = document.getElementById('fileStatus');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const errorMessage = document.getElementById('errorMessage');
-            const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            
-            let currentFile = null;
-            let extractedText = '';
-            let docxBlob = null;
+             // --- DOM Elements ---
+             const dropzone=document.getElementById('dropzone'),fileInput=document.getElementById('fileInput'),browseBtn=document.getElementById('browseBtn'),uploadContent=document.getElementById('uploadContent'),uploadingContent=document.getElementById('uploadingContent'),resultSection=document.getElementById('resultSection'),errorSection=document.getElementById('errorSection'),fileNameEl=document.getElementById('fileName'),fileStatus=document.getElementById('fileStatus'),downloadBtn=document.getElementById('downloadBtn'),errorMessageEl=document.getElementById('errorMessage'),progressBar=document.getElementById('progressBar'),progressText=document.getElementById('progressText'),newFileBtn=document.getElementById('newFileBtn'),uploadStatusText=document.getElementById('uploadStatusText');
 
-            // Prevent default drag behaviors
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropzone.addEventListener(eventName, preventDefaults, false);
-                document.body.addEventListener(eventName, preventDefaults, false); // Prevent browser opening file
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            // Highlight drop zone when item is dragged over it
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropzone.addEventListener(eventName, () => dropzone.classList.add('active'), false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropzone.addEventListener(eventName, () => dropzone.classList.remove('active'), false);
-            });
-            
-            // Handle dropped files
-            dropzone.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                if (files.length > 0) handleFiles(files[0]); // Handle only the first file dropped
-                else showError('No file detected in drop.');
-            }
-            
-            // Browse button click
-            browseBtn.addEventListener('click', () => {
-                fileInput.click();
-            });
-            
-            // File input change
-            fileInput.addEventListener('change', function() {
-                if (this.files.length) {
-                    handleFiles(this.files[0]);
-                }
-            });
-            
-            // Handle selected file
-            function handleFiles(file) {
-                resetState(); // Reset previous results
-                currentFile = file;
-                
-                // Validate file type
-                if (!currentFile || (!currentFile.type.includes('pdf') && !currentFile.name.toLowerCase().endsWith('.pdf'))) {
-                    showError('Please select a PDF file.');
-                    return;
-                }
-                
-                // Display uploading state
-                uploadContent.classList.add('hidden');
-                uploadingContent.classList.remove('hidden');
-                resultSection.classList.add('hidden');
-                errorSection.classList.add('hidden');
-                updateProgress(0); // Start progress
-                
-                // Use setTimeout to allow UI repaint before potential heavy lifting
-                 setTimeout(() => { convertPDFToDocx(currentFile); }, 100);
-             }
+             // --- State ---
+             let currentFile = null; let docxBlob = null; let isProcessing = false;
 
-             function resetState() {
-                  currentFile = null;
-                 extractedText = '';
-                 docxBlob = null;
-                 uploadingContent.classList.add('hidden');
-                 uploadContent.classList.remove('hidden');
-                 resultSection.classList.add('hidden');
-                 errorSection.classList.add('hidden');
-                 fileInput.value = null; // Reset file input value
-                  updateProgress(0);
-                  progressText.textContent = '0% completed';
-             }
-            
-            // Convert PDF to DOCX
-            async function convertPDFToDocx(file) {
+             // --- Event Listeners ---
+             setupUploadListeners();
+             downloadBtn.addEventListener('click', triggerDownload);
+             newFileBtn.addEventListener('click', resetState);
+             document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            function setupUploadListeners() { ['dragenter','dragover','dragleave','drop'].forEach(ev=>{dropzone.addEventListener(ev,preventDefaults);document.body.addEventListener(ev,preventDefaults);}); ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,()=>{if(!isProcessing)dropzone.classList.add('active');})); ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,()=>dropzone.classList.remove('active'))); dropzone.addEventListener('drop',handleDrop); browseBtn.addEventListener('click',()=>fileInput.click()); fileInput.addEventListener('change',function(){if(this.files.length){handleFile(this.files[0]);}}); }
+             function preventDefaults(e){e.preventDefault();e.stopPropagation();}
+             function handleDrop(e) { const f=e.dataTransfer.files[0]; if(f) handleFile(f);}
+
+            async function handleFile(file) {
+                resetState(); currentFile = file;
+                 if (!file || (!file.type.includes('pdf') && !file.name.toLowerCase().endsWith('.pdf'))) { showError('Please select or drop a valid PDF file.'); return; }
+                 isProcessing = true;
+                uploadContent.classList.add('hidden'); uploadingContent.classList.remove('hidden'); errorSection.classList.add('hidden');
+                 updateProgress(0); updateStatus('Reading file...');
+
                 try {
-                    updateProgress(10, 'Reading file...');
-                    const arrayBuffer = await readFileAsArrayBuffer(file);
-                    
-                    updateProgress(20, 'Loading PDF...');
-                    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-                    const pdf = await loadingTask.promise;
-                    
-                    let fullText = "";
-                    const totalPages = pdf.numPages;
-                     updateProgress(30, 'Extracting text...');
-                     
-                    for (let i = 1; i <= totalPages; i++) {
-                         const page = await pdf.getPage(i);
-                         const textContent = await page.getTextContent();
-                         // Try to maintain paragraph breaks based on y-coordinates
-                         let lastY = -1;
-                         const lines = textContent.items.map(item => {
-                            const yPos = item.transform[5];
-                             let prefix = '';
-                             if (lastY !== -1 && yPos < lastY - item.height * 1.5) { // Check for significant jump down
-                                 prefix = '\n\n'; // Likely new paragraph
-                             } else if (lastY !== -1 && yPos < lastY - item.height * 0.5) { // Check for line break
-                                 prefix = '\n';
+                    const arrayBuffer = await readFileAsArrayBuffer(file); updateStatus('Loading PDF structure...');
+                     const pdf = await PDFJS.getDocument({ data: arrayBuffer, cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`, cMapPacked: true }).promise;
+                    updateStatus('Extracting text...');
+                    const fullText = await extractTextFromPDF(pdf);
+                     updateStatus('Creating Word document...'); updateProgress(80);
+                    docxBlob = await generateDocxBlob(fullText);
+                    updateProgress(100); updateStatus('Conversion complete!'); showResult(file);
+                 } catch (error) { showError('Error during conversion: ' + error.message); console.error(error); resetState(); } // Ensure reset on error
+                 finally { isProcessing = false; } // Removed setTimeout for loading hiding, let showResult handle it
+             }
+
+             function readFileAsArrayBuffer(f) { return new Promise((res,rej)=>{ const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(new Error('Failed reading file'));r.readAsArrayBuffer(f);});}
+
+             async function extractTextFromPDF(pdfDocInstance) {
+                let fullText = ''; const total = pdfDocInstance.numPages;
+                 for (let i = 1; i <= total; i++) {
+                     updateProgress(20+(50*i/total), `Extracting page ${i}/${total}...`);
+                     try {
+                        const page = await pdfDocInstance.getPage(i);
+                        const tc = await page.getTextContent({ normalizeWhitespace: true }); // Keep normalizeWhitespace
+                        let lastY = null; let lineBuffer = '';
+                         tc.items.forEach(item => {
+                             const currentY = item.transform[5];
+                            // Check for significant vertical drop OR an explicit EOL marker from pdf.js heuristics
+                            if (lastY !== null && (Math.abs(currentY - lastY) > (item.height * 0.8) || item.hasEOL )) {
+                                fullText += lineBuffer.trim() + '\n'; // Add trimmed line buffer
+                                lineBuffer = item.str; // Start new buffer
+                             } else {
+                                 // Check for significant horizontal gap before adding a space
+                                 if (lineBuffer.length > 0 && !lineBuffer.endsWith(' ') && item.transform[4] > (lastX + lastWidth + 1) ) { // Check last item's end X + small buffer
+                                    lineBuffer += ' ';
+                                 }
+                                 lineBuffer += item.str;
                              }
-                            lastY = yPos;
-                            return prefix + item.str;
-                         }).join('');
-
-                         fullText += lines + "\n\n"; // Page break marker
-                         
-                         // Update progress during text extraction
-                         const progress = 30 + (40 * (i / totalPages));
-                         updateProgress(progress, `Extracting page ${i}/${totalPages}...`);
+                             lastY = currentY;
+                             lastX = item.transform[4]; // Store X start
+                             lastWidth = item.width;   // Store width
+                         });
+                         fullText += lineBuffer.trim() + '\n'; // Add the last line buffer
+                         page.cleanup();
+                         fullText+='\n'; // Add a blank line between pages
+                    } catch (pageError) {
+                        console.warn(`Error processing page ${i}:`, pageError); fullText += `\n--- Error page ${i} ---\n\n`;
                      }
-                    extractedText = fullText;
+                     if (i % 10 === 0) await new Promise(r => setTimeout(r, 5));
+                 }
+                 // Final cleanup
+                return fullText.replace(/ +\n/g, '\n') // Remove trailing spaces before newline
+                             .replace(/\n{3,}/g, '\n\n') // Collapse multiple blank lines
+                             .trim();
+             }
 
-                    updateProgress(80, 'Generating Word document...');
-                     docxBlob = await generateDocx(extractedText);
-                    
-                    updateProgress(100, 'Conversion complete!');
-                    showResult(file);
-                    
-                } catch (error) {
-                    showError('Error converting file: ' + error.message);
-                    console.error(error);
-                }
-            }
-            
-            // Read file as ArrayBuffer
-            function readFileAsArrayBuffer(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                     reader.onload = () => resolve(reader.result);
-                     reader.onerror = () => reject(new Error('Failed to read file'));
-                     reader.onabort = () => reject(new Error('File reading was aborted'));
-                     reader.readAsArrayBuffer(file);
-                });
-            }
 
-             // Generate DOCX file using docx.js
-             async function generateDocx(text) {
-                 if (!docxLib) throw new Error("DOCX library not loaded");
-
+             async function generateDocxBlob(text) {
+                 if (!DOCX) throw new Error("DOCX library not loaded");
                  try {
-                     // Attempt to create paragraphs while preserving line breaks
-                     const paragraphs = text.split('\n').map(line => {
-                         // Handle empty lines by adding an empty paragraph, except for multiple consecutive ones
-                         if (line.trim() === '') {
-                              return new docxLib.Paragraph({ children: [new docxLib.TextRun('')]});
-                         } else {
-                             return new docxLib.Paragraph({
-                                 children: [
-                                    new docxLib.TextRun({ text: line, size: 24 }), // Size 12pt = 24 half-points
-                                ],
-                                 spacing: { after: 100 }, // Some space after paragraphs
-                             });
-                         }
-                     });
+                     const paragraphs = text.split('\n').map(line => new DOCX.Paragraph({
+                         children: [new DOCX.TextRun({ text: line, size: 22 })], // 11pt
+                        spacing: { after: 120 } // ~6pt after paragraph (120 / 20)
+                     }));
+                     const doc = new DOCX.Document({ sections: [{ children: paragraphs }] });
+                     const blob = await DOCX.Packer.toBlob(doc); return blob;
+                 } catch (error) { console.error('Error generating DOCX:', error); throw new Error('Could not generate Word document.'); }
+            } // Correctly closed function
 
-                      // Remove potential excessive empty paragraphs from the end
-                     while (paragraphs.length > 1 && paragraphs[paragraphs.length - 1].root[1].root.length === 1 && paragraphs[paragraphs.length - 1].root[1].root[0].root[1].root[1] === undefined) {
-                         paragraphs.pop();
-                     }
+             // --- UI Updates ---
+             function updateProgress(pct, msg=null){const clamped=Math.min(pct,100);progressBar.style.width=`${clamped}%`;progressText.textContent=`${Math.round(clamped)}% completed`;if(msg)updateStatus(msg);}
+             function updateStatus(msg){uploadStatusText.textContent = msg;}
+             function showResult(file){uploadingContent.classList.add('hidden'); resultSection.classList.remove('hidden'); errorSection.classList.add('hidden'); fileNameEl.textContent = file.name.replace(/\.pdf$/i,'.docx'); fileStatus.textContent = 'Ready for download';}
+            function showError(msg) { uploadingContent.classList.add('hidden'); uploadContent.classList.remove('hidden'); resultSection.classList.add('hidden'); errorMessageEl.textContent = msg; errorSection.classList.remove('hidden'); /* Removed persistent timer */ }
 
-                     const doc = new docxLib.Document({
-                         sections: [{
-                             properties: {},
-                             children: paragraphs,
-                         }],
-                     });
-                    
-                     // Generate the DOCX file
-                     const blob = await docxLib.Packer.toBlob(doc);
-                     return blob;
-                 } catch (error) {
-                     console.error('Error generating DOCX:', error);
-                     throw new Error('Could not generate Word document.');
-                 }
-             }
-            
-            // Update progress bar
-             function updateProgress(percent, message = null) {
-                const clampedPercent = Math.min(percent, 100);
-                 progressBar.style.width = `${clampedPercent}%`;
-                 progressText.textContent = `${Math.round(clampedPercent)}% completed`;
-                 if (message) {
-                    // Optionally update a status message element here
-                    // Example: statusMessageElement.textContent = message;
-                }
-             }
-            
-            // Show conversion result
-            function showResult(file) {
-                 uploadingContent.classList.add('hidden'); // Hide progress
-                 //uploadContent.classList.remove('hidden'); // Option to show upload again
-                 resultSection.classList.remove('hidden'); // Show results
-                 errorSection.classList.add('hidden');
-                
-                fileNameEl.textContent = file.name.replace(/\.pdf$/i, '.docx');
-                fileStatus.textContent = 'Ready for download';
-             }
-            
-            // Show error
-             function showError(message) {
-                 uploadingContent.classList.add('hidden');
-                 uploadContent.classList.remove('hidden'); // Show upload button again
-                 resultSection.classList.add('hidden');
-                 errorMessage.textContent = message;
-                 errorSection.classList.remove('hidden');
-                 
-                 // Auto-hide error after some time
-                  setTimeout(() => { errorSection.classList.add('hidden'); }, 6000);
-             }
-            
-            // Download button click
-            downloadBtn.addEventListener('click', function() {
-                 if (!docxBlob || !currentFile) {
-                      showError('No DOCX file generated to download.');
-                     return;
-                  }
-                
-                 const newName = currentFile.name.replace(/\.pdf$/i, '.docx');
-                if(typeof window.saveAs !== 'undefined') {
-                    saveAs(docxBlob, newName);
-                 } else {
-                      console.warn("FileSaver not available. Trying fallback download.");
-                      // Fallback download method
-                      const url = URL.createObjectURL(docxBlob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = newName;
-                      document.body.appendChild(a);
-                      a.click();
-                      document.body.removeChild(a);
-                      URL.revokeObjectURL(url);
-                 }
-            });
-        });
+             function triggerDownload(){if(!docxBlob||!currentFile){showError('No DOCX file ready.'); return;}const newName=currentFile.name.replace(/\.pdf$/i,'.docx'); try { if (SAVEAS) { saveAs(docxBlob,newName); } else { const url=URL.createObjectURL(docxBlob); const a=document.createElement('a');a.href=url;a.download=newName;a.click();URL.revokeObjectURL(url);}} catch(e){console.error("DL Err:", e); showError("Download failed.");}}
+             function resetState(){currentFile=null; docxBlob=null; isProcessing=false; uploadingContent.classList.add('hidden'); uploadContent.classList.remove('hidden'); resultSection.classList.add('hidden'); errorSection.classList.add('hidden'); fileInput.value=null; updateProgress(0); progressText.textContent='0% completed'; updateStatus('Processing your PDF...');} // Reset status text
+
+        }); // End of DOMContentLoaded listener - Moved after all function definitions
     </script>
-     <!-- Ad Block -->
-    <div class="w-full max-w-4xl mx-auto my-8 text-center">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552"
-             crossorigin="anonymous"></script>
-        <!-- Reed -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-9273434855071552"
-             data-ad-slot="6257062799"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+
 </body>
 </html>
