@@ -92,11 +92,11 @@
 </header>
 
     <!-- Main Content Area -->
-    <main class="container mx-auto px-6 py-12"> <!-- Increased py -->
+    <main class="container mx-auto px-6 py-12">
 
         <!-- Hero Section -->
         <section class="text-center mb-16">
-            <img src="logo.png" alt="SmileyPDF Logo" class="h-48 md:h-60 mx-auto mb-4"> <!-- Adjusted size -->
+            <img src="logo.png" alt="SmileyPDF Logo" class="h-48 md:h-60 mx-auto mb-4">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Your Free & Simple Online PDF Toolkit</h1>
             <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">
                 Easily edit, merge, convert, rotate, and extract text from your PDF files directly in your browser. No sign-up, no software install needed!
@@ -133,7 +133,7 @@
         </section>
 
          <!-- Ad Block -->
-         <div class="w-full max-w-4xl mx-auto my-2 text-center"> {/* Reduced vertical margin further */}
+         <div class="w-full max-w-4xl mx-auto py-2 text-center">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-9273434855071552"
@@ -144,8 +144,8 @@
         </div>
 
         <!-- Tool Buttons Section -->
-        <section>
-             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-4">Explore Our PDF Tools</h2> {/* Reduced bottom margin */}
+        <section class="mt-8">
+             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Explore Our PDF Tools</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <a href="pdf-editor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
                     <i class="fa-solid fa-pen-to-square mr-2"></i> PDF Editor
@@ -160,7 +160,6 @@
                     <i class="fa-solid fa-file-word mr-2"></i> PDF to Word
                 </a>
                 <a href="pdf-to-jpg.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <!-- <i class="fa-solid fa-file-powerpoint mr-2"></i> PDF to JPG --> <!-- Icon seems wrong, using Powerpoint icon for JPG? Replaced with file-image -->
                      <i class="fa-solid fa-file-image mr-2"></i> PDF to JPG
                 </a>
                  <a href="merge-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
@@ -169,7 +168,6 @@
                  <a href="pdf-text-extractor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-lines mr-2"></i> PDF Text Extractor
                 </a>
-                <!-- Add more buttons as needed -->
             </div>
         </section>
 
@@ -196,7 +194,7 @@
                     <h4 class="font-semibold mb-2 uppercase">Legal</h4>
                     <ul>
                         <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+                        <li class="mt-1"><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -208,7 +206,6 @@
 
     <!-- JavaScript -->
     <script>
-        // AlpineJS handles the dropdown and mobile menu.
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 
