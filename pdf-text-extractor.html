@@ -35,81 +35,40 @@
         /* Spinner */
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .spinner { border: 3px solid rgba(0,0,0,0.1); width: 1.25rem; /* Adjust size */ height: 1.25rem; border-radius: 50%; border-left-color: #3B82F6; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }
+         .copy-feedback { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 5px; background-color: #10B981; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity 0.3s, visibility 0.3s; visibility: hidden; }
+        .copy-feedback.show { opacity: 1; visibility: visible; }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
  <!-- Header -->
  <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
     <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
-        <!-- Logo Link -->
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
            <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
         </a>
-        <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
-            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
-            <!-- Tools Dropdown -->
+             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
              <div class="relative" x-data="{ open: false }">
                 <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
                     Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                </button>
-                <div x-show="open" @click.away="open = false"
-                     x-transition:enter="transition ease-out duration-100 transform"
-                     x-transition:enter-start="opacity-0 scale-95"
-                     x-transition:enter-end="opacity-100 scale-100"
-                     x-transition:leave="transition ease-in duration-75 transform"
-                     x-transition:leave-start="opacity-100 scale-100"
-                     x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
-                     style="display: none;" x-cloak>
-                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
-                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
-                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
-                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
-                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
-                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
-                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
-                 </div>
-             </div>
-             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
-             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
-             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
-         </div>
-          <!-- Mobile Menu Button -->
-          <div class="md:hidden">
-              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                  <span class="sr-only">Open menu</span>
-                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
-                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
-              </button>
-         </div>
-    </nav>
-     <!-- Mobile Menu Panel -->
-     <div x-show="mobileMenuOpen"
-         @click.away="mobileMenuOpen = false"
-         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
-         x-transition:enter="transition ease-out duration-200 transform origin-top"
-         x-transition:enter-start="opacity-0 scale-95"
-         x-transition:enter-end="opacity-100 scale-100"
-         x-transition:leave="transition ease-in duration-75 transform origin-top"
-         x-transition:leave-start="opacity-100 scale-100"
-         x-transition:leave-end="opacity-0 scale-95"
-         style="display: none;" x-cloak>
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
-            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
-            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
-            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
-            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
-            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
-            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
-            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
-            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
-            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
-            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
-        </div>
-     </div>
+                 </button>
+                 <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a><a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a><a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a><a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a><a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a><a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a><a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                  </div>
+              </div>
+              <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+              <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+              <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+          </div>
+           <div class="md:hidden">
+               <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                   <span class="sr-only">Open menu</span><i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i><i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+               </button>
+          </div>
+     </nav>
+      <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" x-transition:enter="transition ease-out duration-200 transform origin-top" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform origin-top" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" style="display: none;" x-cloak>
+         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a><a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a><a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a><a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a><h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3><a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a><a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a><a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a><a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a><a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a><a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a><a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a></div>
+      </div>
 </header>
 
      <main class="container mx-auto px-4 py-12 flex-grow">
@@ -122,12 +81,16 @@
             <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
                 <!-- File Upload Area -->
                  <div class="file-upload-container rounded-lg p-8 text-center cursor-pointer" id="dropZone">
-                    <i class="fas fa-file-pdf text-6xl text-blue-500 mb-4"></i>
+                     <i class="fas fa-file-pdf text-6xl text-blue-500 mb-4"></i>
                      <h3 class="text-xl font-semibold text-gray-800 mb-2">1. Upload PDF Document</h3>
-                    <p class="text-gray-500 mb-4">Drag & drop your PDF file here or click below</p>
+                     <p class="text-gray-500 mb-4">Drag & drop your PDF file here or click below</p>
                      <input type="file" id="pdfInput" accept=".pdf" class="hidden">
-                    <button type="button" id="uploadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2"><i class="fas fa-upload mr-2"></i> Select PDF File</button>
-                    <p id="fileName" class="mt-3 text-sm text-gray-500 hidden truncate max-w-md mx-auto"></p>
+                     <button type="button" id="uploadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2"><i class="fas fa-upload mr-2"></i> Select PDF File</button>
+                    <div id="fileNameDisplay" class="mt-3 text-sm text-gray-600 hidden flex items-center justify-center gap-x-2">
+                        <i class="fas fa-file-pdf text-red-500"></i>
+                        <span id="fileName" class="truncate max-w-sm"></span>
+                        <button id="removeFileBtn" type="button" class="ml-2 text-red-500 hover:text-red-700 focus:outline-none text-xs" title="Remove File"><i class="fas fa-times-circle"></i></button>
+                     </div>
                  </div>
              </div>
 
@@ -135,21 +98,18 @@
              <div id="optionsSection" class="mb-8 hidden"> {/* Hidden initially */}
                 <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">2. Choose Extraction Method</h3>
                  <div class="grid md:grid-cols-3 gap-4">
-                    {/* Option: Text Extraction */}
-                    <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center" data-option="text">
-                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-3"> <i class="fas fa-file-alt text-xl text-green-600"></i> </div>
+                     <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center" data-option="text">
+                         <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-3"> <i class="fas fa-file-alt text-xl text-green-600"></i> </div>
                          <h4 class="font-medium text-gray-800 mb-1">Standard Text</h4>
                          <p class="text-gray-600 text-sm flex-grow">Fastest method for PDFs with selectable text (not image scans).</p>
                          <i class="fas fa-check-circle text-blue-500 mt-2 text-xl hidden indicator-icon"></i>
                      </div>
-                    {/* Option: OCR */}
                      <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center selected" data-option="ocr"> {/* Default OCR selected */}
                         <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-3"> <i class="fas fa-eye text-xl text-purple-600"></i> </div>
                         <h4 class="font-medium text-gray-800 mb-1">OCR (Scanned PDFs)</h4>
                          <p class="text-gray-600 text-sm flex-grow">Recognizes text in scanned images or non-selectable PDFs. Slower.</p>
                          <i class="fas fa-check-circle text-blue-500 mt-2 text-xl indicator-icon"></i> {/* Checkmark visible */}
                      </div>
-                     {/* Option: Basic Formatting */}
                      <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center" data-option="formatting">
                         <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-3"> <i class="fas fa-align-left text-xl text-blue-600"></i> </div>
                         <h4 class="font-medium text-gray-800 mb-1">Keep Formatting</h4>
@@ -159,9 +119,15 @@
                 </div>
             </div>
 
+             <!-- Error Message Area (separate from upload section) -->
+            <div id="errorSection" class="hidden bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                <strong class="font-bold"><i class="fas fa-exclamation-triangle mr-2"></i>Error:</strong>
+                <span class="block sm:inline" id="errorMessage"></span>
+            </div>
+
 
             <!-- Processing & Result Area Combined -->
-             <div id="processResultArea" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden"> {/* Combined & hidden */}
+             <div id="processResultArea" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
                 {/* Processing UI */}
                 <div id="processingSection">
                      <div class="flex items-center justify-between mb-2">
@@ -169,30 +135,31 @@
                          <div id="progressText" class="text-sm font-medium text-blue-600">0%</div>
                      </div>
                      <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                         <div id="progressBar" class="h-2.5 rounded-full" style="width: 0%"></div>
+                         <div id="progressBar" class="h-2.5 rounded-full" style="width: 0%; background-color: #6d28d9;"></div> {/* Default to OCR color */}
                     </div>
-                     <div id="statusMessage" class="mt-2 text-sm text-gray-500 text-center italic h-5"></div> {/* Status msg */}
+                     <div id="statusMessage" class="mt-2 text-sm text-gray-500 text-center italic h-5"></div>
                      <div id="tesseract-log-container" class="hidden"><p class="font-semibold text-xs mb-1">OCR Progress Details:</p><div id="tesseract-log"></div></div>
                  </div>
 
-                {/* Result UI */}
-                 <div id="resultSection" class="hidden mt-6"> {/* Initially hidden within the parent */}
-                    <div class="border-b border-gray-200 pb-4 mb-4 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-800">3. Extracted Text</h3>
-                        <div class="flex gap-2">
-                             <button id="copyBtn" type="button" title="Copy Text" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50" disabled>
+                 {/* Result UI */}
+                 <div id="resultSection" class="hidden mt-6">
+                    <div class="border-b border-gray-200 pb-4 mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                         <h3 class="text-lg font-semibold text-gray-800 flex-shrink-0">3. Extracted Text</h3>
+                         <div class="flex gap-2 flex-wrap justify-center sm:justify-end">
+                              <button id="copyBtn" type="button" title="Copy Text" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50 inline-flex items-center relative" disabled> {/* Relative for feedback */}
                                 <i class="fas fa-copy mr-2"></i> Copy
+                                <span id="copyFeedback" class="copy-feedback">Copied!</span>
                              </button>
-                             <button id="downloadBtn" type="button" title="Download as TXT" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50" disabled>
-                                 <i class="fas fa-download mr-2"></i> Download (.txt)
-                             </button>
-                             <button id="resetBtn" type="button" title="Process Another" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300">
+                              <button id="downloadBtn" type="button" title="Download as TXT" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50 inline-flex items-center" disabled>
+                                  <i class="fas fa-download mr-2"></i> Download (.txt)
+                              </button>
+                              <button id="resetBtn" type="button" title="Process Another" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 inline-flex items-center">
                                 <i class="fas fa-redo mr-2"></i> New File
                             </button>
-                        </div>
-                     </div>
-                    <textarea id="extractedText" readonly class="text-gray-800 whitespace-pre-wrap max-h-96 overflow-y-auto border border-gray-200 p-4 rounded bg-gray-50 w-full font-mono text-xs" placeholder="No text extracted or PDF processing failed."></textarea>
-                 </div>
+                         </div>
+                      </div>
+                     <textarea id="extractedText" readonly class="text-gray-800 whitespace-pre-wrap max-h-96 overflow-y-auto border border-gray-200 p-4 rounded bg-gray-50 w-full font-mono text-xs" placeholder="No text extracted or PDF processing failed."></textarea>
+                </div>
              </div>
 
 
@@ -204,18 +171,18 @@
                      <li>Choose an extraction method:
                          <ul class="list-disc list-inside ml-4 mt-1 text-sm">
                              <li><b>Standard Text:</b> Fastest option for PDFs that already have text (not images).</li>
-                             <li><b>OCR (Scanned PDFs):</b> Use this for scanned documents or image-based PDFs. It reads the text from the images (slower). Selected by default.</li>
-                             <li><b>Keep Formatting:</b> Attempts to preserve simple paragraph and list structure (standard text PDFs).</li>
+                             <li><b>OCR (Scanned PDFs):</b> Use this for scanned documents or image-based PDFs. Reads text from images (slower). <strong>Default option.</strong></li>
+                             <li><b>Keep Formatting:</b> Tries to preserve basic structure like paragraphs/lists from standard text PDFs.</li>
                          </ul>
                      </li>
-                     <li>The extraction process starts automatically. Monitor the progress bar and status messages.</li>
-                     <li>Once complete, the extracted text appears below. You can copy it or download it as a .txt file.</li>
+                     <li>The extraction process starts automatically. Monitor the progress bar and status messages. OCR may take longer.</li>
+                     <li>Once complete, the extracted text appears below. You can copy it or download it as a .txt file using the buttons provided.</li>
                      <li>Click "New File" to process another document.</li>
                  </ol>
              </div>
 
-             <!-- Ad Block -->
-            <div class="w-full max-w-4xl mx-auto my-8 text-center">
+              <!-- Ad Block -->
+             <div class="w-full max-w-4xl mx-auto my-8 text-center">
                 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
                  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
              </div>
@@ -235,69 +202,106 @@
      </footer>
 
      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-             // --- Lib Check ---
-             let PDFJS, TesseractLib;
-             if(typeof window.pdfjsLib === 'undefined'){showError("PDF reading library failed to load.", true);return;} PDFJS=window.pdfjsLib;
-             if(typeof window.Tesseract === 'undefined'){showError("OCR library (Tesseract.js) failed to load. OCR function disabled.", false);console.warn("Tesseract.js missing");} else {TesseractLib=window.Tesseract;}
-             if(typeof window.saveAs === 'undefined'){console.warn("FileSaver.js missing. Download might fail.");}
-             PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;
+        // --- Library Checks & Setup ---
+         let PDFJS, TesseractLib, SAVEAS;
+         function checkLibraries() {
+             let allLoaded = true;
+             if (typeof window.pdfjsLib === 'undefined') { showError("PDF reading library failed. Refresh?", true); allLoaded = false; console.error("PDF.js missing!");} else { PDFJS = window.pdfjsLib; PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;}
+             if (typeof window.Tesseract === 'undefined') { console.warn("OCR library missing. OCR disabled."); /* No fatal error, just disable OCR */ TesseractLib = null;} else { TesseractLib = window.Tesseract; }
+             if (typeof window.saveAs === 'undefined') { console.warn("FileSaver.js missing. Using fallback download."); } else { SAVEAS = window.saveAs;}
+            return allLoaded;
+        }
+
+         document.addEventListener('DOMContentLoaded', function() {
+             if (!checkLibraries()) return; // Stop if critical libs missing
 
             // --- DOM Refs ---
-            const pdfInput=document.getElementById('pdfInput'), uploadBtn=document.getElementById('uploadBtn'), dropZone=document.getElementById('dropZone'), fileName=document.getElementById('fileName'), optionCards=document.querySelectorAll('.option-card'), processResultArea=document.getElementById('processResultArea'), processingSection=document.getElementById('processingSection'), resultSection=document.getElementById('resultSection'), progressBar=document.getElementById('progressBar'), progressText=document.getElementById('progressText'), statusMessage=document.getElementById('statusMessage'), extractedText=document.getElementById('extractedText'), downloadBtn=document.getElementById('downloadBtn'), copyBtn=document.getElementById('copyBtn'), tesseractLogContainer=document.getElementById('tesseract-log-container'), tesseractLog=document.getElementById('tesseract-log'), resetBtn=document.getElementById('resetBtn'), optionsSection=document.getElementById('optionsSection');
+             const pdfInput=document.getElementById('pdfInput'),uploadBtn=document.getElementById('uploadBtn'),dropZone=document.getElementById('dropZone'),fileNameDisplayDiv=document.getElementById('fileNameDisplay'),fileName=document.getElementById('fileName'),removeFileBtn=document.getElementById('removeFileBtn'),optionCards=document.querySelectorAll('.option-card'),processResultArea=document.getElementById('processResultArea'),processingSection=document.getElementById('processingSection'),resultSection=document.getElementById('resultSection'),progressBar=document.getElementById('progressBar'),progressText=document.getElementById('progressText'),statusMessage=document.getElementById('statusMessage'),extractedText=document.getElementById('extractedText'),downloadBtn=document.getElementById('downloadBtn'),copyBtn=document.getElementById('copyBtn'),tesseractLogContainer=document.getElementById('tesseract-log-container'),tesseractLog=document.getElementById('tesseract-log'),resetBtn=document.getElementById('resetBtn'),optionsSection=document.getElementById('optionsSection'),errorSection=document.getElementById('errorSection'),errorMessageEl=document.getElementById('errorMessage'),copyFeedback = document.getElementById('copyFeedback');
 
-             // --- State ---
-             let selectedOption = 'ocr'; let currentFile = null; let extractedContentCache = ''; let tesseractWorker = null; let isProcessing = false;
+            // --- State ---
+             let selectedOption='ocr',currentFile=null,extractedContentCache='',tesseractWorker=null,isProcessing=false;
 
             // --- Initial Setup ---
              setupUploadListeners();
-             optionCards.forEach(c => { c.addEventListener('click', handleOptionSelect); if (c.dataset.option === selectedOption) { c.classList.add('selected', 'border-blue-500'); c.querySelector('.indicator-icon').classList.remove('hidden'); } });
-             copyBtn.addEventListener('click', copyResultToClipboard);
-             downloadBtn.addEventListener('click', downloadResultAsTxt);
-             resetBtn.addEventListener('click', resetTool);
-             document.getElementById('current-year').textContent = new Date().getFullYear();
+             optionCards.forEach(c => {c.addEventListener('click', handleOptionSelect); if(c.dataset.option === selectedOption){c.classList.add('selected','border-blue-500');c.querySelector('.indicator-icon')?.classList.remove('hidden');}});
+             if(!TesseractLib) document.querySelector('.option-card[data-option="ocr"]')?.classList.add('opacity-50','cursor-not-allowed'); // Disable OCR card if library missing
+            copyBtn.addEventListener('click', copyResultToClipboard);
+            downloadBtn.addEventListener('click', downloadResultAsTxt);
+             resetBtn.addEventListener('click',()=>resetTool(true));
+             removeFileBtn.addEventListener('click', ()=>resetTool(true)); // Hook up remove button
+            document.getElementById('current-year').textContent=new Date().getFullYear();
 
-            // --- Event Handlers ---
-             function setupUploadListeners(){ ['dragenter','dragover','dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev,preventDefaults)); dropZone.addEventListener('dragover',(e)=>{if(!isProcessing)dropZone.classList.add('drag-over');}); dropZone.addEventListener('dragleave',()=>{dropZone.classList.remove('drag-over');}); dropZone.addEventListener('drop',handleDrop); uploadBtn.addEventListener('click',()=>pdfInput.click()); pdfInput.addEventListener('change',(e)=>{if(e.target.files.length)handleFileUpload(e.target.files[0]);}); }
-            function preventDefaults(e){e.preventDefault();e.stopPropagation();}
-            function handleDrop(e){dropZone.classList.remove('drag-over'); if(e.dataTransfer.files.length && (e.dataTransfer.files[0].type === 'application/pdf' || e.dataTransfer.files[0].name.toLowerCase().endsWith('.pdf'))) handleFileUpload(e.dataTransfer.files[0]); else showError('Please drop a valid PDF file.', 3000); }
-            function handleOptionSelect(event) { const card = event.currentTarget; if(!card.dataset.option) return; selectedOption = card.dataset.option; optionCards.forEach(c => {c.classList.remove('selected', 'border-blue-500'); c.querySelector('.indicator-icon').classList.add('hidden'); }); card.classList.add('selected', 'border-blue-500'); card.querySelector('.indicator-icon').classList.remove('hidden'); progressBar.className = 'h-2.5 rounded-full'; // Reset progress bar class if needed progressBar.classList.add(selectedOption === 'ocr' ? 'progress-bar-ocr' : selectedOption === 'text' ? 'progress-bar-text' : selectedOption === 'formatting' ? 'progress-bar-formatting' : 'bg-blue-600');}
+             // --- Event Handlers & Logic ---
+             function setupUploadListeners(){ ['dragenter','dragover','dragleave','drop'].forEach(ev=>{dropZone.addEventListener(ev,preventDefaults); document.body.addEventListener(ev,preventDefaults);}); ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev,()=> {if(!isProcessing) dropZone.classList.add('drag-over');})); ['dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev,()=> dropZone.classList.remove('drag-over'))); dropZone.addEventListener('drop',handleDrop); uploadBtn.addEventListener('click',()=>pdfInput.click()); pdfInput.addEventListener('change',(e)=>{if(e.target.files.length)handleFileUpload(e.target.files[0]);}); }
+             function preventDefaults(e){e.preventDefault();e.stopPropagation();}
+             function handleDrop(e){dropZone.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if(f && (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) handleFileUpload(f); else showError('Please drop a valid PDF file.', 3000); }
+             function handleOptionSelect(event) { const card = event.currentTarget; if (!card.dataset.option || (card.dataset.option === 'ocr' && !TesseractLib)) return; selectedOption = card.dataset.option; optionCards.forEach(c=>{c.classList.remove('selected','border-blue-500'); c.querySelector('.indicator-icon')?.classList.add('hidden');}); card.classList.add('selected','border-blue-500'); card.querySelector('.indicator-icon')?.classList.remove('hidden'); progressBar.className='h-2.5 rounded-full progress-bar'; progressBar.classList.add(selectedOption==='ocr'?'progress-bar-ocr':selectedOption==='text'?'progress-bar-text':selectedOption==='formatting'?'progress-bar-formatting':'bg-blue-600'); }
 
-             // --- Core Logic ---
              async function handleFileUpload(file) {
-                 if(isProcessing) return; resetTool(); isProcessing = true;
-                 currentFile = file; fileName.textContent = `File: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`; fileName.classList.remove('hidden');
-                 optionsSection.classList.remove('hidden'); // Show options AFTER file is selected
-                 processResultArea.classList.remove('hidden'); // Show the combined area
-                 processingSection.classList.remove('hidden'); resultSection.classList.add('hidden'); // Show processing, hide results
-                 updateProgress(0, 'Initializing...'); tesseractLogContainer.classList.add('hidden'); tesseractLog.innerHTML=''; // Clear logs
-                 try { const arrayBuffer = await file.arrayBuffer(); await processPDF(new Uint8Array(arrayBuffer)); } catch(err) {handleError(err);} finally { isProcessing=false; }
-            }
+                 if(isProcessing) return;
+                 resetTool(false); // Keep file name maybe? No, reset fully except persist error.
+                 isProcessing=true; currentFile=file;
+                 fileName.textContent = `${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`; fileNameDisplayDiv.classList.remove('hidden');
+                 optionsSection.classList.remove('hidden');
+                 processResultArea.classList.remove('hidden'); processingSection.classList.remove('hidden'); resultSection.classList.add('hidden');
+                 updateProgress(0, 'Initializing...'); hideError(); // Clear previous errors
+                 tesseractLogContainer.classList.add('hidden'); tesseractLog.innerHTML='';
+
+                 try { const ab = await readFileAsync(file); await processPDF(new Uint8Array(ab)); }
+                 catch (err) { handleError(err, "File Read/Process Error:"); }
+                 finally { isProcessing=false; }
+             }
              async function processPDF(arrayBuffer) {
-                 extractedContentCache=''; let finalFilename=currentFile.name.replace(/\.pdf$/i,''); extractedText.className=extractedText.className.replace(' ocr-watermark',''); // Remove class initially
-                 if(selectedOption==='ocr'){ if(!TesseractLib){showError("OCR Library not loaded. Cannot perform OCR.",true);return;} statusMessage.textContent='Initializing OCR...'; tesseractLogContainer.classList.remove('hidden'); tesseractLog.innerHTML='<p>Initializing Tesseract...</p>'; updateProgress(5); try {extractedContentCache=await extractTextWithTesseract(arrayBuffer);} catch(ocrErr){console.error("OCR Failed:", ocrErr); extractedContentCache=`OCR Error: ${ocrErr.message}. Trying simple text extraction as fallback...`; try { extractedContentCache += '\n\n--- Fallback Text Extraction ---\n' + await extractTextFromPDFjs(arrayBuffer);} catch {extractedContentCache += '\n\n Fallback extraction also failed.' } } finalFilename+='_ocr.txt'; updateProgress(100, 'OCR Complete.');}
-                 else if(selectedOption==='formatting'){ statusMessage.textContent='Extracting text...'; updateProgress(20);const rawTxt=await extractTextFromPDFjs(arrayBuffer); statusMessage.textContent='Applying basic formatting...'; updateProgress(70); extractedContentCache=simulateWordFormatting(rawTxt); finalFilename+='_formatted.txt'; updateProgress(100, 'Formatting Applied.');}
-                 else { statusMessage.textContent='Extracting text...'; updateProgress(20); extractedContentCache=await extractTextFromPDFjs(arrayBuffer); finalFilename+='_extracted.txt'; updateProgress(100,'Extraction Complete.');}
-                 extractedText.value = extractedContentCache || "No text could be extracted. File might be empty, image-based (try OCR), or corrupted.";
-                 processingSection.classList.add('hidden'); resultSection.classList.remove('hidden'); downloadBtn.disabled=!extractedContentCache; copyBtn.disabled=!extractedContentCache; downloadBtn.onclick=()=>{downloadResult(extractedContentCache, finalFilename);};
-            }
+                extractedContentCache=''; let finalFilename = currentFile.name.replace(/\.pdf$/i,'');
+                updateProgress(10, 'Preparing PDF...');
 
-             // --- Text Extraction Methods ---
-             async function extractTextWithTesseract(typedArray){if(tesseractWorker)await tesseractWorker.terminate();tesseractWorker=await TesseractLib.createWorker('eng',{logger:m=>updateOcrProgress(m)});await tesseractWorker.loadLanguage('eng');await tesseractWorker.initialize('eng');const pdf=await PDFJS.getDocument({data:typedArray, cMapUrl:`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`, cMapPacked:true}).promise;const numPages=pdf.numPages;let fullText='';updateProgress(10,'Preparing pages for OCR...');for(let i=1;i<=numPages;i++){statusMessage.textContent=`OCR Page ${i}/${numPages}...`;const page=await pdf.getPage(i);const canvas=await renderPdfPageToCanvas(page,2.0); try{const{data:{text}}=await tesseractWorker.recognize(canvas,{});fullText+=text+'\n\n';} catch(recErr){console.error(`Recognize err pg ${i}:`,recErr); fullText+=`--- Error page ${i} ---\n`;} const prog = 10+(i/numPages)*85; updateProgress(prog); await new Promise(r=>setTimeout(r,5));} if(tesseractWorker){await tesseractWorker.terminate(); tesseractWorker=null;} updateProgress(98, 'Finalizing OCR...'); return fullText;}
-            async function extractTextFromPDFjs(typedArray){const pdf=await PDFJS.getDocument({data:typedArray, cMapUrl:`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`, cMapPacked:true}).promise;let fullText='';const numPages=pdf.numPages;updateProgress(30);for(let i=1;i<=numPages;i++){const page=await pdf.getPage(i);const tc=await page.getTextContent({normalizeWhitespace:true});let lastY=null;tc.items.forEach(item=>{if(lastY!==null&&Math.abs(item.transform[5]-lastY)>5){fullText+='\n';}fullText+=item.str+(!item.str.endsWith(' ')?' ':'');lastY=item.transform[5];});page.cleanup();if(i<numPages)fullText+='\n\n';const prog=30+(i/numPages)*65;updateProgress(prog,`Extracting text ${i}/${numPages}...`);if(i%10===0)await new Promise(r=>setTimeout(r,5))}return fullText.replace(/\s+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();}
-            function simulateWordFormatting(text){let fmt='';const lines=text.split('\n');lines.forEach(line=>{const tr=line.trim();if(tr.length===0){if(!fmt.endsWith('\n\n')&&fmt.length>0)fmt+='\n';return;}fmt+=tr+'\n';});return fmt.replace(/\n\n+/g,'\n\n').trim();} // Simplified basic formatting
+                try {
+                     if (selectedOption === 'ocr') {
+                        if (!TesseractLib) throw new Error("OCR library not available.");
+                        statusMessage.textContent = 'Initializing OCR...'; tesseractLogContainer.classList.remove('hidden'); tesseractLog.innerHTML = '<p>Loading Tesseract...</p>'; updateProgress(15);
+                         extractedContentCache = await extractTextWithTesseract(arrayBuffer);
+                         finalFilename += '_ocr.txt'; updateProgress(100, 'OCR Complete.');
+                    } else { // Handles 'text' and 'formatting'
+                         statusMessage.textContent = 'Loading PDF data...';
+                         const rawText = await extractTextFromPDFjs(arrayBuffer); // Uses pdf.js
+                         if (selectedOption === 'formatting') { statusMessage.textContent = 'Applying Formatting...'; extractedContentCache = simulateWordFormatting(rawText); finalFilename += '_formatted.txt'; }
+                        else { extractedContentCache = rawText; finalFilename += '_extracted.txt'; } // Option 'text'
+                         updateProgress(100, 'Extraction Complete.');
+                     }
+                     extractedText.value = extractedContentCache || "No text found or error occurred.";
+                 } catch (err) {
+                     // Throw the error up to the main handler
+                     throw err; // Let the main finally block handle UI reset
+                 } finally {
+                     processingSection.classList.add('hidden');
+                     if(extractedContentCache){ // Only show results if extraction succeeded
+                        resultSection.classList.remove('hidden');
+                         downloadBtn.disabled = false; copyBtn.disabled = false;
+                         downloadBtn.onclick = () => { downloadResult(extractedContentCache, finalFilename); };
+                     }
+                 }
+             }
 
-             // --- Helpers ---
-             async function renderPdfPageToCanvas(pdfPage, scale=1.5) { const vp=pdfPage.getViewport({scale});const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;const ctx=c.getContext('2d');await pdfPage.render({canvasContext:ctx, viewport:vp}).promise; return c; }
-            function updateOcrProgress(logData){if(logData.status){statusMessage.textContent=`OCR: ${logData.status}...`;const p=document.createElement('p');p.textContent=`[${new Date().toLocaleTimeString()}] ${logData.status}`+(logData.progress?` (${(logData.progress*100).toFixed(0)}%)`:'');tesseractLog.appendChild(p);tesseractLogContainer.scrollTop=tesseractLogContainer.scrollHeight;} let overallP=10+((logData.progress||0)*0.85)*100;updateProgress(overallP);}
-             function downloadResultAsTxt(content, filename) { if (!content) return; try {const blob=new Blob([content],{type:'text/plain;charset=utf-8'});if(typeof saveAs==='function'){saveAs(blob,filename||'extracted_text.txt');} else{const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=filename||'extracted_text.txt';link.click();URL.revokeObjectURL(link.href);}}catch(e){console.error("DL err:", e);showError("Failed to download file.",3000);}}
-             function copyResultToClipboard() { if(extractedContentCache && navigator.clipboard){ navigator.clipboard.writeText(extractedContentCache).then(() => { copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!'; setTimeout(() => { copyBtn.innerHTML = '<i class="fas fa-copy mr-2"></i> Copy'; }, 2000); }).catch(err => showError('Copy failed.', 2000)); } else if (extractedText.value) { try { extractedText.select(); document.execCommand('copy'); copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!'; setTimeout(() => { copyBtn.innerHTML = '<i class="fas fa-copy mr-2"></i> Copy'; }, 2000); } catch (err){ showError('Copy failed.', 2000);} window.getSelection().removeAllRanges(); } else {showError('No text to copy.', 2000); } }
-             function resetTool() { if (tesseractWorker){ tesseractWorker.terminate(); tesseractWorker = null; } currentFile=null; extractedContentCache=''; isProcessing=false; optionsSection.classList.add('hidden'); processResultArea.classList.add('hidden'); processingSection.classList.remove('hidden'); resultSection.classList.add('hidden'); fileName.classList.add('hidden'); pdfInput.value=null; extractedText.value=''; copyBtn.disabled=true; downloadBtn.disabled=true; updateProgress(0); statusMessage.textContent=''; hideError(); tesseractLogContainer.classList.add('hidden'); tesseractLog.innerHTML=''; selectedOption = 'ocr'; optionCards.forEach(c=>{c.classList.remove('selected','border-blue-500');c.querySelector('.indicator-icon').classList.add('hidden');}); document.querySelector('.option-card[data-option="ocr"]').click();}
-             function updateProgress(percentage, statusMsg=null){const p=Math.min(100,Math.max(0,Math.round(percentage)));progressBar.style.width=`${p}%`;progressText.textContent=`${p}%`;if(statusMsg)statusMessage.textContent=statusMsg;}
-             function showError(msg, persist=false, duration=5000){if(!document.getElementById('error'))return;const errEl=document.getElementById('error'), msgEl=document.getElementById('errorMessage'); if(msg){msgEl.textContent=msg; errEl.classList.remove('hidden');if(!persist){const timer=setTimeout(()=>errEl.classList.add('hidden'),duration);errEl.dataset.timer=timer;}else if(errEl.dataset.timer){clearTimeout(Number(errEl.dataset.timer));}}else{hideError();}}
-             function hideError() { const errEl=document.getElementById('error'); if (errEl) errEl.classList.add('hidden'); const timerId=errEl?.dataset.timer; if(timerId) clearTimeout(Number(timerId)); }
 
-         }); // End DOMContentLoaded
+             function readFileAsync(f) { return new Promise((res,rej)=>{const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(new Error('File Read Error')); r.readAsArrayBuffer(f); }); }
+             async function extractTextWithTesseract(typedArray){/* Tesseract Logic*/ if(tesseractWorker)await tesseractWorker.terminate();tesseractWorker=await TesseractLib.createWorker('eng',{logger:m=>updateOcrProgress(m)});await tesseractWorker.loadLanguage('eng');await tesseractWorker.initialize('eng');const pdf=await PDFJS.getDocument({data:typedArray,cMapUrl:`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,cMapPacked:true}).promise;let txt='';const num=pdf.numPages;updateProgress(10,'Preparing pages for OCR...');for(let i=1;i<=num;i++){statusMessage.textContent=`OCR Page ${i}/${num}...`;const page=await pdf.getPage(i);const canvas=await renderPdfPageToCanvas(page,2.0); try{const {data:{text:pageText}}=await tesseractWorker.recognize(canvas,{});txt+=pageText+'\n\n';}catch(recErr){txt+=`--- OCR Err Pg ${i} ---\n\n`;} page.cleanup();const prog=10+(i/num)*85;updateProgress(prog);} if(tesseractWorker){await tesseractWorker.terminate();tesseractWorker=null;}updateProgress(98,'Finalizing OCR...');return txt.trim();}
+            async function extractTextFromPDFjs(typedArray){const pdf=await PDFJS.getDocument({data:typedArray,cMapUrl:`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,cMapPacked:true}).promise;let text='';const num=pdf.numPages;updateProgress(30);for(let i=1;i<=num;i++){const page=await pdf.getPage(i);const tc=await page.getTextContent({normalizeWhitespace:true});let lastY=null,lineBuf='',lastX=-1,lastWidth=0;tc.items.forEach(it=>{const cy=it.transform[5],cx=it.transform[4];if(lastY!==null&&(Math.abs(cy-lastY)>5||it.hasEOL)){text+=lineBuf.trim()+'\n';lineBuf=it.str;lastX=-1;}else{if(lineBuf.length>0&&!lineBuf.endsWith(' ')&&lastX!==-1&&cx>(lastX+lastWidth+1)){lineBuf+=' ';}lineBuf+=it.str;}lastY=cy;lastX=cx;lastWidth=it.width;});text+=lineBuf.trim()+'\n';page.cleanup();if(i<num)text+='\n';const prog=30+(65*i/num);updateProgress(prog,`Extracting ${i}/${num}...`);if(i%10===0)await new Promise(r=>setTimeout(r,1));}return text.replace(/\s+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();}
+            function simulateWordFormatting(t){return t.split('\n').filter(l=>l.trim().length>0).join('\n\n');}
+            async function renderPdfPageToCanvas(page,scale=1.5){const vp=page.getViewport({scale});const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;return c;}
+             function updateOcrProgress(logData){if(logData.status){let msg = `OCR: ${logData.status}`; let p = (logData.progress || 0); if(p > 0 && p < 1) msg += ` (${(p * 100).toFixed(0)}%)`; statusMessage.textContent=msg; const logP=document.createElement('p'); logP.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`; tesseractLog.appendChild(logP); tesseractLogContainer.scrollTop=tesseractLogContainer.scrollHeight;} let overallP=15+((logData.progress||0)*0.80)*100;updateProgress(overallP);}
+            function downloadResult(content, fname){ if(!content)return;try{const blob=new Blob([content],{type:'text/plain;charset=utf-8'});if(SAVEAS){saveAs(blob,fname||'extracted_text.txt');}else{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=fname||'extracted_text.txt';a.click();URL.revokeObjectURL(url);}}catch(e){showError("Download failed.",3000);}}
+            function copyResultToClipboard(){if(!extractedText.value||!navigator.clipboard){showError('Clipboard unavailable/no text.',3000);return;}navigator.clipboard.writeText(extractedText.value).then(()=>{copyFeedback.classList.add('show');setTimeout(()=>copyFeedback.classList.remove('show'),2000);}).catch(()=>showError('Copy failed.',2000));}
+            function resetTool(fullReset=true){if(tesseractWorker){try{tesseractWorker.terminate();}catch(e){} tesseractWorker=null;}isProcessing=false;currentFile=null;extractedContentCache='';optionsSection.classList.add('hidden');processResultArea.classList.add('hidden');resultSection.classList.add('hidden');processingSection.classList.remove('hidden');if(fullReset) { fileInput.value=null; fileName.textContent=''; fileNameDisplayDiv.classList.add('hidden');} extractedText.value='';copyBtn.disabled=true;downloadBtn.disabled=true;updateProgress(0);statusMessage.textContent='';hideError();tesseractLogContainer.classList.add('hidden');tesseractLog.innerHTML='';selectedOption='ocr';optionCards.forEach(c=>{c.classList.remove('selected','border-blue-500');c.querySelector('.indicator-icon')?.classList.add('hidden');});const defaultCard=document.querySelector('.option-card[data-option="ocr"]');if(defaultCard){defaultCard.classList.add('selected','border-blue-500');defaultCard.querySelector('.indicator-icon')?.classList.remove('hidden');}}
+            function updateProgress(pct,msg=null){const clamped=Math.min(pct,100);progressBar.style.width=`${clamped}%`;progressText.textContent=`${Math.round(clamped)}%`;if(msg)statusMessage.textContent=msg;}
+            function showError(msg, persist=false, duration=5000){if(!errorSection)return; const timerId=errorSection.dataset.timer;if(timerId)clearTimeout(Number(timerId));errorMessageEl.textContent=msg||'An error occurred.'; errorSection.classList.remove('hidden');if(!persist){const timer=setTimeout(()=>errorSection.classList.add('hidden'),duration);errorSection.dataset.timer=timer;}else{delete errorSection.dataset.timer;}}
+             function hideError(){if(errorSection){errorSection.classList.add('hidden');const timerId=errorSection.dataset.timer;if(timerId)clearTimeout(Number(timerId));delete errorSection.dataset.timer;}}
+            function handleError(err,contextMsg="Error:") {console.error(contextMsg,err);showError(`${contextMsg} ${err.message||'Please check file or try again.'}`,true);isProcessing=false;/* Reset parts of UI? */ processingSection.classList.add('hidden'); resultSection.classList.add('hidden'); }
+
+        }).catch(initError => {
+             console.error("Initialization script failed:", initError);
+             // Display a general error message to the user on the page
+            document.body.innerHTML = `<div class="p-8 text-center text-red-600 bg-red-50 min-h-screen flex items-center justify-center"> <p>Error initializing page components. Please refresh.</p></div>`;
+         });
      </script>
 </body>
 </html>
