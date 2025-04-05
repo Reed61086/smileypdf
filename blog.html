@@ -97,12 +97,12 @@
     <!-- Main Content Area -->
     <main class="container mx-auto px-6 py-12">
         <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">SmileyPDF Blog</h1>
-         <p class="text-lg text-gray-600 text-center mb-8 max-w-2xl mx-auto">
-             Tips, tricks, and guides for making the most of your PDF documents and our free online tools.
+        <p class="text-lg text-gray-600 text-center mb-8 max-w-2xl mx-auto">
+            Tips, tricks, and guides for making the most of your PDF documents and our free online tools.
          </p>
 
         <!-- Ad Block -->
-        <div class="w-full max-w-4xl mx-auto mb-8 text-center">
+        <div class="w-full max-w-4xl mx-auto py-2 text-center"> {/* Adjusted spacing: Removed mb-*, added small py-* */}
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-9273434855071552"
@@ -113,11 +113,10 @@
         </div>
 
         <!-- Blog Post Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8"> {/* Added mt-8 */}
 
-            <!-- Sample Blog Post 1 -->
+            <!-- Blog Post 1 -->
             <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                <!-- Optional Image: <img src="placeholder.jpg" alt="Editing PDF" class="w-full h-48 object-cover"> -->
                  <div class="w-full h-48 bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center">
                      <i class="fas fa-pencil-alt text-5xl text-white opacity-50"></i>
                  </div>
@@ -135,9 +134,8 @@
                 </div>
             </div>
 
-            <!-- Sample Blog Post 2 -->
+            <!-- Blog Post 2 -->
             <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
-                 <!-- Optional Image: <img src="placeholder.jpg" alt="Merging PDFs" class="w-full h-48 object-cover"> -->
                  <div class="w-full h-48 bg-gradient-to-br from-green-200 to-teal-300 flex items-center justify-center">
                      <i class="fas fa-object-group text-5xl text-white opacity-50"></i>
                  </div>
@@ -173,19 +171,11 @@
                      <div class="flex justify-between items-center text-xs text-gray-500"><span>June 20, 2024</span> <a href="blog-post-4.html" class="text-blue-500 hover:underline font-medium">Read More <i class="fas fa-arrow-right text-xs ml-1"></i></a></div>
                  </div>
             </div>
-             <!-- Removed original placeholder -->
 
         </div>
-         <!-- Pagination (Optional - Needs JS or Server Logic) -->
+         <!-- Pagination Placeholder -->
          <!--
-         <div class="mt-12 flex justify-center">
-             <nav class="inline-flex rounded-md shadow">
-                 <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 rounded-l-md"> Previous </a>
-                 <a href="#" aria-current="page" class="px-4 py-2 border-t border-b border-gray-300 bg-blue-50 text-sm font-medium text-blue-600 z-10"> 1 </a>
-                 <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"> 2 </a>
-                 <a href="#" class="px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 rounded-r-md"> Next </a>
-             </nav>
-         </div>
+         <div class="mt-12 flex justify-center"> ... </div>
          -->
     </main>
 
@@ -195,7 +185,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
                 <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>Free online tools to make your PDF tasks simple and secure.</p></div>
                 <div><h4 class="font-semibold mb-2 uppercase">Quick Links</h4><ul><li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About Us</a></li><li><a href="blog.html" class="hover:text-white">Blog</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li></ul></div>
-                <div><h4 class="font-semibold mb-2 uppercase">Legal</h4><ul><li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li><li><a href="terms.html" class="hover:text-white">Terms of Service</a></li></ul></div>
+                <div><h4 class="font-semibold mb-2 uppercase">Legal</h4><ul><li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li><li class="mt-1"><a href="terms.html" class="hover:text-white">Terms of Service</a></li></ul></div>
             </div>
             <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
         </div>
