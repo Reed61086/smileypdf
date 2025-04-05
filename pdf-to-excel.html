@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title -->
+    <title>PDF to Excel Converter (OCR) - SmileyPDF</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Base CDNs (from pdf-rotator) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Additional Libraries (Keep FontAwesome 6.4.0 as it was in rotator) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PDF to Excel Specific Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Make sure pdf.js and worker versions match (Using version from original pdftoexcel) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script>
+        // Set worker source explicitly BEFORE any pdf.js calls using the correct version
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
+    </script>
+    <!-- AlpineJS (Needed for Header) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AdSense Script (from pdf-rotator) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <!-- Combined Styles -->
+    <style>
+        /* General styles from pdf-rotator */
+        .dropzone { transition: all 0.3s ease; }
+        .dropzone.active { border-color: #3b82f6; background-color: #f0f7ff; }
+        /* Styles specific to pdftoexcel */
+        #progressBar { transition: width 0.3s ease; }
+        table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; word-wrap: break-word; }
+        th { background-color: #f2f2f2; }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        pre {
+             white-space: pre-wrap;
+             white-space: -moz-pre-wrap;
+             white-space: -pre-wrap;
+             white-space: -o-pre-wrap;
+             word-wrap: break-word;
+             font-family: inherit; /* Use body font */
+        }
+        /* Scrollbar styling from pdf-rotator (applied to specific element in JS if needed) */
+        /* Example: #previewContainer .overflow-auto::-webkit-scrollbar { width: 8px; } */
+        .styled-scrollbar::-webkit-scrollbar { width: 8px; }
+        .styled-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .styled-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .styled-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<!-- Body class from pdf-rotator -->
+<body class="bg-gray-50 min-h-screen">
+
+<!-- Header Copied from pdf-rotator.html -->
+<header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+            <!-- Tools Dropdown -->
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                    Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100 transform"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75 transform"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                     <!-- Add link to PDF to Excel if page exists -->
+                     <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                 </div>
+             </div>
+             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+         </div>
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                  <span class="sr-only">Open menu</span>
+                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+              </button>
+         </div>
+    </nav>
+     <!-- Mobile Menu Panel -->
+     <div x-show="mobileMenuOpen"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         x-transition:enter="transition ease-out duration-200 transform origin-top"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="display: none;" x-cloak>
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
+            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
+            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
+            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
+            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
+            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+            <!-- Add link to PDF to Excel if page exists -->
+            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+        </div>
+     </div>
+</header>
+
+<!-- Main Content Area -->
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+        <!-- Using max-w-4xl similar to rotator for consistency -->
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">PDF to Excel Converter</h1>
+            <p class="text-gray-600">Convert scanned PDFs and image-based PDFs to editable Excel files using Tesseract OCR</p>
+        </div>
+    </div>
+
+    <!-- Main Tool UI Container (using styles from original pdftoexcel) -->
+    <!-- Added max-w-6xl to allow more width for the two columns -->
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 mb-8">
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Left Section - File Upload & Settings -->
+            <div class="w-full md:w-1/2">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">1. Upload PDF File</h2>
+
+                <!-- Dropzone using classes from rotator -->
+                <div id="dropzone" class="dropzone border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 mb-4"
+                     ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropHandler(event)">
+                    <input type="file" id="fileInput" class="hidden" accept=".pdf" />
+                    <div class="flex flex-col items-center justify-center">
+                        <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
+                        <p class="text-lg font-medium text-gray-700 mb-2">Drag & drop PDF file here</p>
+                        <p class="text-gray-500 mb-4">or</p>
+                        <!-- Button styled like rotator's -->
+                        <button type="button" id="uploadBtn" class="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer">
+                            Select PDF File
+                        </button>
+                        <p class="text-xs text-gray-500 mt-3">Supports scanned PDFs and image-based PDFs</p>
+                    </div>
+                </div>
+
+                <!-- PDF Information -->
+                <div id="pdfInfo" class="hidden">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-medium text-gray-800">Selected File</h3>
+                        <button type="button" id="clearFile" class="text-red-500 hover:text-red-700 text-sm">
+                            <i class="fas fa-times mr-1"></i>Clear
+                        </button>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg border border-gray-200"> <!-- Added border -->
+                        <div class="flex items-center">
+                            <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                            <div class="truncate flex-1 min-w-0">
+                                <span id="fileName" class="font-medium block truncate text-gray-700"></span> <!-- Darker text -->
+                                <span id="fileSize" class="text-gray-500 text-sm block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OCR Settings -->
+                <!-- Wrapped in a styled container like rotator's controls -->
+                <div id="ocrSettings" class="mt-6 hidden bg-gray-100 rounded-lg p-4">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">2. OCR Settings</h2>
+
+                    <div class="mb-4">
+                        <label for="languageSelect" class="block text-gray-700 text-sm font-medium mb-2">Language</label>
+                        <select id="languageSelect" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white"> <!-- Added bg-white -->
+                            <option value="eng">English</option>
+                            <option value="fra">French</option>
+                            <option value="deu">German</option>
+                            <option value="spa">Spanish</option>
+                            <option value="por">Portuguese</option>
+                            <option value="chi_sim">Chinese (Simplified)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">Process Pages</label>
+                        <div id="pageRangeControls" class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="allPages" name="pageOption" value="all" checked class="mr-2 h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"> <!-- Styled radio -->
+                                <label for="allPages" class="text-gray-700">All pages (<span id="totalPagesInfo"></span>)</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="customRange" name="pageOption" value="range" class="mr-2 h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"> <!-- Styled radio -->
+                                <label for="customRange" class="text-gray-700 mr-2">Pages range:</label>
+                                <input type="text" id="pageRangeInput" placeholder="e.g. 1-5,7,9-12"
+                                       class="ml-auto p-1 border border-gray-300 rounded flex-1 max-w-xs" disabled> <!-- Adjusted layout -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" id="preserveLayout" class="form-checkbox rounded text-blue-600 mr-2 h-4 w-4 border-gray-300 focus:ring-blue-500"> <!-- Styled checkbox -->
+                            <span class="text-gray-700">Attempt table detection</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1 pl-6">Basic heuristic detection. Shows table in preview if successful.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" id="showExtractedText" checked class="form-checkbox rounded text-blue-600 mr-2 h-4 w-4 border-gray-300 focus:ring-blue-500"> <!-- Styled checkbox -->
+                            <span class="text-gray-700">Show extracted text preview</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1 pl-6">Uncheck to prioritize table preview if table detection is enabled.</p>
+                    </div>
+
+                    <!-- Process Button styled like rotator's -->
+                    <button type="button" id="processBtn" class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition flex items-center justify-center disabled:opacity-50 mt-4">
+                        <i class="fas fa-cogs mr-2"></i> Process PDF with OCR
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Section - Preview & Results -->
+            <div class="w-full md:w-1/2">
+                <!-- Empty State (Placeholder before upload) -->
+                <div id="emptyState" class="text-center py-10 px-4 border border-dashed border-gray-300 rounded-lg h-full flex flex-col justify-center items-center bg-gray-50"> <!-- Added bg -->
+                    <div class="mx-auto w-24 h-24 text-gray-300 mb-4 flex items-center justify-center">
+                         <i class="fas fa-file-arrow-up text-6xl opacity-50"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-500">Upload a PDF file</h3>
+                    <p class="text-gray-400 mt-1 text-sm">Select a PDF to begin the conversion process.</p>
+                </div>
+
+                <!-- Preview Section (Initially hidden) -->
+                <div id="previewSection" class="hidden">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">3. Preview & Results</h2>
+
+                    <!-- Progress -->
+                    <div id="progressContainer" class="hidden mb-4 bg-gray-100 rounded-lg p-4"> <!-- Styled container -->
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">Processing...</span>
+                            <span id="progressText" class="text-sm font-medium text-gray-700">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-300 rounded-full h-2.5"> <!-- Darker track -->
+                            <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <div id="progressStatus" class="text-xs text-gray-500 mt-1 text-center">Initializing OCR engine...</div> <!-- Centered -->
+                    </div>
+
+                    <!-- Result/Error Status (Styled like rotator's result section) -->
+                    <div id="resultStatus" class="hidden mb-4 p-4 rounded-lg bg-green-50 border border-green-200 text-green-700">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle mr-2 text-green-600 text-lg"></i> <!-- Size adjusted -->
+                            <span id="statusMessage">OCR completed successfully!</span>
+                        </div>
+                    </div>
+                    <div id="errorStatus" class="hidden mb-4 p-4 rounded-lg bg-red-50 border border-red-200 text-red-700">
+                        <div class="flex">
+                            <i class="fas fa-exclamation-circle mt-1 mr-2 text-red-600 text-lg"></i> <!-- Size adjusted -->
+                            <div>
+                                <span id="errorMessage" class="font-medium block">An error occurred</span> <!-- Block for better spacing -->
+                                <p id="errorDetails" class="text-sm"></p>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Added fileError div for consistency with rotator's JS -->
+                     <div id="fileError" class="mt-2 text-sm text-red-500 hidden"></div>
+
+
+                    <!-- Preview Content -->
+                    <div id="previewContainer" class="hidden mb-4">
+                         <div class="flex justify-between items-center mb-2">
+                            <h3 id="previewTitle" class="font-medium text-gray-800">Preview</h3>
+                            <div class="flex space-x-2 items-center">
+                                <button type="button" id="prevPageBtn" class="p-1 text-gray-500 hover:text-blue-600 disabled:text-gray-300 disabled:cursor-not-allowed" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span id="pageIndicator" class="text-sm text-gray-500">Page 1 of 1</span>
+                                <button type="button" id="nextPageBtn" class="p-1 text-gray-500 hover:text-blue-600 disabled:text-gray-300 disabled:cursor-not-allowed" disabled>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                         <!-- Added styled-scrollbar class -->
+                        <div class="styled-scrollbar bg-gray-50 p-4 rounded-lg border border-gray-200 overflow-auto" style="max-height: 350px;">
+                            <!-- Text Preview -->
+                            <div id="resultTextContainer">
+                                <pre id="resultTextContent" class="text-sm"></pre>
+                            </div>
+                            <!-- Table Preview -->
+                            <div id="resultTableContainer" class="hidden">
+                                <table id="resultTable" class="min-w-full text-sm">
+                                    <thead></thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <!-- No Data Message -->
+                            <div id="noDataMessage" class="text-center text-gray-500 py-4 hidden">
+                                No data could be extracted or preview available for this page.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Download Section (Styled like rotator's result buttons) -->
+                    <div id="downloadSection" class="hidden mt-6 text-center">
+                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4"> <!-- Added info box -->
+                             <h3 class="text-lg font-semibold text-blue-800 mb-1">Ready to Download!</h3>
+                             <p class="text-blue-600 text-sm">Download the extracted data as an Excel file or copy the text.</p>
+                         </div>
+                        <div class="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 space-y-3 sm:space-y-0">
+                            <!-- Download Button styled like rotator's download -->
+                            <button type="button" id="downloadExcelBtn" class="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition inline-flex items-center justify-center">
+                                <i class="fas fa-file-excel mr-2"></i> Download Excel File
+                            </button>
+                             <!-- Copy Button styled like rotator's secondary button -->
+                            <button type="button" id="copyTextBtn" class="px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-100 transition inline-flex items-center justify-center text-gray-700">
+                                <i class="fas fa-copy mr-2"></i> Copy All Extracted Text
+                            </button>
+                             <!-- Added Process Another File Button like rotator -->
+                             <button id="newFileBtn" type="button" class="px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-100 transition inline-flex items-center justify-center text-gray-700">
+                                <i class="fas fa-redo mr-2"></i> Process Another File
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How to Use Section (Adapted from Rotator) -->
+    <div class="max-w-4xl mx-auto mt-12 bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">How to Convert PDF to Excel</h2>
+        <ol class="list-decimal list-inside space-y-2 text-gray-700">
+            <li>Upload your PDF using the drag & drop area or the "Select PDF File" button.</li>
+            <li>Choose the primary language of the document under "OCR Settings".</li>
+            <li>Select whether to process "All pages" or specify a "Pages range" (e.g., `1-3, 5, 7-10`).</li>
+            <li>(Optional) Check "Attempt table detection" to try and extract tabular data.</li>
+            <li>(Optional) Uncheck "Show extracted text preview" if you prefer to see the table preview when table detection is enabled.</li>
+            <li>Click the green "Process PDF with OCR" button.</li>
+            <li>Wait for the processing to complete. Progress will be shown.</li>
+            <li>Preview the extracted text or detected table for each page using the navigation buttons.</li>
+            <li>Click "Download Excel File" to save the results. An Excel file with sheets for tables (if detected) and full text will be generated.</li>
+            <li>Alternatively, click "Copy All Extracted Text" to copy the text to your clipboard.</li>
+        </ol>
+        <p class="text-center text-sm text-gray-500 mt-4">All processing happens securely in your browser. Your files are not uploaded.</p>
+    </div>
+
+    <!-- Ad Block (Copied from pdf-rotator) -->
+     <div class="w-full max-w-4xl mx-auto my-8 text-center">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Footer Text (Original from pdftoexcel, now less prominent) -->
+    <div class="mt-8 text-center text-sm text-gray-500">
+        <p>This tool uses Tesseract.js, PDF.js, and SheetJS for browser-side processing.</p>
+    </div>
+</div>
+
+<!-- Footer Copied from pdf-rotator.html -->
+<footer class="bg-gray-700 text-gray-300 mt-12 py-8">
+    <div class="container mx-auto px-6 text-center">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+            <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>Free online tools to make your PDF tasks simple and secure.</p></div>
+            <div><h4 class="font-semibold mb-2 uppercase">Quick Links</h4><ul><li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About Us</a></li><li><a href="blog.html" class="hover:text-white">Blog</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li></ul></div>
+            <div><h4 class="font-semibold mb-2 uppercase">Legal</h4><ul><li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li><li><a href="terms.html" class="hover:text-white">Terms of Service</a></li></ul></div>
+        </div>
+        <div class="border-t border-gray-600 pt-6 text-sm">© <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
+    </div>
+</footer>
+
+<!-- Hidden tracking link from original pdftoexcel -->
+<a style="display: none;" href="/thank-you/"> //a
+
+<!-- Original pdftoexcel JavaScript (with minor additions) -->
+<script>
+    // --- Revised Approach: No explicit paths, use PSM.AUTO ---
+
+    // DOM Elements
+    const ui = {
+        fileInput: document.getElementById('fileInput'),
+        uploadBtn: document.getElementById('uploadBtn'),
+        dropzone: document.getElementById('dropzone'),
+        pdfInfo: document.getElementById('pdfInfo'),
+        fileName: document.getElementById('fileName'),
+        fileSize: document.getElementById('fileSize'),
+        clearFile: document.getElementById('clearFile'),
+        ocrSettings: document.getElementById('ocrSettings'),
+        totalPagesInfo: document.getElementById('totalPagesInfo'),
+        languageSelect: document.getElementById('languageSelect'),
+        allPagesRadio: document.getElementById('allPages'),
+        customRangeRadio: document.getElementById('customRange'),
+        pageRangeInput: document.getElementById('pageRangeInput'),
+        preserveLayout: document.getElementById('preserveLayout'),
+        showExtractedText: document.getElementById('showExtractedText'),
+        processBtn: document.getElementById('processBtn'),
+        previewSection: document.getElementById('previewSection'),
+        emptyState: document.getElementById('emptyState'),
+        progressContainer: document.getElementById('progressContainer'),
+        progressBar: document.getElementById('progressBar'),
+        progressText: document.getElementById('progressText'),
+        progressStatus: document.getElementById('progressStatus'),
+        resultStatus: document.getElementById('resultStatus'),
+        statusMessage: document.getElementById('statusMessage'),
+        errorStatus: document.getElementById('errorStatus'),
+        errorMessage: document.getElementById('errorMessage'),
+        errorDetails: document.getElementById('errorDetails'),
+        fileError: document.getElementById('fileError'), // Added for consistency
+        previewContainer: document.getElementById('previewContainer'),
+        previewTitle: document.getElementById('previewTitle'),
+        pageIndicator: document.getElementById('pageIndicator'),
+        prevPageBtn: document.getElementById('prevPageBtn'),
+        nextPageBtn: document.getElementById('nextPageBtn'),
+        resultTextContainer: document.getElementById('resultTextContainer'),
+        resultTextContent: document.getElementById('resultTextContent'),
+        resultTableContainer: document.getElementById('resultTableContainer'),
+        resultTable: document.getElementById('resultTable'),
+        noDataMessage: document.getElementById('noDataMessage'),
+        downloadSection: document.getElementById('downloadSection'),
+        downloadExcelBtn: document.getElementById('downloadExcelBtn'),
+        copyTextBtn: document.getElementById('copyTextBtn'),
+        newFileBtn: document.getElementById('newFileBtn'), // Added button
+    };
+
+    // State variables
+    let pdfFile = null;
+    let pdfDocument = null;
+    let totalPages = 0;
+    let extractedData = [];
+    let currentPageIndex = 0;
+    let tesseractWorker = null;
+    let isProcessing = false;
+    let currentPageNum = 0; // Holds the actual PDF page number being processed
+
+    // --- Event Listeners ---
+    ui.uploadBtn.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent dropzone click if button is clicked
+        if (isProcessing) return;
+        ui.fileInput.click();
+    });
+    ui.fileInput.addEventListener('change', handleFileSelect);
+    ui.clearFile.addEventListener('click', clearSelectedFile);
+    ui.dropzone.addEventListener('click', () => {
+         if (isProcessing) return;
+         // Only trigger file input if not clicking the button itself
+         if (!event.target.closest('button')) {
+             ui.fileInput.click();
+         }
+    });
+    ui.processBtn.addEventListener('click', startOCRProcessing);
+    ui.downloadExcelBtn.addEventListener('click', downloadExcelFile);
+    ui.copyTextBtn.addEventListener('click', copyExtractedText);
+    ui.prevPageBtn.addEventListener('click', () => showPage(currentPageIndex - 1));
+    ui.nextPageBtn.addEventListener('click', () => showPage(currentPageIndex + 1));
+    ui.allPagesRadio.addEventListener('change', () => { ui.pageRangeInput.disabled = true; ui.pageRangeInput.value = ''; });
+    ui.customRangeRadio.addEventListener('change', () => { ui.pageRangeInput.disabled = false; });
+    ui.preserveLayout.addEventListener('change', () => { if (extractedData.length > 0) showPage(currentPageIndex); });
+    ui.showExtractedText.addEventListener('change', () => { if (extractedData.length > 0) showPage(currentPageIndex); });
+    if (ui.newFileBtn) { // Add listener for the new button
+        ui.newFileBtn.addEventListener('click', () => resetTool(true));
+    }
+
+
+    // --- Drag and Drop ---
+    function dragOver(e) {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent bubbling
+        if (isProcessing) return;
+        ui.dropzone.classList.add('active');
+    }
+    function dragLeave(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        ui.dropzone.classList.remove('active');
+    }
+    function dropHandler(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isProcessing) return;
+        ui.dropzone.classList.remove('active');
+        if (e.dataTransfer.files.length) {
+            const file = e.dataTransfer.files[0];
+            if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                 handleFileSelect({ target: { files: [file] } });
+            } else {
+                showError('Invalid File Type', 'Please upload a PDF file.');
+            }
+        }
+    }
+    // Prevent file drops anywhere else on the page
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        document.body.addEventListener(eventName, (e) => {
+            // Allow drop only on the dropzone itself
+            if (!ui.dropzone.contains(e.target)) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, false);
+    });
+
+
+    // --- File Handling ---
+    function handleFileSelect(event) {
+        if (isProcessing) return;
+        console.log("handleFileSelect triggered");
+        clearStateBeforeUpload(); // Clear previous results and errors
+        const file = event.target.files[0];
+        if (!file) { console.log("No file selected"); return; }
+        console.log(`File selected: ${file.name}, Type: ${file.type}`);
+
+        // Reset file input value so change event fires even if same file selected again
+        event.target.value = null;
+
+        if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+            showError('Invalid File Type', 'Please upload a PDF file.');
+            clearSelectedFile(); // Ensure UI resets if invalid file is chosen
+            return;
+        }
+        pdfFile = file;
+        displayFileInfo(file);
+        ui.ocrSettings.classList.remove('hidden');
+        // Don't show preview section immediately, wait for PDF load
+        ui.emptyState.classList.remove('hidden'); // Keep empty state visible initially
+        loadPDF(file);
+    }
+
+    function displayFileInfo(file) {
+        ui.fileName.textContent = file.name;
+        ui.fileSize.textContent = formatFileSize(file.size);
+        ui.pdfInfo.classList.remove('hidden');
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024; const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // --- Reset / Clear ---
+     function resetTool(showDefaultMsg=true) {
+        console.log("resetTool called");
+        isProcessing = false;
+        pdfFile = null;
+        pdfDocument = null;
+        totalPages = 0;
+        extractedData = [];
+        currentPageIndex = 0;
+        currentPageNum = 0;
+
+        ui.fileInput.value = ''; // Clear file input
+        ui.pdfInfo.classList.add('hidden');
+        ui.fileName.textContent = '';
+        ui.fileSize.textContent = '';
+
+        ui.ocrSettings.classList.add('hidden');
+        // Reset settings to default
+        ui.languageSelect.value = 'eng';
+        ui.allPagesRadio.checked = true;
+        ui.customRangeRadio.checked = false;
+        ui.pageRangeInput.value = '';
+        ui.pageRangeInput.disabled = true;
+        ui.preserveLayout.checked = false;
+        ui.showExtractedText.checked = true;
+        ui.totalPagesInfo.textContent = '';
+
+
+        ui.previewSection.classList.add('hidden');
+        ui.emptyState.classList.remove('hidden'); // Show empty state again
+
+        clearProcessingState(); // Also hides progress, status, error
+        terminateWorker(); // Ensure worker is stopped
+
+        // Clear preview area
+        ui.previewContainer.classList.add('hidden');
+        ui.downloadSection.classList.add('hidden');
+        ui.resultTextContent.textContent = '';
+        const tableBody = ui.resultTable.querySelector('tbody'); if (tableBody) tableBody.innerHTML = '';
+        const tableHead = ui.resultTable.querySelector('thead'); if (tableHead) tableHead.innerHTML = '';
+        ui.noDataMessage.classList.add('hidden');
+    }
+
+
+    function clearSelectedFile() {
+         // Simplified: just call resetTool
+         resetTool(true);
+    }
+
+
+    async function loadPDF(file) {
+        console.log("loadPDF started");
+        showProgressIndicator('Loading PDF...', 0, 'Reading file...'); // Show progress early
+        ui.emptyState.classList.add('hidden'); // Hide empty state now
+        ui.previewSection.classList.remove('hidden'); // Show the preview section area
+
+        const fileReader = new FileReader();
+        fileReader.onload = async function() {
+            console.log("FileReader onload");
+            const typedarray = new Uint8Array(this.result);
+            try {
+                updateProgressDisplay(0, 'Initializing PDF viewer...');
+                console.log("Calling pdfjsLib.getDocument");
+                // Check if encrypted
+                 let loadingTask = pdfjsLib.getDocument({ data: typedarray });
+                 loadingTask.onPassword = function(updatePassword, reason) {
+                    if (reason === pdfjsLib.PasswordResponses.NEED_PASSWORD) {
+                         const password = prompt('This PDF is password protected. Please enter the password:');
+                         if (password) {
+                             updatePassword(password);
+                         } else {
+                             throw new Error('Password required but not provided.');
+                         }
+                     } else if (reason === pdfjsLib.PasswordResponses.INCORRECT_PASSWORD) {
+                         const password = prompt('Incorrect password. Please try again:');
+                         if (password) {
+                             updatePassword(password);
+                         } else {
+                             throw new Error('Incorrect password provided.');
+                         }
+                     }
+                 };
+
+                pdfDocument = await loadingTask.promise;
+                totalPages = pdfDocument.numPages;
+                console.log(`PDF loaded: ${totalPages} pages`);
+                ui.totalPagesInfo.textContent = `${totalPages} pages total`;
+                ui.pageRangeInput.placeholder = `e.g. 1-${totalPages}`;
+                ui.allPagesRadio.checked = true; ui.pageRangeInput.disabled = true; ui.pageRangeInput.value = '';
+                ui.progressContainer.classList.add('hidden'); // Hide progress once loaded
+                // Now the PDF is loaded, settings are visible, preview area is ready
+            } catch (error) {
+                console.error("PDF Loading Error:", error);
+                let errorMsg = error.message || 'Could not load PDF.';
+                if (error.name === 'PasswordException' || error.message.includes('Password')) {
+                    errorMsg = 'Failed to open PDF: Incorrect password or password required.';
+                } else if (error.name === 'InvalidPDFException') {
+                     errorMsg = 'Invalid or corrupt PDF file.';
+                }
+                showError('Error Loading PDF', errorMsg, true); // Make error persistent
+                resetTool(false); // Reset without default message, keep file info if possible
+            }
+        };
+        fileReader.onerror = (e) => { console.error("FileReader Error:", e); showError('File Reading Error', 'Could not read file.', true); resetTool(false); };
+        fileReader.readAsArrayBuffer(file);
+    }
+
+    // --- State Management ---
+    function clearStateBeforeUpload() {
+         console.log("clearStateBeforeUpload called");
+         extractedData = []; currentPageIndex = 0; hideError(); hideResultStatus();
+         ui.progressContainer.classList.add('hidden');
+         // Don't hide previewContainer or downloadSection yet, they hide/show based on data
+         ui.resultTextContent.textContent = '';
+         const tableBody = ui.resultTable.querySelector('tbody'); if (tableBody) tableBody.innerHTML = '';
+         const tableHead = ui.resultTable.querySelector('thead'); if (tableHead) tableHead.innerHTML = '';
+         ui.noDataMessage.classList.add('hidden');
+         // Make sure the empty state is hidden if we are starting a new upload process
+         ui.emptyState.classList.add('hidden');
+         ui.previewSection.classList.add('hidden'); // Hide preview until PDF loads or process starts
+         ui.downloadSection.classList.add('hidden');
+    }
+
+    function clearProcessingState() {
+        console.log("clearProcessingState called");
+        isProcessing = false;
+        if(ui.processBtn) {
+             ui.processBtn.disabled = false;
+             ui.processBtn.innerHTML = '<i class="fas fa-cogs mr-2"></i> Process PDF with OCR';
+        }
+        if (ui.progressContainer) ui.progressContainer.classList.add('hidden');
+        // Don't hide result/error here, they should persist until cleared or new process starts
+    }
+
+    // --- OCR Processing ---
+    async function startOCRProcessing() {
+        console.log("startOCRProcessing called");
+        if (!pdfFile || !pdfDocument) { showError('File Missing', 'Please select a PDF file.', false, 5000); return; } // Timed error
+        if (isProcessing) { console.log("Processing already in progress."); return; }
+
+        clearStateBeforeUpload(); // Clear previous results/errors
+        isProcessing = true; ui.processBtn.disabled = true;
+        ui.processBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+        showProgressIndicator('Starting OCR...', 0, 'Initializing Tesseract...');
+        ui.previewSection.classList.remove('hidden'); // Ensure preview area is visible for progress
+        hideError(); hideResultStatus(); // Clear previous status indicators
+
+        const language = ui.languageSelect.value;
+        const shouldPreserveLayout = ui.preserveLayout.checked;
+        console.log(`Settings: Lang=${language}, PreserveLayout=${shouldPreserveLayout}`);
+
+        let pagesToProcess;
+        try {
+            if (ui.allPagesRadio.checked) {
+                pagesToProcess = Array.from({ length: totalPages }, (_, i) => i + 1);
+            } else {
+                pagesToProcess = parsePageRange(ui.pageRangeInput.value, totalPages);
+            }
+            if (!pagesToProcess || pagesToProcess.length === 0) { throw new Error('No pages selected or invalid page range specified.'); }
+            console.log(`Pages to process: ${pagesToProcess.join(', ')}`);
+        } catch (e) {
+            showError('Invalid Page Range', e.message || 'Invalid range format. Use numbers, commas, and hyphens (e.g., 1-3, 5).', true); // Persistent error
+            clearProcessingState();
+            isProcessing = false; // Ensure processing flag is reset
+            return;
+        }
+
+        extractedData = [];
+
+        try {
+            terminateWorker(); // Ensure any previous worker is stopped
+            console.log("Creating Tesseract worker (no explicit paths)...");
+
+            // Create worker without explicit paths
+            tesseractWorker = await Tesseract.createWorker({
+                 logger: m => handleTesseractLog(m, pagesToProcess.length, pagesToProcess.indexOf(currentPageNum) + 1),
+                 // Consider adding cache option if useful: cacheMethod: 'readOnly' or 'writeOnly'
+            });
+
+            console.log("Worker created. Loading language...");
+            await tesseractWorker.loadLanguage(language);
+            console.log("Language loaded. Initializing...");
+            await tesseractWorker.initialize(language);
+            console.log("Worker initialized. Setting parameters (using PSM.AUTO)...");
+
+            // Change PSM to AUTO to avoid needing OSD
+            await tesseractWorker.setParameters({
+                 tessedit_pageseg_mode: Tesseract.PSM.AUTO, // Use AUTO (3)
+                 // preserve_interword_spaces: '1', // Might help with table spacing sometimes
+            });
+
+            console.log("Parameters set. Starting page loop.");
+
+            updateProgressDisplay(0, `Processing ${pagesToProcess.length} page(s)...`);
+
+            for (let i = 0; i < pagesToProcess.length; i++) {
+                currentPageNum = pagesToProcess[i]; // Store the actual page number
+                console.log(`--- Processing Page ${currentPageNum} (${i + 1} of ${pagesToProcess.length}) ---`);
+                const pageProgressStart = i / pagesToProcess.length;
+                 updateProgressDisplay(pageProgressStart * 100, `Rendering page ${currentPageNum}...`);
+
+                const page = await pdfDocument.getPage(currentPageNum);
+                const scale = 2.0; // Increase scale for potentially better OCR accuracy
+                const viewport = page.getViewport({ scale: scale });
+
+                // Create canvas for rendering
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d', { willReadFrequently: true }); // Optimize for getImageData
+                canvas.height = viewport.height; canvas.width = viewport.width;
+                console.log(`Rendering canvas for page ${currentPageNum} (${canvas.width}x${canvas.height})`);
+
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                console.log(`Canvas rendered. Starting OCR for page ${currentPageNum}...`);
+
+                // Optional: Image preprocessing (example: simple thresholding)
+                // Could add libraries like OpenCV.js for more complex steps if needed
+                // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                // preprocessImage(imageData.data); // Your preprocessing function
+                // context.putImageData(imageData, 0, 0);
+
+                updateProgressDisplay(pageProgressStart * 100, `Performing OCR on page ${currentPageNum}...`);
+
+                const { data } = await tesseractWorker.recognize(canvas.toDataURL('image/png')); // Use canvas directly or data URL
+                console.log(`Page ${currentPageNum} OCR complete. Text length: ${data.text?.length}, Lines: ${data.lines?.length}`);
+
+                let pageData = {
+                    pageNum: currentPageNum,
+                    text: data.text || '',
+                    lines: data.lines || [],
+                    words: data.words || [],
+                    hocr: data.hocr || '',
+                    table: null
+                };
+
+                if (shouldPreserveLayout && data.lines && data.lines.length > 0) {
+                     console.log(`Attempting table extraction for page ${currentPageNum}`);
+                     try {
+                         pageData.table = extractTableFromLines(data.lines, viewport.width); // Pass scaled width
+                         console.log(`Table extraction result for page ${currentPageNum}: ${pageData.table?.length || 0} rows`);
+                     } catch (tableError) {
+                        console.error(`Table extraction failed for page ${currentPageNum}:`, tableError);
+                        pageData.table = null; // Ensure table is null if extraction fails
+                     }
+                }
+
+                extractedData.push(pageData);
+                console.log(`Data for page ${currentPageNum} pushed. Total extracted: ${extractedData.length}`);
+
+                // Clean up canvas to free memory
+                 canvas.width = 0; canvas.height = 0;
+
+                 // Add a small delay to allow UI updates (optional)
+                 // await new Promise(resolve => setTimeout(resolve, 10));
+            }
+
+            console.log("--- Page loop finished ---");
+            console.log("Final extractedData length:", extractedData.length);
+            updateProgressDisplay(100, `Processing Complete.`); // Final progress update
+
+            if (extractedData.length > 0) {
+                showResultStatus(`Processed ${extractedData.length} page(s) successfully.`);
+                showResults(); // Display the first page preview
+                console.log("showResults() called successfully.");
+            } else {
+                 console.log("No data extracted, showing message.");
+                 // Show a neutral message rather than an error if processing finished but found nothing
+                 ui.progressContainer.classList.add('hidden'); // Hide progress bar
+                 ui.previewSection.classList.remove('hidden');
+                 ui.previewContainer.classList.remove('hidden'); // Show the container
+                 ui.noDataMessage.textContent = 'Processing complete. No text or table data was extracted from the selected pages.';
+                 ui.noDataMessage.classList.remove('hidden');
+                 ui.resultTextContainer.classList.add('hidden');
+                 ui.resultTableContainer.classList.add('hidden');
+                 ui.downloadSection.classList.add('hidden'); // Hide download if no data
+                 ui.pageIndicator.textContent = 'Page 0 of 0';
+                 ui.prevPageBtn.disabled = true;
+                 ui.nextPageBtn.disabled = true;
+            }
+
+        } catch (error) {
+            console.error("!!! OCR Processing Error:", error);
+            let userMessage = 'An unexpected error occurred during OCR processing.';
+            if (error.message && error.message.toLowerCase().includes('networkerror')) {
+                userMessage = 'Network error: Failed to load Tesseract language data. Please check your internet connection.';
+            } else if (error.message && error.message.includes('load script')) {
+                 userMessage = 'Error loading Tesseract core scripts. Please try refreshing the page or clearing browser cache.';
+            } else if (error.message) {
+                 userMessage = `OCR Error: ${error.message}`;
+            }
+            showError('OCR Processing Error', userMessage, true); // Persistent error
+        } finally {
+            console.log("--- OCR Process Finally Block ---");
+            clearProcessingState(); // Enable button, hide progress spinner
+            await terminateWorker();
+            console.log("Worker termination attempted in finally block.");
+        }
+    }
+
+    // --- Tesseract Progress Handling ---
+    function handleTesseractLog(m, totalPagesToProcess, currentPageIndexInProcess) {
+        // console.log('Tesseract Log:', m); // DEBUG: Log all messages
+         if (!isProcessing || !totalPagesToProcess || currentPageIndexInProcess < 1) return;
+
+         // Calculate overall progress based on current page and phase progress
+         const pageProgressWeight = 1 / totalPagesToProcess;
+         // Base progress before the current page starts
+         const currentPageBaseProgress = (currentPageIndexInProcess - 1) * pageProgressWeight;
+         let statusText = m.status || 'working';
+         let stageProgress = m.progress || 0; // Progress within the current stage (0 to 1)
+
+         // Refine status message
+         if (statusText === 'recognizing text') {
+            statusText = `Performing OCR on page ${currentPageNum}... (${Math.round(stageProgress * 100)}%)`;
+         } else if (statusText.startsWith('loading language')) {
+             statusText = `Loading ${languageSelect.options[languageSelect.selectedIndex].text} language data...`;
+         } else if (statusText.startsWith('initializing')) {
+            statusText = 'Initializing OCR engine...';
+         } else if (statusText === 'initialized') {
+             statusText = 'OCR engine initialized.';
+         } else if (statusText === 'loaded language') {
+              statusText = 'Language data loaded.';
+         } else {
+             // Generic status update
+             if (stageProgress > 0 && stageProgress < 1) {
+                 statusText += ` (${Math.round(stageProgress * 100)}%)`;
+             }
+         }
+
+         // Calculate overall progress percentage
+         const overallProgress = (currentPageBaseProgress + (stageProgress * pageProgressWeight)) * 100;
+
+         updateProgressDisplay(overallProgress, statusText);
+    }
+
+
+    function parsePageRange(rangeStr, maxPages) {
+        if (!rangeStr || !rangeStr.trim()) return []; // Return empty if string is empty
+        const pages = new Set();
+        const parts = rangeStr.split(',');
+        const rangeRegex = /^\s*(\d+)\s*-\s*(\d+)\s*$/; // Matches "1-5"
+        const numberRegex = /^\s*(\d+)\s*$/; // Matches "7"
+
+        for (const part of parts) {
+            const trimmedPart = part.trim();
+            if (!trimmedPart) continue; // Skip empty parts
+
+            const rangeMatch = trimmedPart.match(rangeRegex);
+            const numberMatch = trimmedPart.match(numberRegex);
+
+            if (rangeMatch) {
+                const start = parseInt(rangeMatch[1], 10);
+                const end = parseInt(rangeMatch[2], 10);
+                if (isNaN(start) || isNaN(end) || start < 1 || end > maxPages || start > end) {
+                    throw new Error(`Invalid range: "${trimmedPart}". Must be between 1 and ${maxPages}, with start <= end.`);
+                }
+                for (let i = start; i <= end; i++) {
+                    pages.add(i);
+                }
+            } else if (numberMatch) {
+                const num = parseInt(numberMatch[1], 10);
+                if (isNaN(num) || num < 1 || num > maxPages) {
+                    throw new Error(`Invalid page number: "${trimmedPart}". Must be between 1 and ${maxPages}.`);
+                }
+                pages.add(num);
+            } else {
+                // Invalid format
+                throw new Error(`Invalid format in range string: "${trimmedPart}". Use numbers, commas, and hyphens (e.g., 1-3, 5, 7-10).`);
+            }
+        }
+
+        if (pages.size === 0 && rangeStr.trim() !== '') {
+             throw new Error('Page range specified, but no valid pages found.');
+        }
+
+        return Array.from(pages).sort((a, b) => a - b); // Return sorted array
+    }
+
+
+    async function terminateWorker() {
+        if (tesseractWorker) {
+            console.log("Attempting to terminate Tesseract worker...");
+            try {
+                await tesseractWorker.terminate();
+                console.log("Tesseract worker terminated successfully.");
+            } catch (err) {
+                console.error("Error terminating Tesseract worker:", err);
+            } finally {
+                tesseractWorker = null; // Ensure it's marked as null
+            }
+        } else {
+            // console.log("No active Tesseract worker to terminate.");
+        }
+    }
+
+    // --- Table Extraction (Basic Heuristic - Keep as is) ---
+    function extractTableFromLines(lines, pageWidth) {
+        const table = []; if (!lines || lines.length === 0) return table;
+
+        // 1. Group words by approximate Y-coordinate (lines)
+        const rows = []; let currentRow = []; let lastY = -Infinity; const yTolerance = 10; // Tolerance for same line
+        // Sort lines primarily by y0, then x0 for consistent processing order
+        const sortedLines = lines.sort((a, b) => {
+             if (Math.abs(a.bbox.y0 - b.bbox.y0) < yTolerance) { return a.bbox.x0 - b.bbox.x0; }
+             return a.bbox.y0 - b.bbox.y0;
+        });
+
+        for (const line of sortedLines) {
+             if (currentRow.length > 0 && Math.abs(line.bbox.y0 - lastY) > yTolerance) {
+                 // New line detected, push the completed row (sorted by X)
+                 rows.push(currentRow.sort((a, b) => a.bbox.x0 - b.bbox.x0));
+                 currentRow = []; // Start a new row
+             }
+             // Add words from the current line to the current row
+             if (line.words && Array.isArray(line.words)) {
+                 currentRow.push(...line.words);
+             } else if (line.text) {
+                 // Fallback: treat the whole line as one word if no word data
+                 currentRow.push({ text: line.text, bbox: line.bbox });
+             }
+             if(currentRow.length > 0) {
+                // Update lastY based on the words added in this iteration
+                 lastY = currentRow.reduce((maxY, word) => Math.max(maxY, word.bbox.y0), -Infinity);
+             } else {
+                 lastY = line.bbox.y0; // Fallback if line had no words
+             }
+        }
+         if (currentRow.length > 0) { // Add the last row
+            rows.push(currentRow.sort((a, b) => a.bbox.x0 - b.bbox.x0));
+         }
+
+        if (rows.length === 0) return table;
+
+         // 2. Estimate column boundaries based on significant gaps between words
+         let potentialColBreaks = new Set([0]); // Start with 0
+         let allWordGaps = [];
+
+        rows.forEach(rowWords => {
+            for (let i = 0; i < rowWords.length - 1; i++) {
+                 const word1 = rowWords[i];
+                 const word2 = rowWords[i + 1];
+                 if (word1?.bbox?.x1 != null && word2?.bbox?.x0 != null) {
+                     const gap = word2.bbox.x0 - word1.bbox.x1;
+                     if (gap > 5) { // Ignore very small gaps
+                         allWordGaps.push({ gap: gap, midX: word1.bbox.x1 + gap / 2 });
+                     }
+                 }
+            }
+         });
+
+         if (allWordGaps.length > 0) {
+             allWordGaps.sort((a, b) => a.gap - b.gap);
+             // Use a threshold relative to median gap, or an absolute minimum
+             const medianGap = allWordGaps[Math.floor(allWordGaps.length / 2)].gap;
+             const columnGapThreshold = Math.max(medianGap * 1.5, 20); // Adjusted threshold
+
+            // Find significant gaps that appear frequently
+            const frequentGaps = allWordGaps.filter(g => g.gap > columnGapThreshold);
+
+            // Cluster frequent gap midpoints to find column breaks
+            frequentGaps.sort((a, b) => a.midX - b.midX);
+            let currentCluster = [];
+            frequentGaps.forEach(gapInfo => {
+                 if (currentCluster.length === 0 || Math.abs(gapInfo.midX - currentCluster[0].midX) < 20) { // Cluster tolerance
+                     currentCluster.push(gapInfo);
+                 } else {
+                     // Average the X position of the cluster to get a break point
+                     const avgX = currentCluster.reduce((sum, g) => sum + g.midX, 0) / currentCluster.length;
+                     potentialColBreaks.add(avgX);
+                     currentCluster = [gapInfo]; // Start new cluster
+                 }
+             });
+            if (currentCluster.length > 0) { // Add last cluster
+                const avgX = currentCluster.reduce((sum, g) => sum + g.midX, 0) / currentCluster.length;
+                potentialColBreaks.add(avgX);
+            }
+        }
+
+        // Ensure sorted column breaks and add page width as final break
+        let sortedColBreaks = Array.from(potentialColBreaks).sort((a, b) => a - b);
+        if (sortedColBreaks[sortedColBreaks.length - 1] < pageWidth) {
+             sortedColBreaks.push(pageWidth + 10); // Add end boundary slightly past page width
+        }
+
+        // Remove very close breaks (potential duplicates)
+         sortedColBreaks = sortedColBreaks.filter((val, index, arr) => {
+             if (index === 0) return true;
+             return (val - arr[index - 1]) > 10; // Minimum separation between breaks
+         });
+
+
+        // 3. Assign words to columns based on their horizontal position relative to breaks
+        rows.forEach(rowWords => {
+            let tableRow = new Array(Math.max(1, sortedColBreaks.length - 1)).fill(''); // One cell per column gap
+            rowWords.forEach(word => {
+                if (word?.bbox?.x0 != null && word?.bbox?.x1 != null && word?.text) {
+                     const wordCenterX = word.bbox.x0 + (word.bbox.x1 - word.bbox.x0) / 2;
+                     let assigned = false;
+                     for (let k = 0; k < sortedColBreaks.length - 1; k++) {
+                        if (wordCenterX >= sortedColBreaks[k] && wordCenterX < sortedColBreaks[k + 1]) {
+                             tableRow[k] = (tableRow[k] + ' ' + word.text).trim();
+                             assigned = true;
+                             break;
+                         }
+                     }
+                    // Fallback: if word didn't fit cleanly (e.g., spans a break), assign to dominant column
+                     if (!assigned) {
+                        let maxOverlap = 0;
+                        let bestCol = 0;
+                         for (let k = 0; k < sortedColBreaks.length - 1; k++) {
+                            const overlapStart = Math.max(word.bbox.x0, sortedColBreaks[k]);
+                            const overlapEnd = Math.min(word.bbox.x1, sortedColBreaks[k+1]);
+                            const overlap = Math.max(0, overlapEnd - overlapStart);
+                            if (overlap > maxOverlap) {
+                                maxOverlap = overlap;
+                                bestCol = k;
+                            }
+                         }
+                         tableRow[bestCol] = (tableRow[bestCol] + ' ' + word.text).trim();
+                     }
+                }
+            });
+            // Add row only if it contains some non-empty cells
+            if (tableRow.some(cell => cell.trim() !== '')) {
+                table.push(tableRow);
+            }
+        });
+
+        return table;
+    }
+
+    // --- UI Updates ---
+    function showProgressIndicator(status='Processing...', percent=0, statusDetail='') {
+        // console.log(`Progress Indicator: ${status} ${percent}% ${statusDetail}`); // Debug
+        ui.progressContainer.classList.remove('hidden');
+        ui.progressBar.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+        ui.progressText.textContent = `${Math.round(percent)}%`;
+        ui.progressStatus.textContent = statusDetail || status;
+        hideError(); // Hide errors when progress starts
+        hideResultStatus(); // Hide previous success status
+    }
+
+    function updateProgressDisplay(percent, status) {
+        // console.log(`Update Progress: ${percent}% ${status}`); // Debug
+        if (!ui.progressContainer.classList.contains('hidden')) { // Only update if visible
+             ui.progressBar.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+             ui.progressText.textContent = `${Math.round(percent)}%`;
+             ui.progressStatus.textContent = status;
+        }
+    }
+
+    function showResultStatus(message) {
+         console.log("showResultStatus:", message);
+         ui.resultStatus.classList.remove('hidden');
+         ui.statusMessage.textContent = message;
+         ui.progressContainer.classList.add('hidden'); // Hide progress bar on success
+         hideError(); // Ensure no error is shown
+    }
+
+    function hideResultStatus() {
+        ui.resultStatus.classList.add('hidden');
+        ui.statusMessage.textContent = '';
+    }
+
+    function showError(title, details, persist = false, duration = 5000) {
+        console.log(`showError: Title=${title}, Details=${details}, Persist=${persist}`);
+        if (!ui.errorStatus) return; // Safety check
+
+        // Use the specific fileError div for non-persistent file-related errors
+        if (!persist && (title === 'Invalid File Type' || title === 'File Missing')) {
+             if (ui.fileError) {
+                ui.fileError.textContent = details || title;
+                ui.fileError.classList.remove('hidden');
+                setTimeout(() => {
+                     if (ui.fileError) ui.fileError.classList.add('hidden');
+                 }, duration);
+             }
+             // Hide the main error status box if it was shown
+             ui.errorStatus.classList.add('hidden');
+        } else {
+            // Use the main error status box for persistent or processing errors
+             ui.errorStatus.classList.remove('hidden');
+             ui.errorMessage.textContent = title;
+             ui.errorDetails.textContent = details;
+             ui.progressContainer.classList.add('hidden'); // Hide progress on error
+             hideResultStatus(); // Hide success status
+             // Hide the specific fileError div if the main one is shown
+             if (ui.fileError) ui.fileError.classList.add('hidden');
+
+             // Automatically hide non-persistent errors in the main box after duration
+             if (!persist) {
+                setTimeout(() => {
+                     ui.errorStatus.classList.add('hidden');
+                 }, duration);
+             }
+        }
+    }
+
+
+    function hideError() {
+        if (ui.errorStatus) ui.errorStatus.classList.add('hidden');
+        if (ui.errorMessage) ui.errorMessage.textContent = '';
+        if (ui.errorDetails) ui.errorDetails.textContent = '';
+         if (ui.fileError) ui.fileError.classList.add('hidden'); // Also hide the specific file error div
+    }
+
+
+    function showResults() {
+        console.log("showResults called.");
+        ui.previewContainer.classList.remove('hidden'); // Show the preview box
+
+        if (!extractedData || extractedData.length === 0) {
+            console.log("showResults: No data found.");
+            ui.noDataMessage.classList.remove('hidden');
+            ui.noDataMessage.textContent = 'No data extracted from the selected pages.'; // More specific message
+            ui.resultTextContainer.classList.add('hidden');
+            ui.resultTableContainer.classList.add('hidden');
+            ui.prevPageBtn.disabled = true;
+            ui.nextPageBtn.disabled = true;
+            ui.pageIndicator.textContent = 'Page 0 of 0';
+            ui.downloadSection.classList.add('hidden'); // Hide download if no data
+            return;
+        }
+
+        console.log(`showResults: Data found for ${extractedData.length} page(s).`);
+        currentPageIndex = 0; // Start at the first processed page
+        showPage(currentPageIndex); // Display the first page
+        ui.prevPageBtn.disabled = currentPageIndex === 0;
+        ui.nextPageBtn.disabled = currentPageIndex >= extractedData.length - 1;
+        ui.downloadSection.classList.remove('hidden'); // Show download buttons now that there's data
+    }
+
+    function showPage(index) {
+        console.log(`showPage called for index: ${index}`);
+        if (index < 0 || !extractedData || index >= extractedData.length) {
+            console.log(`showPage: Invalid index ${index}.`);
+            return;
+        }
+
+        currentPageIndex = index;
+        const pageData = extractedData[index];
+        console.log(`showPage: Displaying data for actual PDF pageNum: ${pageData?.pageNum}`);
+
+        if (!pageData) {
+             console.error(`showPage: No pageData found for index ${index}!`);
+             ui.noDataMessage.textContent = `Error loading preview for processed page ${index + 1}.`;
+             ui.noDataMessage.classList.remove('hidden');
+             ui.resultTextContainer.classList.add('hidden');
+             ui.resultTableContainer.classList.add('hidden');
+             ui.downloadSection.classList.add('hidden'); // Hide download if error
+             return;
+        }
+
+        // Update page indicator (use actual page number)
+        ui.pageIndicator.textContent = `Page ${pageData.pageNum} (${index + 1} of ${extractedData.length})`;
+
+        const showTextPreview = ui.showExtractedText.checked;
+        const attemptTablePreview = ui.preserveLayout.checked;
+        const tableDataExists = pageData.table && Array.isArray(pageData.table) && pageData.table.length > 0;
+
+        console.log(`showPage: showText=${showTextPreview}, attemptTable=${attemptTablePreview}, tableExists=${tableDataExists}`);
+
+        // Determine what to show:
+        // Priority: Table if (attemptTable && tableExists && !showTextPreview)
+        // Fallback: Text if (text exists)
+        // Fallback: No data message
+        let displayMode = 'none'; // 'table', 'text', 'none'
+        if (attemptTablePreview && tableDataExists && !showTextPreview) {
+            displayMode = 'table';
+        } else if (pageData.text && pageData.text.trim() !== '') {
+            displayMode = 'text';
+        }
+
+        // Hide all sections initially
+        ui.resultTextContainer.classList.add('hidden');
+        ui.resultTableContainer.classList.add('hidden');
+        ui.noDataMessage.classList.add('hidden');
+
+        // Show the determined section
+        if (displayMode === 'table') {
+            console.log("showPage: Showing Table Preview");
+            ui.previewTitle.textContent = `Table Preview (Page ${pageData.pageNum})`;
+            ui.resultTableContainer.classList.remove('hidden');
+
+            // Clear previous table content
+            let tableBody = ui.resultTable.tBodies[0];
+            if (tableBody) tableBody.innerHTML = ''; else tableBody = ui.resultTable.createTBody();
+            let tableHead = ui.resultTable.tHead;
+            if (tableHead) tableHead.innerHTML = ''; else tableHead = ui.resultTable.createTHead();
+
+            // Populate table (Assume first row is header if it exists)
+            pageData.table.forEach((row, rowIndex) => {
+                 const tr = document.createElement('tr');
+                 if (Array.isArray(row)) {
+                     row.forEach(cellContent => {
+                         // Use TH for the first row, TD for others
+                         const cellElement = (rowIndex === 0) ? document.createElement('th') : document.createElement('td');
+                         cellElement.textContent = cellContent ?? ''; // Handle null/undefined cells
+                         tr.appendChild(cellElement);
+                     });
+
+                     // Append to THEAD or TBODY
+                     if (rowIndex === 0) {
+                        const headerRow = tableHead.insertRow();
+                        headerRow.innerHTML = tr.innerHTML; // Copy cells into header row
+                     } else {
+                         tableBody.appendChild(tr);
+                     }
+                 } else {
+                     console.warn(`Table row ${rowIndex} for page ${pageData.pageNum} is not an array:`, row);
+                 }
+             });
+
+        } else if (displayMode === 'text') {
+            console.log("showPage: Showing Text Preview");
+            ui.previewTitle.textContent = `Text Preview (Page ${pageData.pageNum})`;
+            ui.resultTextContainer.classList.remove('hidden');
+            ui.resultTextContent.textContent = pageData.text;
+        } else {
+            // No table to show, and no text extracted
+            console.log(`showPage: No content (text or table) to display for page ${pageData.pageNum}.`);
+            ui.previewTitle.textContent = `Preview (Page ${pageData.pageNum})`;
+            ui.noDataMessage.classList.remove('hidden');
+            ui.noDataMessage.textContent = 'No text or table data extracted from this page.';
+        }
+
+        // Update navigation buttons state
+        ui.prevPageBtn.disabled = index === 0;
+        ui.nextPageBtn.disabled = index >= extractedData.length - 1;
+    }
+
+
+    // --- Export and Copy ---
+    function downloadExcelFile() {
+        console.log("downloadExcelFile called");
+        if (!extractedData || extractedData.length === 0) {
+            showError('Export Error', 'No data available to export.', false, 5000);
+            return;
+        }
+
+        try {
+            const workbook = XLSX.utils.book_new();
+            let sheetsAdded = 0;
+            const tryTableExport = ui.preserveLayout.checked; // Check if user wanted tables
+
+            // --- Sheet 1: Detected Tables (if enabled and found) ---
+            if (tryTableExport) {
+                console.log("Attempting to export tables...");
+                let combinedTableData = [];
+                let hasAnyTables = false;
+                extractedData.forEach(page => {
+                    if (page.table && Array.isArray(page.table) && page.table.length > 0) {
+                        hasAnyTables = true;
+                        // Add a header row indicating the page number
+                        combinedTableData.push([`--- Table from Page ${page.pageNum} ---`]);
+                        // Add table data
+                        combinedTableData.push(...page.table);
+                        // Add a blank row for separation
+                        combinedTableData.push([]);
+                    }
+                });
+
+                if (hasAnyTables) {
+                    console.log("Found tables to include in export.");
+                    // Remove trailing empty row if it exists
+                    if (combinedTableData.length > 0 && combinedTableData[combinedTableData.length - 1].length === 0) {
+                        combinedTableData.pop();
+                    }
+                    const ws_table = XLSX.utils.aoa_to_sheet(combinedTableData);
+                    // Calculate column widths for the table sheet
+                    const tableColWidths = calculateColumnWidths(combinedTableData);
+                    ws_table['!cols'] = tableColWidths;
+                    XLSX.utils.book_append_sheet(workbook, ws_table, "Detected Tables");
+                    sheetsAdded++;
+                } else {
+                    console.log("Table detection was enabled, but no tables were found or extracted.");
+                    // Optionally inform the user or just proceed without this sheet
+                }
+            } else {
+                 console.log("Table detection/export was not enabled.");
+            }
+
+            // --- Sheet 2: Full Extracted Text ---
+            console.log("Exporting full text...");
+             // Create data structure: [[Page Header], [Text Line 1], [Text Line 2], [], [Page Header 2], ...]
+             const textDataForSheet = extractedData.flatMap(p => {
+                const pageHeader = [`===== Page ${p.pageNum} =====`];
+                 const pageTextLines = (p.text || '').split('\n').map(line => [line]); // Each line in its own row/cell
+                 return [pageHeader, ...pageTextLines, []]; // Add header, text lines, and a blank separator row
+             });
+
+            // Remove trailing empty row if it exists
+            if (textDataForSheet.length > 0 && textDataForSheet[textDataForSheet.length - 1].length === 0) {
+                 textDataForSheet.pop();
+            }
+
+
+            if (textDataForSheet.length > 0) {
+                console.log("Found text data to include in export.");
+                const ws_text = XLSX.utils.aoa_to_sheet(textDataForSheet);
+                // Set a generous default width for the text column
+                ws_text['!cols'] = [{ wch: 100 }]; // Adjust as needed
+                XLSX.utils.book_append_sheet(workbook, ws_text, "Full Text");
+                sheetsAdded++;
+            } else {
+                console.log("No text data extracted.");
+            }
+
+            // --- Generate and Download File ---
+            if (sheetsAdded === 0) {
+                showError('Export Error', 'No data (tables or text) was successfully extracted to include in the Excel file.', false, 6000);
+                return;
+            }
+
+            const outputFileName = (pdfFile?.name || 'converted_data').replace(/\.pdf$/i, '') + '_extracted.xlsx';
+            console.log(`Generating Excel file: ${outputFileName}`);
+            XLSX.writeFile(workbook, outputFileName);
+
+             // Optional: Show success feedback
+             showSuccessMessage('Excel file download started!', 3000);
+
+        } catch (error) {
+            console.error("Excel Export Error:", error);
+            showError('Excel Export Error', error.message || 'Failed to generate the Excel file. Please try again.', true); // Persistent error
+        }
+    }
+
+
+    function calculateColumnWidths(data) {
+        const colWidths = [];
+        if (!data || data.length === 0) return colWidths;
+
+        // Find the maximum number of columns in any row
+        const maxCols = data.reduce((max, row) => Math.max(max, Array.isArray(row) ? row.length : 0), 0);
+        if (maxCols === 0) return colWidths;
+
+        for (let C = 0; C < maxCols; ++C) {
+            let maxLen = 0;
+            for (let R = 0; R < data.length; ++R) {
+                 // Check if row exists and is an array, and if cell exists
+                 if (data[R] && Array.isArray(data[R]) && data[R][C] != null) {
+                     const cellContent = String(data[R][C]);
+                     // Basic length calculation (consider multi-line content later if needed)
+                     const lines = cellContent.split('\n');
+                     const currentMaxLen = lines.reduce((maxL, line) => Math.max(maxL, line.length), 0);
+                     if (currentMaxLen > maxLen) {
+                         maxLen = currentMaxLen;
+                     }
+                 }
+             }
+             // Set width (wch is character width), add padding, set max width
+             colWidths[C] = { wch: Math.min(80, maxLen + 2) }; // Max width 80 chars
+         }
+         return colWidths;
+    }
+
+
+    function copyExtractedText() {
+        console.log("copyExtractedText called");
+        if (!extractedData || extractedData.length === 0) {
+            showError('Copy Error', 'No extracted text available to copy.', false, 4000);
+            return;
+        }
+
+        // Concatenate text from all processed pages
+        const allText = extractedData.map(p =>
+            `===== Page ${p.pageNum} =====\n${p.text || '(No text extracted from this page)'}\n` // Add placeholder if text is empty
+        ).join('\n');
+
+        if (!allText.trim()) {
+             showError('Copy Error', 'No text content found in the extracted data.', false, 4000);
+             return;
+        }
+
+        navigator.clipboard.writeText(allText).then(() => {
+            console.log("Text copied successfully.");
+            // Provide visual feedback on the button
+            const originalText = ui.copyTextBtn.innerHTML;
+            ui.copyTextBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+            ui.copyTextBtn.disabled = true;
+            setTimeout(() => {
+                ui.copyTextBtn.innerHTML = originalText;
+                ui.copyTextBtn.disabled = false;
+            }, 2000); // Reset after 2 seconds
+            showSuccessMessage('Extracted text copied to clipboard!', 2500);
+
+        }).catch(err => {
+            console.error("Clipboard Copy Error:", err);
+            showError('Copy Error', 'Failed to copy text to clipboard. Your browser might not support this feature or require permission.', true); // Persistent error
+        });
+    }
+
+    // --- Utility Functions ---
+    // Added showSuccessMessage for feedback like in rotator
+    function showSuccessMessage(msg, duration = 3000) {
+        // Use the existing resultStatus element for success messages
+        if (!ui.resultStatus || !ui.statusMessage) return;
+        ui.statusMessage.textContent = msg;
+        ui.resultStatus.classList.remove('hidden');
+        // Optionally hide error messages when success is shown
+        hideError();
+        // Hide the success message after a duration
+        setTimeout(() => {
+             hideResultStatus();
+         }, duration);
+    }
+
+    // --- Initial Page Load ---
+    console.log("Page loaded. Initializing state.");
+    document.addEventListener('DOMContentLoaded', function() {
+        resetTool(true); // Initialize the tool on load
+        // Set current year in footer
+        const yearSpan = document.getElementById('current-year');
+        if(yearSpan) {
+             yearSpan.textContent = new Date().getFullYear();
+        }
+    });
+
+</script>
+
+</body>
+</html>
