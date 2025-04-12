@@ -115,7 +115,7 @@
              </div>
 
              <!-- Extraction Options -->
-             <div id="optionsSection" class="mb-8 hidden"> {/* Hidden initially */}
+             <div id="optionsSection" class="mb-8 hidden">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">2. Choose Extraction Method</h3>
                  <div class="grid md:grid-cols-3 gap-4">
                      <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center" data-option="text">
@@ -124,11 +124,11 @@
                          <p class="text-gray-600 text-sm flex-grow">Fastest method for PDFs with selectable text (not image scans).</p>
                          <i class="fas fa-check-circle text-blue-500 mt-2 text-xl hidden indicator-icon"></i>
                      </div>
-                     <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center selected" data-option="ocr"> {/* Default OCR selected */}
+                     <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center selected" data-option="ocr">
                         <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-3"> <i class="fas fa-eye text-xl text-purple-600"></i> </div>
                         <h4 class="font-medium text-gray-800 mb-1">OCR (Scanned PDFs)</h4>
                          <p class="text-gray-600 text-sm flex-grow">Recognizes text in scanned images or non-selectable PDFs. Slower.</p>
-                         <i class="fas fa-check-circle text-blue-500 mt-2 text-xl indicator-icon"></i> {/* Checkmark visible */}
+                         <i class="fas fa-check-circle text-blue-500 mt-2 text-xl indicator-icon"></i>
                      </div>
                      <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center" data-option="formatting">
                         <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-3"> <i class="fas fa-align-left text-xl text-blue-600"></i> </div>
@@ -148,25 +148,25 @@
 
             <!-- Processing & Result Area Combined -->
              <div id="processResultArea" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
-                {/* Processing UI */}
+
                 <div id="processingSection">
                      <div class="flex items-center justify-between mb-2">
                          <h3 class="text-lg font-semibold text-gray-800">Processing PDF...</h3>
                          <div id="progressText" class="text-sm font-medium text-blue-600">0%</div>
                      </div>
                      <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                         <div id="progressBar" class="h-2.5 rounded-full" style="width: 0%; background-color: #6d28d9;"></div> {/* Default to OCR color */}
+                         <div id="progressBar" class="h-2.5 rounded-full" style="width: 0%; background-color: #6d28d9;"></div>
                     </div>
                      <div id="statusMessage" class="mt-2 text-sm text-gray-500 text-center italic h-5"></div>
                      <div id="tesseract-log-container" class="hidden"><p class="font-semibold text-xs mb-1">OCR Progress Details:</p><div id="tesseract-log"></div></div>
                  </div>
 
-                 {/* Result UI */}
+
                  <div id="resultSection" class="hidden mt-6">
                     <div class="border-b border-gray-200 pb-4 mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
                          <h3 class="text-lg font-semibold text-gray-800 flex-shrink-0">3. Extracted Text</h3>
                          <div class="flex gap-2 flex-wrap justify-center sm:justify-end">
-                              <button id="copyBtn" type="button" title="Copy Text" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50 inline-flex items-center relative" disabled> {/* Relative for feedback */}
+                              <button id="copyBtn" type="button" title="Copy Text" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50 inline-flex items-center relative" disabled>
                                 <i class="fas fa-copy mr-2"></i> Copy
                                 <span id="copyFeedback" class="copy-feedback">Copied!</span>
                              </button>

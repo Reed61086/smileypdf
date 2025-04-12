@@ -273,7 +273,7 @@
                              <i class="fas fa-spinner fa-spin text-blue-600 text-4xl"></i>
                         </div>
                      </div>
-                     {/* Annotations will be appended here by JS */}
+
                 </div>
              </div>
 
@@ -287,12 +287,12 @@
                     <div class="font-option" style="font-family: 'Courier New', Courier, monospace;" data-font="'Courier New', Courier, monospace">Courier New</div>
                     <div class="font-option" style="font-family: Verdana, sans-serif;" data-font="Verdana, sans-serif">Verdana</div>
                     <div class="font-option" style="font-family: Georgia, serif;" data-font="Georgia, serif">Georgia</div>
-                    <div class="font-option" style="font-family: 'Comic Sans MS', cursive, sans-serif;" data-font="'Comic Sans MS', cursive, sans-serif">Comic Sans</div> {/* Added more standard fonts */}
+                    <div class="font-option" style="font-family: 'Comic Sans MS', cursive, sans-serif;" data-font="'Comic Sans MS', cursive, sans-serif">Comic Sans</div>
                 </div>
                  <div class="grid grid-cols-2 gap-x-4 items-center mb-2">
                     <div>
                         <label for="text-size" class="mb-1">Size</label>
-                        <input type="number" id="text-size" value="14" min="8" max="96" step="2" class="w-full"> {/* Increased max, step 2 */}
+                        <input type="number" id="text-size" value="14" min="8" max="96" step="2" class="w-full">
                     </div>
                     <div class="flex space-x-1 mt-4">
                          <button id="bold-text" title="Bold" class="format-button"><i class="fas fa-bold"></i></button>
@@ -307,9 +307,9 @@
                     <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="Blue" onclick="setCurrentTextProperty('color', 'blue')"></div>
                     <div class="color-option" style="background-color: #10B981;" data-color="green" title="Green" onclick="setCurrentTextProperty('color', 'green')"></div>
                     <div class="color-option" style="background-color: #8B5CF6;" data-color="purple" title="Purple" onclick="setCurrentTextProperty('color', 'purple')"></div>
-                    <div class="color-option" style="background-color: #F59E0B;" data-color="orange" title="Orange" onclick="setCurrentTextProperty('color', 'orange')"></div> {/* Added Orange */}
+                    <div class="color-option" style="background-color: #F59E0B;" data-color="orange" title="Orange" onclick="setCurrentTextProperty('color', 'orange')"></div>
                     <div class="color-option" style="background-color: #6B7280;" data-color="gray" title="Gray" onclick="setCurrentTextProperty('color', 'gray')"></div>
-                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc" data-color="white" title="White" onclick="setCurrentTextProperty('color', 'white')"></div> {/* Added White */}
+                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc" data-color="white" title="White" onclick="setCurrentTextProperty('color', 'white')"></div>
                 </div>
             </div>
 
@@ -342,7 +342,7 @@
                         <option style="font-family: 'Dancing Script', cursive;" value="'Dancing Script', cursive">Dancing Script</option>
                         <option style="font-family: 'Brush Script MT', cursive;" value="'Brush Script MT', cursive">Brush Script</option>
                         <option style="font-family: 'Lucida Handwriting', cursive;" value="'Lucida Handwriting', cursive">Lucida Handwriting</option>
-                        <option style="font-family: 'Arial', sans-serif;" value="Arial, sans-serif">Arial</option> {/* Simple option */}
+                        <option style="font-family: 'Arial', sans-serif;" value="Arial, sans-serif">Arial</option>
                     </select>
                      <label class="mb-1">Text Color</label>
                     <div class="color-grid mb-2">
