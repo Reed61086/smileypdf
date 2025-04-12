@@ -360,8 +360,20 @@
                 </div>
             </div>
 
+            <!-- Newsletter Signup -->
+            <div class="max-w-3xl mx-auto mb-12 text-center border-t border-gray-600 pt-8 mt-8">
+                <h3 class="text-xl font-semibold text-white mb-4">नई सुविधाओं के साथ अपडेट रहें</h3>
+                <p class="mb-6">नवीनतम PDF टूल्स और टिप्स के लिए हमारे न्यूज़लेटर की सदस्यता लें।</p>
+                <form class="flex flex-col sm:flex-row gap-2 justify-center" id="newsletter-form">
+                    <input type="email" placeholder="आपका ईमेल पता" id="newsletter-email" class="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 w-full sm:w-auto">
+                    <button type="button" id="newsletter-submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition duration-300">सदस्यता लें</button>
+                </form>
+                <p id="newsletter-message" class="mt-2 text-sm hidden"></p>
+                <p class="text-xs mt-2 text-gray-400">हम आपकी गोपनीयता का सम्मान करते हैं। किसी भी समय सदस्यता समाप्त करें।</p>
+            </div>
+
             <!-- Copyright -->
-            <div class="border-t border-gray-600 pt-8 mt-8 text-sm text-center">
+            <div class="text-sm text-center">
                 <p class="mb-2">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</p>
                 <p class="text-gray-400">SmileyPDF Adobe Systems Incorporated से संबद्ध नहीं है।</p>
             </div>
@@ -392,6 +404,43 @@
             document.getElementById(tabName + '-tab').classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
             document.getElementById(tabName + '-tab').classList.add('bg-blue-600', 'text-white');
         }
+
+        // Initialize when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure the basic tab is active by default
+            switchTab('basic');
+
+            // Newsletter form submission
+            document.getElementById('newsletter-submit').addEventListener('click', function() {
+                const emailInput = document.getElementById('newsletter-email');
+                const email = emailInput.value.trim();
+                const messageElement = document.getElementById('newsletter-message');
+
+                // Basic email validation
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    messageElement.textContent = 'कृपया एक वैध ईमेल पता दर्ज करें।';
+                    messageElement.className = 'mt-2 text-sm text-red-400';
+                    messageElement.classList.remove('hidden');
+                    return;
+                }
+
+                // Create mailto link
+                const subject = encodeURIComponent('Add to newsletter');
+                const body = encodeURIComponent(email);
+                const mailtoLink = `mailto:support@smileypdf.com?subject=${subject}&body=${body}`;
+
+                // Open email client
+                window.location.href = mailtoLink;
+
+                // Show success message
+                messageElement.textContent = 'सदस्यता के लिए धन्यवाद! आपके डिफ़ॉल्ट ईमेल क्लाइंट में एक ईमेल तैयार किया गया है।';
+                messageElement.className = 'mt-2 text-sm text-green-400';
+                messageElement.classList.remove('hidden');
+
+                // Clear the input
+                emailInput.value = '';
+            });
+        });
     </script>
 <script src="dark-mode.js"></script>
 </body>

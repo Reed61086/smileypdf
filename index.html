@@ -723,10 +723,11 @@
             <div class="max-w-3xl mx-auto mb-12 text-center">
                 <h3 class="text-xl font-semibold text-white mb-4">Stay Updated with New Features</h3>
                 <p class="mb-6">Subscribe to our newsletter for the latest PDF tools and tips.</p>
-                <form class="flex flex-col sm:flex-row gap-2 justify-center" action="#" method="post" id="newsletter-form">
-                    <input type="email" placeholder="Your email address" class="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 w-full sm:w-auto">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition duration-300">Subscribe</button>
+                <form class="flex flex-col sm:flex-row gap-2 justify-center" id="newsletter-form">
+                    <input type="email" placeholder="Your email address" id="newsletter-email" class="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 w-full sm:w-auto">
+                    <button type="button" id="newsletter-submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition duration-300">Subscribe</button>
                 </form>
+                <p id="newsletter-message" class="mt-2 text-sm hidden"></p>
                 <p class="text-xs mt-2 text-gray-400">We respect your privacy. Unsubscribe at any time.</p>
             </div>
 
@@ -810,6 +811,37 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Make sure the basic tab is active by default
             switchTab('basic');
+
+            // Newsletter form submission
+            document.getElementById('newsletter-submit').addEventListener('click', function() {
+                const emailInput = document.getElementById('newsletter-email');
+                const email = emailInput.value.trim();
+                const messageElement = document.getElementById('newsletter-message');
+
+                // Basic email validation
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    messageElement.textContent = 'Please enter a valid email address.';
+                    messageElement.className = 'mt-2 text-sm text-red-400';
+                    messageElement.classList.remove('hidden');
+                    return;
+                }
+
+                // Create mailto link
+                const subject = encodeURIComponent('Add to newsletter');
+                const body = encodeURIComponent(email);
+                const mailtoLink = `mailto:support@smileypdf.com?subject=${subject}&body=${body}`;
+
+                // Open email client
+                window.location.href = mailtoLink;
+
+                // Show success message
+                messageElement.textContent = 'Thank you for subscribing! An email has been prepared in your default email client.';
+                messageElement.className = 'mt-2 text-sm text-green-400';
+                messageElement.classList.remove('hidden');
+
+                // Clear the input
+                emailInput.value = '';
+            });
         });
     </script>
 
