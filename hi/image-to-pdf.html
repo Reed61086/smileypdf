@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>इमेज को PDF में ऑनलाइन बदलें - मुफ्त JPG से PDF टूल | SmileyPDF</title>
+    <meta name="description" content="JPG, PNG, और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अपनी इमेज से अनुकूलन योग्य विकल्पों के साथ पेशेवर PDF दस्तावेज़ बनाएं। कोई पंजीकरण आवश्यक नहीं।">
+    <meta name="keywords" content="इमेज से PDF, JPG से PDF, PNG से PDF, इमेज कन्वर्टर, फोटो से PDF, इमेज को PDF में बदलें, मुफ्त इमेज कन्वर्टर, पिक्चर से PDF, इमेज PDF क्रिएटर">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="canonical" href="https://smileypdf.com/hi/image-to-pdf.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/image-to-pdf.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/image-to-pdf.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smileypdf.com/hi/image-to-pdf.html">
+    <meta property="og:title" content="इमेज को PDF में ऑनलाइन बदलें - मुफ्त JPG से PDF टूल | SmileyPDF">
+    <meta property="og:description" content="JPG, PNG, और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अपनी इमेज से अनुकूलन योग्य विकल्पों के साथ पेशेवर PDF दस्तावेज़ बनाएं।">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/hi/image-to-pdf.html">
+    <meta property="twitter:title" content="इमेज को PDF में ऑनलाइन बदलें - मुफ्त JPG से PDF टूल | SmileyPDF">
+    <meta property="twitter:description" content="JPG, PNG, और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अपनी इमेज से अनुकूलन योग्य विकल्पों के साथ पेशेवर PDF दस्तावेज़ बनाएं।">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SmileyPDF इमेज से PDF कन्वर्टर",
+      "url": "https://smileypdf.com/hi/image-to-pdf.html",
+      "description": "JPG, PNG, और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अपनी इमेज से अनुकूलन योग्य विकल्पों के साथ पेशेवर PDF दस्तावेज़ बनाएं। कोई पंजीकरण आवश्यक नहीं।",
+      "applicationCategory": "DocumentManagement",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "SmileyPDF",
+        "url": "https://smileypdf.com"
+      }
+    }
+    </script>
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- PDF Libraries -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> <!-- FileSaver for downloads -->
+    <!-- AlpineJS for interactivity (if needed) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+     <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <style>
+        /* Base Styles */
+        body { font-family: sans-serif; }
+        /* Dropzone */
+        .dropzone { border: 2px dashed #6b7280; transition: all 0.3s ease; border-radius: 0.5rem; padding: 2rem; text-align: center; cursor: pointer; }
+        .dropzone.active { border-color: #3b82f6; background-color: rgba(59, 130, 246, 0.05); }
+        /* Image Preview */
+        .image-preview { position: relative; display: inline-block; border: 1px solid #e5e7eb; border-radius: 0.375rem; overflow: hidden; transition: all 0.3s ease; cursor: grab; /* Use grab cursor for draggable */ }
+        .image-preview:hover { transform: scale(1.03); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .image-preview img { display: block; max-width: 100%; height: 10rem; object-fit: cover; pointer-events: none; /* Prevent dragging image itself */}
+        .preview-overlay { position: absolute; inset: 0; background-color: rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; /* Overlay doesn't block clicks to remove btn */}
+        .image-preview:hover .preview-overlay { opacity: 1; }
+        .remove-btn {
+            background-color: #ef4444; /* Red-500 */ color: white; border-radius: 9999px; /* full */
+            width: 1.75rem; /* w-7 */ height: 1.75rem; /* h-7 */
+            display: flex; align-items: center; justify-content: center;
+            transition: background-color 0.2s, opacity 0.3s; /* Combine transitions */
+            position: absolute; top: 0.5rem; /* top-2 */ right: 0.5rem; /* right-2 */
+            /* opacity: 0;  Handled by Tailwind group-hover below */
+            pointer-events: none; /* Initially not clickable */
+            cursor: pointer;
+            z-index: 10; /* Ensure button is clickable over overlay */
+        }
+        /* Removed incorrect group-hover CSS - this is handled by Tailwind classes now */
+        .remove-btn:hover { background-color: #dc2626; /* Red-600 */ }
+        .preview-filename { position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(0,0,0,0.6); color: white; font-size: 0.75rem; padding: 0.25rem 0.5rem; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none;}
+        .preview-index { position: absolute; top: 0; left: 0; background-color: rgba(59, 130, 246, 0.8); color: white; font-size: 0.7rem; padding: 0.1rem 0.3rem; border-bottom-right-radius: 0.25rem; font-weight: 500; line-height: 1; pointer-events: none; }
+        /* Drag ghost/highlight */
+        .image-preview.dragging { opacity: 0.4; border-style: dashed;}
+        .drag-over-indicator { border: 2px dashed #3b82f6 !important; }
+        /* Loading / Progress */
+        .spinner { animation: spin 1s linear infinite; border: 4px solid rgba(0,0,0,0.1); width: 1.5rem; height: 1.5rem; border-radius: 50%; border-left-color: #3b82f6; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .progress-bar { height: 6px; transition: width 0.3s ease; background-color: #3b82f6; border-radius: 9999px; }
+        /* PDF Preview */
+        .pdf-preview { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        /* Responsive controls */
+        @media (max-width: 640px) { .controls { flex-direction: column; align-items: stretch; } .controls > div { margin-bottom: 0.75rem; width: 100%; } select, input[type=number] { width: 100%;} }
+    </style>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+<!-- Header -->
+<header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">हिंदी</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <a href="../image-to-pdf.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="image-to-pdf.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-4">
+             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+             <div class="relative" x-data="{ open: false }">
+                 <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                     टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                 </button>
+                 <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
+                      <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a><a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a><a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">इमेज से PDF</a><a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a><a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्ट</a><a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a><a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a><a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                  </div>
+              </div>
+              <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+              <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+              <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+          </div>
+           <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+               <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                   <span class="sr-only">मेनू खोलें</span><i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i><i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+               </button>
+          </div>
+     </nav>
+      <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" x-transition:enter="transition ease-out duration-200 transform origin-top" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform origin-top" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" style="display: none;" x-cloak>
+         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a><a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a><a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a><a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a><h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3><a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a><a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a><a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 text-white bg-blue-700">इमेज से PDF</a><a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a><a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्ट</a><a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a><a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a><a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a></div>
+      </div>
+</header>
+
+    <main class="container mx-auto px-4 py-12 max-w-6xl flex-grow">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">इमेज से PDF कन्वर्टर</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">अपनी JPG, PNG, और WEBP इमेज को एक एकल, पेशेवर PDF दस्तावेज़ में बदलें। ओरिएंटेशन, मार्जिन और पेज साइज़ समायोजित करें।</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <!-- 1. File Upload -->
+            <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-6 bg-gray-50 hover:bg-blue-50">
+                 <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
+                    <i class="fas fa-cloud-upload-alt text-5xl text-blue-500"></i>
+                     <h3 class="text-xl font-semibold text-gray-800">इमेज यहाँ खींचें और छोड़ें</h3>
+                    <p class="text-gray-500">JPG, PNG, WEBP फाइलें समर्थित हैं</p>
+                    <p class="text-gray-500">या</p>
+                    <button type="button" id="browseBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 pointer-events-auto">
+                        <i class="fas fa-folder-open mr-2"></i>इमेज चुनें
+                    </button>
+                </div>
+                <input type="file" id="fileInput" class="hidden" multiple accept="image/jpeg, image/png, image/webp">
+            </div>
+
+             <!-- Error Message Area -->
+             <div id="error" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 hidden" role="alert"><p id="errorMessage"></p></div>
+
+            <!-- 2. Controls -->
+            <div class="controls flex flex-wrap justify-center sm:justify-between items-center mb-6 gap-4 bg-gray-100 p-4 rounded-lg">
+                 <div>
+                    <label for="orientation" class="block text-sm font-medium text-gray-700 mb-1">ओरिएंटेशन:</label>
+                    <select id="orientation" class="border border-gray-300 rounded-md px-3 py-2 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                         <option value="portrait">पोर्ट्रेट</option>
+                        <option value="landscape">लैंडस्केप</option>
+                    </select>
+                </div>
+                 <div>
+                     <label for="size" class="block text-sm font-medium text-gray-700 mb-1">पेज साइज़:</label>
+                    <select id="size" class="border border-gray-300 rounded-md px-3 py-2 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                         <option value="A4" selected>A4</option>
+                         <option value="Letter">US Letter</option>
+                         <option value="Legal">US Legal</option>
+                         <option value="A5">A5</option>
+                     </select>
+                </div>
+                <div>
+                    <label for="margin" class="block text-sm font-medium text-gray-700 mb-1">मार्जिन (मिमी):</label>
+                    <input type="number" id="margin" min="0" max="50" value="10" class="border border-gray-300 rounded-md px-3 py-2 w-24 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+             </div>
+
+             <!-- 3. Image Preview & Reorder -->
+             <div id="previewContainer" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">इमेज (<span id="imageCount">0</span>) - क्रम बदलने के लिए खींचें</h3>
+                    <button id="clearBtn" type="button" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:opacity-50" disabled>
+                        <i class="fas fa-trash-alt mr-1"></i>सब साफ़ करें
+                    </button>
+                 </div>
+                 <div id="imagePreviews" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg min-h-[150px]">
+                    <p id="previewPlaceholder" class="col-span-full text-center text-gray-400 italic py-10">प्रीव्यू देखने के लिए इमेज अपलोड करें</p>
+                 </div>
+             </div>
+
+             <!-- 4. Generate Button & Status -->
+            <div class="text-center mt-8">
+                 <!-- Progress Bar -->
+                 <div class="w-full bg-gray-200 rounded-full h-2 mb-6 hidden" id="progressContainer"><div id="progressBar" class="progress-bar" style="width: 0%"></div></div>
+                <button id="generateBtn" type="button" class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" disabled>
+                     <i class="fas fa-file-pdf mr-2"></i>PDF जेनरेट करें
+                </button>
+                 <div id="status" class="text-center text-gray-500 mt-4 h-6"> {/* Placeholder height */}
+                     <span class="inline-block spinner mr-2 hidden"></span> {/* Added hidden spinner */}
+                    <span id="statusText"></span>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="resultContainer" class="hidden mt-8">
+             <div class="flex flex-col md:flex-row items-center justify-between bg-green-50 p-6 rounded-lg mb-6 border border-green-200">
+                 <div class="mb-4 md:mb-0 text-center md:text-left">
+                     <h3 class="text-xl font-semibold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>आपकी PDF तैयार है!</h3>
+                     <p class="text-green-700" id="downloadInfo">अपनी फाइल डाउनलोड करने के लिए बटन पर क्लिक करें।</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="downloadBtn" type="button" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-download mr-2"></i>PDF डाउनलोड करें</button>
+                    <button id="newPdfBtn" type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"><i class="fas fa-plus mr-2"></i>और इमेज बदलें</button>
+                 </div>
+             </div>
+            <div id="pdfPreviewContainer" class="border border-gray-200 rounded-lg p-4 hidden bg-white">
+                <h4 class="text-center text-gray-600 mb-2 font-medium">PDF प्रीव्यू</h4>
+                <iframe id="pdfPreview" class="w-full h-96 md:h-[600px] pdf-preview rounded-lg" frameborder="0"></iframe>
+             </div>
+         </div>
+
+        <!-- How to Use Section -->
+         <div class="mt-12 bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">इमेज को PDF में कैसे बदलें</h2>
+             <ol class="list-decimal list-inside space-y-2 text-gray-700 max-w-2xl mx-auto">
+                 <li><strong>इमेज चुनें:</strong> JPG, PNG, या WEBP इमेज खींचें और छोड़ें, या "इमेज चुनें" बटन का उपयोग करें।</li>
+                 <li><strong>क्रम व्यवस्थित करें:</strong> इमेज नीचे दिखाई देंगी। PDF में उनके क्रम को सेट करने के लिए प्रीव्यू को खींचें। इसे हटाने के लिए प्रीव्यू पर <i class="fas fa-times text-red-500 text-xs align-middle"></i> पर क्लिक करें।</li>
+                 <li><strong>सेटिंग्स समायोजित करें:</strong> पेज ओरिएंटेशन (पोर्ट्रेट/लैंडस्केप), साइज़ (A4, Letter, आदि), और मिलीमीटर में मार्जिन साइज़ चुनें।</li>
+                 <li><strong>PDF जेनरेट करें:</strong> "PDF जेनरेट करें" बटन पर क्लिक करें।</li>
+                <li><strong>डाउनलोड करें:</strong> पूरा होने पर, "PDF डाउनलोड करें" पर क्लिक करें। आप वैकल्पिक रूप से डाउनलोड करने से पहले PDF का प्रीव्यू देख सकते हैं।</li>
+             </ol>
+            <p class="text-center text-sm text-gray-500 mt-4">आपकी गोपनीयता सुरक्षित है। इमेज प्रोसेसिंग सीधे आपके ब्राउज़र में होती है।</p>
+         </div>
+
+        <!-- Ad Block -->
+        <div class="w-full max-w-4xl mx-auto my-12 text-center">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
+             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </main>
+
+    <!-- Footer -->
+     <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+         <div class="container mx-auto px-6 text-center">
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                 <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>मुफ्त ऑनलाइन टूल्स जो आपके PDF कार्यों को आसान और सुरक्षित बनाते हैं।</p></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">त्वरित लिंक</h4><ul><li><a href="index.html" class="hover:text-white">होम</a></li><li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li><li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li><li><a href="contact.html" class="hover:text-white">संपर्क</a></li></ul></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">कानूनी</h4><ul><li><a href="privacy.html" class="hover:text-white">प्राइवेसी पॉलिसी</a></li><li><a href="terms.html" class="hover:text-white">टर्म्स ऑफ सर्विस</a></li></ul></div>
+             </div>
+             <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</div>
+         </div>
+     </footer>
+
+     <script>
+         document.addEventListener('DOMContentLoaded', function() {
+            // Lib Check
+            let PDFLib; if(typeof window.PDFLib!=='undefined'){PDFLib=window.PDFLib;}else{showError("Fatal Error: PDF library missing.", true);return;}
+            if(typeof window.saveAs === 'undefined'){console.warn("FileSaver.js missing.");}
+            const { PDFDocument, PageSizes } = PDFLib;
+
+            // DOM Elements
+             const dropzone=document.getElementById('dropzone'),fileInput=document.getElementById('fileInput'),browseBtn=document.getElementById('browseBtn'),previewContainer=document.getElementById('previewContainer'),imagePreviews=document.getElementById('imagePreviews'),imageCount=document.getElementById('imageCount'),clearBtn=document.getElementById('clearBtn'),generateBtn=document.getElementById('generateBtn'),resultContainer=document.getElementById('resultContainer'),downloadBtn=document.getElementById('downloadBtn'),newPdfBtn=document.getElementById('newPdfBtn'),errorEl=document.getElementById('error'),errorMessageEl=document.getElementById('errorMessage'),statusEl=document.getElementById('status'),statusText=document.getElementById('statusText'),progressContainer=document.getElementById('progressContainer'),progressBar=document.getElementById('progressBar'),pdfPreviewContainer=document.getElementById('pdfPreviewContainer'),pdfPreview=document.getElementById('pdfPreview'),previewPlaceholder=document.getElementById('previewPlaceholder');
+
+             // State
+             let files = []; let fileIdCounter = 0; let pdfBlob = null; let dragSrcElement = null; let isProcessing = false;
+
+            // --- Init ---
+            setupUploadListeners(); clearBtn.addEventListener('click', clearAll); newPdfBtn.addEventListener('click', clearAll); generateBtn.addEventListener('click', generatePDF); downloadBtn.addEventListener('click', triggerDownload); document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // --- File Upload ---
+            function setupUploadListeners(){['dragenter','dragover','dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,preventDefaults)); ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,highlight)); ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,unhighlight)); dropzone.addEventListener('drop',handleDrop); fileInput.addEventListener('change',handleFilesEvent); browseBtn.addEventListener('click',()=>fileInput.click()); }
+            function preventDefaults(e){e.preventDefault();e.stopPropagation();}
+            function highlight(){if(!isProcessing)dropzone.classList.add('active');}
+            function unhighlight(){dropzone.classList.remove('active');}
+            function handleDrop(e){handleFiles(e.dataTransfer.files);}
+            function handleFilesEvent(e){handleFiles(e.target.files);}
+
+            function handleFiles(newFileList){if(isProcessing||!newFileList||newFileList.length===0)return;hideStatus();errorEl.classList.add('hidden');const types=['image/jpeg','image/png','image/webp'];const images=Array.from(newFileList).filter(f=>types.includes(f.type));if(images.length===0){showError('कोई मान्य इमेज (JPG, PNG, WEBP) नहीं चुनी गई।',5000);return;}if(images.length<newFileList.length){showError(`गैर-इमेज फाइलों को अनदेखा किया गया। ${images.length} इमेज जोड़ी गईं।`,5000);}if(pdfBlob)clearAll();const newObjs=images.map(f=>({id:fileIdCounter++,file:f,order:files.length+images.indexOf(f)}));files=[...files,...newObjs];updatePreviews();fileInput.value='';}
+
+             // --- Previews & Reordering ---
+            function updatePreviews(){files.sort((a,b)=>a.order-b.order);imagePreviews.innerHTML='';imageCount.textContent=files.length;if(files.length===0){previewPlaceholder.classList.remove('hidden');previewContainer.classList.add('hidden');clearBtn.disabled=true;generateBtn.disabled=true;return;}else{previewPlaceholder.classList.add('hidden');previewContainer.classList.remove('hidden');clearBtn.disabled=false;generateBtn.disabled=false;}files.forEach((fObj,idx)=>{fObj.order=idx;const reader=new FileReader();reader.onload=e=>imagePreviews.appendChild(createPreviewElement(fObj,idx,e.target.result));reader.onerror=()=>{imagePreviews.appendChild(createErrorPreview(fObj));showError(`${fObj.file.name} को पढ़ा नहीं जा सका।`,3000);};reader.readAsDataURL(fObj.file);});}
+            function createPreviewElement(fObj,idx,src) {const pv=document.createElement('div');pv.className='image-preview group relative rounded-lg overflow-hidden border border-gray-200 cursor-move'; pv.draggable=true;pv.dataset.id=fObj.id;pv.innerHTML=`<img src="${src}" alt="${fObj.file.name}" class="w-full h-40 object-cover pointer-events-none"><div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center pointer-events-none"></div><button type="button" class="remove-btn absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 pointer-events-auto focus:outline-none focus:ring-2 focus:ring-red-400 z-10" data-id="${fObj.id}" title="इमेज हटाएं"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button><div class="preview-filename pointer-events-none">${fObj.file.name}</div><div class="preview-index pointer-events-none">${idx+1}</div>`;pv.querySelector('.remove-btn').addEventListener('click',(ev)=>{ev.stopPropagation();const id=parseInt(ev.currentTarget.dataset.id);files=files.filter(f=>f.id!==id);files.forEach((f,ix)=>f.order=ix);updatePreviews();});addDragHandlers(pv);return pv;}
+            function createErrorPreview(fObj){const pv=document.createElement('div');pv.className='image-preview relative rounded-lg border border-red-300 bg-red-50 p-2 flex flex-col items-center justify-center h-40 text-center';pv.innerHTML=`<i class="fas fa-exclamation-triangle text-red-500 text-2xl mb-2"></i><p class="text-xs text-red-700 break-all" title="${fObj.file.name}">त्रुटि: ${fObj.file.name}</p>`;return pv;}
+            function addDragHandlers(item){item.addEventListener('dragstart',handleDragStart);item.addEventListener('dragover',handleDragOver);item.addEventListener('dragleave',handleDragLeave);item.addEventListener('drop',handleDropReorder);item.addEventListener('dragend',handleDragEnd);}
+            function handleDragStart(e){if(e.target.closest('button')){e.preventDefault();return;}dragSrcElement=this;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',this.dataset.id);}catch(err){}this.classList.add('dragging');}
+            function handleDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';if(this!==dragSrcElement)this.classList.add('drag-over-indicator');}
+            function handleDragLeave(){this.classList.remove('drag-over-indicator');}
+             function handleDropReorder(e){e.stopPropagation();this.classList.remove('drag-over-indicator');if(dragSrcElement&&dragSrcElement!==this){const srcId=parseInt(dragSrcElement.dataset.id);const targetId=parseInt(this.dataset.id);const srcIdx=files.findIndex(f=>f.id===srcId);let targetIdx=files.findIndex(f=>f.id===targetId);if(srcIdx!==-1&&targetIdx!==-1){const fileToMove=files.splice(srcIdx,1)[0];targetIdx=files.findIndex(f=>f.id===targetId);if(targetIdx===-1){files.splice(srcIdx,0,fileToMove);}else{const rect=this.getBoundingClientRect();const insertBefore=(e.clientY<rect.top+rect.height/2);const insertAt=insertBefore?targetIdx:targetIdx+1;files.splice(insertAt,0,fileToMove);}files.forEach((f,i)=>f.order=i);}updatePreviews();}return false;} // Simplified insert & re-index logic
+             function handleDragEnd(){this.classList.remove('dragging');imagePreviews.querySelectorAll('.drag-over-indicator').forEach(i=>i.classList.remove('drag-over-indicator'));dragSrcElement=null;}
+
+
+             // --- PDF Generation ---
+             function mmToPoints(mm){return mm*2.83464566929;} function getPdfLibPageSize(s){switch(s.toUpperCase()){case'LETTER':return PageSizes.Letter;case'LEGAL':return PageSizes.Legal;case'A5':return PageSizes.A5;default:return PageSizes.A4;}}
+            async function generatePDF(){if(files.length===0||isProcessing)return;isProcessing=true;showStatus('शुरू हो रहा है...',true,true);progressContainer.classList.remove('hidden');progressBar.style.width='0%';generateBtn.disabled=true;generateBtn.innerHTML='<i class="fas fa-spinner spinner mr-2"></i>जेनरेट हो रहा है...';clearBtn.disabled=true;errorEl.classList.add('hidden');resultContainer.classList.add('hidden');if(pdfPreview.src.startsWith('blob:'))URL.revokeObjectURL(pdfPreview.src);const orient=document.getElementById('orientation').value;const marginPt=mmToPoints(parseInt(document.getElementById('margin').value)||0);const pageSizeStr=document.getElementById('size').value;await new Promise(r=>setTimeout(r,50));try{const pdfDoc=await PDFDocument.create();let processed=0;files.sort((a,b)=>a.order-b.order);for(const fObj of files){processed++;showStatus(`प्रोसेसिंग ${processed}/${files.length}...`,true,true);progressBar.style.width=`${(processed/files.length)*100}%`;try{const bytes=await fObj.file.arrayBuffer();let embedImg;let type=fObj.file.type;if(type==='image/png')embedImg=await pdfDoc.embedPng(bytes);else if(type==='image/jpeg')embedImg=await pdfDoc.embedJpg(bytes);else if(type==='image/webp'){const uri=await fileToDataUrl(fObj.file);const img=await loadImageFromDataUrl(uri);const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;c.getContext('2d').drawImage(img,0,0);const jpgUri=c.toDataURL('image/jpeg',0.9);const jpgBytes=await fetch(jpgUri).then(res=>res.arrayBuffer());embedImg=await pdfDoc.embedJpg(jpgBytes);}else{throw new Error(`असमर्थित प्रकार: ${type}`);}const dims=embedImg.scale(1);if(dims.width===0||dims.height===0)throw new Error('शून्य आयाम इमेज');const sizeArr=getPdfLibPageSize(pageSizeStr);let[pW,pH]=sizeArr;if((orient==='landscape'&&pW<pH)||(orient==='portrait'&&pW>pH))[pW,pH]=[pH,pW];const page=pdfDoc.addPage([pW,pH]);const usableW=pW-marginPt*2;const usableH=pH-marginPt*2;const scaleF=Math.min(1,usableW/dims.width,usableH/dims.height);const imgW=dims.width*scaleF;const imgH=dims.height*scaleF;if(!isFinite(imgW)||!isFinite(imgH)||imgW<=0||imgH<=0)throw new Error('अमान्य स्केल');const x=marginPt+(usableW-imgW)/2;const y=marginPt+(usableH-imgH)/2;page.drawImage(embedImg,{x,y,width:imgW,height:imgH});}catch(imgErr){console.error(`स्किपिंग ${fObj.file.name}:`,imgErr);showError(`${fObj.file.name} के साथ त्रुटि। स्किप किया गया।`);await new Promise(r=>setTimeout(r,20));}}if(pdfDoc.getPageCount()===0)throw new Error("कोई इमेज नहीं जोड़ी जा सकी।");showStatus('PDF सहेज रहा है...',true,true);const pdfBytes=await pdfDoc.save();pdfBlob=new Blob([pdfBytes],{type:'application/pdf'});showResult(pdfBlob);}catch(err){showError('PDF जेनरेट करने में त्रुटि: '+err.message,0);console.error(err);}finally{isProcessing=false;hideStatus();progressContainer.classList.add('hidden');generateBtn.disabled=files.length===0;generateBtn.innerHTML='<i class="fas fa-file-pdf mr-2"></i>PDF जेनरेट करें';clearBtn.disabled=files.length===0;}}
+
+             // --- Helpers ---
+            function fileToDataUrl(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=e=>rej(r.error);r.readAsDataURL(f);});}
+            function loadImageFromDataUrl(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>{if(i.naturalWidth>0&&i.naturalHeight>0)res(i);else rej(new Error('अमान्य इमेज आयाम'));};i.onerror=e=>{console.error("इमेज लोड त्रुटि:",e);rej(new Error("इमेज लोड विफल"));};i.src=src;});}
+            function showResult(blob){resultContainer.classList.remove('hidden');previewContainer.classList.add('hidden');try{const url=URL.createObjectURL(blob);pdfPreview.src=url;pdfPreviewContainer.classList.remove('hidden');}catch(e){pdfPreviewContainer.classList.add('hidden');}}
+             function triggerDownload(){if(pdfBlob&&typeof saveAs==='function'){saveAs(pdfBlob,'SmileyPDF_Image_to_PDF.pdf');}else if(pdfBlob){const url=URL.createObjectURL(pdfBlob);const a=document.createElement('a');a.href=url;a.download='SmileyPDF_Image_to_PDF.pdf';a.click();URL.revokeObjectURL(url);console.warn("फालबैक डाउनलोड का उपयोग किया गया।");}else{showError("डाउनलोड करने के लिए कोई PDF नहीं है।",3000);}}
+             function clearAll(){files=[];pdfBlob=null;if(pdfPreview.src.startsWith('blob:')){URL.revokeObjectURL(pdfPreview.src);}pdfPreview.src='';updatePreviews();previewContainer.classList.add('hidden');resultContainer.classList.add('hidden');hideStatus();errorEl.classList.add('hidden');progressContainer.classList.add('hidden');progressBar.style.width='0%';}
+             function showError(msg,duration=0){ errorMessageEl.textContent=msg; errorEl.classList.remove('hidden'); hideStatus(); const timerId=errorEl.dataset.timer; if(timerId)clearTimeout(Number(timerId)); if(duration>0){const timer=setTimeout(()=>errorEl.classList.add('hidden'),duration);errorEl.dataset.timer=timer;}else{delete errorEl.dataset.timer;} } // Use dataset timer clear
+             function showStatus(msg,keepOpen=false,showSpin=false){if(!statusEl)return; statusText.textContent=msg;const spinIcon=statusEl.querySelector('.spinner');if(spinIcon)spinIcon.classList.toggle('hidden',!showSpin);statusEl.classList.remove('hidden');const timerId=statusEl.dataset.timer;if(timerId)clearTimeout(Number(timerId)); if(!keepOpen){const timer=setTimeout(hideStatus,3000);statusEl.dataset.timer=timer;}else{delete statusEl.dataset.timer;} }
+             function hideStatus(){if(statusEl)statusEl.classList.add('hidden'); const spinIcon = statusEl.querySelector('.spinner'); if (spinIcon) spinIcon.classList.add('hidden'); } // Ensure spinner is hidden too
+
+         }); // End of DOMContentLoaded listener
+     </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

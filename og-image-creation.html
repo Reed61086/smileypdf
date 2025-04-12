@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Image Creator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold mb-4">OG Image Creator</h1>
+        <p class="mb-4">This page creates a canvas with the recommended OG image dimensions (1200x630px) that you can save as an image.</p>
+        
+        <div class="bg-white p-4 rounded shadow-md mb-8">
+            <canvas id="ogCanvas" width="1200" height="630" class="border border-gray-300 w-full"></canvas>
+        </div>
+        
+        <button id="downloadBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Download Image</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('ogCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+            gradient.addColorStop(0, '#3b82f6'); // blue-500
+            gradient.addColorStop(1, '#1e40af'); // blue-800
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1200, 630);
+            
+            // Add logo text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('SmileyPDF', 600, 250);
+            
+            // Add tagline
+            ctx.font = '40px Arial';
+            ctx.fillText('Free Online PDF Tools', 600, 320);
+            
+            // Add features
+            ctx.font = '30px Arial';
+            ctx.fillText('Edit • Merge • Convert • Extract • Rotate', 600, 400);
+            
+            // Add security note
+            ctx.font = '24px Arial';
+            ctx.fillText('100% Free & Secure Client-Side Processing', 600, 500);
+            
+            // Add smiley face icon
+            ctx.beginPath();
+            ctx.arc(600, 150, 60, 0, Math.PI * 2);
+            ctx.fillStyle = '#fbbf24'; // yellow-400
+            ctx.fill();
+            
+            // Add eyes
+            ctx.beginPath();
+            ctx.arc(575, 140, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#1e3a8a'; // blue-900
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(625, 140, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#1e3a8a'; // blue-900
+            ctx.fill();
+            
+            // Add smile
+            ctx.beginPath();
+            ctx.arc(600, 160, 30, 0.2 * Math.PI, 0.8 * Math.PI);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#1e3a8a'; // blue-900
+            ctx.stroke();
+            
+            // Download functionality
+            document.getElementById('downloadBtn').addEventListener('click', function() {
+                const link = document.createElement('a');
+                link.download = 'og-image.jpg';
+                link.href = canvas.toDataURL('image/jpeg', 0.9);
+                link.click();
+            });
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

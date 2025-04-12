@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal PDF Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        #fileInfo {
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minimal PDF Viewer</h1>
+    
+    <div class="container">
+        <p>This is a minimal PDF viewer that uses the browser's built-in capabilities.</p>
+        <p>Select a PDF file to view it:</p>
+        
+        <form>
+            <input type="file" id="pdfFile" accept=".pdf" onchange="handleFile(this)">
+        </form>
+        
+        <div id="fileInfo"></div>
+    </div>
+    
+    <script>
+        function handleFile(input) {
+            var file = input.files[0];
+            if (!file) return;
+            
+            // Display file info
+            document.getElementById('fileInfo').textContent = 'Selected file: ' + file.name;
+            
+            // Open the file in a new tab
+            var url = URL.createObjectURL(file);
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

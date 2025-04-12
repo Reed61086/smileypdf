@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <!-- Hindi Homepage -->
+    <url>
+        <loc>https://smileypdf.com/hi/index.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/index.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/index.html"/>
+    </url>
+
+    <!-- Hindi Tool Pages -->
+    <url>
+        <loc>https://smileypdf.com/hi/pdf-editor.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-editor.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-editor.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/merge-pdf.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/merge-pdf.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/merge-pdf.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/pdf-splitter.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-splitter.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-splitter.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/pdf-to-word.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-to-word.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-to-word.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/pdf-to-jpg.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-to-jpg.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-to-jpg.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/image-to-pdf.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/image-to-pdf.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/image-to-pdf.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/pdf-rotator.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-rotator.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-rotator.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/pdf-text-extractor.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-text-extractor.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-text-extractor.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/pdf-to-excel.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-to-excel.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-to-excel.html"/>
+    </url>
+
+    <!-- Hindi Blog Pages -->
+    <url>
+        <loc>https://smileypdf.com/hi/blog.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/blog.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/blog.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/blog-post-1.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/blog-post-1.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/blog-post-1.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/blog-post-2.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/blog-post-2.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/blog-post-2.html"/>
+    </url>
+
+    <!-- Hindi Info Pages -->
+    <url>
+        <loc>https://smileypdf.com/hi/about.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/about.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/about.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/faq.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/faq.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/faq.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/contact.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/contact.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/contact.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/privacy.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/privacy.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/privacy.html"/>
+    </url>
+    <url>
+        <loc>https://smileypdf.com/hi/terms.html</loc>
+        <lastmod>2024-07-01</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://smileypdf.com/terms.html"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/terms.html"/>
+    </url>
+</urlset>

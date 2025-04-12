@@ -1,11 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced PDF Editor - SmileyPDF</title>
+    <title>Free Online PDF Editor - Edit PDF Text, Images & More | SmileyPDF</title>
+    <meta name="description" content="Edit PDF files online for free with SmileyPDF's powerful PDF editor. Add text, images, signatures, highlights, and annotations to your PDF documents. No registration required.">
+    <meta name="keywords" content="PDF editor, edit PDF online, free PDF editor, add text to PDF, PDF annotation, PDF signature, modify PDF, online PDF editor, no registration PDF editor">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="canonical" href="https://smileypdf.com/pdf-editor.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smileypdf.com/pdf-editor.html">
+    <meta property="og:title" content="Free Online PDF Editor - Edit PDF Text, Images & More | SmileyPDF">
+    <meta property="og:description" content="Edit PDF files online for free with SmileyPDF's powerful PDF editor. Add text, images, signatures, highlights, and annotations to your PDF documents.">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/pdf-editor.html">
+    <meta property="twitter:title" content="Free Online PDF Editor - Edit PDF Text, Images & More | SmileyPDF">
+    <meta property="twitter:description" content="Edit PDF files online for free with SmileyPDF's powerful PDF editor. Add text, images, signatures, highlights, and annotations to your PDF documents.">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SmileyPDF PDF Editor",
+      "url": "https://smileypdf.com/pdf-editor.html",
+      "description": "Free online PDF editor to add text, images, signatures, highlights, and annotations to your PDF documents. No registration required.",
+      "applicationCategory": "DocumentManagement",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "SmileyPDF",
+        "url": "https://smileypdf.com"
+      }
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
@@ -67,9 +117,8 @@
         /* Signature/Image Specifics */
          #signature-type-container { margin-top: 10px; }
          #image-drop-zone { border: 2px dashed #ccc; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; margin-top: 10px; color: #6b7280; }
-         #image-drop-zone:hover, #image-drop-zone.dragover { border-color: #4F46E5; background-color: rgba(79, 70, 229, 0.05); }
+         #image-drop-zone:hover, #image-drop-zone.border-blue-500 { border-color: #4F46E5; background-color: rgba(79, 70, 229, 0.05); }
          #file-input, #image-input { display: none; }
-         #file-input { display: none; }
          #initials-text, #signature-text { width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; margin-top: 5px; display: none; /* Hidden initially */}
          #signature-text { font-family: 'Brush Script MT', cursive; font-size: 24px;} /* Default font */
          #initials-text { font-family: 'Brush Script MT', cursive; font-size: 32px; }
@@ -82,6 +131,7 @@
              /* Further mobile adjustments if needed */
          }
     </style>
+<link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-100 font-sans">
 <!-- Header (Same as index.html) -->
@@ -194,6 +244,14 @@
                  <h1 id="pdf-filename" class="text-base md:text-lg font-semibold text-gray-800 truncate max-w-[150px] md:max-w-xs" title="No PDF Loaded">PDF Editor Tool</h1>
                  <div class="flex items-center space-x-1 md:space-x-3">
                      <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
                          <label for="page-select" class="text-gray-600 mr-1 text-xs md:text-sm hidden sm:inline">Page:</label>
                          <select id="page-select" class="border rounded px-1 md:px-2 py-0.5 md:py-1 text-xs md:text-sm" disabled>
                              <option>N/A</option>
@@ -388,6 +446,7 @@
         let pdfDoc = null, pdfFilename = 'No PDF Loaded', pageNum = 1, pageRendering = false, pageNumPending = null, scale = 1.0, totalPages = 0;
         let activeTool = null, annotations = [], selectedAnnotation = null, isDragging = false, isResizing = false, dragOffsetX = 0, dragOffsetY = 0, isDrawingHighlight = false, highlightStartX = 0, highlightStartY = 0, tempHighlightDiv = null;
         let signaturePad = null;
+        let currentSignatureMode = 'draw'; // Default signature mode
         let currentSignatureColor = 'black', currentTypedSignatureColor = 'black', currentSignatureFont = Object.keys(SIGNATURE_FONTS)[0]; // Default to first font
         let currentTextProperties = { ...DEFAULT_TEXT_PROPS };
         let currentHighlightProperties = { ...DEFAULT_HIGHLIGHT_PROPS };
@@ -515,23 +574,479 @@
         }
 
         // --- Signature Tool Functions ---
-        function setupSignaturePanelListeners() { console.log("Placeholder: setupSignaturePanelListeners"); }
-        function switchSignatureMode(button, mode) { console.log(`Placeholder: switchSignatureMode: ${mode}`); }
-        function clearSignature() { console.log('Placeholder: clearSignature'); if(signaturePad) signaturePad.clear(); }
-        function addSignatureToPDF() { console.log('Placeholder: addSignatureToPDF'); }
-        function setTypedSignatureFont(font) { console.log(`Placeholder: setTypedSignatureFont: ${font}`); }
-        function previewTypedSignature(text, type) { console.log(`Placeholder: previewTypedSignature: ${type}=${text}`); }
-        function setSignatureColor(color) { console.log(`Placeholder: setSignatureColor: ${color}`); }
-        function setTypedSignatureColor(color) { console.log(`Placeholder: setTypedSignatureColor: ${color}`); }
+        function setupSignaturePanelListeners() {
+            console.log("Setting up signature panel listeners");
+            const panel = document.getElementById('signature-tool-panel');
+            if (!panel) return;
+
+            // Mode switching buttons
+            const drawBtn = panel.querySelector('#draw-signature');
+            const typeBtn = panel.querySelector('#type-signature');
+            const initialsBtn = panel.querySelector('#initials-btn');
+
+            if (drawBtn) drawBtn.addEventListener('click', () => switchSignatureMode(drawBtn, 'draw'));
+            if (typeBtn) typeBtn.addEventListener('click', () => switchSignatureMode(typeBtn, 'type'));
+            if (initialsBtn) initialsBtn.addEventListener('click', () => switchSignatureMode(initialsBtn, 'initials'));
+
+            // Clear and save buttons
+            const clearBtn = panel.querySelector('#clear-signature');
+            const saveBtn = panel.querySelector('#save-signature');
+
+            if (clearBtn) clearBtn.addEventListener('click', clearSignature);
+            if (saveBtn) saveBtn.addEventListener('click', addSignatureToPDF);
+
+            // Font select
+            const fontSelect = panel.querySelector('#signature-font');
+            if (fontSelect) fontSelect.addEventListener('change', () => setTypedSignatureFont(fontSelect.value));
+
+            // Text inputs
+            const signatureText = panel.querySelector('#signature-text');
+            const initialsText = panel.querySelector('#initials-text');
+
+            if (signatureText) signatureText.addEventListener('input', () => previewTypedSignature(signatureText.value, 'signature'));
+            if (initialsText) initialsText.addEventListener('input', () => previewTypedSignature(initialsText.value, 'initials'));
+
+            // Color options
+            panel.querySelectorAll('#signature-draw-container .color-option').forEach(el => {
+                el.addEventListener('click', () => setSignatureColor(el.dataset.color));
+            });
+
+            panel.querySelectorAll('#signature-type-container .color-option').forEach(el => {
+                el.addEventListener('click', () => setTypedSignatureColor(el.dataset.color));
+            });
+        }
+
+        function switchSignatureMode(button, mode) {
+            console.log(`Switching signature mode to: ${mode}`);
+            const panel = document.getElementById('signature-tool-panel');
+            if (!panel) return;
+
+            // Reset all buttons
+            panel.querySelectorAll('button').forEach(btn => {
+                if (btn.id === 'draw-signature' || btn.id === 'type-signature' || btn.id === 'initials-btn') {
+                    btn.classList.remove('bg-blue-600', 'text-white');
+                    btn.classList.add('bg-gray-100', 'border', 'border-gray-300');
+                }
+            });
+
+            // Highlight the selected button
+            button.classList.remove('bg-gray-100', 'border', 'border-gray-300');
+            button.classList.add('bg-blue-600', 'text-white');
+
+            // Show/hide appropriate containers
+            const drawContainer = panel.querySelector('#signature-draw-container');
+            const typeContainer = panel.querySelector('#signature-type-container');
+            const signatureInput = panel.querySelector('#signature-text');
+            const initialsInput = panel.querySelector('#initials-text');
+
+            if (mode === 'draw') {
+                if (drawContainer) drawContainer.classList.remove('hidden');
+                if (typeContainer) typeContainer.classList.add('hidden');
+                currentSignatureMode = 'draw';
+                resizeSignatureCanvas();
+            } else {
+                if (drawContainer) drawContainer.classList.add('hidden');
+                if (typeContainer) typeContainer.classList.remove('hidden');
+                currentSignatureMode = mode;
+
+                // Focus the appropriate input
+                if (mode === 'type' && signatureInput) {
+                    signatureInput.classList.remove('hidden');
+                    if (initialsInput) initialsInput.classList.add('hidden');
+                    signatureInput.focus();
+                } else if (mode === 'initials' && initialsInput) {
+                    initialsInput.classList.remove('hidden');
+                    if (signatureInput) signatureInput.classList.add('hidden');
+                    initialsInput.focus();
+                }
+            }
+        }
+
+        function clearSignature() {
+            console.log('Clearing signature');
+            if (signaturePad) signaturePad.clear();
+            const signatureText = document.getElementById('signature-text');
+            const initialsText = document.getElementById('initials-text');
+            if (signatureText) signatureText.value = '';
+            if (initialsText) initialsText.value = '';
+        }
+
+        function addSignatureToPDF() {
+            console.log('Adding signature to PDF');
+            let signatureImage = '';
+
+            if (currentSignatureMode === 'draw') {
+                if (signaturePad && !signaturePad.isEmpty()) {
+                    signatureImage = signaturePad.toDataURL('image/png');
+                } else {
+                    alert('Please draw your signature first.');
+                    return;
+                }
+            } else if (currentSignatureMode === 'type') {
+                const text = document.getElementById('signature-text').value.trim();
+                if (!text) {
+                    alert('Please type your signature first.');
+                    return;
+                }
+                signatureImage = createTextSignatureImage(text, 'signature');
+            } else if (currentSignatureMode === 'initials') {
+                const text = document.getElementById('initials-text').value.trim();
+                if (!text) {
+                    alert('Please type your initials first.');
+                    return;
+                }
+                signatureImage = createTextSignatureImage(text, 'initials');
+            }
+
+            if (signatureImage) {
+                // Calculate position (center of the viewport)
+                const viewerRect = pdfViewer.getBoundingClientRect();
+                const canvasRect = canvas.getBoundingClientRect();
+
+                const x = (viewerRect.width / 2) - 75 + pdfViewer.scrollLeft; // 75 = half of default width
+                const y = (viewerRect.height / 2) - 40 + pdfViewer.scrollTop; // 40 = approximate half height
+
+                addAnnotation(x, y, 150, 80, 'signature', signatureImage);
+                setActiveTool(null); // Deactivate tool after adding
+            }
+        }
+
+        function createTextSignatureImage(text, type) {
+            // Create a canvas to render the text signature
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            canvas.width = 400;
+            canvas.height = type === 'signature' ? 150 : 100;
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Set text properties
+            ctx.font = `${type === 'signature' ? '48px' : '36px'} ${currentSignatureFont}`;
+            ctx.fillStyle = currentSignatureColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Draw text
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            // Return as data URL
+            return canvas.toDataURL('image/png');
+        }
+
+        function setTypedSignatureFont(font) {
+            console.log(`Setting typed signature font to: ${font}`);
+            currentSignatureFont = font;
+
+            // Update preview if text exists
+            const signatureText = document.getElementById('signature-text');
+            const initialsText = document.getElementById('initials-text');
+
+            if (currentSignatureMode === 'type' && signatureText && signatureText.value) {
+                previewTypedSignature(signatureText.value, 'signature');
+            } else if (currentSignatureMode === 'initials' && initialsText && initialsText.value) {
+                previewTypedSignature(initialsText.value, 'initials');
+            }
+        }
+
+        function previewTypedSignature(text, type) {
+            console.log(`Previewing typed ${type}: ${text}`);
+            // In a full implementation, this would show a preview of the typed signature
+            // For now, we'll just log it
+        }
+
+        function setSignatureColor(color) {
+            console.log(`Setting signature color to: ${color}`);
+            if (!signaturePad) return;
+
+            // Update color options UI
+            const container = document.getElementById('signature-draw-container');
+            if (container) {
+                container.querySelectorAll('.color-option').forEach(el => {
+                    el.classList.toggle('selected', el.dataset.color === color);
+                });
+            }
+
+            // Set the pen color
+            signaturePad.penColor = COLOR_MAP[color] || COLOR_MAP.black;
+        }
+
+        function setTypedSignatureColor(color) {
+            console.log(`Setting typed signature color to: ${color}`);
+            currentSignatureColor = COLOR_MAP[color] || COLOR_MAP.black;
+
+            // Update color options UI
+            const container = document.getElementById('signature-type-container');
+            if (container) {
+                container.querySelectorAll('.color-option').forEach(el => {
+                    el.classList.toggle('selected', el.dataset.color === color);
+                });
+            }
+
+            // Update preview if text exists
+            const signatureText = document.getElementById('signature-text');
+            const initialsText = document.getElementById('initials-text');
+
+            if (currentSignatureMode === 'type' && signatureText && signatureText.value) {
+                previewTypedSignature(signatureText.value, 'signature');
+            } else if (currentSignatureMode === 'initials' && initialsText && initialsText.value) {
+                previewTypedSignature(initialsText.value, 'initials');
+            }
+        }
 
 
-        // --- Other Tool Panel Placeholders (Implement as needed) ---
-        function setupImagePanelListeners() { console.log("Placeholder: setupImagePanelListeners"); }
-        function setupHighlightPanelListeners() { console.log("Placeholder: setupHighlightPanelListeners"); }
-        function updateHighlightPanelControls(properties) { console.log("Placeholder: updateHighlightPanelControls", properties); }
-        function setCurrentHighlightProperty(prop, value) { console.log(`Placeholder: setCurrentHighlightProperty: ${prop}=${value}`); currentHighlightProperties[prop] = value; if(selectedAnnotation && selectedAnnotation.dataset.type === 'highlight') applyAnnotationProperties(selectedAnnotation, currentHighlightProperties); }
-        function handleImageFileSelect(event) { console.log('Placeholder: handleImageFileSelect'); }
-        function handleImageDrop(event) { console.log('Placeholder: handleImageDrop'); event.preventDefault(); }
+        // --- Other Tool Panel Functions ---
+        function setupImagePanelListeners() {
+            console.log("Setting up image panel listeners");
+            const panel = document.getElementById('image-tool-panel');
+            if (!panel) {
+                console.error("Image tool panel not found");
+                return;
+            }
+
+            const dropZone = panel.querySelector('#image-drop-zone');
+            const browseBtn = panel.querySelector('#browse-images');
+            const imageInput = panel.querySelector('#image-input');
+
+            console.log("Image panel elements:", { dropZone, browseBtn, imageInput });
+
+            if (dropZone) {
+                // Prevent default behaviors for all drag events
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log(`Image dropzone ${eventName} event`);
+                    });
+                });
+
+                // Add highlight class on drag enter/over
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => {
+                        console.log('Adding highlight to dropzone');
+                        dropZone.classList.add('border-blue-500', 'bg-blue-50');
+                    });
+                });
+
+                // Remove highlight class on drag leave/drop
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => {
+                        console.log('Removing highlight from dropzone');
+                        dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+                    });
+                });
+
+                // Handle the drop event
+                dropZone.addEventListener('drop', (e) => {
+                    console.log('Drop event on image dropzone');
+                    handleImageDrop(e);
+                });
+
+                // Also add click handler to the entire drop zone
+                dropZone.addEventListener('click', () => {
+                    console.log('Dropzone clicked, triggering file input');
+                    if (imageInput) imageInput.click();
+                });
+            }
+
+            if (browseBtn) {
+                browseBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default button behavior
+                    e.stopPropagation(); // Prevent event bubbling
+                    console.log('Browse button clicked');
+                    if (imageInput) imageInput.click();
+                });
+            }
+
+            if (imageInput) {
+                imageInput.addEventListener('change', (e) => {
+                    console.log('Image input change event');
+                    handleImageFileSelect(e);
+                });
+            }
+        }
+
+        function setupHighlightPanelListeners() {
+            console.log("Setting up highlight panel listeners");
+            const panel = document.getElementById('highlight-tool-panel');
+            if (!panel) return;
+
+            // Color options
+            panel.querySelectorAll('.color-option').forEach(el => {
+                el.addEventListener('click', function() {
+                    const color = this.dataset.color;
+                    setCurrentHighlightProperty('color', color);
+                    panel.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Opacity slider
+            const opacitySlider = panel.querySelector('#highlight-opacity');
+            const opacityValue = panel.querySelector('#opacity-value');
+
+            if (opacitySlider && opacityValue) {
+                opacitySlider.addEventListener('input', function() {
+                    const value = this.value;
+                    opacityValue.textContent = value;
+                    setCurrentHighlightProperty('opacity', value / 100);
+                });
+            }
+        }
+
+        function updateHighlightPanelControls(properties) {
+            console.log("Updating highlight panel controls", properties);
+            const panel = document.getElementById('highlight-tool-panel');
+            if (!panel || !properties) return;
+
+            // Update color selection
+            panel.querySelectorAll('.color-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.color === properties.color);
+            });
+
+            // Update opacity slider
+            const opacitySlider = panel.querySelector('#highlight-opacity');
+            const opacityValue = panel.querySelector('#opacity-value');
+
+            if (opacitySlider && opacityValue && properties.opacity) {
+                const opacityPercent = Math.round(properties.opacity * 100);
+                opacitySlider.value = opacityPercent;
+                opacityValue.textContent = opacityPercent;
+            }
+        }
+
+        function setCurrentHighlightProperty(prop, value) {
+            console.log(`Setting highlight property: ${prop}=${value}`);
+            currentHighlightProperties[prop] = value;
+
+            if (selectedAnnotation && selectedAnnotation.dataset.type === 'highlight') {
+                applyAnnotationProperties(selectedAnnotation, currentHighlightProperties);
+                updateAnnotationData(selectedAnnotation);
+            }
+        }
+
+        function handleImageFileSelect(event) {
+            console.log('Image file selected');
+            const file = event.target.files[0];
+            if (!file) {
+                console.warn('No file selected');
+                return;
+            }
+
+            console.log('Selected file:', file.name, file.type, file.size);
+
+            if (!file.type.match('image.*')) {
+                alert('Please select an image file (PNG, JPG, GIF, WEBP).');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                console.log('FileReader onload event');
+                addImageToPDF(e.target.result);
+            };
+            reader.onerror = function(e) {
+                console.error('FileReader error:', e);
+                alert('Error reading the image file. Please try another file.');
+            };
+
+            console.log('Starting to read file as data URL');
+            reader.readAsDataURL(file);
+
+            // Reset the file input so the same file can be selected again
+            event.target.value = '';
+        }
+
+        function handleImageDrop(event) {
+            console.log('Image dropped');
+
+            const dt = event.dataTransfer;
+            if (!dt || !dt.files || dt.files.length === 0) {
+                console.warn('No files in drop event');
+                return;
+            }
+
+            const file = dt.files[0];
+            console.log('Dropped file:', file.name, file.type, file.size);
+
+            if (file.type.match('image.*')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    console.log('FileReader onload event for dropped file');
+                    addImageToPDF(e.target.result);
+                };
+                reader.onerror = function(e) {
+                    console.error('FileReader error for dropped file:', e);
+                    alert('Error reading the dropped image. Please try another file.');
+                };
+
+                console.log('Starting to read dropped file as data URL');
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please drop an image file (PNG, JPG, GIF, WEBP).');
+            }
+        }
+
+        function addImageToPDF(imageDataUrl) {
+            console.log('Adding image to PDF');
+            if (!imageDataUrl) {
+                console.error('No image data URL provided');
+                return;
+            }
+
+            if (!pdfDoc) {
+                alert('Please upload a PDF document first.');
+                return;
+            }
+
+            // Create an Image object to get the dimensions
+            const img = new Image();
+            img.onload = function() {
+                console.log('Image loaded, dimensions:', img.width, 'x', img.height);
+
+                // Calculate position (center of the viewport)
+                const viewerRect = pdfViewer.getBoundingClientRect();
+
+                // Calculate a reasonable size based on the image dimensions
+                // while maintaining aspect ratio
+                const maxWidth = 300; // Maximum width for the image
+                const maxHeight = 300; // Maximum height for the image
+
+                let width = img.width;
+                let height = img.height;
+
+                // Scale down if necessary while maintaining aspect ratio
+                if (width > maxWidth) {
+                    const ratio = maxWidth / width;
+                    width = maxWidth;
+                    height = height * ratio;
+                }
+
+                if (height > maxHeight) {
+                    const ratio = maxHeight / height;
+                    height = maxHeight;
+                    width = width * ratio;
+                }
+
+                // Center the image in the viewport
+                const x = (viewerRect.width / 2) - (width / 2) + pdfViewer.scrollLeft;
+                const y = (viewerRect.height / 2) - (height / 2) + pdfViewer.scrollTop;
+
+                console.log('Adding image annotation at:', x, y, 'with size:', width, 'x', height);
+                addAnnotation(x, y, width, height, 'image', imageDataUrl);
+                setActiveTool(null); // Deactivate tool after adding
+            };
+
+            img.onerror = function() {
+                console.error('Error loading image');
+                alert('Error loading the image. Please try another file.');
+            };
+
+            img.src = imageDataUrl;
+        }
 
         // --- Annotation Management Functions ---
         function applyAnnotationProperties(annotationDiv, properties) {
@@ -1379,9 +1894,15 @@
                  // Get page dimensions accurately first
                  const pageDimensions = [];
                  for (let i = 1; i <= totalPages; i++) {
-                     const page = await pdfDoc.getPage(i);
-                     const viewport = page.getViewport({ scale: 1.0 });
-                     pageDimensions.push({ width: viewport.width, height: viewport.height });
+                     try {
+                         const page = await pdfDoc.getPage(i);
+                         const viewport = page.getViewport({ scale: 1.0 });
+                         pageDimensions.push({ width: viewport.width, height: viewport.height });
+                     } catch (pageError) {
+                         console.error(`Error getting dimensions for page ${i}:`, pageError);
+                         // Use default A4 dimensions if we can't get the actual page dimensions
+                         pageDimensions.push({ width: 595.28, height: 841.89 }); // Default A4 pt
+                     }
                  }
 
                 // Create jsPDF instance
@@ -1506,5 +2027,6 @@
          and updates the call sites, not the removal of the original definitions.
          If errors persist, the original locations might differ. -->
 
+<script src="dark-mode.js"></script>
 </body>
 </html>

@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core PDF Splitter - à¤œà¤²à¥à¤¦ à¤† à¤°à¤¹à¤¾ à¤¹à¥ˆ - PDF Tools</title>
+    <meta name="description" content="à¤¯à¤¹ à¤ªà¥‡à¤œ à¤œà¤²à¥à¤¦ à¤¹à¥€ à¤† à¤°à¤¹à¤¾ à¤¹à¥ˆà¥¤ à¤¹à¤® à¤‡à¤¸ à¤ªà¤° à¤•à¤¾à¤® à¤•à¤° à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚ à¤”à¤° à¤¯à¤¹ à¤œà¤²à¥à¤¦ à¤¹à¥€ à¤‰à¤ªà¤²à¤¬à¥à¤§ à¤¹à¥‹à¤—à¤¾à¥¤">
+    <link rel="canonical" href="https://pdftools.in/hi/coming-soon.html">
+    <link rel="alternate" hreflang="en" href="https://pdftools.in/coming-soon.html">
+    <link rel="alternate" hreflang="hi" href="https://pdftools.in/hi/coming-soon.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXX');
+    </script>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-blue-700 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+                    <a href="index.html" class="flex items-center">
+                        <img src="../logo.png" alt="PDF Tools Logo" class="h-10 mr-3">
+                        <span class="text-xl font-bold">PDF Tools</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-1" x-data="{ toolsOpen: false }">
+                    <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">à¤¹à¥‹à¤®</a>
+                    <div class="relative" @click.away="toolsOpen = false">
+                        <button @click="toolsOpen = !toolsOpen" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm flex items-center">
+                            à¤Ÿà¥‚à¤²à¥à¤¸
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="toolsOpen"
+                             x-transition:enter="transition ease-out duration-100 transform"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75 transform"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                             style="display: none;" x-cloak>
+                            <div class="py-1">
+                                <span class="block px-4 py-1 text-xs font-semibold text-gray-500">à¤¬à¥‡à¤¸à¤¿à¤• à¤Ÿà¥‚à¤²à¥à¤¸</span>
+                                <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤à¤¡à¤¿à¤Ÿà¤°</a>
+                                <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤®à¤°à¥à¤œ</a>
+                                <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">à¤‡à¤®à¥‡à¤œ à¤¸à¥‡ PDF</a>
+                                <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤°à¥‹à¤Ÿà¥‡à¤Ÿ</a>
+                                <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤Ÿà¥‡à¤•à¥à¤¸à¥à¤Ÿ à¤à¤•à¥à¤¸à¤Ÿà¥à¤°à¥ˆà¤•à¥à¤Ÿ</a>
+                                <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤¸à¥‡ JPG</a>
+                                <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤¸à¥‡ à¤µà¤°à¥à¤¡</a>
+                                <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤¸à¥‡ à¤à¤•à¥à¤¸à¥‡à¤²</a>
+                                <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF à¤¸à¥à¤ªà¥à¤²à¤¿à¤Ÿà¤°</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">à¤¬à¥à¤²à¥‰à¤—</a>
+                    <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">à¤¹à¤®à¤¾à¤°à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚</a>
+                    <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">à¤¸à¤‚à¤ªà¤°à¥à¤•</a>
+                </nav>
+                
+                <!-- Language Selector -->
+                <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+                    <a href="../index.html" class="text-white hover:text-blue-200 ml-4">
+                        <span class="flag-icon">ðŸ‡ºðŸ‡¸</span>
+                        <span class="ml-1 text-sm">EN</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                        <span class="sr-only">à¤®à¥‡à¤¨à¥‚ à¤–à¥‹à¤²à¥‡à¤‚</span>
+                        <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                        <i x-show="mobileMenuOpen" class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div x-data="{ mobileMenuOpen: false }" x-show="mobileMenuOpen" class="md:hidden mt-2 pb-3" style="display: none;" x-cloak>
+                <a href="index.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-base font-medium">à¤¹à¥‹à¤®</a>
+                <div x-data="{ mobileToolsOpen: false }">
+                    <button @click="mobileToolsOpen = !mobileToolsOpen" class="flex justify-between items-center w-full text-white hover:bg-blue-600 px-3 py-2 rounded-md text-base font-medium">
+                        à¤Ÿà¥‚à¤²à¥à¤¸
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="mobileToolsOpen" class="pl-4 pr-2 py-2 space-y-1" style="display: none;" x-cloak>
+                        <a href="pdf-editor.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤à¤¡à¤¿à¤Ÿà¤°</a>
+                        <a href="merge-pdf.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤®à¤°à¥à¤œ</a>
+                        <a href="image-to-pdf.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">à¤‡à¤®à¥‡à¤œ à¤¸à¥‡ PDF</a>
+                        <a href="pdf-rotator.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤°à¥‹à¤Ÿà¥‡à¤Ÿ</a>
+                        <a href="pdf-text-extractor.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤Ÿà¥‡à¤•à¥à¤¸à¥à¤Ÿ à¤à¤•à¥à¤¸à¤Ÿà¥à¤°à¥ˆà¤•à¥à¤Ÿ</a>
+                        <a href="pdf-to-jpg.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤¸à¥‡ JPG</a>
+                        <a href="pdf-to-word.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤¸à¥‡ à¤µà¤°à¥à¤¡</a>
+                        <a href="pdf-to-excel.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤¸à¥‡ à¤à¤•à¥à¤¸à¥‡à¤²</a>
+                        <a href="pdf-splitter.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-sm">PDF à¤¸à¥à¤ªà¥à¤²à¤¿à¤Ÿà¤°</a>
+                    </div>
+                </div>
+                <a href="blog.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-base font-medium">à¤¬à¥à¤²à¥‰à¤—</a>
+                <a href="about.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-base font-medium">à¤¹à¤®à¤¾à¤°à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚</a>
+                <a href="contact.html" class="block text-white hover:bg-blue-600 px-3 py-2 rounded-md text-base font-medium">à¤¸à¤‚à¤ªà¤°à¥à¤•</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Core PDF Splitter - à¤œà¤²à¥à¤¦ à¤† à¤°à¤¹à¤¾ à¤¹à¥ˆ!</h1>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+                <div class="text-6xl mb-6">ðŸš§</div>
+                <p class="text-xl text-gray-600 mb-6">à¤¹à¤® à¤‡à¤¸ Core PDF Splitter à¤ªà¥‡à¤œ à¤ªà¤° à¤•à¤¾à¤® à¤•à¤° à¤°à¤¹à¥‡ à¤¹à¥ˆà¤‚ à¤”à¤° à¤¯à¤¹ à¤œà¤²à¥à¤¦ à¤¹à¥€ à¤‰à¤ªà¤²à¤¬à¥à¤§ à¤¹à¥‹à¤—à¤¾à¥¤</p>
+                <p class="text-gray-500 mb-8">à¤•à¥ƒà¤ªà¤¯à¤¾ à¤¬à¤¾à¤¦ à¤®à¥‡à¤‚ à¤«à¤¿à¤° à¤¸à¥‡ à¤œà¤¾à¤‚à¤šà¥‡à¤‚ à¤¯à¤¾ à¤¹à¤®à¤¾à¤°à¥‡ à¤…à¤¨à¥à¤¯ à¤‰à¤ªà¤²à¤¬à¥à¤§ à¤Ÿà¥‚à¤²à¥à¤¸ à¤•à¤¾ à¤‰à¤ªà¤¯à¥‹à¤— à¤•à¤°à¥‡à¤‚à¥¤</p>
+                
+                <a href="index.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-300">
+                    à¤¹à¥‹à¤® à¤ªà¥‡à¤œ à¤ªà¤° à¤µà¤¾à¤ªà¤¸ à¤œà¤¾à¤à¤‚
+                </a>
+            </div>
+            
+            <div class="mt-12">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">à¤‡à¤¨ à¤‰à¤ªà¤²à¤¬à¥à¤§ à¤Ÿà¥‚à¤²à¥à¤¸ à¤•à¥‹ à¤†à¤œà¤®à¤¾à¤à¤‚</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="pdf-editor.html" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                        <div class="text-blue-600 text-3xl mb-3"><i class="fas fa-edit"></i></div>
+                        <h3 class="text-lg font-semibold mb-2">PDF à¤à¤¡à¤¿à¤Ÿà¤°</h3>
+                        <p class="text-gray-600">à¤…à¤ªà¤¨à¥‡ PDF à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼à¥‹à¤‚ à¤•à¥‹ à¤¸à¤‚à¤ªà¤¾à¤¦à¤¿à¤¤ à¤•à¤°à¥‡à¤‚, à¤Ÿà¥‡à¤•à¥à¤¸à¥à¤Ÿ à¤œà¥‹à¤¡à¤¼à¥‡à¤‚, à¤¹à¤¾à¤‡à¤²à¤¾à¤‡à¤Ÿ à¤•à¤°à¥‡à¤‚ à¤”à¤° à¤…à¤§à¤¿à¤•à¥¤</p>
+                    </a>
+                    
+                    <a href="merge-pdf.html" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                        <div class="text-blue-600 text-3xl mb-3"><i class="fas fa-object-group"></i></div>
+                        <h3 class="text-lg font-semibold mb-2">PDF à¤®à¤°à¥à¤œ</h3>
+                        <p class="text-gray-600">à¤•à¤ˆ PDF à¤«à¤¾à¤‡à¤²à¥‹à¤‚ à¤•à¥‹ à¤à¤• à¤¹à¥€ à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼ à¤®à¥‡à¤‚ à¤®à¤¿à¤²à¤¾à¤à¤‚à¥¤</p>
+                    </a>
+                    
+                    <a href="pdf-to-jpg.html" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                        <div class="text-blue-600 text-3xl mb-3"><i class="fas fa-file-image"></i></div>
+                        <h3 class="text-lg font-semibold mb-2">PDF à¤¸à¥‡ JPG</h3>
+                        <p class="text-gray-600">PDF à¤ªà¥‡à¤œà¥‹à¤‚ à¤•à¥‹ JPG à¤‡à¤®à¥‡à¤œ à¤®à¥‡à¤‚ à¤•à¤¨à¥à¤µà¤°à¥à¤Ÿ à¤•à¤°à¥‡à¤‚à¥¤</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">PDF Tools</h3>
+                    <p class="text-gray-400">à¤†à¤ªà¤•à¥‡ PDF à¤¦à¤¸à¥à¤¤à¤¾à¤µà¥‡à¤œà¤¼à¥‹à¤‚ à¤•à¥‹ à¤†à¤¸à¤¾à¤¨à¥€ à¤¸à¥‡ à¤”à¤° à¤®à¥à¤«à¥à¤¤ à¤®à¥‡à¤‚ à¤¸à¤‚à¤ªà¤¾à¤¦à¤¿à¤¤ à¤•à¤°à¥‡à¤‚à¥¤ à¤¸à¤­à¥€ à¤ªà¥à¤°à¥‹à¤¸à¥‡à¤¸à¤¿à¤‚à¤— à¤†à¤ªà¤•à¥‡ à¤¬à¥à¤°à¤¾à¤‰à¤œà¤¼à¤° à¤®à¥‡à¤‚ à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤ à¤°à¥‚à¤ª à¤¸à¥‡ à¤•à¥€ à¤œà¤¾à¤¤à¥€ à¤¹à¥ˆà¥¤</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">à¤¤à¥à¤µà¤°à¤¿à¤¤ à¤²à¤¿à¤‚à¤•à¥à¤¸</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">à¤¹à¥‹à¤®</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">à¤¹à¤®à¤¾à¤°à¥‡ à¤¬à¤¾à¤°à¥‡ à¤®à¥‡à¤‚</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">à¤¸à¤‚à¤ªà¤°à¥à¤•</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">à¤¬à¥à¤²à¥‰à¤—</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">à¤²à¥‹à¤•à¤ªà¥à¤°à¤¿à¤¯ à¤Ÿà¥‚à¤²à¥à¤¸</h3>
+                    <ul class="space-y-2">
+                        <li><a href="pdf-editor.html" class="text-gray-400 hover:text-white">PDF à¤à¤¡à¤¿à¤Ÿà¤°</a></li>
+                        <li><a href="merge-pdf.html" class="text-gray-400 hover:text-white">PDF à¤®à¤°à¥à¤œ</a></li>
+                        <li><a href="pdf-to-jpg.html" class="text-gray-400 hover:text-white">PDF à¤¸à¥‡ JPG</a></li>
+                        <li><a href="pdf-to-word.html" class="text-gray-400 hover:text-white">PDF à¤¸à¥‡ à¤µà¤°à¥à¤¡</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">à¤²à¥€à¤—à¤²</h3>
+                    <ul class="space-y-2">
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">à¤‰à¤ªà¤¯à¥‹à¤— à¤•à¥€ à¤¶à¤°à¥à¤¤à¥‡à¤‚</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">à¤ªà¥à¤°à¤¾à¤‡à¤µà¥‡à¤¸à¥€ à¤ªà¥‰à¤²à¤¿à¤¸à¥€</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400">&copy; 2025 PDF Tools. à¤¸à¤°à¥à¤µà¤¾à¤§à¤¿à¤•à¤¾à¤° à¤¸à¥à¤°à¤•à¥à¤·à¤¿à¤¤à¥¤</p>
+                
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('header', () => ({
+                mobileMenuOpen: false,
+                toolsOpen: false
+            }));
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+
+

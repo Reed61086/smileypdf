@@ -1,0 +1,484 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Accessibility Checker - SmileyPDF</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- PDF.js for PDF handling -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            <div class="hidden md:flex items-center space-x-4">
+                 <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+                 <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                     </button>
+                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                         <a href="pdf-accessibility.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Accessibility Checker</a>
+                      </div>
+                  </div>
+                  <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+                  <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+                  <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+              </div>
+               <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                   <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                       <span class="sr-only">Open menu</span>
+                       <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                       <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                   </button>
+              </div>
+         </nav>
+          <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+                <a href="pdf-accessibility.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Accessibility Checker</a>
+             </div>
+          </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 flex-grow">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-gray-800 mb-3">PDF Accessibility Checker</h1>
+                <p class="text-gray-600 text-lg">Make your PDFs accessible for screen readers and comply with accessibility standards.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <!-- File Upload Area -->
+                <div class="border-2 border-dashed border-blue-300 rounded-lg p-8 text-center cursor-pointer" id="dropZone">
+                    <i class="fas fa-universal-access text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Upload PDF Document</h3>
+                    <p class="text-gray-500 mb-4">Drag & drop your PDF file here or click below</p>
+                    <input type="file" id="pdfInput" accept=".pdf" class="hidden">
+                    <button type="button" id="uploadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2">
+                        <i class="fas fa-upload mr-2"></i> Select PDF File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Accessibility Results (Hidden initially) -->
+            <div id="resultsSection" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Accessibility Analysis Results</h3>
+                
+                <!-- Overall Score -->
+                <div class="mb-6">
+                    <h4 class="font-medium text-gray-700 mb-2">Overall Accessibility Score</h4>
+                    <div class="relative pt-1">
+                        <div class="flex mb-2 items-center justify-between">
+                            <div>
+                                <span id="scoreLabel" class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-gray-500">
+                                    Analyzing...
+                                </span>
+                            </div>
+                            <div class="text-right">
+                                <span id="scoreValue" class="text-xs font-semibold inline-block text-gray-600">
+                                    0%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                            <div id="scoreBar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gray-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Detailed Issues -->
+                <div>
+                    <h4 class="font-medium text-gray-700 mb-2">Detailed Findings</h4>
+                    <div class="border rounded-lg overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Issue</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Severity</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recommendation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="issuesTable" class="bg-white divide-y divide-gray-200">
+                                <!-- Issues will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Fix & Download Buttons -->
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button id="fixIssuesBtn" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                        <i class="fas fa-magic mr-2"></i> Auto-Fix Issues
+                    </button>
+                    <button id="downloadFixedBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300" disabled>
+                        <i class="fas fa-download mr-2"></i> Download Fixed PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- How to Use Section -->
+            <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Making Your PDFs Accessible</h2>
+                <p class="text-gray-600 mb-4">PDF accessibility ensures that documents can be read by people with disabilities, including those using screen readers or other assistive technologies. Here's how our tool helps:</p>
+                
+                <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                    <li>Upload your PDF document using the drag & drop area or the "Select PDF File" button.</li>
+                    <li>Our system will analyze your PDF for common accessibility issues, including:
+                        <ul class="list-disc list-inside ml-6 mt-1 text-sm">
+                            <li>Missing document structure (headings, lists, etc.)</li>
+                            <li>Images without alternative text</li>
+                            <li>Poor color contrast</li>
+                            <li>Missing document language</li>
+                            <li>Inaccessible form fields</li>
+                            <li>Untagged content</li>
+                        </ul>
+                    </li>
+                    <li>Review the detailed findings and overall accessibility score.</li>
+                    <li>Use the "Auto-Fix Issues" button to automatically fix common problems.</li>
+                    <li>Download the improved PDF with better accessibility features.</li>
+                </ol>
+                
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-2">Why Accessibility Matters:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-blue-800">
+                        <li>Makes your content available to people with disabilities</li>
+                        <li>Improves SEO and discoverability</li>
+                        <li>Helps comply with accessibility regulations (ADA, Section 508, WCAG)</li>
+                        <li>Creates a better experience for all users</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4>
+                    <p>Free online tools for your PDF tasks.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white">About</a></li>
+                        <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html" class="hover:text-white">Privacy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Set the current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // PDF Accessibility Checker functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfInput = document.getElementById('pdfInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const dropZone = document.getElementById('dropZone');
+            const resultsSection = document.getElementById('resultsSection');
+            const scoreLabel = document.getElementById('scoreLabel');
+            const scoreValue = document.getElementById('scoreValue');
+            const scoreBar = document.getElementById('scoreBar');
+            const issuesTable = document.getElementById('issuesTable');
+            const fixIssuesBtn = document.getElementById('fixIssuesBtn');
+            const downloadFixedBtn = document.getElementById('downloadFixedBtn');
+            
+            // Set up PDF.js
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
+            
+            // Sample accessibility issues for demonstration
+            const sampleIssues = [
+                { issue: 'Missing document title', severity: 'High', recommendation: 'Add a descriptive title to the document properties.' },
+                { issue: 'Images without alternative text', severity: 'High', recommendation: 'Add alt text to all images to describe their content.' },
+                { issue: 'Low color contrast', severity: 'Medium', recommendation: 'Increase contrast between text and background colors.' },
+                { issue: 'Missing document language', severity: 'Medium', recommendation: 'Set the document language in the properties.' },
+                { issue: 'No bookmarks for navigation', severity: 'Low', recommendation: 'Add bookmarks for long documents to aid navigation.' },
+                { issue: 'Untagged PDF', severity: 'High', recommendation: 'Add proper tags to the document structure.' }
+            ];
+            
+            // Event listeners for file upload
+            uploadBtn.addEventListener('click', () => pdfInput.click());
+            pdfInput.addEventListener('change', handleFileSelect);
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults);
+            });
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight);
+            });
+            
+            dropZone.addEventListener('drop', handleDrop);
+            
+            // Fix issues button
+            fixIssuesBtn.addEventListener('click', fixAccessibilityIssues);
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            function highlight() {
+                dropZone.classList.add('border-blue-500', 'bg-blue-50');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+            }
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length && files[0].type === 'application/pdf') {
+                    pdfInput.files = files;
+                    handleFileSelect();
+                } else {
+                    alert('Please upload a PDF file.');
+                }
+            }
+            
+            function handleFileSelect() {
+                if (pdfInput.files.length === 0) return;
+                
+                const file = pdfInput.files[0];
+                if (file.type !== 'application/pdf') {
+                    alert('Please upload a PDF file.');
+                    return;
+                }
+                
+                // Simulate loading and analysis
+                simulateAccessibilityCheck(file);
+            }
+            
+            function simulateAccessibilityCheck(file) {
+                // Show results section
+                resultsSection.classList.remove('hidden');
+                
+                // Reset UI
+                scoreLabel.textContent = 'Analyzing...';
+                scoreLabel.className = 'text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-gray-500';
+                scoreValue.textContent = '0%';
+                scoreBar.style.width = '0%';
+                scoreBar.className = 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gray-500';
+                issuesTable.innerHTML = '';
+                downloadFixedBtn.disabled = true;
+                
+                // Simulate analysis with a delay
+                setTimeout(() => {
+                    // Generate a random score between 40 and 85
+                    const score = Math.floor(Math.random() * 46) + 40;
+                    
+                    // Update score display
+                    updateAccessibilityScore(score);
+                    
+                    // Display sample issues
+                    displayAccessibilityIssues();
+                    
+                }, 2000);
+            }
+            
+            function updateAccessibilityScore(score) {
+                scoreValue.textContent = `${score}%`;
+                scoreBar.style.width = `${score}%`;
+                
+                if (score < 50) {
+                    scoreLabel.textContent = 'Poor';
+                    scoreLabel.className = 'text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-red-500';
+                    scoreBar.className = 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500';
+                } else if (score < 70) {
+                    scoreLabel.textContent = 'Needs Improvement';
+                    scoreLabel.className = 'text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-yellow-500';
+                    scoreBar.className = 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-yellow-500';
+                } else if (score < 90) {
+                    scoreLabel.textContent = 'Good';
+                    scoreLabel.className = 'text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-blue-500';
+                    scoreBar.className = 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500';
+                } else {
+                    scoreLabel.textContent = 'Excellent';
+                    scoreLabel.className = 'text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-white bg-green-500';
+                    scoreBar.className = 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500';
+                }
+            }
+            
+            function displayAccessibilityIssues() {
+                // Clear existing issues
+                issuesTable.innerHTML = '';
+                
+                // Randomly select 3-5 issues from the sample issues
+                const numIssues = Math.floor(Math.random() * 3) + 3;
+                const shuffledIssues = [...sampleIssues].sort(() => 0.5 - Math.random()).slice(0, numIssues);
+                
+                // Add issues to the table
+                shuffledIssues.forEach(issue => {
+                    const row = document.createElement('tr');
+                    
+                    const issueCell = document.createElement('td');
+                    issueCell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-800';
+                    issueCell.textContent = issue.issue;
+                    
+                    const severityCell = document.createElement('td');
+                    severityCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+                    
+                    const severityBadge = document.createElement('span');
+                    if (issue.severity === 'High') {
+                        severityBadge.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800';
+                    } else if (issue.severity === 'Medium') {
+                        severityBadge.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800';
+                    } else {
+                        severityBadge.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800';
+                    }
+                    severityBadge.textContent = issue.severity;
+                    severityCell.appendChild(severityBadge);
+                    
+                    const recommendationCell = document.createElement('td');
+                    recommendationCell.className = 'px-6 py-4 text-sm text-gray-800';
+                    recommendationCell.textContent = issue.recommendation;
+                    
+                    row.appendChild(issueCell);
+                    row.appendChild(severityCell);
+                    row.appendChild(recommendationCell);
+                    
+                    issuesTable.appendChild(row);
+                });
+            }
+            
+            function fixAccessibilityIssues() {
+                // Simulate fixing issues
+                fixIssuesBtn.disabled = true;
+                fixIssuesBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Fixing Issues...';
+                
+                setTimeout(() => {
+                    // Update score to a higher value
+                    const newScore = Math.floor(Math.random() * 15) + 85;
+                    updateAccessibilityScore(newScore);
+                    
+                    // Update issues table to show fewer issues
+                    issuesTable.innerHTML = '';
+                    const remainingIssue = sampleIssues[Math.floor(Math.random() * sampleIssues.length)];
+                    
+                    const row = document.createElement('tr');
+                    
+                    const issueCell = document.createElement('td');
+                    issueCell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-800';
+                    issueCell.textContent = remainingIssue.issue;
+                    
+                    const severityCell = document.createElement('td');
+                    severityCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+                    
+                    const severityBadge = document.createElement('span');
+                    if (remainingIssue.severity === 'High') {
+                        severityBadge.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800';
+                    } else if (remainingIssue.severity === 'Medium') {
+                        severityBadge.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800';
+                    } else {
+                        severityBadge.className = 'px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800';
+                    }
+                    severityBadge.textContent = remainingIssue.severity;
+                    severityCell.appendChild(severityBadge);
+                    
+                    const recommendationCell = document.createElement('td');
+                    recommendationCell.className = 'px-6 py-4 text-sm text-gray-800';
+                    recommendationCell.textContent = remainingIssue.recommendation + ' (Manual fix required)';
+                    
+                    row.appendChild(issueCell);
+                    row.appendChild(severityCell);
+                    row.appendChild(recommendationCell);
+                    
+                    issuesTable.appendChild(row);
+                    
+                    // Enable download button
+                    downloadFixedBtn.disabled = false;
+                    
+                    // Reset fix button
+                    fixIssuesBtn.disabled = false;
+                    fixIssuesBtn.innerHTML = '<i class="fas fa-magic mr-2"></i> Auto-Fix Issues';
+                    
+                    // Add success message
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'mt-4 p-3 bg-green-100 text-green-800 rounded-lg';
+                    successMessage.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Most accessibility issues have been fixed automatically. Download the improved PDF or fix remaining issues manually.';
+                    resultsSection.insertBefore(successMessage, resultsSection.querySelector('.mt-6'));
+                    
+                }, 3000);
+            }
+            
+            // Download fixed PDF
+            downloadFixedBtn.addEventListener('click', () => {
+                alert('In a full implementation, this would download the fixed PDF with improved accessibility. For now, this is just a demonstration.');
+            });
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +7,20 @@
     <link rel="icon" type="image/png" href="logo.png">
     <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Additional Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js'></script>
+    <!-- Using Tesseract.js v4 which is more stable for browser use -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
      <!-- Removed redundant FontAwesome link -->
     <!-- AdSense Script -->
@@ -38,6 +47,7 @@
          .copy-feedback { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 5px; background-color: #10B981; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity 0.3s, visibility 0.3s; visibility: hidden; }
         .copy-feedback.show { opacity: 1; visibility: visible; }
     </style>
+<link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
  <!-- Header -->
@@ -60,7 +70,17 @@
               <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
               <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
           </div>
-           <div class="md:hidden">
+           <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
                    <span class="sr-only">Open menu</span><i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i><i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
                </button>
@@ -205,10 +225,52 @@
         // --- Library Checks & Setup ---
          let PDFJS, TesseractLib, SAVEAS;
          function checkLibraries() {
-             let allLoaded = true;
-             if (typeof window.pdfjsLib === 'undefined') { showError("PDF reading library failed. Refresh?", true); allLoaded = false; console.error("PDF.js missing!");} else { PDFJS = window.pdfjsLib; PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;}
-             if (typeof window.Tesseract === 'undefined') { console.warn("OCR library missing. OCR disabled."); /* No fatal error, just disable OCR */ TesseractLib = null;} else { TesseractLib = window.Tesseract; }
-             if (typeof window.saveAs === 'undefined') { console.warn("FileSaver.js missing. Using fallback download."); } else { SAVEAS = window.saveAs;}
+            console.log('Checking required libraries');
+            let allLoaded = true;
+
+            // Check PDF.js
+            if (typeof window.pdfjsLib === 'undefined') {
+                console.error("PDF.js library is missing!");
+                showError("PDF reading library failed to load. Please refresh the page.", true);
+                allLoaded = false;
+            } else {
+                console.log(`PDF.js loaded, version: ${window.pdfjsLib.version}`);
+                PDFJS = window.pdfjsLib;
+                PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;
+            }
+
+            // Check Tesseract.js
+            if (typeof window.Tesseract === 'undefined') {
+                console.warn("Tesseract OCR library is missing. OCR functionality will be disabled.");
+                TesseractLib = null;
+
+                // Disable OCR option in UI
+                setTimeout(() => {
+                    const ocrOption = document.querySelector('.option-card[data-option="ocr"]');
+                    if (ocrOption) {
+                        ocrOption.classList.add('opacity-50', 'cursor-not-allowed');
+                        ocrOption.title = 'OCR library not available';
+
+                        // Select text extraction by default instead
+                        const textOption = document.querySelector('.option-card[data-option="text"]');
+                        if (textOption) {
+                            textOption.click();
+                        }
+                    }
+                }, 100);
+            } else {
+                console.log('Tesseract.js loaded successfully');
+                TesseractLib = window.Tesseract;
+            }
+
+            // Check FileSaver.js
+            if (typeof window.saveAs === 'undefined') {
+                console.warn("FileSaver.js is missing. Will use fallback download method.");
+            } else {
+                console.log('FileSaver.js loaded successfully');
+                SAVEAS = window.saveAs;
+            }
+
             return allLoaded;
         }
 
@@ -284,11 +346,139 @@
 
 
              function readFileAsync(f) { return new Promise((res,rej)=>{const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(new Error('File Read Error')); r.readAsArrayBuffer(f); }); }
-             async function extractTextWithTesseract(typedArray){/* Tesseract Logic*/ if(tesseractWorker)await tesseractWorker.terminate();tesseractWorker=await TesseractLib.createWorker('eng',{logger:m=>updateOcrProgress(m)});await tesseractWorker.loadLanguage('eng');await tesseractWorker.initialize('eng');const pdf=await PDFJS.getDocument({data:typedArray,cMapUrl:`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,cMapPacked:true}).promise;let txt='';const num=pdf.numPages;updateProgress(10,'Preparing pages for OCR...');for(let i=1;i<=num;i++){statusMessage.textContent=`OCR Page ${i}/${num}...`;const page=await pdf.getPage(i);const canvas=await renderPdfPageToCanvas(page,2.0); try{const {data:{text:pageText}}=await tesseractWorker.recognize(canvas,{});txt+=pageText+'\n\n';}catch(recErr){txt+=`--- OCR Err Pg ${i} ---\n\n`;} page.cleanup();const prog=10+(i/num)*85;updateProgress(prog);} if(tesseractWorker){await tesseractWorker.terminate();tesseractWorker=null;}updateProgress(98,'Finalizing OCR...');return txt.trim();}
+             async function extractTextWithTesseract(typedArray) {
+                console.log('Starting OCR process');
+
+                // Clean up previous worker if exists
+                if (tesseractWorker) {
+                    try {
+                        await tesseractWorker.terminate();
+                    } catch (e) {
+                        console.error('Error terminating previous worker:', e);
+                    }
+                    tesseractWorker = null;
+                }
+
+                try {
+                    // Create a new worker with logging
+                    console.log('Creating Tesseract worker');
+                    tesseractWorker = await TesseractLib.createWorker({
+                        logger: m => updateOcrProgress(m),
+                        errorHandler: err => console.error('Tesseract worker error:', err)
+                    });
+
+                    // Load and initialize English language data
+                    console.log('Loading language data');
+                    await tesseractWorker.loadLanguage('eng');
+                    await tesseractWorker.initialize('eng');
+
+                    // Load PDF document
+                    console.log('Loading PDF document');
+                    const pdf = await PDFJS.getDocument({
+                        data: typedArray,
+                        cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,
+                        cMapPacked: true
+                    }).promise;
+
+                    // Process each page
+                    let txt = '';
+                    const num = pdf.numPages;
+                    console.log(`PDF has ${num} pages`);
+                    updateProgress(10, 'Preparing pages for OCR...');
+
+                    for (let i = 1; i <= num; i++) {
+                        console.log(`Processing page ${i}/${num}`);
+                        statusMessage.textContent = `OCR Page ${i}/${num}...`;
+
+                        // Render page to canvas
+                        const page = await pdf.getPage(i);
+                        const canvas = await renderPdfPageToCanvas(page, 2.0);
+
+                        try {
+                            // Perform OCR on the page
+                            console.log(`Running OCR on page ${i}`);
+                            const result = await tesseractWorker.recognize(canvas);
+                            const pageText = result.data.text;
+
+                            console.log(`OCR completed for page ${i}, extracted ${pageText.length} characters`);
+                            txt += pageText + '\n\n';
+                        } catch (recErr) {
+                            console.error(`OCR error on page ${i}:`, recErr);
+                            txt += `--- OCR Error on Page ${i} ---\n\n`;
+                        }
+
+                        // Clean up page resources
+                        page.cleanup();
+
+                        // Update progress
+                        const prog = 10 + (i / num) * 85;
+                        updateProgress(prog);
+
+                        // Yield to browser UI thread occasionally
+                        if (i % 2 === 0) await new Promise(r => setTimeout(r, 10));
+                    }
+
+                    // Clean up worker
+                    console.log('Cleaning up Tesseract worker');
+                    if (tesseractWorker) {
+                        await tesseractWorker.terminate();
+                        tesseractWorker = null;
+                    }
+
+                    updateProgress(98, 'Finalizing OCR...');
+                    return txt.trim();
+                } catch (error) {
+                    console.error('OCR process error:', error);
+                    // Clean up worker on error
+                    if (tesseractWorker) {
+                        try {
+                            await tesseractWorker.terminate();
+                        } catch (e) {
+                            console.error('Error terminating worker after error:', e);
+                        }
+                        tesseractWorker = null;
+                    }
+                    throw new Error(`OCR failed: ${error.message || 'Unknown error'}`);
+                }
+            }
             async function extractTextFromPDFjs(typedArray){const pdf=await PDFJS.getDocument({data:typedArray,cMapUrl:`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,cMapPacked:true}).promise;let text='';const num=pdf.numPages;updateProgress(30);for(let i=1;i<=num;i++){const page=await pdf.getPage(i);const tc=await page.getTextContent({normalizeWhitespace:true});let lastY=null,lineBuf='',lastX=-1,lastWidth=0;tc.items.forEach(it=>{const cy=it.transform[5],cx=it.transform[4];if(lastY!==null&&(Math.abs(cy-lastY)>5||it.hasEOL)){text+=lineBuf.trim()+'\n';lineBuf=it.str;lastX=-1;}else{if(lineBuf.length>0&&!lineBuf.endsWith(' ')&&lastX!==-1&&cx>(lastX+lastWidth+1)){lineBuf+=' ';}lineBuf+=it.str;}lastY=cy;lastX=cx;lastWidth=it.width;});text+=lineBuf.trim()+'\n';page.cleanup();if(i<num)text+='\n';const prog=30+(65*i/num);updateProgress(prog,`Extracting ${i}/${num}...`);if(i%10===0)await new Promise(r=>setTimeout(r,1));}return text.replace(/\s+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();}
             function simulateWordFormatting(t){return t.split('\n').filter(l=>l.trim().length>0).join('\n\n');}
             async function renderPdfPageToCanvas(page,scale=1.5){const vp=page.getViewport({scale});const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;return c;}
-             function updateOcrProgress(logData){if(logData.status){let msg = `OCR: ${logData.status}`; let p = (logData.progress || 0); if(p > 0 && p < 1) msg += ` (${(p * 100).toFixed(0)}%)`; statusMessage.textContent=msg; const logP=document.createElement('p'); logP.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`; tesseractLog.appendChild(logP); tesseractLogContainer.scrollTop=tesseractLogContainer.scrollHeight;} let overallP=15+((logData.progress||0)*0.80)*100;updateProgress(overallP);}
+             function updateOcrProgress(logData) {
+                console.log('OCR progress update:', logData);
+
+                if (logData.status) {
+                    // Format the status message
+                    let msg = `OCR: ${logData.status}`;
+                    let p = (logData.progress || 0);
+                    if (p > 0 && p < 1) {
+                        msg += ` (${(p * 100).toFixed(0)}%)`;
+                    }
+
+                    // Update the status message on the UI
+                    statusMessage.textContent = msg;
+
+                    // Add to the log
+                    const logP = document.createElement('p');
+                    logP.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+                    tesseractLog.appendChild(logP);
+
+                    // Auto-scroll the log to the bottom
+                    tesseractLogContainer.scrollTop = tesseractLogContainer.scrollHeight;
+
+                    // Make sure the log container is visible
+                    tesseractLogContainer.classList.remove('hidden');
+                }
+
+                // Calculate overall progress (15% for initialization, 80% for OCR)
+                let overallP = 15;
+                if (logData.progress) {
+                    overallP += (logData.progress * 80);
+                }
+
+                // Update the progress bar
+                updateProgress(overallP);
+            }
             function downloadResult(content, fname){ if(!content)return;try{const blob=new Blob([content],{type:'text/plain;charset=utf-8'});if(SAVEAS){saveAs(blob,fname||'extracted_text.txt');}else{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=fname||'extracted_text.txt';a.click();URL.revokeObjectURL(url);}}catch(e){showError("Download failed.",3000);}}
             function copyResultToClipboard(){if(!extractedText.value||!navigator.clipboard){showError('Clipboard unavailable/no text.',3000);return;}navigator.clipboard.writeText(extractedText.value).then(()=>{copyFeedback.classList.add('show');setTimeout(()=>copyFeedback.classList.remove('show'),2000);}).catch(()=>showError('Copy failed.',2000));}
             function resetTool(fullReset=true){if(tesseractWorker){try{tesseractWorker.terminate();}catch(e){} tesseractWorker=null;}isProcessing=false;currentFile=null;extractedContentCache='';optionsSection.classList.add('hidden');processResultArea.classList.add('hidden');resultSection.classList.add('hidden');processingSection.classList.remove('hidden');if(fullReset) { fileInput.value=null; fileName.textContent=''; fileNameDisplayDiv.classList.add('hidden');} extractedText.value='';copyBtn.disabled=true;downloadBtn.disabled=true;updateProgress(0);statusMessage.textContent='';hideError();tesseractLogContainer.classList.add('hidden');tesseractLog.innerHTML='';selectedOption='ocr';optionCards.forEach(c=>{c.classList.remove('selected','border-blue-500');c.querySelector('.indicator-icon')?.classList.add('hidden');});const defaultCard=document.querySelector('.option-card[data-option="ocr"]');if(defaultCard){defaultCard.classList.add('selected','border-blue-500');defaultCard.querySelector('.indicator-icon')?.classList.remove('hidden');}}
@@ -303,5 +493,6 @@
             document.body.innerHTML = `<div class="p-8 text-center text-red-600 bg-red-50 min-h-screen flex items-center justify-center"> <p>Error initializing page components. Please refresh.</p></div>`;
          });
      </script>
+<script src="dark-mode.js"></script>
 </body>
 </html>

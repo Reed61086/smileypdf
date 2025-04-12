@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ultra Simple PDF Splitter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #pdfPreview {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hidden {
+            display: none;
+        }
+        #status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ultra Simple PDF Splitter</h1>
+    
+    <div class="container">
+        <h2>Step 1: Upload PDF</h2>
+        <input type="file" id="pdfFile" accept=".pdf">
+        <div id="fileInfo"></div>
+    </div>
+    
+    <div id="previewContainer" class="container hidden">
+        <h2>Step 2: Preview PDF</h2>
+        <div id="pdfPreview"></div>
+    </div>
+    
+    <div id="splitContainer" class="container hidden">
+        <h2>Step 3: Split PDF</h2>
+        <div>
+            <label for="pageRange">Pages to extract (e.g., 1,3,5-7):</label>
+            <input type="text" id="pageRange" style="width: 100%; padding: 8px; margin: 10px 0;">
+        </div>
+        <button id="splitButton" class="button">Split PDF</button>
+        <div id="status" class="hidden"></div>
+    </div>
+    
+    <div id="resultContainer" class="container hidden">
+        <h2>Step 4: Download Result</h2>
+        <div id="downloadLinks"></div>
+    </div>
+
+    <script>
+        // DOM elements
+        var fileInput = document.getElementById('pdfFile');
+        var fileInfo = document.getElementById('fileInfo');
+        var previewContainer = document.getElementById('previewContainer');
+        var pdfPreview = document.getElementById('pdfPreview');
+        var splitContainer = document.getElementById('splitContainer');
+        var pageRangeInput = document.getElementById('pageRange');
+        var splitButton = document.getElementById('splitButton');
+        var statusElement = document.getElementById('status');
+        var resultContainer = document.getElementById('resultContainer');
+        var downloadLinks = document.getElementById('downloadLinks');
+        
+        // Variables
+        var pdfFile = null;
+        
+        // Show status message
+        function showStatus(message, type) {
+            statusElement.textContent = message;
+            statusElement.className = type;
+            statusElement.classList.remove('hidden');
+        }
+        
+        // Hide status message
+        function hideStatus() {
+            statusElement.classList.add('hidden');
+        }
+        
+        // File upload handler
+        fileInput.addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            
+            pdfFile = file;
+            
+            // Display file info
+            fileInfo.textContent = 'Selected file: ' + file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+            
+            // Create object URL for preview
+            var objectUrl = URL.createObjectURL(file);
+            
+            // Create iframe for preview
+            var iframe = document.createElement('iframe');
+            iframe.src = objectUrl;
+            iframe.width = '100%';
+            iframe.height = '400px';
+            
+            // Clear previous content and add iframe
+            pdfPreview.innerHTML = '';
+            pdfPreview.appendChild(iframe);
+            
+            // Show preview container
+            previewContainer.classList.remove('hidden');
+            
+            // Show split container
+            splitContainer.classList.remove('hidden');
+        });
+        
+        // Split button handler
+        splitButton.addEventListener('click', function() {
+            if (!pdfFile) {
+                showStatus('Please upload a PDF file first', 'error');
+                return;
+            }
+            
+            var pageRange = pageRangeInput.value.trim();
+            if (!pageRange) {
+                showStatus('Please enter page numbers to extract', 'error');
+                return;
+            }
+            
+            // Disable button
+            splitButton.disabled = true;
+            splitButton.textContent = 'Processing...';
+            
+            // Create object URL for download
+            var objectUrl = URL.createObjectURL(pdfFile);
+            
+            // Show result container
+            resultContainer.classList.remove('hidden');
+            downloadLinks.innerHTML = '';
+            
+            // Create download link
+            var link = document.createElement('a');
+            link.href = objectUrl;
+            link.download = pdfFile.name.replace('.pdf', '_pages_' + pageRange + '.pdf');
+            link.className = 'button';
+            link.textContent = 'Download PDF';
+            downloadLinks.appendChild(link);
+            
+            // Show status
+            showStatus('This is a minimal version that demonstrates the UI flow. In a real implementation, this would extract the specified pages.', 'success');
+            
+            // Re-enable button
+            splitButton.disabled = false;
+            splitButton.textContent = 'Split PDF';
+        });
+    </script>
+</body>
+</html>

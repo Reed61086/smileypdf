@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple PDF Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #pdfEmbed {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple PDF Viewer</h1>
+    
+    <div class="container">
+        <h2>Upload PDF</h2>
+        <input type="file" id="pdfFile" accept=".pdf">
+        <div id="fileInfo"></div>
+    </div>
+    
+    <div id="viewerContainer" class="container hidden">
+        <h2>PDF Preview</h2>
+        <object id="pdfEmbed" type="application/pdf" width="100%" height="500px">
+            <p>It appears your browser doesn't support embedded PDFs. You can <a id="pdfLink" href="#">click here to download the PDF</a> instead.</p>
+        </object>
+    </div>
+
+    <script>
+        // Elements
+        const pdfFileInput = document.getElementById('pdfFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const viewerContainer = document.getElementById('viewerContainer');
+        const pdfEmbed = document.getElementById('pdfEmbed');
+        const pdfLink = document.getElementById('pdfLink');
+        
+        // File input change handler
+        pdfFileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Display file info
+            fileInfo.textContent = `Selected file: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+            
+            // Create object URL
+            const objectUrl = URL.createObjectURL(file);
+            
+            // Set the PDF source
+            pdfEmbed.data = objectUrl;
+            pdfLink.href = objectUrl;
+            pdfLink.download = file.name;
+            
+            // Show the viewer container
+            viewerContainer.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

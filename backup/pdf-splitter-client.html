@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Splitter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- PDF.js for PDF rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">PDF Splitter</h1>
+        
+        <!-- PDF Upload Section -->
+        <div class="mb-6">
+            <div class="flex justify-center">
+                <label class="w-full max-w-xs flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-blue-500 cursor-pointer hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                    <span class="mt-2 text-base">Select PDF file</span>
+                    <input id="pdf-upload" type="file" accept=".pdf" class="hidden" />
+                </label>
+            </div>
+            <div id="file-info" class="mt-4 text-center"></div>
+        </div>
+        
+        <!-- PDF Preview -->
+        <div id="pdf-preview-container" class="mb-6 hidden">
+            <div class="border rounded-lg p-4">
+                <div id="pdf-preview" class="flex justify-center"></div>
+            </div>
+        </div>
+        
+        <!-- Split Options -->
+        <div id="split-options" class="mb-6 hidden">
+            <h2 class="text-xl font-semibold mb-4">Split Options</h2>
+            
+            <div id="page-range-input" class="mb-4">
+                <h3 class="font-medium mb-2">Pages to Extract</h3>
+                <p class="text-sm text-gray-600 mb-2">Enter page numbers and/or page ranges separated by commas.</p>
+                <p class="text-sm text-gray-600 mb-2">Example: 1,3,5-8,10-15</p>
+                <input type="text" id="page-ranges" class="w-full p-2 border rounded" placeholder="1,3,5-8,10-15">
+            </div>
+            
+            <div class="flex justify-center">
+                <button id="split-button" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    <span>Split PDF</span> <i class="fas fa-scissors ml-2"></i>
+                </button>
+            </div>
+            
+            <div id="status" class="mt-4 p-4 rounded-lg hidden"></div>
+            
+            <div id="progress-container" class="mt-4 hidden">
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div id="results-container" class="hidden">
+            <h2 class="text-xl font-semibold mb-4">Split Results</h2>
+            <div id="results" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // DOM elements
+        var fileInput = document.getElementById('pdf-upload');
+        var fileInfo = document.getElementById('file-info');
+        var previewContainer = document.getElementById('pdf-preview-container');
+        var pdfPreview = document.getElementById('pdf-preview');
+        var splitOptions = document.getElementById('split-options');
+        var pageRangesInput = document.getElementById('page-ranges');
+        var splitButton = document.getElementById('split-button');
+        var statusElement = document.getElementById('status');
+        var progressContainer = document.getElementById('progress-container');
+        var progressBar = document.getElementById('progress-bar');
+        var resultsContainer = document.getElementById('results-container');
+        var results = document.getElementById('results');
+        
+        // Variables
+        var pdfFile = null;
+        var pdfData = null;
+        var pdfDoc = null;
+        var totalPages = 0;
+        
+        // Show status message
+        function showStatus(message, type) {
+            statusElement.textContent = message;
+            statusElement.className = type === 'error' 
+                ? 'mt-4 p-4 rounded-lg bg-red-100 text-red-700' 
+                : 'mt-4 p-4 rounded-lg bg-green-100 text-green-700';
+            statusElement.classList.remove('hidden');
+        }
+        
+        // Hide status message
+        function hideStatus() {
+            statusElement.classList.add('hidden');
+        }
+        
+        // Update progress bar
+        function updateProgress(percent) {
+            progressContainer.classList.remove('hidden');
+            progressBar.style.width = percent + '%';
+        }
+        
+        // Hide progress bar
+        function hideProgress() {
+            progressContainer.classList.add('hidden');
+        }
+        
+        // Parse page ranges
+        function parsePageRanges(input) {
+            if (!input.trim()) return [];
+            
+            var pages = [];
+            var parts = input.split(',');
+            
+            for (var i = 0; i < parts.length; i++) {
+                var part = parts[i].trim();
+                
+                if (part.indexOf('-') !== -1) {
+                    // Range like "5-8"
+                    var range = part.split('-');
+                    var start = parseInt(range[0].trim());
+                    var end = parseInt(range[1].trim());
+                    
+                    if (isNaN(start) || isNaN(end)) continue;
+                    
+                    // Add all pages in the range
+                    for (var j = start; j <= end; j++) {
+                        if (j >= 1 && j <= totalPages && pages.indexOf(j) === -1) {
+                            pages.push(j);
+                        }
+                    }
+                } else {
+                    // Single page like "3"
+                    var pageNum = parseInt(part);
+                    
+                    if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages && pages.indexOf(pageNum) === -1) {
+                        pages.push(pageNum);
+                    }
+                }
+            }
+            
+            // Sort pages
+            return pages.sort(function(a, b) { return a - b; });
+        }
+        
+        // File upload handler
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length === 0) return;
+            
+            // Reset UI
+            pdfPreview.innerHTML = '';
+            fileInfo.innerHTML = '';
+            resultsContainer.classList.add('hidden');
+            results.innerHTML = '';
+            hideStatus();
+            hideProgress();
+            
+            // Get the file
+            pdfFile = e.target.files[0];
+            
+            // Display file info
+            fileInfo.innerHTML = '<p class="text-green-600">Selected file: ' + pdfFile.name + '</p>' +
+                                '<p class="text-sm text-gray-600">Size: ' + (pdfFile.size / 1024).toFixed(2) + ' KB</p>';
+            
+            // Create object URL for preview
+            var objectUrl = URL.createObjectURL(pdfFile);
+            
+            // Create iframe for preview
+            var iframe = document.createElement('iframe');
+            iframe.src = objectUrl;
+            iframe.width = '100%';
+            iframe.height = '400px';
+            
+            // Add iframe to preview
+            pdfPreview.appendChild(iframe);
+            previewContainer.classList.remove('hidden');
+            
+            // Read the file
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                pdfData = new Uint8Array(e.target.result);
+                
+                // Load the PDF
+                pdfjsLib.getDocument({ data: pdfData }).promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    totalPages = pdf.numPages;
+                    
+                    // Update file info
+                    fileInfo.innerHTML += '<p class="text-sm text-gray-600">Pages: ' + totalPages + '</p>';
+                    
+                    // Set default page range
+                    pageRangesInput.value = '1-' + totalPages;
+                    
+                    // Show split options
+                    splitOptions.classList.remove('hidden');
+                }).catch(function(error) {
+                    console.error('Error loading PDF:', error);
+                    showStatus('Error loading PDF: ' + error.message, 'error');
+                });
+            };
+            reader.onerror = function() {
+                showStatus('Error reading file', 'error');
+            };
+            reader.readAsArrayBuffer(pdfFile);
+        });
+        
+        // Split button handler
+        splitButton.addEventListener('click', function() {
+            if (!pdfDoc || !pdfFile) {
+                showStatus('Please upload a PDF file first.', 'error');
+                return;
+            }
+            
+            // Parse page ranges
+            var pagesToExtract = parsePageRanges(pageRangesInput.value);
+            
+            if (pagesToExtract.length === 0) {
+                showStatus('Please enter valid page numbers or ranges.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            splitButton.disabled = true;
+            splitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            hideStatus();
+            updateProgress(0);
+            
+            // Create an array to store rendered pages
+            var renderedPages = [];
+            var currentPage = 0;
+            
+            // Process one page at a time
+            function processNextPage() {
+                if (currentPage >= pagesToExtract.length) {
+                    // All pages processed, create PDF
+                    createPDF();
+                    return;
+                }
+                
+                var pageNum = pagesToExtract[currentPage];
+                
+                // Render the page
+                pdfDoc.getPage(pageNum).then(function(page) {
+                    var viewport = page.getViewport({ scale: 1.5 });
+                    
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise.then(function() {
+                        // Store the rendered page
+                        renderedPages.push({
+                            pageNum: pageNum,
+                            canvas: canvas,
+                            width: viewport.width,
+                            height: viewport.height
+                        });
+                        
+                        // Update progress
+                        currentPage++;
+                        updateProgress((currentPage / pagesToExtract.length) * 50);
+                        
+                        // Process next page
+                        processNextPage();
+                    }).catch(function(error) {
+                        console.error('Error rendering page ' + pageNum + ':', error);
+                        
+                        // Skip this page and continue
+                        currentPage++;
+                        processNextPage();
+                    });
+                }).catch(function(error) {
+                    console.error('Error getting page ' + pageNum + ':', error);
+                    
+                    // Skip this page and continue
+                    currentPage++;
+                    processNextPage();
+                });
+            }
+            
+            // Create PDF from rendered pages
+            function createPDF() {
+                if (renderedPages.length === 0) {
+                    showStatus('No pages could be rendered.', 'error');
+                    splitButton.disabled = false;
+                    splitButton.innerHTML = '<span>Split PDF</span> <i class="fas fa-scissors ml-2"></i>';
+                    return;
+                }
+                
+                try {
+                    // Get jsPDF instance
+                    var jsPDF = window.jspdf.jsPDF;
+                    
+                    // Get dimensions from first page
+                    var firstPage = renderedPages[0];
+                    
+                    // Create PDF with correct orientation
+                    var orientation = firstPage.width > firstPage.height ? 'landscape' : 'portrait';
+                    var pdf = new jsPDF({
+                        orientation: orientation,
+                        unit: 'pt',
+                        format: [firstPage.width, firstPage.height]
+                    });
+                    
+                    // Add each page
+                    for (var i = 0; i < renderedPages.length; i++) {
+                        var page = renderedPages[i];
+                        
+                        // Add new page if not the first page
+                        if (i > 0) {
+                            // Determine if we need to change orientation for this page
+                            var pageOrientation = page.width > page.height ? 'landscape' : 'portrait';
+                            pdf.addPage([page.width, page.height], pageOrientation);
+                        }
+                        
+                        // Add the image
+                        var imgData = page.canvas.toDataURL('image/jpeg', 0.95);
+                        pdf.addImage(imgData, 'JPEG', 0, 0, page.width, page.height);
+                        
+                        // Update progress
+                        updateProgress(50 + ((i + 1) / renderedPages.length) * 50);
+                    }
+                    
+                    // Generate the PDF
+                    var pdfBlob = pdf.output('blob');
+                    var url = URL.createObjectURL(pdfBlob);
+                    
+                    // Show results
+                    resultsContainer.classList.remove('hidden');
+                    results.innerHTML = '';
+                    
+                    var resultItem = document.createElement('div');
+                    resultItem.className = 'flex justify-between items-center p-4 border rounded';
+                    resultItem.innerHTML = 
+                        '<span>' + pdfFile.name.replace('.pdf', '') + '_split.pdf</span>' +
+                        '<div>' +
+                            '<a href="' + url + '" download="' + pdfFile.name.replace('.pdf', '') + '_split.pdf" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2">' +
+                                '<i class="fas fa-download mr-1"></i> Download' +
+                            '</a>' +
+                            '<a href="' + url + '" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">' +
+                                '<i class="fas fa-eye mr-1"></i> View' +
+                            '</a>' +
+                        '</div>';
+                    
+                    results.appendChild(resultItem);
+                    
+                    // Show success message
+                    showStatus('PDF split successfully!', 'success');
+                } catch (error) {
+                    console.error('Error creating PDF:', error);
+                    showStatus('Error creating PDF: ' + error.message, 'error');
+                }
+                
+                // Reset button state
+                splitButton.disabled = false;
+                splitButton.innerHTML = '<span>Split PDF</span> <i class="fas fa-scissors ml-2"></i>';
+            }
+            
+            // Start processing pages
+            processNextPage();
+        });
+    </script>
+</body>
+</html>

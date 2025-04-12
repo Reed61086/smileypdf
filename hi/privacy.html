@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>गोपनीयता नीति - SmileyPDF | मुफ्त PDF टूल्स</title>
+    <meta name="description" content="SmileyPDF की गोपनीयता नीति। जानें कि हम आपकी जानकारी का उपयोग और संरक्षण कैसे करते हैं।">
+    <meta name="keywords" content="SmileyPDF गोपनीयता नीति, PDF टूल्स गोपनीयता, PDF सेवा गोपनीयता">
+    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="canonical" href="https://smileypdf.com/hi/privacy.html">
+    
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <!-- Logo Link -->
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="absolute right-20 top-4 md:right-4">
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                        <span class="mr-1">हिंदी</span>
+                        <i class="fas fa-globe text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="../privacy.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                        <a href="privacy.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+                <!-- Tools Dropdown -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                         x-transition:enter="transition ease-out duration-100 transform"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75 transform"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                         style="display: none;" x-cloak>
+                         <div class="py-1">
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">बेसिक टूल्स</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्ट</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF स्प्लिटर</a>
+                         </div>
+                     </div>
+                 </div>
+                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                    <span class="sr-only">मेनू खोलें</span>
+                    <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                    <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+                
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF टूल्स</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF स्प्लिटर</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        <!-- Breadcrumb Navigation -->
+        <nav class="text-sm mb-8" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex">
+                <li class="flex items-center">
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">होम</a>
+                    <span class="mx-2 text-gray-500">/</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-gray-700">गोपनीयता नीति</span>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Privacy Policy Content -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">गोपनीयता नीति</h1>
+            
+            <div class="prose max-w-none">
+                <p class="text-gray-700 mb-4">
+                    अंतिम अपडेट: 1 जुलाई, 2024
+                </p>
+                
+                <p class="text-gray-700 mb-4">
+                    SmileyPDF ("हम", "हमारा", या "हमें") आपकी गोपनीयता की रक्षा के लिए प्रतिबद्ध है। यह गोपनीयता नीति बताती है कि हम आपकी जानकारी कैसे एकत्र, उपयोग और साझा करते हैं जब आप हमारी वेबसाइट smileypdf.com ("सेवा") का उपयोग करते हैं।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">1. हम कौन सी जानकारी एकत्र करते हैं</h2>
+                
+                <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">1.1 स्वचालित रूप से एकत्रित जानकारी</h3>
+                <p class="text-gray-700 mb-4">
+                    जब आप हमारी सेवा का उपयोग करते हैं, तो हम स्वचालित रूप से कुछ जानकारी एकत्र कर सकते हैं, जिसमें शामिल हैं:
+                </p>
+                
+                <ul class="list-disc pl-6 mb-6 space-y-2 text-gray-700">
+                    <li><strong>उपयोग डेटा:</strong> हम आपके द्वारा देखे गए पृष्ठों, क्लिक किए गए लिंक और हमारी सेवा के साथ आपकी अन्य बातचीत के बारे में जानकारी एकत्र कर सकते हैं।</li>
+                    <li><strong>डिवाइस जानकारी:</strong> हम आपके डिवाइस के बारे में जानकारी एकत्र कर सकते हैं, जिसमें आपका वेब ब्राउज़र, IP पता, टाइम ज़ोन और कुछ कुकीज़ शामिल हैं जो आपके डिवाइस पर इंस्टॉल हैं।</li>
+                </ul>
+                
+                <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">1.2 फाइल डेटा</h3>
+                <p class="text-gray-700 mb-4">
+                    <strong>महत्वपूर्ण:</strong> हमारी सेवा क्लाइंट-साइड प्रोसेसिंग का उपयोग करती है, जिसका अर्थ है कि आपकी PDF फाइलें आपके ब्राउज़र में ही प्रोसेस की जाती हैं और हमारे सर्वर पर अपलोड या संग्रहीत नहीं की जाती हैं। हम आपकी फाइलों की सामग्री तक पहुंच प्राप्त नहीं करते हैं या उन्हें संग्रहीत नहीं करते हैं।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">2. हम आपकी जानकारी का उपयोग कैसे करते हैं</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    हम एकत्रित की गई जानकारी का उपयोग निम्नलिखित उद्देश्यों के लिए कर सकते हैं:
+                </p>
+                
+                <ul class="list-disc pl-6 mb-6 space-y-2 text-gray-700">
+                    <li>हमारी सेवा प्रदान करने और बनाए रखने के लिए</li>
+                    <li>हमारी सेवा में सुधार और अनुकूलित करने के लिए</li>
+                    <li>उपयोग के पैटर्न को समझने के लिए</li>
+                    <li>तकनीकी समस्याओं का पता लगाने और उन्हें हल करने के लिए</li>
+                    <li>नई सुविधाओं और उत्पादों का विकास करने के लिए</li>
+                </ul>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">3. कुकीज़</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    हम "कुकीज़" का उपयोग करते हैं, जो छोटी टेक्स्ट फाइलें हैं जो आपके डिवाइस पर संग्रहीत की जाती हैं। कुकीज़ हमें आपके ब्राउज़र को पहचानने और हमारी सेवा के उपयोग के बारे में जानकारी एकत्र करने की अनुमति देती हैं।
+                </p>
+                
+                <p class="text-gray-700 mb-4">
+                    आप अपने ब्राउज़र को कुकीज़ को अस्वीकार करने या कुकीज़ भेजे जाने पर आपको सूचित करने के लिए सेट कर सकते हैं। हालांकि, यदि आप कुकीज़ को अस्वीकार करते हैं, तो हमारी सेवा के कुछ भाग ठीक से काम नहीं कर सकते हैं।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">4. जानकारी का प्रकटीकरण</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    हम आपकी व्यक्तिगत जानकारी को निम्नलिखित परिस्थितियों में साझा कर सकते हैं:
+                </p>
+                
+                <ul class="list-disc pl-6 mb-6 space-y-2 text-gray-700">
+                    <li><strong>कानूनी आवश्यकताओं के अनुपालन में:</strong> हम आपकी जानकारी का खुलासा कर सकते हैं यदि कानून द्वारा आवश्यक हो या सरकारी अनुरोधों के जवाब में।</li>
+                    <li><strong>व्यावसायिक हस्तांतरण के मामले में:</strong> विलय, अधिग्रहण, या संपत्ति की बिक्री के मामले में, आपकी व्यक्तिगत जानकारी हस्तांतरित संपत्ति का हिस्सा हो सकती है।</li>
+                    <li><strong>सेवा प्रदाताओं के साथ:</strong> हम तृतीय-पक्ष कंपनियों और व्यक्तियों के साथ काम कर सकते हैं जो हमारी सेवा को सुविधाजनक बनाने में मदद करते हैं (जैसे, विश्लेषण प्रदाता)।</li>
+                </ul>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">5. डेटा सुरक्षा</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    आपकी जानकारी की सुरक्षा हमारे लिए महत्वपूर्ण है, लेकिन याद रखें कि इंटरनेट पर कोई भी ट्रांसमिशन विधि या इलेक्ट्रॉनिक स्टोरेज विधि 100% सुरक्षित नहीं है। हालांकि हम आपकी व्यक्तिगत जानकारी की रक्षा के लिए वाणिज्यिक रूप से स्वीकार्य साधनों का उपयोग करते हैं, हम इसकी पूर्ण सुरक्षा की गारंटी नहीं दे सकते।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">6. बच्चों की गोपनीयता</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    हमारी सेवा 13 वर्ष से कम उम्र के बच्चों के लिए नहीं है। हम जानबूझकर 13 वर्ष से कम उम्र के बच्चों से व्यक्तिगत जानकारी एकत्र नहीं करते हैं। यदि आप माता-पिता या अभिभावक हैं और आपको पता है कि आपके बच्चे ने हमें व्यक्तिगत जानकारी प्रदान की है, तो कृपया हमसे संपर्क करें।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">7. इस नीति में परिवर्तन</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    हम समय-समय पर इस गोपनीयता नीति को अपडेट कर सकते हैं। हम इस पृष्ठ पर नई गोपनीयता नीति पोस्ट करके आपको किसी भी परिवर्तन के बारे में सूचित करेंगे। आपको इस पृष्ठ की समय-समय पर समीक्षा करने की सलाह दी जाती है।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">8. संपर्क करें</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    यदि आपके पास इस गोपनीयता नीति के बारे में कोई प्रश्न है, तो कृपया हमसे <a href="contact.html" class="text-blue-600 hover:underline">संपर्क पृष्ठ</a> के माध्यम से संपर्क करें।
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-gray-800 text-gray-300 mt-12 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

@@ -1,12 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmileyPDF - Free Online PDF Tools</title>
+    <title>SmileyPDF - Free Online PDF Tools | Edit, Convert, Merge PDFs</title>
+    <meta name="description" content="SmileyPDF offers 100% free online PDF tools to edit, merge, convert, rotate, and extract text from PDF files. No registration, no installation, secure client-side processing.">
+    <meta name="keywords" content="PDF editor, PDF tools, free PDF converter, merge PDF, PDF to Word, PDF to Excel, PDF to JPG, image to PDF, rotate PDF, extract text from PDF, online PDF tools">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="canonical" href="https://smileypdf.com/index.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/index.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/index.html">
+    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/index.html">
     <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- PDF to Excel dependencies -->
@@ -64,6 +80,44 @@
         .feature-icon { width: 50px; height: 50px; }
     </style>
     <link rel="canonical" href="https://smileypdf.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smileypdf.com/">
+    <meta property="og:title" content="SmileyPDF - Free Online PDF Tools | Edit, Convert, Merge PDFs">
+    <meta property="og:description" content="Free online tools to edit, merge, convert, rotate, and extract text from PDF files. No registration, no installation, secure client-side processing.">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/">
+    <meta property="twitter:title" content="SmileyPDF - Free Online PDF Tools | Edit, Convert, Merge PDFs">
+    <meta property="twitter:description" content="Free online tools to edit, merge, convert, rotate, and extract text from PDF files. No registration, no installation, secure client-side processing.">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SmileyPDF",
+      "url": "https://smileypdf.com",
+      "description": "Free online PDF tools to edit, merge, convert, rotate, and extract text from PDF files. No registration, no installation, secure client-side processing.",
+      "applicationCategory": "DocumentManagement",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "SmileyPDF",
+        "url": "https://smileypdf.com"
+      }
+    }
+    </script>
+<link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-100 font-sans">
  <!-- Header -->
@@ -73,6 +127,20 @@
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
            <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
         </a>
+
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">English</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50" style="display: none;" x-cloak>
+                    <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">English</a>
+                    <a href="hi/index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">हिंदी</a>
+                </div>
+            </div>
+        </div>
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
@@ -90,14 +158,18 @@
                      x-transition:leave-end="opacity-0 scale-95"
                      class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
                      style="display: none;" x-cloak>
-                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
-                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
-                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
-                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
-                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
-                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
-                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
-                     <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+
+                     <div class="py-1">
+                         <span class="block px-4 py-1 text-xs font-semibold text-gray-500">Basic Tools</span>
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                     </div>
                  </div>
              </div>
              <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
@@ -105,7 +177,17 @@
              <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
          </div>
           <!-- Mobile Menu Button -->
-          <div class="md:hidden">
+          <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
               <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
                   <span class="sr-only">Open menu</span>
                   <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
@@ -129,7 +211,8 @@
             <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
             <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
             <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
-            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
+
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Basic Tools</h3>
             <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
             <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
             <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
@@ -144,15 +227,36 @@
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-6 py-12">
+        <!-- Breadcrumb Navigation -->
+        <nav class="text-sm mb-8" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex">
+                <li class="flex items-center">
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+                </li>
+            </ol>
+        </nav>
 
         <!-- Hero Section -->
         <section class="text-center mb-16">
-            <img src="logo.png" alt="SmileyPDF Logo" class="h-48 md:h-60 mx-auto mb-4">
+            <img src="logo.png" alt="SmileyPDF Logo - Free PDF Tools" class="h-48 md:h-60 mx-auto mb-4">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Your Free & Simple Online PDF Toolkit</h1>
             <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">
                 Easily edit, merge, convert, rotate, and extract text from your PDF files directly in your browser. No sign-up, no software install needed!
             </p>
-            <p class="text-orange-600 font-semibold text-lg">100% Free & Secure Client-Side Processing</p>
+            <p class="text-orange-600 font-semibold text-lg mb-6">100% Free & Secure Client-Side Processing</p>
+
+            <!-- Quick Access Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <a href="pdf-editor.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
+                    <i class="fas fa-pen-to-square mr-2"></i> Edit PDF
+                </a>
+                <a href="merge-pdf.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
+                    <i class="fas fa-object-group mr-2"></i> Merge PDFs
+                </a>
+                <a href="image-to-pdf.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
+                    <i class="fas fa-image mr-2"></i> Image to PDF
+                </a>
+            </div>
         </section>
 
         <!-- Why Choose Us Section -->
@@ -194,66 +298,487 @@
             <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
         </div>
 
-        <!-- Tool Buttons Section -->
-        <section class="mt-4"> {/* Minimal top margin */}
-             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Explore Our PDF Tools</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Tool Categories Section -->
+        <section class="mt-8">
+            <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Explore Our PDF Tools</h2>
+
+            <!-- Tool Categories Navigation -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button id="basic-tab" onclick="switchTab('basic')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition duration-300">
+                    <i class="fas fa-tools mr-2"></i>Basic Tools
+                </button>
+
+                <button id="advanced-tab" onclick="switchTab('advanced')" class="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg font-medium transition duration-300">
+                    <i class="fas fa-sliders-h mr-2"></i>Advanced Tools
+                </button>
+                <button id="specialized-tab" onclick="switchTab('specialized')" class="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg font-medium transition duration-300">
+                    <i class="fas fa-cogs mr-2"></i>Specialized Tools
+                </button>
+            </div>
+
+            <!-- Basic Tools Tab -->
+            <div id="basic-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display: grid;">
                 <a href="pdf-editor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <i class="fa-solid fa-pen-to-square mr-2"></i> PDF Editor
+                    <i class="fa-solid fa-pen-to-square text-2xl mb-3"></i>
+                    <div>PDF Editor</div>
+                    <div class="mt-2 text-xs text-gray-500">Edit text, images, and pages in your PDF files</div>
                 </a>
-                 <a href="image-to-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <i class="fa-solid fa-file-image mr-2"></i> Image to PDF
+                <a href="merge-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-object-group text-2xl mb-3"></i>
+                    <div>Merge PDF</div>
+                    <div class="mt-2 text-xs text-gray-500">Combine multiple PDF files into a single document</div>
+                </a>
+                <a href="image-to-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-file-image text-2xl mb-3"></i>
+                    <div>Image to PDF</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert JPG, PNG, and other images to PDF format</div>
                 </a>
                 <a href="pdf-rotator.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <i class="fa-solid fa-rotate mr-2"></i> PDF Page Rotator
+                    <i class="fa-solid fa-rotate text-2xl mb-3"></i>
+                    <div>PDF Page Rotator</div>
+                    <div class="mt-2 text-xs text-gray-500">Rotate pages to the correct orientation</div>
                 </a>
-                 <a href="pdf-to-word.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <i class="fa-solid fa-file-word mr-2"></i> PDF to Word
+                <a href="pdf-to-word.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-file-word text-2xl mb-3"></i>
+                    <div>PDF to Word</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert PDF documents to editable Word files</div>
                 </a>
-                 <a href="pdf-to-jpg.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                     <i class="fa-solid fa-file-image mr-2"></i> PDF to JPG
-                 </a>
-                 <a href="merge-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <i class="fa-solid fa-copy mr-2"></i> Merge PDF
+                <a href="pdf-to-jpg.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-file-image text-2xl mb-3"></i>
+                    <div>PDF to JPG</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert PDF pages to JPG image format</div>
                 </a>
-                 <a href="pdf-text-extractor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <i class="fa-solid fa-file-lines mr-2"></i> PDF Text Extractor
+                <a href="pdf-text-extractor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-file-lines text-2xl mb-3"></i>
+                    <div>PDF Text Extractor</div>
+                    <div class="mt-2 text-xs text-gray-500">Extract text content from PDF documents</div>
                 </a>
                 <a href="pdf-to-excel.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
-                    <i class="fa-solid fa-file-excel mr-2"></i> PDF to Excel
+                    <i class="fa-solid fa-file-excel text-2xl mb-3"></i>
+                    <div>PDF to Excel</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert PDF tables to Excel spreadsheets</div>
                 </a>
+                <a href="pdf-splitter.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-scissors text-2xl mb-3"></i>
+                    <div>PDF Splitter</div>
+                    <div class="mt-2 text-xs text-gray-500">Split PDF files into separate documents</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-compressor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-compress text-2xl mb-3"></i>
+                    <div>PDF Compressor</div>
+                    <div class="mt-2 text-xs text-gray-500">Reduce PDF file size while maintaining quality</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-password.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-lock text-2xl mb-3"></i>
+                    <div>PDF Password Protector</div>
+                    <div class="mt-2 text-xs text-gray-500">Add password protection to your PDF files</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-to-ppt.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-file-powerpoint text-2xl mb-3"></i>
+                    <div>PDF to PowerPoint</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert PDF files to editable PowerPoint presentations</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-page-numbering.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-list-ol text-2xl mb-3"></i>
+                    <div>PDF Page Numbering</div>
+                    <div class="mt-2 text-xs text-gray-500">Add custom page numbers to your PDF documents</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+            </div>
+
+
+
+            <!-- Advanced Tools Tab -->
+            <div id="advanced-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display: none;">
+                <a href="translate-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-language text-2xl mb-3"></i>
+                    <div>Multi-Language Translation</div>
+                    <div class="mt-2 text-xs text-gray-500">Translate PDF content into different languages</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="advanced-ocr.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-image text-2xl mb-3"></i>
+                    <div>Advanced Image OCR</div>
+                    <div class="mt-2 text-xs text-gray-500">Extract text from images with high accuracy</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="custom-fonts.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-font text-2xl mb-3"></i>
+                    <div>Custom Fonts and Styles</div>
+                    <div class="mt-2 text-xs text-gray-500">Apply unique fonts and styles to PDF text</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="batch-watermark.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-stamp text-2xl mb-3"></i>
+                    <div>Batch Watermarking</div>
+                    <div class="mt-2 text-xs text-gray-500">Apply watermarks across multiple files</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-to-markdown.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-brands fa-markdown text-2xl mb-3"></i>
+                    <div>PDF to Markdown</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert PDFs to Markdown format</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-to-epub.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-book text-2xl mb-3"></i>
+                    <div>PDF to EPUB</div>
+                    <div class="mt-2 text-xs text-gray-500">Transform PDFs into EPUB format for eBooks</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-form-creator.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-file-circle-check text-2xl mb-3"></i>
+                    <div>PDF Form Creator</div>
+                    <div class="mt-2 text-xs text-gray-500">Create fillable PDF forms with custom fields</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-metadata.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-tags text-2xl mb-3"></i>
+                    <div>PDF Metadata Editor</div>
+                    <div class="mt-2 text-xs text-gray-500">View and edit PDF document properties</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-to-html.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-brands fa-html5 text-2xl mb-3"></i>
+                    <div>PDF to HTML</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert PDF documents to HTML web pages</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+            </div>
+
+            <!-- Specialized Tools Tab -->
+            <div id="specialized-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display: none;">
+
+                <a href="formula-recognition.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-square-root-variable text-2xl mb-3"></i>
+                    <div>Scientific Formula Recognition</div>
+                    <div class="mt-2 text-xs text-gray-500">Extract and interpret formulas from documents</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="visual-insights.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-chart-pie text-2xl mb-3"></i>
+                    <div>Visual Insights Generator</div>
+                    <div class="mt-2 text-xs text-gray-500">Create infographics from PDF content</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="text-to-speech.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-volume-high text-2xl mb-3"></i>
+                    <div>Text-to-Speech</div>
+                    <div class="mt-2 text-xs text-gray-500">Convert PDF text into audio</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-templates.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-file-circle-plus text-2xl mb-3"></i>
+                    <div>Customizable Templates</div>
+                    <div class="mt-2 text-xs text-gray-500">Pre-designed templates for various documents</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="emoji-tool.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-face-smile text-2xl mb-3"></i>
+                    <div>Emoji Integration</div>
+                    <div class="mt-2 text-xs text-gray-500">Add emojis seamlessly into PDF content</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-accessibility.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-universal-access text-2xl mb-3"></i>
+                    <div>Accessibility Checker</div>
+                    <div class="mt-2 text-xs text-gray-500">Make PDFs accessible for screen readers</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-redaction.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-eraser text-2xl mb-3"></i>
+                    <div>PDF Redaction Tool</div>
+                    <div class="mt-2 text-xs text-gray-500">Permanently remove sensitive information</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-signature.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-signature text-2xl mb-3"></i>
+                    <div>Digital Signature</div>
+                    <div class="mt-2 text-xs text-gray-500">Add digital signatures to PDF documents</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-bates.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-hashtag text-2xl mb-3"></i>
+                    <div>Bates Numbering</div>
+                    <div class="mt-2 text-xs text-gray-500">Add legal Bates numbering to documents</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+                <a href="pdf-ocr-languages.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                    <i class="fa-solid fa-globe text-2xl mb-3"></i>
+                    <div>Multi-Language OCR</div>
+                    <div class="mt-2 text-xs text-gray-500">Extract text in multiple languages</div>
+                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Comparison Table Section -->
+        <section class="mt-16 bg-white p-8 rounded-lg shadow-md">
+            <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">Why Choose SmileyPDF Over Alternatives?</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full border-collapse">
+                    <thead>
+                        <tr class="bg-blue-100">
+                            <th class="border border-gray-300 px-4 py-3 text-left">Features</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center">SmileyPDF</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center">Adobe Acrobat</th>
+                            <th class="border border-gray-300 px-4 py-3 text-center">Other PDF Tools</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-300 px-4 py-3 font-medium">Price</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-green-600"><i class="fas fa-check-circle"></i> 100% Free</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-red-600"><i class="fas fa-times-circle"></i> $14.99/month</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-yellow-600"><i class="fas fa-exclamation-circle"></i> Free with limitations</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-3 font-medium">No Registration Required</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-green-600"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-red-600"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-yellow-600"><i class="fas fa-exclamation-circle"></i> Varies</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-300 px-4 py-3 font-medium">Client-Side Processing</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-green-600"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-red-600"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-red-600"><i class="fas fa-times-circle"></i> Mostly No</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-3 font-medium">No Software Installation</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-green-600"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-red-600"><i class="fas fa-times-circle"></i> No</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-yellow-600"><i class="fas fa-exclamation-circle"></i> Varies</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-300 px-4 py-3 font-medium">No Watermarks</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-green-600"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-green-600"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-red-600"><i class="fas fa-times-circle"></i> Often No</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-3 font-medium">Works on All Devices</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-green-600"><i class="fas fa-check-circle"></i> Yes</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-yellow-600"><i class="fas fa-exclamation-circle"></i> Limited</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center text-yellow-600"><i class="fas fa-exclamation-circle"></i> Varies</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center mt-6 text-gray-600">SmileyPDF offers the perfect balance of functionality, privacy, and convenience - all for free!</p>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="mt-16">
+            <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">Frequently Asked Questions</h2>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Is SmileyPDF really 100% free?</h3>
+                    <p class="text-gray-600">Yes! All our PDF tools are completely free to use. There are no hidden fees, subscriptions, or premium features. We're supported by minimal, non-intrusive advertising.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Are my PDF files secure when using SmileyPDF?</h3>
+                    <p class="text-gray-600">Absolutely. SmileyPDF processes all files directly in your browser using client-side technology. Your files never leave your computer or get uploaded to our servers, ensuring maximum privacy and security.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Do I need to create an account to use SmileyPDF?</h3>
+                    <p class="text-gray-600">No registration or account creation is required. Simply visit our website and start using our tools immediately without any sign-up process.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">What's the maximum file size I can process?</h3>
+                    <p class="text-gray-600">Since all processing happens in your browser, the file size limit depends on your device's memory. Most modern devices can easily handle PDFs up to 100MB, but performance may vary for very large files.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Which browsers work best with SmileyPDF?</h3>
+                    <p class="text-gray-600">SmileyPDF works with all modern browsers including Chrome, Firefox, Safari, and Edge. For the best experience, we recommend using the latest version of your preferred browser.</p>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a href="faq.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                    View all FAQs <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="mt-16 bg-blue-50 py-12 px-6 rounded-lg">
+            <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 flex">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"SmileyPDF saved me when I needed to quickly edit a PDF for a job application. No sign-up, no download, just instant results. Absolutely brilliant!"</p>
+                    <div class="font-semibold">Sarah T.</div>
+                    <div class="text-sm text-gray-500">Marketing Professional</div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 flex">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"As a teacher, I regularly need to combine multiple PDFs for my students. SmileyPDF's merge tool is fast, reliable, and best of all, completely free!"</p>
+                    <div class="font-semibold">Michael R.</div>
+                    <div class="text-sm text-gray-500">High School Teacher</div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 flex">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic mb-4">"I was concerned about uploading sensitive documents to online PDF services. SmileyPDF's client-side processing gave me the security I needed. Highly recommended!"</p>
+                    <div class="font-semibold">David L.</div>
+                    <div class="text-sm text-gray-500">Legal Consultant</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Searches Section -->
+        <section class="mt-16">
+            <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">Popular PDF Solutions</h2>
+            <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF Editing</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">How to edit PDF text online</a></li>
+                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">Add text to PDF free</a></li>
+                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">PDF annotation tools</a></li>
+                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">Draw on PDF online</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF Conversion</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="pdf-to-word.html" class="text-blue-600 hover:text-blue-800">Convert PDF to Word document</a></li>
+                            <li><a href="pdf-to-jpg.html" class="text-blue-600 hover:text-blue-800">PDF to JPG converter</a></li>
+                            <li><a href="image-to-pdf.html" class="text-blue-600 hover:text-blue-800">Turn images into PDF</a></li>
+                            <li><a href="pdf-to-excel.html" class="text-blue-600 hover:text-blue-800">Extract tables from PDF to Excel</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF Management</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="merge-pdf.html" class="text-blue-600 hover:text-blue-800">Combine multiple PDFs into one</a></li>
+                            <li><a href="pdf-rotator.html" class="text-blue-600 hover:text-blue-800">Rotate PDF pages online</a></li>
+                            <li><a href="pdf-text-extractor.html" class="text-blue-600 hover:text-blue-800">Extract text from PDF</a></li>
+                            <li><a href="merge-pdf.html" class="text-blue-600 hover:text-blue-800">Merge PDF files free</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF Security</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">Secure PDF processing online</a></li>
+                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">Client-side PDF tools</a></li>
+                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">Private PDF editing</a></li>
+                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">No upload PDF editor</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="mt-16 text-center">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 px-6 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold mb-4">Ready to Simplify Your PDF Tasks?</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of satisfied users who trust SmileyPDF for their document needs.</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="pdf-editor.html" class="bg-white text-blue-700 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition duration-300">
+                        Get Started Now
+                    </a>
+                    <a href="about.html" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-700 font-semibold py-3 px-8 rounded-lg transition duration-300">
+                        Learn More
+                    </a>
+                </div>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-700 text-gray-300 mt-16 py-8">
-        <div class="container mx-auto px-6 text-center">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+    <footer class="bg-gray-700 text-gray-300 mt-16 py-12">
+        <div class="container mx-auto px-6">
+            <!-- Newsletter Signup -->
+            <div class="max-w-3xl mx-auto mb-12 text-center">
+                <h3 class="text-xl font-semibold text-white mb-4">Stay Updated with New Features</h3>
+                <p class="mb-6">Subscribe to our newsletter for the latest PDF tools and tips.</p>
+                <form class="flex flex-col sm:flex-row gap-2 justify-center" action="#" method="post" id="newsletter-form">
+                    <input type="email" placeholder="Your email address" class="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 w-full sm:w-auto">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition duration-300">Subscribe</button>
+                </form>
+                <p class="text-xs mt-2 text-gray-400">We respect your privacy. Unsubscribe at any time.</p>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 text-sm">
                 <div>
-                    <h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4>
-                    <p>Free online tools to make your PDF tasks simple and secure.</p>
+                    <h4 class="font-semibold mb-4 uppercase text-white">About SmileyPDF</h4>
+                    <p class="mb-4">Free online tools to make your PDF tasks simple and secure. All processing happens in your browser - your files never leave your computer.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter text-lg"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook text-lg"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-linkedin text-lg"></i></a>
+                    </div>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-2 uppercase">Quick Links</h4>
-                    <ul>
+                    <h4 class="font-semibold mb-4 uppercase text-white">PDF Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="pdf-editor.html" class="hover:text-white">PDF Editor</a></li>
+                        <li><a href="merge-pdf.html" class="hover:text-white">Merge PDF</a></li>
+                        <li><a href="image-to-pdf.html" class="hover:text-white">Image to PDF</a></li>
+                        <li><a href="pdf-rotator.html" class="hover:text-white">Rotate PDF</a></li>
+                        <li><a href="pdf-text-extractor.html" class="hover:text-white">Extract PDF Text</a></li>
+                        <li><a href="pdf-to-jpg.html" class="hover:text-white">PDF to JPG</a></li>
+                        <li><a href="pdf-to-word.html" class="hover:text-white">PDF to Word</a></li>
+                        <li><a href="pdf-to-excel.html" class="hover:text-white">PDF to Excel</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">Quick Links</h4>
+                    <ul class="space-y-2">
                         <li><a href="index.html" class="hover:text-white">Home</a></li>
                         <li><a href="about.html" class="hover:text-white">About Us</a></li>
                         <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                        <li><a href="faq.html" class="hover:text-white">FAQ</a></li>
                         <li><a href="contact.html" class="hover:text-white">Contact</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold mb-2 uppercase">Legal</h4>
-                    <ul>
+                    <h4 class="font-semibold mb-4 uppercase text-white">Legal & Support</h4>
+                    <ul class="space-y-2">
                         <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
-                        <li class="mt-1"><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Feedback</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-600 pt-6 text-sm">
-                 &copy; <span id="current-year"></span> SmileyPDF. All rights reserved.
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-600 pt-8 text-sm text-center">
+                <p class="mb-2">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</p>
+                <p class="text-gray-400">SmileyPDF is not affiliated with Adobe Systems Incorporated.</p>
             </div>
         </div>
     </footer>
@@ -261,7 +786,33 @@
     <!-- JavaScript -->
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all content sections
+            document.getElementById('basic-content').style.display = 'none';
+
+            document.getElementById('advanced-content').style.display = 'none';
+            document.getElementById('specialized-content').style.display = 'none';
+
+            // Reset all tab buttons
+            document.getElementById('basic-tab').className = 'bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg font-medium transition duration-300';
+
+            document.getElementById('advanced-tab').className = 'bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg font-medium transition duration-300';
+            document.getElementById('specialized-tab').className = 'bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg font-medium transition duration-300';
+
+            // Show the selected content and highlight the active tab
+            document.getElementById(tabName + '-content').style.display = 'grid';
+            document.getElementById(tabName + '-tab').className = 'bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition duration-300';
+        }
+
+        // Initialize tabs when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure the basic tab is active by default
+            switchTab('basic');
+        });
     </script>
 
+<script src="dark-mode.js"></script>
 </body>
 </html>

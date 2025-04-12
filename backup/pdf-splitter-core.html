@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Core PDF Splitter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #pdfPreview {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hidden {
+            display: none;
+        }
+        #status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Core PDF Splitter</h1>
+    
+    <div class="container">
+        <h2>Step 1: Upload PDF</h2>
+        <input type="file" id="pdfFile" accept=".pdf">
+        <div id="fileInfo"></div>
+    </div>
+    
+    <div id="previewContainer" class="container hidden">
+        <h2>Step 2: Preview PDF</h2>
+        <div id="pdfPreview"></div>
+        <div>
+            <button id="prevPage" class="button">Previous Page</button>
+            <span id="pageInfo">Page 0 of 0</span>
+            <button id="nextPage" class="button">Next Page</button>
+        </div>
+    </div>
+    
+    <div id="splitContainer" class="container hidden">
+        <h2>Step 3: Split PDF</h2>
+        <div>
+            <label for="pageRange">Pages to extract (e.g., 1,3,5-7):</label>
+            <input type="text" id="pageRange" style="width: 100%; padding: 8px; margin: 10px 0;">
+        </div>
+        <button id="splitButton" class="button">Split PDF</button>
+        <div id="status" class="hidden"></div>
+    </div>
+    
+    <div id="resultContainer" class="container hidden">
+        <h2>Step 4: Download Result</h2>
+        <div id="downloadLinks"></div>
+    </div>
+
+    <script>
+        // Variables
+        let pdfFile = null;
+        let pdfData = null;
+        let pdfDoc = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        
+        // Elements
+        const fileInput = document.getElementById('pdfFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const previewContainer = document.getElementById('previewContainer');
+        const pdfPreview = document.getElementById('pdfPreview');
+        const prevPageButton = document.getElementById('prevPage');
+        const nextPageButton = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+        const splitContainer = document.getElementById('splitContainer');
+        const pageRangeInput = document.getElementById('pageRange');
+        const splitButton = document.getElementById('splitButton');
+        const statusElement = document.getElementById('status');
+        const resultContainer = document.getElementById('resultContainer');
+        const downloadLinks = document.getElementById('downloadLinks');
+        
+        // Show status message
+        function showStatus(message, type) {
+            statusElement.textContent = message;
+            statusElement.className = type;
+            statusElement.classList.remove('hidden');
+        }
+        
+        // Hide status message
+        function hideStatus() {
+            statusElement.classList.add('hidden');
+        }
+        
+        // File input change handler
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            pdfFile = file;
+            
+            // Display file info
+            fileInfo.textContent = `Selected file: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+            
+            // Create object URL for preview
+            const objectUrl = URL.createObjectURL(file);
+            
+            // Create iframe for preview
+            const iframe = document.createElement('iframe');
+            iframe.src = objectUrl;
+            iframe.width = '100%';
+            iframe.height = '400px';
+            
+            // Clear previous content and add iframe
+            pdfPreview.innerHTML = '';
+            pdfPreview.appendChild(iframe);
+            
+            // Show preview container
+            previewContainer.classList.remove('hidden');
+            
+            // Set default page range
+            pageRangeInput.value = '1-10';
+            
+            // Show split container
+            splitContainer.classList.remove('hidden');
+        });
+        
+        // Previous page button
+        prevPageButton.addEventListener('click', function() {
+            // Not implemented in this simple version
+            alert('Page navigation not implemented in this simple version');
+        });
+        
+        // Next page button
+        nextPageButton.addEventListener('click', function() {
+            // Not implemented in this simple version
+            alert('Page navigation not implemented in this simple version');
+        });
+        
+        // Parse page ranges
+        function parsePageRanges(input) {
+            if (!input.trim()) return [];
+            
+            const pages = [];
+            const parts = input.split(',');
+            
+            for (const part of parts) {
+                const trimmedPart = part.trim();
+                
+                if (trimmedPart.includes('-')) {
+                    // Range (e.g., 1-3)
+                    const [start, end] = trimmedPart.split('-').map(num => parseInt(num.trim()));
+                    
+                    if (!isNaN(start) && !isNaN(end)) {
+                        for (let i = start; i <= end; i++) {
+                            if (!pages.includes(i)) {
+                                pages.push(i);
+                            }
+                        }
+                    }
+                } else {
+                    // Single page
+                    const page = parseInt(trimmedPart);
+                    if (!isNaN(page) && !pages.includes(page)) {
+                        pages.push(page);
+                    }
+                }
+            }
+            
+            return pages.sort((a, b) => a - b);
+        }
+        
+        // Split button
+        splitButton.addEventListener('click', function() {
+            if (!pdfFile) {
+                showStatus('Please upload a PDF file first', 'error');
+                return;
+            }
+            
+            const pageRanges = parsePageRanges(pageRangeInput.value);
+            
+            if (pageRanges.length === 0) {
+                showStatus('Please enter valid page numbers', 'error');
+                return;
+            }
+            
+            // Disable button
+            splitButton.disabled = true;
+            splitButton.textContent = 'Processing...';
+            
+            // Show status
+            showStatus('This is a simplified version that demonstrates the UI flow. In a real implementation, this would split the PDF using PDF.js and jsPDF.', 'success');
+            
+            // Create a download link for the original PDF
+            const objectUrl = URL.createObjectURL(pdfFile);
+            
+            // Create download link
+            downloadLinks.innerHTML = '';
+            const link = document.createElement('a');
+            link.href = objectUrl;
+            link.download = pdfFile.name.replace('.pdf', '_split.pdf');
+            link.className = 'button';
+            link.textContent = 'Download PDF (Demo)';
+            downloadLinks.appendChild(link);
+            
+            // Show result container
+            resultContainer.classList.remove('hidden');
+            
+            // Re-enable button
+            splitButton.disabled = false;
+            splitButton.textContent = 'Split PDF';
+        });
+    </script>
+</body>
+</html>

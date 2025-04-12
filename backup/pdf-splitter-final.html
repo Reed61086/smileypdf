@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Splitter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #pdfPreview {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hidden {
+            display: none;
+        }
+        #status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        #progressContainer {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+        #progressBar {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Splitter</h1>
+    
+    <div class="container">
+        <h2>Step 1: Upload PDF</h2>
+        <input type="file" id="pdfFile" accept=".pdf">
+        <div id="fileInfo"></div>
+    </div>
+    
+    <div id="previewContainer" class="container hidden">
+        <h2>Step 2: Preview PDF</h2>
+        <div id="pdfPreview"></div>
+    </div>
+    
+    <div id="splitContainer" class="container hidden">
+        <h2>Step 3: Split PDF</h2>
+        <div>
+            <label for="pageRange">Pages to extract (e.g., 1,3,5-7):</label>
+            <input type="text" id="pageRange" style="width: 100%; padding: 8px; margin: 10px 0;">
+        </div>
+        <button id="splitButton" class="button">Split PDF</button>
+        <div id="progressContainer">
+            <div id="progressBar"></div>
+        </div>
+        <div id="status" class="hidden"></div>
+    </div>
+    
+    <div id="resultContainer" class="container hidden">
+        <h2>Step 4: Download Result</h2>
+        <div id="downloadLinks"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // DOM elements
+        var fileInput = document.getElementById('pdfFile');
+        var fileInfo = document.getElementById('fileInfo');
+        var previewContainer = document.getElementById('previewContainer');
+        var pdfPreview = document.getElementById('pdfPreview');
+        var splitContainer = document.getElementById('splitContainer');
+        var pageRangeInput = document.getElementById('pageRange');
+        var splitButton = document.getElementById('splitButton');
+        var progressContainer = document.getElementById('progressContainer');
+        var progressBar = document.getElementById('progressBar');
+        var statusElement = document.getElementById('status');
+        var resultContainer = document.getElementById('resultContainer');
+        var downloadLinks = document.getElementById('downloadLinks');
+        
+        // Variables
+        var pdfFile = null;
+        var pdfDoc = null;
+        var totalPages = 0;
+        
+        // Show status message
+        function showStatus(message, type) {
+            statusElement.textContent = message;
+            statusElement.className = type === 'error' ? 'error' : 'success';
+            statusElement.classList.remove('hidden');
+        }
+        
+        // Hide status message
+        function hideStatus() {
+            statusElement.classList.add('hidden');
+        }
+        
+        // Update progress bar
+        function updateProgress(percent) {
+            progressContainer.style.display = 'block';
+            progressBar.style.width = percent + '%';
+        }
+        
+        // Hide progress bar
+        function hideProgress() {
+            progressContainer.style.display = 'none';
+        }
+        
+        // Parse page ranges
+        function parsePageRanges(input) {
+            if (!input.trim()) return [];
+            
+            var pages = [];
+            var parts = input.split(',');
+            
+            for (var i = 0; i < parts.length; i++) {
+                var part = parts[i].trim();
+                
+                if (part.indexOf('-') !== -1) {
+                    // Range like "5-8"
+                    var range = part.split('-');
+                    var start = parseInt(range[0].trim());
+                    var end = parseInt(range[1].trim());
+                    
+                    if (isNaN(start) || isNaN(end)) continue;
+                    
+                    // Add all pages in the range
+                    for (var j = start; j <= end; j++) {
+                        if (j >= 1 && j <= totalPages && pages.indexOf(j) === -1) {
+                            pages.push(j);
+                        }
+                    }
+                } else {
+                    // Single page like "3"
+                    var pageNum = parseInt(part);
+                    
+                    if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages && pages.indexOf(pageNum) === -1) {
+                        pages.push(pageNum);
+                    }
+                }
+            }
+            
+            // Sort pages
+            return pages.sort(function(a, b) { return a - b; });
+        }
+        
+        // File upload handler
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length === 0) return;
+            
+            // Reset UI
+            pdfPreview.innerHTML = '';
+            fileInfo.innerHTML = '';
+            resultContainer.classList.add('hidden');
+            downloadLinks.innerHTML = '';
+            hideStatus();
+            hideProgress();
+            
+            // Get the file
+            pdfFile = e.target.files[0];
+            
+            // Display file info
+            fileInfo.innerHTML = 'Selected file: ' + pdfFile.name + ' (' + Math.round(pdfFile.size / 1024) + ' KB)';
+            
+            // Create object URL for preview
+            var objectUrl = URL.createObjectURL(pdfFile);
+            
+            // Create iframe for preview
+            var iframe = document.createElement('iframe');
+            iframe.src = objectUrl;
+            iframe.width = '100%';
+            iframe.height = '400px';
+            
+            // Add iframe to preview
+            pdfPreview.appendChild(iframe);
+            previewContainer.classList.remove('hidden');
+            
+            // Read the file
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var pdfData = new Uint8Array(e.target.result);
+                
+                // Load the PDF
+                pdfjsLib.getDocument({ data: pdfData }).promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    totalPages = pdf.numPages;
+                    
+                    // Update file info
+                    fileInfo.innerHTML += '<br>Pages: ' + totalPages;
+                    
+                    // Set default page range
+                    pageRangeInput.value = '1-' + totalPages;
+                    
+                    // Show split options
+                    splitContainer.classList.remove('hidden');
+                }).catch(function(error) {
+                    console.error('Error loading PDF:', error);
+                    showStatus('Error loading PDF: ' + error.message, 'error');
+                });
+            };
+            reader.onerror = function() {
+                showStatus('Error reading file', 'error');
+            };
+            reader.readAsArrayBuffer(pdfFile);
+        });
+        
+        // Split button handler
+        splitButton.addEventListener('click', function() {
+            if (!pdfDoc || !pdfFile) {
+                showStatus('Please upload a PDF file first.', 'error');
+                return;
+            }
+            
+            // Parse page ranges
+            var pagesToExtract = parsePageRanges(pageRangeInput.value);
+            
+            if (pagesToExtract.length === 0) {
+                showStatus('Please enter valid page numbers or ranges.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            splitButton.disabled = true;
+            splitButton.textContent = 'Processing...';
+            hideStatus();
+            updateProgress(0);
+            
+            // Process pages one by one
+            processPages(pagesToExtract);
+        });
+        
+        // Process pages
+        function processPages(pages) {
+            var renderedPages = [];
+            var currentIndex = 0;
+            
+            function processNextPage() {
+                if (currentIndex >= pages.length) {
+                    // All pages processed, create PDF
+                    createPDF(renderedPages);
+                    return;
+                }
+                
+                var pageNum = pages[currentIndex];
+                
+                // Update progress
+                updateProgress((currentIndex / pages.length) * 50);
+                
+                // Get the page
+                pdfDoc.getPage(pageNum).then(function(page) {
+                    // Get viewport
+                    var viewport = page.getViewport({ scale: 1.5 });
+                    
+                    // Create canvas
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    // Render page to canvas
+                    page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise.then(function() {
+                        // Store rendered page
+                        renderedPages.push({
+                            pageNum: pageNum,
+                            canvas: canvas,
+                            width: viewport.width,
+                            height: viewport.height
+                        });
+                        
+                        // Process next page
+                        currentIndex++;
+                        processNextPage();
+                    }).catch(function(error) {
+                        console.error('Error rendering page ' + pageNum + ':', error);
+                        currentIndex++;
+                        processNextPage();
+                    });
+                }).catch(function(error) {
+                    console.error('Error getting page ' + pageNum + ':', error);
+                    currentIndex++;
+                    processNextPage();
+                });
+            }
+            
+            // Start processing
+            processNextPage();
+        }
+        
+        // Create PDF from rendered pages
+        function createPDF(renderedPages) {
+            if (renderedPages.length === 0) {
+                showStatus('No pages could be rendered.', 'error');
+                splitButton.disabled = false;
+                splitButton.textContent = 'Split PDF';
+                hideProgress();
+                return;
+            }
+            
+            try {
+                // Get jsPDF instance
+                var jsPDF = window.jspdf.jsPDF;
+                
+                // Get dimensions from first page
+                var firstPage = renderedPages[0];
+                
+                // Create PDF with correct orientation
+                var orientation = firstPage.width > firstPage.height ? 'landscape' : 'portrait';
+                var pdf = new jsPDF({
+                    orientation: orientation,
+                    unit: 'pt',
+                    format: [firstPage.width, firstPage.height]
+                });
+                
+                // Add each page
+                for (var i = 0; i < renderedPages.length; i++) {
+                    var page = renderedPages[i];
+                    
+                    // Add new page if not the first page
+                    if (i > 0) {
+                        // Determine if we need to change orientation for this page
+                        var pageOrientation = page.width > page.height ? 'landscape' : 'portrait';
+                        pdf.addPage([page.width, page.height], pageOrientation);
+                    }
+                    
+                    // Add the image
+                    var imgData = page.canvas.toDataURL('image/jpeg', 0.95);
+                    pdf.addImage(imgData, 'JPEG', 0, 0, page.width, page.height);
+                    
+                    // Update progress
+                    updateProgress(50 + ((i + 1) / renderedPages.length) * 50);
+                }
+                
+                // Generate the PDF
+                var pdfBlob = pdf.output('blob');
+                var url = URL.createObjectURL(pdfBlob);
+                
+                // Show results
+                resultContainer.classList.remove('hidden');
+                downloadLinks.innerHTML = '';
+                
+                var resultItem = document.createElement('div');
+                resultItem.style.display = 'flex';
+                resultItem.style.justifyContent = 'space-between';
+                resultItem.style.alignItems = 'center';
+                resultItem.style.padding = '10px';
+                resultItem.style.border = '1px solid #ddd';
+                resultItem.style.borderRadius = '5px';
+                resultItem.style.marginBottom = '10px';
+                
+                resultItem.innerHTML = 
+                    '<span>' + pdfFile.name.replace('.pdf', '') + '_split.pdf</span>' +
+                    '<div>' +
+                        '<a href="' + url + '" download="' + pdfFile.name.replace('.pdf', '') + '_split.pdf" class="button" style="margin-right: 10px;">Download</a>' +
+                        '<a href="' + url + '" target="_blank" class="button" style="background-color: #2196F3;">View</a>' +
+                    '</div>';
+                
+                downloadLinks.appendChild(resultItem);
+                
+                // Show success message
+                showStatus('PDF split successfully!', 'success');
+            } catch (error) {
+                console.error('Error creating PDF:', error);
+                showStatus('Error creating PDF: ' + error.message, 'error');
+            }
+            
+            // Reset button state
+            splitButton.disabled = false;
+            splitButton.textContent = 'Split PDF';
+            hideProgress();
+        }
+    </script>
+</body>
+</html>

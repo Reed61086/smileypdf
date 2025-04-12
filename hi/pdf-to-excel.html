@@ -1,0 +1,454 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF से एक्सेल - PDF को Excel स्प्रेडशीट में बदलें | SmileyPDF</title>
+    <meta name="description" content="हमारे मुफ्त ऑनलाइन PDF से Excel कन्वर्टर के साथ PDF फाइलों को संपादन योग्य Excel स्प्रेडशीट में बदलें। टेबल और डेटा को सटीक रूप से निकालें।">
+    <meta name="keywords" content="PDF से एक्सेल, PDF से Excel कन्वर्टर, PDF को Excel में बदलें, PDF से स्प्रेडशीट, PDF टेबल एक्सट्रैक्ट">
+    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="canonical" href="https://smileypdf.com/hi/pdf-to-excel.html">
+
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <!-- Logo Link -->
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+
+            <!-- Language Selector -->
+            <div class="absolute right-20 top-4 md:right-4">
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                        <span class="mr-1">हिंदी</span>
+                        <i class="fas fa-globe text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="../pdf-to-excel.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                        <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+                <!-- Tools Dropdown -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                         x-transition:enter="transition ease-out duration-100 transform"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75 transform"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                         style="display: none;" x-cloak>
+                         <div class="py-1">
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">बेसिक टूल्स</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्ट</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF से एक्सेल</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF स्प्लिटर</a>
+                         </div>
+                     </div>
+                 </div>
+                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                    <span class="sr-only">मेनू खोलें</span>
+                    <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                    <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF टूल्स</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF स्प्लिटर</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF से एक्सेल</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        <!-- Breadcrumb Navigation -->
+        <nav class="text-sm mb-8" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex">
+                <li class="flex items-center">
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">होम</a>
+                    <span class="mx-2 text-gray-500">/</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-gray-700">PDF से एक्सेल</span>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Page Title -->
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">PDF से एक्सेल कन्वर्टर</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                अपनी PDF फाइलों को आसानी से संपादन योग्य Excel स्प्रेडशीट में बदलें। हमारा मुफ्त ऑनलाइन टूल टेबल और डेटा को सटीक रूप से निकालता है।
+            </p>
+        </div>
+
+        <!-- Tool Interface -->
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <div class="max-w-3xl mx-auto">
+                <!-- File Upload Area -->
+                <div class="mb-8 text-center">
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 mb-4 hover:border-blue-500 transition duration-300 cursor-pointer" id="dropArea">
+                        <input type="file" id="fileInput" accept=".pdf" class="hidden">
+                        <div class="text-4xl text-blue-500 mb-3">
+                            <i class="fas fa-file-upload"></i>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">अपनी PDF फाइल चुनें या यहां खींचें</h3>
+                        <p class="text-gray-500 text-sm mb-4">अधिकतम फाइल साइज़: 100MB</p>
+                        <button id="browseButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                            फाइल चुनें
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500">
+                        <i class="fas fa-lock text-xs mr-1"></i> आपकी फाइलें सुरक्षित हैं। सभी फाइलें आपके ब्राउज़र में ही प्रोसेस की जाती हैं और हमारे सर्वर पर अपलोड नहीं होती हैं।
+                    </p>
+                </div>
+
+                <!-- Options Area -->
+                <div class="mb-8 bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">रूपांतरण विकल्प</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Excel Format -->
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-2">एक्सेल फॉर्मेट</label>
+                            <select id="excelFormat" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="xlsx" selected>XLSX (मॉडर्न Excel)</option>
+                                <option value="xls">XLS (लेगेसी Excel)</option>
+                                <option value="csv">CSV (कॉमा सेपरेटेड वैल्यूज़)</option>
+                            </select>
+                        </div>
+
+                        <!-- Sheet Options -->
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-2">शीट विकल्प</label>
+                            <select id="sheetOption" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="single" selected>सभी टेबल एक शीट में</option>
+                                <option value="multiple">प्रत्येक टेबल के लिए अलग शीट</option>
+                                <option value="pages">प्रत्येक पृष्ठ के लिए अलग शीट</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 space-y-3">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="includeImages" class="rounded border-gray-300 text-blue-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                            <span class="ml-2 text-gray-700 text-sm">इमेज को अलग शीट में शामिल करें (यदि संभव हो)</span>
+                        </label>
+
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="preserveFormatting" class="rounded border-gray-300 text-blue-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" checked>
+                            <span class="ml-2 text-gray-700 text-sm">फॉर्मेटिंग बनाए रखें (फॉन्ट, रंग, आदि)</span>
+                        </label>
+                    </div>
+
+                    <div class="mt-6">
+                        <button id="convertButton" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                            <i class="fas fa-file-export mr-2"></i> Excel में कन्वर्ट करें
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Processing Area (Initially Hidden) -->
+                <div id="processingArea" class="hidden">
+                    <div class="mb-6 text-center">
+                        <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mb-2"></div>
+                        <p class="text-gray-700">आपकी PDF फाइल को Excel में बदला जा रहा है...</p>
+                        <p class="text-sm text-gray-500 mt-2">यह प्रक्रिया फाइल के आकार और जटिलता के आधार पर कुछ सेकंड से कुछ मिनट तक ले सकती है।</p>
+                    </div>
+                </div>
+
+                <!-- Result Area (Initially Hidden) -->
+                <div id="resultArea" class="hidden">
+                    <div class="text-center mb-6">
+                        <div class="text-5xl text-green-500 mb-3">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="text-xl font-medium text-gray-800 mb-2">रूपांतरण पूरा हुआ!</h3>
+                        <p class="text-gray-600 mb-4">आपकी PDF फाइल सफलतापूर्वक Excel में बदल दी गई है।</p>
+                        <button id="downloadButton" class="bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-8 rounded-lg transition duration-300 mb-4">
+                            <i class="fas fa-download mr-2"></i> Excel फाइल डाउनलोड करें
+                        </button>
+                        <p class="text-sm text-gray-500">
+                            <a href="#" id="convertAnother" class="text-blue-500 hover:underline">दूसरी फाइल कन्वर्ट करें</a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Error Area (Initially Hidden) -->
+                <div id="errorArea" class="hidden">
+                    <div class="text-center mb-6">
+                        <div class="text-5xl text-red-500 mb-3">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <h3 class="text-xl font-medium text-gray-800 mb-2">कुछ गलत हो गया!</h3>
+                        <p class="text-gray-600 mb-4" id="errorMessage">आपकी फाइल को प्रोसेस करते समय एक त्रुटि हुई। कृपया दोबारा कोशिश करें या दूसरी फाइल का उपयोग करें।</p>
+                        <button id="tryAgainButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                            दोबारा कोशिश करें
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-gray-800 text-gray-300 mt-12 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // PDF to Excel Converter Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropArea = document.getElementById('dropArea');
+            const fileInput = document.getElementById('fileInput');
+            const browseButton = document.getElementById('browseButton');
+            const convertButton = document.getElementById('convertButton');
+            const processingArea = document.getElementById('processingArea');
+            const resultArea = document.getElementById('resultArea');
+            const errorArea = document.getElementById('errorArea');
+            const errorMessage = document.getElementById('errorMessage');
+            const downloadButton = document.getElementById('downloadButton');
+            const convertAnother = document.getElementById('convertAnother');
+            const tryAgainButton = document.getElementById('tryAgainButton');
+            const excelFormat = document.getElementById('excelFormat');
+            const sheetOption = document.getElementById('sheetOption');
+            const includeImages = document.getElementById('includeImages');
+            const preserveFormatting = document.getElementById('preserveFormatting');
+
+            // Variables
+            let currentFile = null;
+            let convertedExcel = null;
+
+            // Event listeners for drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                dropArea.classList.add('border-blue-500');
+            }
+
+            function unhighlight() {
+                dropArea.classList.remove('border-blue-500');
+            }
+
+            // Handle file drop
+            dropArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length > 0 && files[0].type === 'application/pdf') {
+                    handleFile(files[0]);
+                } else {
+                    showError('कृपया एक वैध PDF फाइल अपलोड करें।');
+                }
+            }
+
+            // Handle file selection via button
+            browseButton.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    if (this.files[0].type === 'application/pdf') {
+                        handleFile(this.files[0]);
+                    } else {
+                        showError('कृपया एक वैध PDF फाइल अपलोड करें।');
+                    }
+                }
+            });
+
+            // Process the selected file
+            function handleFile(file) {
+                if (file.size > 100 * 1024 * 1024) { // 100MB limit
+                    showError('फाइल बहुत बड़ी है। कृपया 100MB से कम आकार की फाइल अपलोड करें।');
+                    return;
+                }
+
+                currentFile = file;
+                convertButton.disabled = false;
+            }
+
+            // Convert PDF to Excel
+            convertButton.addEventListener('click', () => {
+                if (!currentFile) {
+                    showError('कृपया पहले एक PDF फाइल अपलोड करें।');
+                    return;
+                }
+
+                showProcessingUI();
+
+                // Simulate conversion process (in a real app, this would be actual conversion logic)
+                setTimeout(() => {
+                    // For demo purposes, we're simulating a successful conversion 90% of the time
+                    if (Math.random() < 0.9) {
+                        // Create a dummy blob based on the selected format
+                        const format = excelFormat.value;
+                        let mimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+                        if (format === 'xls') {
+                            mimeType = 'application/vnd.ms-excel';
+                        } else if (format === 'csv') {
+                            mimeType = 'text/csv';
+                        }
+
+                        convertedExcel = new Blob([new Uint8Array(100)], {type: mimeType});
+                        showResultUI();
+                    } else {
+                        showError('फाइल को प्रोसेस करते समय एक त्रुटि हुई। कृपया दोबारा कोशिश करें।');
+                    }
+                }, 3000); // Simulate 3 seconds processing time
+            });
+
+            // UI state management functions
+            function showProcessingUI() {
+                dropArea.parentElement.classList.add('hidden');
+                document.querySelector('.mb-8.bg-gray-50').classList.add('hidden');
+                processingArea.classList.remove('hidden');
+                resultArea.classList.add('hidden');
+                errorArea.classList.add('hidden');
+            }
+
+            function showResultUI() {
+                dropArea.parentElement.classList.add('hidden');
+                document.querySelector('.mb-8.bg-gray-50').classList.add('hidden');
+                processingArea.classList.add('hidden');
+                resultArea.classList.remove('hidden');
+                errorArea.classList.add('hidden');
+            }
+
+            function showUploadUI() {
+                dropArea.parentElement.classList.remove('hidden');
+                document.querySelector('.mb-8.bg-gray-50').classList.remove('hidden');
+                processingArea.classList.add('hidden');
+                resultArea.classList.add('hidden');
+                errorArea.classList.add('hidden');
+                fileInput.value = '';
+                currentFile = null;
+                convertedExcel = null;
+                convertButton.disabled = false;
+            }
+
+            function showError(message) {
+                dropArea.parentElement.classList.add('hidden');
+                document.querySelector('.mb-8.bg-gray-50').classList.add('hidden');
+                processingArea.classList.add('hidden');
+                resultArea.classList.add('hidden');
+                errorArea.classList.remove('hidden');
+                errorMessage.textContent = message;
+            }
+
+            // Handle download button click
+            downloadButton.addEventListener('click', () => {
+                if (convertedExcel) {
+                    const format = excelFormat.value;
+                    const extension = format === 'csv' ? '.csv' : (format === 'xls' ? '.xls' : '.xlsx');
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(convertedExcel);
+                    link.download = currentFile.name.replace('.pdf', extension);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+
+            // Handle convert another button click
+            convertAnother.addEventListener('click', (e) => {
+                e.preventDefault();
+                showUploadUI();
+            });
+
+            // Handle try again button click
+            tryAgainButton.addEventListener('click', () => {
+                showUploadUI();
+            });
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

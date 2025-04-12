@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Splitter with jsPDF</title>
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Include PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .button:disabled {
+            background: #ccc;
+        }
+        .preview {
+            border: 1px solid #eee;
+            margin: 20px 0;
+            padding: 10px;
+            min-height: 200px;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Splitter</h1>
+        
+        <div>
+            <label for="pdfFile">Select a PDF file:</label>
+            <input type="file" id="pdfFile" accept=".pdf">
+        </div>
+        
+        <div class="preview" id="preview">
+            <p>PDF preview will appear here</p>
+        </div>
+        
+        <div id="pageInfo" class="hidden">
+            <p>Total pages: <span id="totalPages">0</span></p>
+            <div>
+                <label for="pageRange">Pages to extract (e.g., 1,3,5-7):</label>
+                <input type="text" id="pageRange">
+            </div>
+            <button id="splitButton" class="button" disabled>Split PDF</button>
+        </div>
+        
+        <div id="output" class="hidden">
+            <h2>Output</h2>
+            <div id="downloadLinks"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // DOM elements
+        var pdfFileInput = document.getElementById('pdfFile');
+        var previewElement = document.getElementById('preview');
+        var pageInfoElement = document.getElementById('pageInfo');
+        var totalPagesElement = document.getElementById('totalPages');
+        var pageRangeInput = document.getElementById('pageRange');
+        var splitButton = document.getElementById('splitButton');
+        var outputElement = document.getElementById('output');
+        var downloadLinksElement = document.getElementById('downloadLinks');
+        
+        // Variables
+        var pdfFile = null;
+        var pdfData = null;
+        var pdfDoc = null;
+        var totalPages = 0;
+        
+        // File input change handler
+        pdfFileInput.onchange = function(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            
+            pdfFile = file;
+            previewElement.innerHTML = '<p>Loading PDF...</p>';
+            
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                pdfData = new Uint8Array(e.target.result);
+                
+                // Load PDF with PDF.js
+                pdfjsLib.getDocument({data: pdfData}).promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    totalPages = pdf.numPages;
+                    totalPagesElement.textContent = totalPages;
+                    
+                    // Set default page range
+                    pageRangeInput.value = '1-' + totalPages;
+                    
+                    // Enable split button
+                    splitButton.disabled = false;
+                    
+                    // Show page info
+                    pageInfoElement.classList.remove('hidden');
+                    
+                    // Show preview of first page
+                    return pdf.getPage(1);
+                }).then(function(page) {
+                    var scale = 0.5;
+                    var viewport = page.getViewport({scale: scale});
+                    
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    
+                    return page.render(renderContext).promise.then(function() {
+                        previewElement.innerHTML = '';
+                        previewElement.appendChild(canvas);
+                    });
+                }).catch(function(error) {
+                    previewElement.innerHTML = '<p>Error loading PDF: ' + error.message + '</p>';
+                });
+            };
+            
+            reader.onerror = function() {
+                previewElement.innerHTML = '<p>Error reading file</p>';
+            };
+            
+            reader.readAsArrayBuffer(file);
+        };
+        
+        // Parse page ranges
+        function parsePageRanges(input, maxPages) {
+            var pages = [];
+            var parts = input.split(',');
+            
+            for (var i = 0; i < parts.length; i++) {
+                var part = parts[i].trim();
+                
+                if (part.indexOf('-') !== -1) {
+                    // Range (e.g., 1-3)
+                    var range = part.split('-');
+                    var start = parseInt(range[0].trim());
+                    var end = parseInt(range[1].trim());
+                    
+                    if (!isNaN(start) && !isNaN(end)) {
+                        for (var j = start; j <= end; j++) {
+                            if (j >= 1 && j <= maxPages && pages.indexOf(j) === -1) {
+                                pages.push(j);
+                            }
+                        }
+                    }
+                } else {
+                    // Single page
+                    var page = parseInt(part);
+                    if (!isNaN(page) && page >= 1 && page <= maxPages && pages.indexOf(page) === -1) {
+                        pages.push(page);
+                    }
+                }
+            }
+            
+            return pages.sort(function(a, b) { return a - b; });
+        }
+        
+        // Split button click handler
+        splitButton.onclick = function() {
+            if (!pdfDoc || !pdfFile) {
+                alert('Please select a PDF file first');
+                return;
+            }
+            
+            var pageRanges = parsePageRanges(pageRangeInput.value, totalPages);
+            
+            if (pageRanges.length === 0) {
+                alert('Please enter valid page numbers');
+                return;
+            }
+            
+            splitButton.disabled = true;
+            splitButton.textContent = 'Processing...';
+            
+            // Create an array of promises for rendering each page
+            var renderPromises = pageRanges.map(function(pageNum) {
+                return pdfDoc.getPage(pageNum).then(function(page) {
+                    var viewport = page.getViewport({scale: 1.5});
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    return page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise.then(function() {
+                        return {
+                            pageNum: pageNum,
+                            canvas: canvas,
+                            width: viewport.width,
+                            height: viewport.height
+                        };
+                    });
+                });
+            });
+            
+            // Wait for all pages to be rendered
+            Promise.all(renderPromises).then(function(renderedPages) {
+                // Create a new PDF using jsPDF
+                var { jsPDF } = window.jspdf;
+                var pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'pt'
+                });
+                
+                // Add each rendered page to the PDF
+                renderedPages.forEach(function(page, index) {
+                    if (index > 0) {
+                        pdf.addPage([page.width, page.height]);
+                    } else {
+                        // Set the page size for the first page
+                        pdf.setPageSize([page.width, page.height]);
+                    }
+                    
+                    var imgData = page.canvas.toDataURL('image/jpeg', 0.95);
+                    pdf.addImage(imgData, 'JPEG', 0, 0, page.width, page.height);
+                });
+                
+                // Generate the PDF
+                var pdfOutput = pdf.output('blob');
+                var url = URL.createObjectURL(pdfOutput);
+                var filename = pdfFile.name.replace('.pdf', '') + '_split.pdf';
+                
+                // Create download link
+                downloadLinksElement.innerHTML = '';
+                var link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.className = 'button';
+                link.textContent = 'Download Split PDF';
+                downloadLinksElement.appendChild(link);
+                
+                // Show output section
+                outputElement.classList.remove('hidden');
+                
+                // Reset button
+                splitButton.disabled = false;
+                splitButton.textContent = 'Split PDF';
+            }).catch(function(error) {
+                console.error('Error splitting PDF:', error);
+                alert('Error splitting PDF: ' + error.message);
+                
+                splitButton.disabled = false;
+                splitButton.textContent = 'Split PDF';
+            });
+        };
+    </script>
+</body>
+</html>

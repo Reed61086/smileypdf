@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सेवा की शर्तें - SmileyPDF | मुफ्त PDF टूल्स</title>
+    <meta name="description" content="SmileyPDF की सेवा की शर्तें। हमारे मुफ्त ऑनलाइन PDF टूल्स का उपयोग करने के लिए नियम और शर्तें।">
+    <meta name="keywords" content="SmileyPDF सेवा की शर्तें, PDF टूल्स नियम, PDF सेवा शर्तें">
+    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="canonical" href="https://smileypdf.com/hi/terms.html">
+    
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <!-- Logo Link -->
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="absolute right-20 top-4 md:right-4">
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                        <span class="mr-1">हिंदी</span>
+                        <i class="fas fa-globe text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="../terms.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                        <a href="terms.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+                <!-- Tools Dropdown -->
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                         x-transition:enter="transition ease-out duration-100 transform"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75 transform"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                         style="display: none;" x-cloak>
+                         <div class="py-1">
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">बेसिक टूल्स</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्ट</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF स्प्लिटर</a>
+                         </div>
+                     </div>
+                 </div>
+                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                    <span class="sr-only">मेनू खोलें</span>
+                    <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                    <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+                
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF टूल्स</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF स्प्लिटर</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        <!-- Breadcrumb Navigation -->
+        <nav class="text-sm mb-8" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex">
+                <li class="flex items-center">
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">होम</a>
+                    <span class="mx-2 text-gray-500">/</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-gray-700">सेवा की शर्तें</span>
+                </li>
+            </ol>
+        </nav>
+
+        <!-- Terms of Service Content -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">सेवा की शर्तें</h1>
+            
+            <div class="prose max-w-none">
+                <p class="text-gray-700 mb-4">
+                    अंतिम अपडेट: 1 जुलाई, 2024
+                </p>
+                
+                <p class="text-gray-700 mb-4">
+                    SmileyPDF वेबसाइट ("सेवा") का उपयोग करके, आप इन सेवा की शर्तों ("शर्तें") से सहमत होते हैं। कृपया इन्हें ध्यान से पढ़ें।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">1. सेवा का उपयोग</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    SmileyPDF आपको अपनी वेबसाइट और सेवाओं का उपयोग करने के लिए एक व्यक्तिगत, विश्वव्यापी, गैर-हस्तांतरणीय, गैर-विशिष्ट लाइसेंस प्रदान करता है, जो इन शर्तों के अनुपालन के अधीन है।
+                </p>
+                
+                <p class="text-gray-700 mb-4">
+                    आप सहमत हैं कि:
+                </p>
+                
+                <ul class="list-disc pl-6 mb-6 space-y-2 text-gray-700">
+                    <li>आप सेवा का उपयोग किसी भी लागू कानून या विनियमन का उल्लंघन करने के लिए नहीं करेंगे।</li>
+                    <li>आप किसी भी अवैध, हानिकारक, धमकी देने वाली, अपमानजनक, उत्पीड़क, मानहानिकारक, अश्लील, या अन्यथा आपत्तिजनक सामग्री को अपलोड या प्रसारित नहीं करेंगे।</li>
+                    <li>आप सेवा के सामान्य संचालन में हस्तक्षेप नहीं करेंगे या इसे बाधित नहीं करेंगे।</li>
+                    <li>आप सेवा के किसी भी हिस्से को रिवर्स इंजीनियर, डिकंपाइल, या डिसअसेंबल नहीं करेंगे।</li>
+                </ul>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">2. उपयोगकर्ता सामग्री</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    हमारी सेवा आपको PDF फाइलों को अपलोड और संसाधित करने की अनुमति देती है। आप अपनी सामग्री के लिए पूरी तरह से जिम्मेदार हैं और आपके पास ऐसा करने का अधिकार होना चाहिए।
+                </p>
+                
+                <p class="text-gray-700 mb-4">
+                    SmileyPDF आपकी फाइलों को अपने सर्वर पर संग्रहीत नहीं करता है। सभी प्रसंस्करण आपके ब्राउज़र में क्लाइंट-साइड होता है। हालांकि, हम आपकी फाइलों की सुरक्षा या गोपनीयता की गारंटी नहीं दे सकते हैं, और आप अपने जोखिम पर हमारी सेवा का उपयोग करते हैं।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">3. बौद्धिक संपदा अधिकार</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    सेवा और इसकी सामग्री, विशेषताएं और कार्यक्षमता SmileyPDF की संपत्ति हैं और इसके लाइसेंसदाताओं द्वारा संरक्षित हैं। इन शर्तों में स्पष्ट रूप से प्रदान किए गए के अलावा, SmileyPDF आपको कोई अधिकार, शीर्षक या हित प्रदान नहीं करता है।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">4. अस्वीकरण</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    सेवा "जैसी है" और "जैसी उपलब्ध है" के आधार पर प्रदान की जाती है, बिना किसी प्रकार की वारंटी के, चाहे व्यक्त या निहित। SmileyPDF किसी विशेष उद्देश्य के लिए सेवा की उपयुक्तता, विश्वसनीयता, उपलब्धता, सटीकता या पूर्णता की गारंटी नहीं देता है।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">5. देयता की सीमा</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    किसी भी स्थिति में SmileyPDF, इसके निदेशक, अधिकारी, कर्मचारी, एजेंट, या लाइसेंसदाता आपके द्वारा सेवा के उपयोग या उपयोग करने में असमर्थता से उत्पन्न होने वाले किसी भी प्रत्यक्ष, अप्रत्यक्ष, आकस्मिक, विशेष, परिणामी या दंडात्मक क्षति के लिए उत्तरदायी नहीं होंगे।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">6. शर्तों में संशोधन</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    SmileyPDF इन शर्तों को किसी भी समय संशोधित करने का अधिकार सुरक्षित रखता है। संशोधित शर्तें वेबसाइट पर पोस्ट करने पर प्रभावी होंगी। संशोधनों के बाद सेवा का आपका निरंतर उपयोग संशोधित शर्तों की स्वीकृति का गठन करेगा।
+                </p>
+                
+                <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">7. संपर्क</h2>
+                
+                <p class="text-gray-700 mb-4">
+                    यदि आपके पास इन शर्तों के बारे में कोई प्रश्न है, तो कृपया हमसे <a href="contact.html" class="text-blue-600 hover:underline">संपर्क पृष्ठ</a> के माध्यम से संपर्क करें।
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-gray-800 text-gray-300 mt-12 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</p>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

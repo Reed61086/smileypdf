@@ -1,0 +1,1501 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मुफ्त ऑनलाइन PDF एडिटर - PDF टेक्स्ट, इमेज और अधिक संपादित करें | SmileyPDF</title>
+    <meta name="description" content="SmileyPDF के शक्तिशाली PDF एडिटर के साथ मुफ्त में ऑनलाइन PDF फाइलें संपादित करें। अपने PDF दस्तावेज़ों में टेक्स्ट, इमेज, हस्ताक्षर, हाइलाइट्स और एनोटेशन जोड़ें। कोई पंजीकरण आवश्यक नहीं।">
+    <meta name="keywords" content="PDF एडिटर, PDF संपादित करें, ऑनलाइन PDF एडिटर, मुफ्त PDF एडिटर, PDF में टेक्स्ट जोड़ें, PDF एनोटेशन, PDF हस्ताक्षर, PDF संशोधित करें, ऑनलाइन PDF एडिटर, बिना पंजीकरण PDF एडिटर">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="canonical" href="https://smileypdf.com/hi/pdf-editor.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-editor.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-editor.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smileypdf.com/hi/pdf-editor.html">
+    <meta property="og:title" content="मुफ्त ऑनलाइन PDF एडिटर - PDF टेक्स्ट, इमेज और अधिक संपादित करें | SmileyPDF">
+    <meta property="og:description" content="SmileyPDF के शक्तिशाली PDF एडिटर के साथ मुफ्त में ऑनलाइन PDF फाइलें संपादित करें। अपने PDF दस्तावेज़ों में टेक्स्ट, इमेज, हस्ताक्षर, हाइलाइट्स और एनोटेशन जोड़ें।">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/hi/pdf-editor.html">
+    <meta property="twitter:title" content="मुफ्त ऑनलाइन PDF एडिटर - PDF टेक्स्ट, इमेज और अधिक संपादित करें | SmileyPDF">
+    <meta property="twitter:description" content="SmileyPDF के शक्तिशाली PDF एडिटर के साथ मुफ्त में ऑनलाइन PDF फाइलें संपादित करें। अपने PDF दस्तावेज़ों में टेक्स्ट, इमेज, हस्ताक्षर, हाइलाइट्स और एनोटेशन जोड़ें।">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SmileyPDF PDF एडिटर",
+      "url": "https://smileypdf.com/hi/pdf-editor.html",
+      "description": "अपने PDF दस्तावेज़ों में टेक्स्ट, इमेज, हस्ताक्षर, हाइलाइट्स और एनोटेशन जोड़ने के लिए मुफ्त ऑनलाइन PDF एडिटर। कोई पंजीकरण आवश्यक नहीं।",
+      "applicationCategory": "DocumentManagement",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "SmileyPDF",
+        "url": "https://smileypdf.com"
+      }
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <!-- Google Fonts for Signature -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Brush+Script+MT&family=Dancing+Script&family=Lucida+Handwriting&family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <style>
+        /* Base styles */
+        body {
+             overflow-y: scroll; /* Ensure scrollbar is always present */
+        }
+         #pdf-render { border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); margin: 0 auto; position: relative; overflow: hidden; /* Prevents annotations going outside on zoom */ }
+         .canvas-container { position: relative; margin: 0 auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+
+        /* Annotation styles */
+         .annotation { position: absolute; cursor: move; /* Move cursor for dragging */ resize: both; /* Enable resize handles */ overflow: visible; min-width: 20px; min-height: 20px; border: 1px dashed transparent; z-index: 5; /* Above canvas, below panels */ transition: border-color 0.2s, background-color 0.2s; }
+         .annotation:hover { border-color: #4F46E5; /* Indigo 600 */ }
+         .annotation.selected { border: 1px solid #4F46E5; background-color: rgba(79, 70, 229, 0.1); }
+        /* Delete button on annotation hover */
+         .delete-btn { position: absolute; top: -10px; /* Adjust position */ right: -10px; width: 20px; /* Size */ height: 20px; background-color: #EF4444; /* Red 500 */ border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; cursor: pointer; z-index: 10; /* Above annotation */ opacity: 0; /* Hidden by default */ transition: opacity 0.2s; pointer-events: auto; /* Allow clicking */ }
+         .annotation:hover .delete-btn { opacity: 1; }
+         /* Resize handle (simple bottom-right) */
+         .annotation::after { content: ''; position: absolute; bottom: -5px; right: -5px; width: 10px; height: 10px; background: #4F46E5; border: 1px solid white; border-radius: 50%; cursor: nwse-resize; opacity: 0; transition: opacity 0.2s; z-index: 11; }
+         .annotation.selected::after { opacity: 1; } /* Show only when selected */
+         /* Text specific annotation style */
+         .editable-text { min-height: 20px; width: 100%; height: 100%; outline: none; padding: 2px 4px; /* Added padding */ cursor: text; box-sizing: border-box; /* Include padding/border in size */ overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; line-height: 1.2; font-size: inherit; /* Inherit from parent annotation properties */ font-family: inherit; }
+
+        /* Signature pad styles */
+         #signature-pad { border: 1px solid #e5e7eb; background-color: white; touch-action: none; /* Important for mobile drawing */ width: 100%; height: 150px; border-radius: 4px; }
+
+        /* Tool panel styles */
+         .tool-panel { position: absolute; /* Positioned relative to main content area */ left: 70px; /* Position next to toolbar */ top: 10px; /* Align with top tool */ background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 10px 15px; z-index: 100; width: 260px; /* Slightly wider */ display: none; } /* Hidden by default */
+         /* Style controls inside panels */
+         .tool-panel label { display: block; margin-bottom: 4px; font-size: 12px; color: #4b5563; font-weight: 500; }
+         .tool-panel input[type="number"], .tool-panel input[type="range"], .tool-panel select, .tool-panel input[type="text"] { width: 100%; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; }
+         .tool-panel button { padding: 6px 12px; border-radius: 4px; font-size: 13px; transition: background-color 0.2s; cursor: pointer; border: 1px solid transparent; } /* Added base border */
+         .color-grid { display: flex; flex-wrap: wrap; margin-bottom: 10px; }
+         .color-option { width: 25px; height: 25px; border-radius: 50%; cursor: pointer; margin: 3px; border: 2px solid transparent; transition: transform 0.1s, border-color 0.1s; }
+         .color-option.selected { border-color: #4F46E5; transform: scale(1.15); box-shadow: 0 0 0 2px white; }
+         .font-option { padding: 5px 10px; margin: 2px 0; cursor: pointer; border-radius: 4px; display: block; font-size: 14px; transition: background-color 0.2s; }
+         .font-option.selected, .font-option:hover { background-color: #E5E7EB; /* Gray 200 */ }
+         .font-option.selected { font-weight: bold; }
+        /* Style tool formatting buttons */
+         .format-button { padding: 0.3rem 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; background-color: white; }
+         .format-button.active { background-color: #dbeafe; border-color: #60a5fa; } /* Light blue bg, blue border */
+         .format-button:hover { background-color: #f3f4f6; }
+
+
+        /* Tooltip style */
+         .tooltip-text { position: absolute; left: 60px; top: 50%; transform: translateY(-50%); background-color: #333; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity 0.2s; pointer-events: none; white-space: nowrap; z-index: 1000; }
+         .group:hover .tooltip-text { opacity: 1; }
+
+        /* Signature/Image Specifics */
+         #signature-type-container { margin-top: 10px; }
+         #image-drop-zone { border: 2px dashed #ccc; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; margin-top: 10px; color: #6b7280; }
+         #image-drop-zone:hover, #image-drop-zone.border-blue-500 { border-color: #4F46E5; background-color: rgba(79, 70, 229, 0.05); }
+         #file-input, #image-input { display: none; }
+         #initials-text, #signature-text { width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; margin-top: 5px; display: none; /* Hidden initially */}
+         #signature-text { font-family: 'Brush Script MT', cursive; font-size: 24px;} /* Default font */
+         #initials-text { font-family: 'Brush Script MT', cursive; font-size: 32px; }
+         .active-tool { background-color: #4F46E5 !important; color: white !important; }
+
+
+        /* Responsive adjustments (optional) */
+         @media (max-width: 768px) {
+             .tool-panel { left: 10px; width: calc(100% - 20px); max-width: 300px; }
+             /* Further mobile adjustments if needed */
+         }
+    </style>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+<!-- Header -->
+<header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">हिंदी</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <a href="../pdf-editor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="pdf-editor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                </div>
+            </div>
+        </div>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+            <!-- Tools Dropdown -->
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                    टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100 transform"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75 transform"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF एडिटर</a>
+                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्ट</a>
+                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                     <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                 </div>
+             </div>
+             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+         </div>
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                  <span class="sr-only">मेनू खोलें</span>
+                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+              </button>
+         </div>
+    </nav>
+     <!-- Mobile Menu Panel -->
+     <div x-show="mobileMenuOpen"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         x-transition:enter="transition ease-out duration-200 transform origin-top"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="display: none;" x-cloak>
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3>
+            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 text-white bg-blue-700">PDF एडिटर</a>
+            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a>
+            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्ट</a>
+            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a>
+        </div>
+     </div>
+</header>
+
+    <!-- Introductory Text -->
+    <div class="container mx-auto px-6 pt-8 pb-4 text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">ऑनलाइन PDF एडिटर</h1>
+        <p class="text-gray-600">अपने PDF दस्तावेज़ों में आसानी से और मुफ्त में टेक्स्ट, इमेज, हस्ताक्षर और हाइलाइट जोड़ें। सभी प्रोसेसिंग आपके ब्राउज़र में सुरक्षित रूप से की जाती है।</p>
+    </div>
+
+    <!-- Main Editor Interface -->
+     <div class="flex h-[calc(100vh-180px)] md:h-[calc(100vh-128px)] overflow-hidden relative"> <!-- Adjust height, more reduction on smaller screens for intro text -->
+        <!-- Left Toolbar -->
+        <div class="w-16 bg-white shadow-md flex flex-col items-center py-4 space-y-6 flex-shrink-0 z-20"> <!-- Toolbar above panels -->
+            <!-- Upload PDF Button -->
+            <div class="group relative">
+                <button id="upload-btn" title="PDF अपलोड करें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <i class="fas fa-file-upload text-gray-700 text-lg"></i>
+                </button>
+                <span class="tooltip-text">PDF अपलोड करें</span>
+            </div>
+            <input type="file" id="file-input" accept=".pdf"> <!-- Moved outside the button's div -->
+            <!-- Tool Buttons -->
+             <div class="group relative"><button id="text-tool" title="टेक्स्ट जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-font text-gray-700 text-lg"></i></button><span class="tooltip-text">टेक्स्ट टूल</span></div>
+             <div class="group relative"><button id="signature-tool" title="हस्ताक्षर/प्रारंभिक जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-signature text-gray-700 text-lg"></i></button><span class="tooltip-text">हस्ताक्षर/प्रारंभिक</span></div>
+             <div class="group relative"><button id="image-tool" title="इमेज जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-image text-gray-700 text-lg"></i></button><span class="tooltip-text">इमेज टूल</span></div>
+             <div class="group relative"><button id="highlight-tool" title="क्षेत्र हाइलाइट करें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-highlighter text-gray-700 text-lg"></i></button><span class="tooltip-text">क्षेत्र हाइलाइट करें</span></div>
+            <!-- Save Button at bottom -->
+             <div class="group relative mt-auto"><button id="save-pdf" title="संपादित PDF सहेजें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-blue-600 hover:bg-blue-700 transition text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-save text-lg"></i></button><span class="tooltip-text">PDF सहेजें</span></div>
+        </div>
+
+        <!-- Main Content Area (includes viewer and tool panels relative to this) -->
+        <div class="flex-1 flex flex-col overflow-hidden relative">
+             <!-- Top Bar for page navigation/zoom -->
+             <div class="bg-white shadow-sm py-2 px-4 flex items-center justify-between border-b border-gray-200 flex-shrink-0">
+                 <h1 id="pdf-filename" class="text-base md:text-lg font-semibold text-gray-800 truncate max-w-[150px] md:max-w-xs" title="कोई PDF लोड नहीं">PDF एडिटर टूल</h1>
+                 <div class="flex items-center space-x-1 md:space-x-3">
+                     <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+                         <label for="page-select" class="text-gray-600 mr-1 text-xs md:text-sm hidden sm:inline">पृष्ठ:</label>
+                         <select id="page-select" class="border rounded px-1 md:px-2 py-0.5 md:py-1 text-xs md:text-sm" disabled>
+                             <option>N/A</option>
+                         </select>
+                         <span id="page-count" class="text-gray-500 text-xs md:text-sm ml-1"></span>
+                     </div>
+                     <button id="zoom-out" title="ज़ूम आउट" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-minus text-gray-600 text-sm md:text-base"></i></button>
+                     <span id="zoom-level" class="text-xs md:text-sm text-gray-700 w-10 text-center">100%</span>
+                     <button id="zoom-in" title="ज़ूम इन" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-plus text-gray-600 text-sm md:text-base"></i></button>
+                 </div>
+             </div>
+             <!-- PDF Viewer Area -->
+             <div class="flex-1 overflow-auto p-4 md:p-6 bg-gray-50 relative" id="pdf-viewer"> <!-- Relative for canvas container -->
+                <div id="pdf-container" class="relative mx-auto w-max"> <!-- Container for canvas and annotations -->
+                     <div id="pdf-render" class="canvas-container"> <!-- Add positioning for spinner -->
+                         <canvas id="pdf-canvas"></canvas>
+                         <!-- Spinner for loading/rendering -->
+                        <div id="loading-spinner" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50 hidden">
+                             <i class="fas fa-spinner fa-spin text-blue-600 text-4xl"></i>
+                        </div>
+                     </div>
+                     {/* Annotations will be appended here by JS */}
+                </div>
+             </div>
+
+            <!-- TOOL PANELS (Positioned Absolutely within Main Content) -->
+            <!-- Text Tool Panel -->
+            <div id="text-tool-panel" class="tool-panel">
+                <label class="mb-1">फ़ॉन्ट परिवार</label>
+                <div class="mb-2 font-options-container">
+                    <div class="font-option selected" style="font-family: Arial, sans-serif;" data-font="Arial, sans-serif">Arial</div>
+                    <div class="font-option" style="font-family: 'Times New Roman', Times, serif;" data-font="'Times New Roman', Times, serif">Times New Roman</div>
+                    <div class="font-option" style="font-family: 'Courier New', Courier, monospace;" data-font="'Courier New', Courier, monospace">Courier New</div>
+                    <div class="font-option" style="font-family: Verdana, sans-serif;" data-font="Verdana, sans-serif">Verdana</div>
+                    <div class="font-option" style="font-family: Georgia, serif;" data-font="Georgia, serif">Georgia</div>
+                    <div class="font-option" style="font-family: 'Comic Sans MS', cursive, sans-serif;" data-font="'Comic Sans MS', cursive, sans-serif">Comic Sans</div>
+                </div>
+                 <div class="grid grid-cols-2 gap-x-4 items-center mb-2">
+                    <div>
+                        <label for="text-size" class="mb-1">साइज़</label>
+                        <input type="number" id="text-size" value="14" min="8" max="96" step="2" class="w-full">
+                    </div>
+                    <div class="flex space-x-1 mt-4">
+                         <button id="bold-text" title="बोल्ड" class="format-button"><i class="fas fa-bold"></i></button>
+                         <button id="italic-text" title="इटैलिक" class="format-button"><i class="fas fa-italic"></i></button>
+                         <button id="underline-text" title="अंडरलाइन" class="format-button"><i class="fas fa-underline"></i></button>
+                    </div>
+                </div>
+                <label class="mb-1">रंग</label>
+                <div class="color-grid">
+                    <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setCurrentTextProperty('color', 'black')"></div>
+                    <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setCurrentTextProperty('color', 'red')"></div>
+                    <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setCurrentTextProperty('color', 'blue')"></div>
+                    <div class="color-option" style="background-color: #10B981;" data-color="green" title="हरा" onclick="setCurrentTextProperty('color', 'green')"></div>
+                    <div class="color-option" style="background-color: #8B5CF6;" data-color="purple" title="बैंगनी" onclick="setCurrentTextProperty('color', 'purple')"></div>
+                    <div class="color-option" style="background-color: #F59E0B;" data-color="orange" title="नारंगी" onclick="setCurrentTextProperty('color', 'orange')"></div>
+                    <div class="color-option" style="background-color: #6B7280;" data-color="gray" title="ग्रे" onclick="setCurrentTextProperty('color', 'gray')"></div>
+                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc" data-color="white" title="सफ़ेद" onclick="setCurrentTextProperty('color', 'white')"></div>
+                </div>
+            </div>
+
+            <!-- Signature Tool Panel -->
+            <div id="signature-tool-panel" class="tool-panel">
+                 <div class="flex space-x-2 mb-3">
+                     <button id="draw-signature" class="flex-1 bg-blue-600 text-white py-1" title="हस्ताक्षर बनाएं">बनाएं</button>
+                     <button id="type-signature" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="हस्ताक्षर टाइप करें">टाइप करें</button>
+                     <button id="initials-btn" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="प्रारंभिक टाइप करें">प्रारंभिक</button>
+                 </div>
+
+                <!-- Drawing Section -->
+                <div id="signature-draw-container">
+                     <canvas id="signature-pad"></canvas>
+                     <label class="mt-2 mb-1">पेन का रंग</label>
+                     <div class="color-grid mb-2">
+                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setSignaturePenColor('black')"></div>
+                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setSignaturePenColor('blue')"></div>
+                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setSignaturePenColor('red')"></div>
+                     </div>
+                     <label class="mb-1">पेन की मोटाई</label>
+                     <input type="range" id="signature-thickness" min="1" max="5" value="2" class="w-full">
+                </div>
+
+                <!-- Type Signature Section -->
+                <div id="signature-type-container" class="hidden">
+                    <input type="text" id="signature-text" placeholder="अपना हस्ताक्षर यहां टाइप करें" class="mb-2">
+                    <input type="text" id="initials-text" placeholder="अपने प्रारंभिक अक्षर यहां टाइप करें" class="mb-2 hidden">
+                    <label class="mb-1">फ़ॉन्ट स्टाइल</label>
+                    <select id="signature-font" class="w-full mb-2">
+                        <option style="font-family: 'Dancing Script', cursive;" value="'Dancing Script', cursive">Dancing Script</option>
+                        <option style="font-family: 'Pacifico', cursive;" value="'Pacifico', cursive">Pacifico</option>
+                        <option style="font-family: 'Brush Script MT', cursive;" value="'Brush Script MT', cursive">Brush Script</option>
+                        <option style="font-family: 'Lucida Handwriting', cursive;" value="'Lucida Handwriting', cursive">Lucida Handwriting</option>
+                        <option style="font-family: 'Arial', sans-serif;" value="Arial, sans-serif">Arial</option>
+                    </select>
+                     <label class="mb-1">टेक्स्ट का रंग</label>
+                    <div class="color-grid mb-2">
+                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setTypedSignatureColor('black')"></div>
+                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setTypedSignatureColor('blue')"></div>
+                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setTypedSignatureColor('red')"></div>
+                    </div>
+                 </div>
+                <div class="flex justify-between mt-2">
+                    <button id="clear-signature" class="bg-gray-200 hover:bg-gray-300 text-gray-700" title="साफ़ करें">साफ़ करें</button>
+                    <button id="save-signature" class="bg-blue-600 hover:bg-blue-700 text-white" title="PDF में जोड़ें">जोड़ें</button>
+                </div>
+            </div>
+
+             <!-- Image Tool Panel -->
+            <div id="image-tool-panel" class="tool-panel">
+                 <div id="image-drop-zone">
+                    <i class="fas fa-cloud-upload-alt text-3xl mb-2 text-gray-400"></i>
+                     <p>इमेज खींचें और छोड़ें या <button id="browse-images" class="text-blue-600 hover:underline focus:outline-none">ब्राउज़ करें</button></p>
+                    <input type="file" id="image-input" accept="image/png, image/jpeg, image/gif, image/webp">
+                 </div>
+                 <p class="text-xs text-gray-500 mt-1 text-center">PNG, JPG, GIF, WEBP समर्थित हैं</p>
+            </div>
+
+            <!-- Highlight Tool Panel -->
+            <div id="highlight-tool-panel" class="tool-panel">
+                <label class="mb-1">हाइलाइट का रंग</label>
+                <div class="color-grid">
+                    <div class="color-option selected" style="background-color: rgba(255, 255, 0, 0.5);" data-color="yellow" title="पीला" onclick="setHighlightProperty('color', 'yellow')"></div>
+                    <div class="color-option" style="background-color: rgba(0, 255, 0, 0.3);" data-color="green" title="हरा" onclick="setHighlightProperty('color', 'green')"></div>
+                    <div class="color-option" style="background-color: rgba(0, 255, 255, 0.3);" data-color="cyan" title="सियान" onclick="setHighlightProperty('color', 'cyan')"></div>
+                    <div class="color-option" style="background-color: rgba(255, 153, 204, 0.5);" data-color="pink" title="गुलाबी" onclick="setHighlightProperty('color', 'pink')"></div>
+                </div>
+                <label class="mt-3 mb-1">पारदर्शिता</label>
+                <input type="range" id="highlight-opacity" min="10" max="80" value="50" class="w-full">
+            </div>
+        </div>
+    </div>
+
+    <!-- No PDF Loaded Message -->
+    <div id="no-pdf-message" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50">
+        <div class="text-center p-8 max-w-md">
+            <div class="text-6xl text-blue-500 mb-4">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">कोई PDF लोड नहीं की गई</h2>
+            <p class="text-gray-600 mb-6">शुरू करने के लिए एक PDF फाइल अपलोड करें। आप अपने दस्तावेज़ में टेक्स्ट, इमेज, हस्ताक्षर और हाइलाइट जोड़ सकते हैं।</p>
+            <button id="upload-pdf-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                <i class="fas fa-upload mr-2"></i> PDF अपलोड करें
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+            <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
+            <p id="loading-message" class="text-gray-700">प्रोसेस कर रहा है...</p>
+        </div>
+    </div>
+
+    <script>
+        // Set PDF.js worker path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Global variables
+        let pdfDoc = null;
+        let pdfFile = null;
+        let pdfFilename = '';
+        let currentPage = 1;
+        let totalPages = 0;
+        let scale = 1.0;
+        let canvas = document.getElementById('pdf-canvas');
+        let ctx = canvas.getContext('2d');
+        let currentTool = null;
+        let annotations = [];
+        let selectedAnnotation = null;
+        let nextAnnotationId = 1;
+        let signaturePad = null;
+        let signaturePenColor = 'black';
+        let typedSignatureColor = 'black';
+        let currentTextProperties = {
+            fontFamily: 'Arial, sans-serif',
+            fontSize: 14,
+            color: 'black',
+            bold: false,
+            italic: false,
+            underline: false
+        };
+        let currentHighlightProperties = {
+            color: 'yellow',
+            opacity: 0.5
+        };
+        let pageDimensions = [];
+
+        // Color mappings
+        const COLOR_MAP = {
+            black: '#000000',
+            red: '#EF4444',
+            blue: '#3B82F6',
+            green: '#10B981',
+            purple: '#8B5CF6',
+            orange: '#F59E0B',
+            gray: '#6B7280',
+            white: '#FFFFFF'
+        };
+
+        const HIGHLIGHT_COLOR_MAP = {
+            yellow: 'rgba(255, 255, 0, ##OPACITY##)',
+            green: 'rgba(0, 255, 0, ##OPACITY##)',
+            cyan: 'rgba(0, 255, 255, ##OPACITY##)',
+            pink: 'rgba(255, 153, 204, ##OPACITY##)'
+        };
+
+        // Default properties
+        const DEFAULT_TEXT_PROPS = {
+            fontFamily: 'Arial, sans-serif',
+            fontSize: 14,
+            color: 'black',
+            bold: false,
+            italic: false,
+            underline: false
+        };
+
+        const DEFAULT_HIGHLIGHT_PROPS = {
+            color: 'yellow',
+            opacity: 0.5
+        };
+
+        // DOM Elements
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileInput = document.getElementById('file-input');
+        const uploadPdfBtn = document.getElementById('upload-pdf-btn');
+        const noPdfMessage = document.getElementById('no-pdf-message');
+        const pdfFilenameEl = document.getElementById('pdf-filename');
+        const pageSelect = document.getElementById('page-select');
+        const pageCount = document.getElementById('page-count');
+        const zoomIn = document.getElementById('zoom-in');
+        const zoomOut = document.getElementById('zoom-out');
+        const zoomLevel = document.getElementById('zoom-level');
+        const pdfContainer = document.getElementById('pdf-container');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const loadingMessage = document.getElementById('loading-message');
+        const savePdfBtn = document.getElementById('save-pdf');
+
+        // Tool buttons
+        const textTool = document.getElementById('text-tool');
+        const signatureTool = document.getElementById('signature-tool');
+        const imageTool = document.getElementById('image-tool');
+        const highlightTool = document.getElementById('highlight-tool');
+
+        // Tool panels
+        const textToolPanel = document.getElementById('text-tool-panel');
+        const signatureToolPanel = document.getElementById('signature-tool-panel');
+        const imageToolPanel = document.getElementById('image-tool-panel');
+        const highlightToolPanel = document.getElementById('highlight-tool-panel');
+
+        // Text tool elements
+        const textSize = document.getElementById('text-size');
+        const boldText = document.getElementById('bold-text');
+        const italicText = document.getElementById('italic-text');
+        const underlineText = document.getElementById('underline-text');
+
+        // Signature tool elements
+        const drawSignature = document.getElementById('draw-signature');
+        const typeSignature = document.getElementById('type-signature');
+        const initialsBtn = document.getElementById('initials-btn');
+        const signatureDrawContainer = document.getElementById('signature-draw-container');
+        const signatureTypeContainer = document.getElementById('signature-type-container');
+        const signatureThickness = document.getElementById('signature-thickness');
+        const signatureText = document.getElementById('signature-text');
+        const initialsText = document.getElementById('initials-text');
+        const signatureFont = document.getElementById('signature-font');
+        const clearSignature = document.getElementById('clear-signature');
+        const saveSignature = document.getElementById('save-signature');
+
+        // Image tool elements
+        const imageDropZone = document.getElementById('image-drop-zone');
+        const browseImages = document.getElementById('browse-images');
+        const imageInput = document.getElementById('image-input');
+
+        // Highlight tool elements
+        const highlightOpacity = document.getElementById('highlight-opacity');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize signature pad
+            const signaturePadCanvas = document.getElementById('signature-pad');
+            signaturePad = new SignaturePad(signaturePadCanvas, {
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                penColor: signaturePenColor,
+                velocityFilterWeight: 0.7
+            });
+
+            // Setup event listeners
+            setupEventListeners();
+
+            // Set current year in footer if exists
+            const currentYearEl = document.getElementById('current-year');
+            if (currentYearEl) {
+                currentYearEl.textContent = new Date().getFullYear();
+            }
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // PDF upload
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            uploadPdfBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
+
+            // Page navigation
+            pageSelect.addEventListener('change', () => {
+                currentPage = parseInt(pageSelect.value);
+                renderPage(currentPage);
+            });
+
+            // Zoom controls
+            zoomIn.addEventListener('click', () => {
+                if (scale < 3.0) {
+                    scale += 0.1;
+                    updateZoomLevel();
+                    renderPage(currentPage);
+                }
+            });
+
+            zoomOut.addEventListener('click', () => {
+                if (scale > 0.5) {
+                    scale -= 0.1;
+                    updateZoomLevel();
+                    renderPage(currentPage);
+                }
+            });
+
+            // Tool selection
+            textTool.addEventListener('click', () => activateTool('text'));
+            signatureTool.addEventListener('click', () => activateTool('signature'));
+            imageTool.addEventListener('click', () => activateTool('image'));
+            highlightTool.addEventListener('click', () => activateTool('highlight'));
+
+            // Text tool controls
+            textSize.addEventListener('change', () => {
+                setCurrentTextProperty('fontSize', parseInt(textSize.value));
+            });
+
+            boldText.addEventListener('click', () => {
+                const newValue = !currentTextProperties.bold;
+                setCurrentTextProperty('bold', newValue);
+                boldText.classList.toggle('active', newValue);
+            });
+
+            italicText.addEventListener('click', () => {
+                const newValue = !currentTextProperties.italic;
+                setCurrentTextProperty('italic', newValue);
+                italicText.classList.toggle('active', newValue);
+            });
+
+            underlineText.addEventListener('click', () => {
+                const newValue = !currentTextProperties.underline;
+                setCurrentTextProperty('underline', newValue);
+                underlineText.classList.toggle('active', newValue);
+            });
+
+            // Font family selection
+            document.querySelectorAll('.font-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.font-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    setCurrentTextProperty('fontFamily', option.dataset.font);
+                });
+            });
+
+            // Signature tool controls
+            drawSignature.addEventListener('click', () => {
+                drawSignature.classList.add('bg-blue-600', 'text-white');
+                drawSignature.classList.remove('bg-gray-100');
+                typeSignature.classList.remove('bg-blue-600', 'text-white');
+                typeSignature.classList.add('bg-gray-100');
+                initialsBtn.classList.remove('bg-blue-600', 'text-white');
+                initialsBtn.classList.add('bg-gray-100');
+                signatureDrawContainer.classList.remove('hidden');
+                signatureTypeContainer.classList.add('hidden');
+                signatureText.classList.add('hidden');
+                initialsText.classList.add('hidden');
+            });
+
+            typeSignature.addEventListener('click', () => {
+                typeSignature.classList.add('bg-blue-600', 'text-white');
+                typeSignature.classList.remove('bg-gray-100');
+                drawSignature.classList.remove('bg-blue-600', 'text-white');
+                drawSignature.classList.add('bg-gray-100');
+                initialsBtn.classList.remove('bg-blue-600', 'text-white');
+                initialsBtn.classList.add('bg-gray-100');
+                signatureDrawContainer.classList.add('hidden');
+                signatureTypeContainer.classList.remove('hidden');
+                signatureText.classList.remove('hidden');
+                initialsText.classList.add('hidden');
+            });
+
+            initialsBtn.addEventListener('click', () => {
+                initialsBtn.classList.add('bg-blue-600', 'text-white');
+                initialsBtn.classList.remove('bg-gray-100');
+                drawSignature.classList.remove('bg-blue-600', 'text-white');
+                drawSignature.classList.add('bg-gray-100');
+                typeSignature.classList.remove('bg-blue-600', 'text-white');
+                typeSignature.classList.add('bg-gray-100');
+                signatureDrawContainer.classList.add('hidden');
+                signatureTypeContainer.classList.remove('hidden');
+                signatureText.classList.add('hidden');
+                initialsText.classList.remove('hidden');
+            });
+
+            signatureThickness.addEventListener('input', () => {
+                signaturePad.minWidth = signatureThickness.value;
+                signaturePad.maxWidth = signatureThickness.value * 2;
+            });
+
+            clearSignature.addEventListener('click', () => {
+                signaturePad.clear();
+                signatureText.value = '';
+                initialsText.value = '';
+            });
+
+            saveSignature.addEventListener('click', addSignatureToDocument);
+
+            // Image tool controls
+            imageDropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                imageDropZone.classList.add('border-blue-500');
+            });
+
+            imageDropZone.addEventListener('dragleave', () => {
+                imageDropZone.classList.remove('border-blue-500');
+            });
+
+            imageDropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                imageDropZone.classList.remove('border-blue-500');
+                if (e.dataTransfer.files.length > 0) {
+                    handleImageSelect(e.dataTransfer.files[0]);
+                }
+            });
+
+            browseImages.addEventListener('click', () => imageInput.click());
+            imageInput.addEventListener('change', () => {
+                if (imageInput.files.length > 0) {
+                    handleImageSelect(imageInput.files[0]);
+                }
+            });
+
+            // Highlight tool controls
+            highlightOpacity.addEventListener('input', () => {
+                setHighlightProperty('opacity', highlightOpacity.value / 100);
+            });
+
+            // Save PDF
+            savePdfBtn.addEventListener('click', savePDF);
+
+            // Canvas click for adding annotations
+            pdfContainer.addEventListener('click', handleCanvasClick);
+
+            // Document click for deselecting annotations
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.annotation') && !e.target.closest('.tool-panel')) {
+                    deselectAllAnnotations();
+                }
+            });
+        }
+
+        // Handle file selection
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.type !== 'application/pdf') {
+                alert('कृपया एक वैध PDF फाइल चुनें।');
+                return;
+            }
+
+            pdfFile = file;
+            pdfFilename = file.name;
+            loadPDF(file);
+        }
+
+        // Load PDF file
+        function loadPDF(file) {
+            showLoadingOverlay('फाइल लोड कर रहा है...');
+
+            const fileReader = new FileReader();
+            fileReader.onload = function() {
+                const typedarray = new Uint8Array(this.result);
+
+                // Load PDF using PDF.js
+                pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    totalPages = pdf.numPages;
+
+                    // Update UI
+                    pdfFilenameEl.textContent = pdfFilename;
+                    pdfFilenameEl.title = pdfFilename;
+                    pageCount.textContent = `/ ${totalPages}`;
+
+                    // Populate page select dropdown
+                    pageSelect.innerHTML = '';
+                    for (let i = 1; i <= totalPages; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = i;
+                        pageSelect.appendChild(option);
+                    }
+
+                    // Enable controls
+                    pageSelect.disabled = false;
+                    zoomIn.disabled = false;
+                    zoomOut.disabled = false;
+                    savePdfBtn.disabled = false;
+
+                    // Hide no PDF message
+                    noPdfMessage.classList.add('hidden');
+
+                    // Store page dimensions for later use
+                    pageDimensions = [];
+
+                    // Render first page
+                    currentPage = 1;
+                    renderPage(currentPage);
+
+                    // Hide loading overlay
+                    hideLoadingOverlay();
+                }).catch(function(error) {
+                    console.error('Error loading PDF:', error);
+                    alert('फाइल लोड करने में त्रुटि: ' + error.message);
+                    hideLoadingOverlay();
+                });
+            };
+
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        // Render a specific page
+        function renderPage(pageNumber) {
+            if (!pdfDoc) return;
+
+            loadingSpinner.classList.remove('hidden');
+
+            // Update page select
+            pageSelect.value = pageNumber;
+
+            // Get the page
+            pdfDoc.getPage(pageNumber).then(function(page) {
+                // Calculate scale to fit the viewport
+                const viewport = page.getViewport({ scale: scale });
+
+                // Set canvas dimensions
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                // Store page dimensions if not already stored
+                if (pageDimensions.length < pageNumber) {
+                    const unscaledViewport = page.getViewport({ scale: 1.0 });
+                    pageDimensions.push({
+                        width: unscaledViewport.width,
+                        height: unscaledViewport.height
+                    });
+                }
+
+                // Render PDF page
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+
+                page.render(renderContext).promise.then(function() {
+                    // Hide loading spinner
+                    loadingSpinner.classList.add('hidden');
+
+                    // Render annotations for this page
+                    renderAnnotations(pageNumber);
+                }).catch(function(error) {
+                    console.error('Error rendering page:', error);
+                    loadingSpinner.classList.add('hidden');
+                });
+            }).catch(function(error) {
+                console.error('Error getting page:', error);
+                loadingSpinner.classList.add('hidden');
+            });
+        }
+
+        // Update zoom level display
+        function updateZoomLevel() {
+            zoomLevel.textContent = `${Math.round(scale * 100)}%`;
+        }
+
+        // Activate a tool
+        function activateTool(tool) {
+            // Deactivate all tools
+            textTool.classList.remove('active-tool');
+            signatureTool.classList.remove('active-tool');
+            imageTool.classList.remove('active-tool');
+            highlightTool.classList.remove('active-tool');
+
+            // Hide all tool panels
+            textToolPanel.style.display = 'none';
+            signatureToolPanel.style.display = 'none';
+            imageToolPanel.style.display = 'none';
+            highlightToolPanel.style.display = 'none';
+
+            // Activate selected tool
+            currentTool = tool;
+
+            switch (tool) {
+                case 'text':
+                    textTool.classList.add('active-tool');
+                    textToolPanel.style.display = 'block';
+                    break;
+                case 'signature':
+                    signatureTool.classList.add('active-tool');
+                    signatureToolPanel.style.display = 'block';
+                    break;
+                case 'image':
+                    imageTool.classList.add('active-tool');
+                    imageToolPanel.style.display = 'block';
+                    break;
+                case 'highlight':
+                    highlightTool.classList.add('active-tool');
+                    highlightToolPanel.style.display = 'block';
+                    break;
+                default:
+                    currentTool = null;
+            }
+        }
+
+        // Handle canvas click for adding annotations
+        function handleCanvasClick(e) {
+            if (!currentTool || !pdfDoc) return;
+
+            // Get click coordinates relative to the canvas
+            const rect = pdfContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Create annotation based on current tool
+            switch (currentTool) {
+                case 'text':
+                    addTextAnnotation(x, y);
+                    break;
+                case 'highlight':
+                    addHighlightAnnotation(x, y);
+                    break;
+                // Signature and image are handled by their respective functions
+            }
+        }
+
+        // Add text annotation
+        function addTextAnnotation(x, y) {
+            const annotation = createAnnotation('text', x, y, 200, 'auto');
+            annotation.content = 'यहां टेक्स्ट टाइप करें';
+            annotation.properties = { ...currentTextProperties };
+
+            const textElement = document.createElement('div');
+            textElement.className = 'editable-text';
+            textElement.contentEditable = true;
+            textElement.textContent = annotation.content;
+
+            // Apply text properties
+            applyTextProperties(textElement, annotation.properties);
+
+            // Add text element to annotation
+            annotation.element.appendChild(textElement);
+
+            // Add event listener for text changes
+            textElement.addEventListener('input', () => {
+                annotation.content = textElement.textContent;
+            });
+
+            // Add annotation to the document
+            addAnnotationToDocument(annotation);
+
+            // Select the annotation
+            selectAnnotation(annotation);
+
+            // Focus the text element
+            textElement.focus();
+        }
+
+        // Add highlight annotation
+        function addHighlightAnnotation(x, y) {
+            const annotation = createAnnotation('highlight', x, y, 200, 100);
+            annotation.properties = { ...currentHighlightProperties };
+
+            // Apply highlight properties
+            applyHighlightProperties(annotation.element, annotation.properties);
+
+            // Add annotation to the document
+            addAnnotationToDocument(annotation);
+
+            // Select the annotation
+            selectAnnotation(annotation);
+        }
+
+        // Add signature to document
+        function addSignatureToDocument() {
+            if (!pdfDoc) {
+                alert('कृपया पहले एक PDF फाइल लोड करें।');
+                return;
+            }
+
+            let signatureImage;
+
+            if (!signatureTypeContainer.classList.contains('hidden')) {
+                // Get typed signature
+                const text = signatureText.classList.contains('hidden') ? initialsText.value : signatureText.value;
+
+                if (!text.trim()) {
+                    alert('कृपया पहले एक हस्ताक्षर या प्रारंभिक अक्षर टाइप करें।');
+                    return;
+                }
+
+                // Create a canvas to render the text
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // Set canvas size
+                canvas.width = 400;
+                canvas.height = 150;
+
+                // Clear canvas
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Set font properties
+                const fontSize = signatureText.classList.contains('hidden') ? 48 : 36;
+                ctx.font = `${fontSize}px ${signatureFont.value}`;
+                ctx.fillStyle = COLOR_MAP[typedSignatureColor] || '#000000';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                // Draw text
+                ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+                // Get image data
+                signatureImage = canvas.toDataURL('image/png');
+            } else {
+                // Get drawn signature
+                if (signaturePad.isEmpty()) {
+                    alert('कृपया पहले एक हस्ताक्षर बनाएं।');
+                    return;
+                }
+
+                signatureImage = signaturePad.toDataURL('image/png');
+            }
+
+            // Create signature annotation
+            const annotation = createAnnotation('signature', 100, 100, 200, 100);
+            annotation.content = signatureImage;
+
+            // Create image element
+            const img = document.createElement('img');
+            img.src = signatureImage;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.pointerEvents = 'none';
+
+            // Add image to annotation
+            annotation.element.appendChild(img);
+
+            // Add annotation to document
+            addAnnotationToDocument(annotation);
+
+            // Select the annotation
+            selectAnnotation(annotation);
+
+            // Hide signature panel
+            signatureToolPanel.style.display = 'none';
+            signatureTool.classList.remove('active-tool');
+            currentTool = null;
+        }
+
+        // Handle image selection
+        function handleImageSelect(file) {
+            if (!pdfDoc) {
+                alert('कृपया पहले एक PDF फाइल लोड करें।');
+                return;
+            }
+
+            if (!file.type.match('image.*')) {
+                alert('कृपया एक वैध इमेज फाइल चुनें।');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Create image annotation
+                    const annotation = createAnnotation('image', 100, 100, 200, (200 * img.height) / img.width);
+                    annotation.content = e.target.result;
+
+                    // Create image element
+                    const imgElement = document.createElement('img');
+                    imgElement.src = e.target.result;
+                    imgElement.style.width = '100%';
+                    imgElement.style.height = '100%';
+                    imgElement.style.pointerEvents = 'none';
+
+                    // Add image to annotation
+                    annotation.element.appendChild(imgElement);
+
+                    // Add annotation to document
+                    addAnnotationToDocument(annotation);
+
+                    // Select the annotation
+                    selectAnnotation(annotation);
+
+                    // Hide image panel
+                    imageToolPanel.style.display = 'none';
+                    imageTool.classList.remove('active-tool');
+                    currentTool = null;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Create annotation object and element
+        function createAnnotation(type, x, y, width, height) {
+            const id = nextAnnotationId++;
+
+            // Create annotation element
+            const element = document.createElement('div');
+            element.className = 'annotation';
+            element.dataset.id = id;
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+            element.style.width = `${width}px`;
+            element.style.height = height === 'auto' ? 'auto' : `${height}px`;
+
+            // Add delete button
+            const deleteBtn = document.createElement('div');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                removeAnnotation(id);
+            });
+            element.appendChild(deleteBtn);
+
+            // Make annotation draggable
+            element.addEventListener('mousedown', startDrag);
+
+            // Select annotation on click
+            element.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectAnnotation({ id, element });
+            });
+
+            // Create annotation object
+            const annotation = {
+                id,
+                type,
+                page: currentPage,
+                x,
+                y,
+                width,
+                height,
+                content: '',
+                properties: {},
+                element
+            };
+
+            return annotation;
+        }
+
+        // Add annotation to document
+        function addAnnotationToDocument(annotation) {
+            // Add to annotations array
+            annotations.push(annotation);
+
+            // Add to DOM
+            pdfContainer.appendChild(annotation.element);
+        }
+
+        // Remove annotation
+        function removeAnnotation(id) {
+            const index = annotations.findIndex(a => a.id === id);
+            if (index !== -1) {
+                const annotation = annotations[index];
+
+                // Remove from DOM
+                if (annotation.element && annotation.element.parentNode) {
+                    annotation.element.parentNode.removeChild(annotation.element);
+                }
+
+                // Remove from array
+                annotations.splice(index, 1);
+            }
+        }
+
+        // Render annotations for a specific page
+        function renderAnnotations(pageNumber) {
+            // Clear existing annotations from DOM
+            const existingAnnotations = pdfContainer.querySelectorAll('.annotation');
+            existingAnnotations.forEach(el => el.remove());
+
+            // Render annotations for current page
+            annotations.filter(a => a.page === pageNumber).forEach(annotation => {
+                pdfContainer.appendChild(annotation.element);
+            });
+        }
+
+        // Select annotation
+        function selectAnnotation(annotation) {
+            // Deselect all annotations
+            deselectAllAnnotations();
+
+            // Select this annotation
+            selectedAnnotation = annotation;
+            annotation.element.classList.add('selected');
+        }
+
+        // Deselect all annotations
+        function deselectAllAnnotations() {
+            selectedAnnotation = null;
+            document.querySelectorAll('.annotation').forEach(el => {
+                el.classList.remove('selected');
+            });
+        }
+
+        // Start dragging annotation
+        function startDrag(e) {
+            if (e.target !== this && !e.target.classList.contains('annotation')) return;
+
+            e.preventDefault();
+
+            // Get annotation ID
+            const id = parseInt(this.dataset.id);
+
+            // Find annotation
+            const annotation = annotations.find(a => a.id === id);
+            if (!annotation) return;
+
+            // Select annotation
+            selectAnnotation(annotation);
+
+            // Get initial mouse position
+            const startX = e.clientX;
+            const startY = e.clientY;
+
+            // Get initial annotation position
+            const startLeft = parseInt(this.style.left) || 0;
+            const startTop = parseInt(this.style.top) || 0;
+
+            // Add move and up event listeners
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+
+            // Drag function
+            function drag(e) {
+                // Calculate new position
+                const newLeft = startLeft + (e.clientX - startX);
+                const newTop = startTop + (e.clientY - startY);
+
+                // Update element position
+                annotation.element.style.left = `${newLeft}px`;
+                annotation.element.style.top = `${newTop}px`;
+
+                // Update annotation data
+                annotation.x = newLeft;
+                annotation.y = newTop;
+            }
+
+            // Stop drag function
+            function stopDrag() {
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+        }
+
+        // Apply text properties to element
+        function applyTextProperties(element, props) {
+            element.style.fontFamily = props.fontFamily || 'Arial, sans-serif';
+            element.style.fontSize = `${props.fontSize || 14}px`;
+            element.style.color = COLOR_MAP[props.color] || COLOR_MAP.black;
+            element.style.fontWeight = props.bold ? 'bold' : 'normal';
+            element.style.fontStyle = props.italic ? 'italic' : 'normal';
+            element.style.textDecoration = props.underline ? 'underline' : 'none';
+        }
+
+        // Apply highlight properties to element
+        function applyHighlightProperties(element, props) {
+            const color = props.color || 'yellow';
+            const opacity = props.opacity || 0.5;
+            element.style.backgroundColor = HIGHLIGHT_COLOR_MAP[color]?.replace('##OPACITY##', opacity) || 'rgba(255, 255, 0, 0.5)';
+        }
+
+        // Set current text property
+        function setCurrentTextProperty(property, value) {
+            currentTextProperties[property] = value;
+
+            // Update selected annotation if it's a text annotation
+            if (selectedAnnotation && selectedAnnotation.type === 'text') {
+                selectedAnnotation.properties[property] = value;
+                const textElement = selectedAnnotation.element.querySelector('.editable-text');
+                if (textElement) {
+                    applyTextProperties(textElement, selectedAnnotation.properties);
+                }
+            }
+        }
+
+        // Set highlight property
+        function setHighlightProperty(property, value) {
+            currentHighlightProperties[property] = value;
+
+            // Update selected annotation if it's a highlight annotation
+            if (selectedAnnotation && selectedAnnotation.type === 'highlight') {
+                selectedAnnotation.properties[property] = value;
+                applyHighlightProperties(selectedAnnotation.element, selectedAnnotation.properties);
+            }
+        }
+
+        // Set signature pen color
+        function setSignaturePenColor(color) {
+            signaturePenColor = color;
+            signaturePad.penColor = COLOR_MAP[color] || COLOR_MAP.black;
+
+            // Update color options
+            document.querySelectorAll('#signature-draw-container .color-option').forEach(option => {
+                option.classList.toggle('selected', option.dataset.color === color);
+            });
+        }
+
+        // Set typed signature color
+        function setTypedSignatureColor(color) {
+            typedSignatureColor = color;
+
+            // Update color options
+            document.querySelectorAll('#signature-type-container .color-option').forEach(option => {
+                option.classList.toggle('selected', option.dataset.color === color);
+            });
+        }
+
+        // Show loading overlay
+        function showLoadingOverlay(message) {
+            loadingMessage.textContent = message || 'प्रोसेस कर रहा है...';
+            loadingOverlay.classList.remove('hidden');
+        }
+
+        // Hide loading overlay
+        function hideLoadingOverlay() {
+            loadingOverlay.classList.add('hidden');
+        }
+
+        // Save PDF with annotations
+        async function savePDF() {
+            if (!pdfDoc) {
+                alert('कृपया पहले एक PDF फाइल लोड करें।');
+                return;
+            }
+
+            // Disable save button
+            savePdfBtn.disabled = true;
+            savePdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-lg"></i>';
+
+            // Show loading overlay
+            showLoadingOverlay('PDF सहेज रहा है...');
+
+            try {
+                // Ensure we have dimensions for all pages
+                if (pageDimensions.length < totalPages) {
+                    showLoadingOverlay('पृष्ठ आयाम प्राप्त कर रहा है...');
+
+                    // Get dimensions for all pages
+                    for (let i = 1; i <= totalPages; i++) {
+                        if (pageDimensions.length < i) {
+                            const page = await pdfDoc.getPage(i);
+                            const unscaledViewport = page.getViewport({ scale: 1.0 });
+                            pageDimensions.push({
+                                width: unscaledViewport.width,
+                                height: unscaledViewport.height
+                            });
+                        }
+                    }
+                }
+
+                // Create a new jsPDF instance
+                const { jsPDF } = window.jspdf;
+
+                // Get first page dimensions to initialize the PDF
+                const firstPageDims = pageDimensions[0];
+                if (!firstPageDims || typeof firstPageDims.width === 'undefined' || typeof firstPageDims.height === 'undefined') {
+                    throw new Error('पृष्ठ आयाम उपलब्ध नहीं हैं');
+                }
+
+                const orientation = firstPageDims.width > firstPageDims.height ? 'landscape' : 'portrait';
+
+                // Create new PDF with correct dimensions
+                const newPdf = new jsPDF({
+                    orientation: orientation,
+                    unit: 'pt',
+                    format: [firstPageDims.width, firstPageDims.height]
+                });
+
+                // Create a temporary canvas for rendering
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+
+                // Filter annotations to save (only those that have content)
+                const annotationsToSave = annotations.filter(a => a.content || a.type === 'highlight');
+
+                // Process each page
+                for (let i = 1; i <= totalPages; i++) {
+                    // Update loading message
+                    showLoadingOverlay(`पृष्ठ ${i}/${totalPages} प्रोसेस कर रहा है...`);
+
+                    // Get the page
+                    const page = await pdfDoc.getPage(i);
+                    const dims = pageDimensions[i-1];
+                    if (!dims || typeof dims.width === 'undefined' || typeof dims.height === 'undefined') {
+                        throw new Error(`पृष्ठ ${i} के लिए आयाम उपलब्ध नहीं हैं`);
+                    }
+                    const viewport = page.getViewport({ scale: 1.0 }); // Use 1x scale for drawing quality
+
+                    // Add page with correct dimensions *before* drawing
+                    if (i > 1) {
+                        newPdf.addPage([dims.width, dims.height], dims.width > dims.height ? 'landscape' : 'portrait');
+                    }
+                    newPdf.setPage(i); // Ensure we're drawing on the correct page
+
+                    tempCanvas.width = viewport.width;
+                    tempCanvas.height = viewport.height;
+
+                    // 1. Render original page to temp canvas
+                    await page.render({ canvasContext: tempCtx, viewport: viewport }).promise;
+
+                    // 2. Draw annotations onto the temp canvas
+                    const pageAnnotations = annotationsToSave.filter(a => a.page === i);
+                    for (const annotation of pageAnnotations) {
+                        // Convert annotation coordinates (which are based on the *scaled* view)
+                        // back to the original 1.0 scale coordinates for drawing on the temp canvas.
+                        const originalX = annotation.x / scale;
+                        const originalY = annotation.y / scale;
+                        const originalWidth = annotation.width / scale;
+                        let originalHeight = annotation.height === 'auto' ? 0 : annotation.height / scale;
+
+                        tempCtx.save();
+                        try {
+                            switch (annotation.type) {
+                                case 'text':
+                                    const props = annotation.properties || DEFAULT_TEXT_PROPS;
+                                    const fontSize = (props.fontSize || 14) / scale; // Font size at 1.0 scale
+                                    let fontStyle = '';
+                                    if (props.bold) fontStyle += 'bold ';
+                                    if (props.italic) fontStyle += 'italic ';
+                                    tempCtx.font = `${fontStyle}${fontSize}px ${props.fontFamily || 'Arial'}`;
+                                    tempCtx.fillStyle = COLOR_MAP[props.color || 'black'] || COLOR_MAP.black;
+                                    tempCtx.textBaseline = 'top';
+
+                                    const lines = (annotation.content || '').split('\n');
+                                    const lineHeight = fontSize * 1.2; // Line height at 1.0 scale
+                                    originalHeight = lines.length * lineHeight; // Recalculate height based on lines
+
+                                    for(let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
+                                        const lineY = originalY + (lineIdx * lineHeight);
+                                        tempCtx.fillText(lines[lineIdx], originalX, lineY);
+                                        // Manual underline if needed
+                                        if (props.underline) {
+                                            const textWidth = tempCtx.measureText(lines[lineIdx]).width;
+                                            tempCtx.fillRect(originalX, lineY + fontSize * 0.9, textWidth, fontSize * 0.08);
+                                        }
+                                    }
+                                    break;
+
+                                case 'highlight':
+                                    const hlProps = annotation.properties || DEFAULT_HIGHLIGHT_PROPS;
+                                    const hlColor = hlProps.color || 'yellow';
+                                    const hlOpacity = hlProps.opacity || 0.5;
+                                    tempCtx.globalAlpha = hlOpacity; // Set opacity
+                                    tempCtx.fillStyle = HIGHLIGHT_COLOR_MAP[hlColor]?.replace('##OPACITY##', '1') || 'rgba(255, 255, 0, 1)';
+                                    tempCtx.fillRect(originalX, originalY, originalWidth, annotation.height / scale);
+                                    tempCtx.globalAlpha = 1.0; // Reset opacity
+                                    break;
+
+                                case 'signature':
+                                case 'image':
+                                    try {
+                                        const img = await loadImage(annotation.content);
+                                        tempCtx.drawImage(img, originalX, originalY, originalWidth, annotation.height / scale);
+                                    } catch (imgErr) {
+                                        console.error('Could not draw image annotation:', imgErr);
+                                    }
+                                    break;
+                            }
+                        } catch (drawErr) {
+                            console.error('Annotation draw error:', drawErr);
+                        } finally {
+                            tempCtx.restore();
+                        }
+                    }
+
+                    // 3. Add the combined image to jsPDF
+                    const imgData = tempCanvas.toDataURL('image/png', 0.95);
+                    newPdf.addImage(imgData, 'PNG', 0, 0, dims.width, dims.height, undefined, 'FAST');
+                }
+
+                // Generate filename
+                const newFilename = pdfFilename.replace(/\.pdf$/i, '-edited.pdf');
+
+                // Save PDF
+                newPdf.save(newFilename);
+
+                // Hide loading overlay
+                hideLoadingOverlay();
+            } catch (error) {
+                console.error('Error saving PDF:', error);
+                alert('PDF सहेजने में त्रुटि: ' + error.message);
+                hideLoadingOverlay();
+            } finally {
+                // Re-enable save button
+                savePdfBtn.disabled = false;
+                savePdfBtn.innerHTML = '<i class="fas fa-save text-lg"></i>';
+            }
+        }
+
+        // Helper function to load image from URL
+        function loadImage(src) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = src;
+            });
+        }
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

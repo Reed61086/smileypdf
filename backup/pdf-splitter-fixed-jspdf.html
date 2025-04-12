@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Splitter - Fixed Version</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7/download.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #pdfPreview {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #pageControls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        #status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .loading {
+            background-color: #e2f3f5;
+            color: #0c5460;
+        }
+        #progressBar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        #progressBarFill {
+            height: 20px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Splitter - Fixed Version</h1>
+    
+    <div class="container">
+        <h2>Step 1: Upload PDF</h2>
+        <input type="file" id="pdfFile" accept=".pdf">
+        <div id="fileInfo"></div>
+    </div>
+    
+    <div id="previewContainer" class="container hidden">
+        <h2>Step 2: Preview PDF</h2>
+        
+        <div id="pageControls">
+            <button id="prevPage" class="button">Previous Page</button>
+            <span id="pageInfo">Page 0 of 0</span>
+            <button id="nextPage" class="button">Next Page</button>
+        </div>
+        
+        <div id="pdfPreview">
+            <p>PDF preview will appear here</p>
+        </div>
+    </div>
+    
+    <div id="splitContainer" class="container hidden">
+        <h2>Step 3: Split PDF</h2>
+        
+        <div>
+            <label for="pageRange">Pages to extract (e.g., 1,3,5-7):</label>
+            <input type="text" id="pageRange" style="width: 100%; padding: 8px; margin: 10px 0;">
+        </div>
+        
+        <button id="splitButton" class="button">Split PDF</button>
+        
+        <div id="status" class="hidden"></div>
+        
+        <div id="progressBar" class="hidden">
+            <div id="progressBarFill"></div>
+        </div>
+        
+        <div id="downloadContainer" class="hidden">
+            <h3>Download Split PDF</h3>
+            <button id="downloadButton" class="button">Download PDF</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // Elements
+        const pdfFileInput = document.getElementById('pdfFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const previewContainer = document.getElementById('previewContainer');
+        const pdfPreview = document.getElementById('pdfPreview');
+        const prevPageButton = document.getElementById('prevPage');
+        const nextPageButton = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+        const splitContainer = document.getElementById('splitContainer');
+        const pageRangeInput = document.getElementById('pageRange');
+        const splitButton = document.getElementById('splitButton');
+        const statusElement = document.getElementById('status');
+        const progressBar = document.getElementById('progressBar');
+        const progressBarFill = document.getElementById('progressBarFill');
+        const downloadContainer = document.getElementById('downloadContainer');
+        const downloadButton = document.getElementById('downloadButton');
+        
+        // Variables
+        let pdfFile = null;
+        let pdfData = null;
+        let pdfDoc = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        let splitPdfOutput = null;
+        
+        // Show status message
+        function showStatus(message, type) {
+            statusElement.textContent = message;
+            statusElement.className = type;
+            statusElement.classList.remove('hidden');
+        }
+        
+        // Hide status message
+        function hideStatus() {
+            statusElement.classList.add('hidden');
+        }
+        
+        // Update progress bar
+        function updateProgress(percent) {
+            progressBar.classList.remove('hidden');
+            progressBarFill.style.width = percent + '%';
+        }
+        
+        // Hide progress bar
+        function hideProgress() {
+            progressBar.classList.add('hidden');
+        }
+        
+        // Render PDF page
+        async function renderPage(pageNum) {
+            if (!pdfDoc) return;
+            
+            try {
+                // Get the page
+                const page = await pdfDoc.getPage(pageNum);
+                
+                // Set scale
+                const viewport = page.getViewport({ scale: 1.5 });
+                
+                // Prepare canvas
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Clear previous content
+                pdfPreview.innerHTML = '';
+                pdfPreview.appendChild(canvas);
+                
+                // Render PDF page to canvas
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).promise;
+                
+                // Update page info
+                pageInfo.textContent = `Page ${pageNum} of ${totalPages}`;
+                
+                // Update button states
+                prevPageButton.disabled = pageNum <= 1;
+                nextPageButton.disabled = pageNum >= totalPages;
+            } catch (error) {
+                console.error('Error rendering page:', error);
+                pdfPreview.innerHTML = `<p>Error rendering page: ${error.message}</p>`;
+            }
+        }
+        
+        // Parse page ranges
+        function parsePageRanges(input, maxPages) {
+            if (!input.trim()) return [];
+            
+            const pages = [];
+            const parts = input.split(',');
+            
+            for (const part of parts) {
+                const trimmedPart = part.trim();
+                
+                if (trimmedPart.includes('-')) {
+                    // Range (e.g., 1-3)
+                    const [start, end] = trimmedPart.split('-').map(num => parseInt(num.trim()));
+                    
+                    if (!isNaN(start) && !isNaN(end)) {
+                        for (let i = start; i <= end; i++) {
+                            if (i >= 1 && i <= maxPages && !pages.includes(i)) {
+                                pages.push(i);
+                            }
+                        }
+                    }
+                } else {
+                    // Single page
+                    const page = parseInt(trimmedPart);
+                    if (!isNaN(page) && page >= 1 && page <= maxPages && !pages.includes(page)) {
+                        pages.push(page);
+                    }
+                }
+            }
+            
+            return pages.sort((a, b) => a - b);
+        }
+        
+        // File input change handler
+        pdfFileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            pdfFile = file;
+            
+            // Display file info
+            fileInfo.innerHTML = `
+                <p><strong>Selected file:</strong> ${file.name}</p>
+                <p><strong>Size:</strong> ${Math.round(file.size / 1024)} KB</p>
+            `;
+            
+            // Read the file
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // Store the PDF data
+                    pdfData = new Uint8Array(e.target.result);
+                    
+                    // Load the PDF
+                    pdfjsLib.getDocument({ data: pdfData }).promise.then(function(pdf) {
+                        pdfDoc = pdf;
+                        totalPages = pdf.numPages;
+                        
+                        // Set default page range
+                        pageRangeInput.value = `1-${totalPages}`;
+                        
+                        // Show containers
+                        previewContainer.classList.remove('hidden');
+                        splitContainer.classList.remove('hidden');
+                        
+                        // Render the first page
+                        currentPage = 1;
+                        renderPage(currentPage);
+                        
+                        // Update file info
+                        fileInfo.innerHTML += `<p><strong>Pages:</strong> ${totalPages}</p>`;
+                    }).catch(function(error) {
+                        console.error('Error loading PDF:', error);
+                        showStatus('Error loading PDF: ' + error.message, 'error');
+                    });
+                } catch (error) {
+                    console.error('Error processing PDF data:', error);
+                    showStatus('Error processing PDF data: ' + error.message, 'error');
+                }
+            };
+            reader.onerror = function() {
+                showStatus('Error reading file', 'error');
+            };
+            reader.readAsArrayBuffer(file);
+        });
+        
+        // Previous page button
+        prevPageButton.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+            }
+        });
+        
+        // Next page button
+        nextPageButton.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
+        });
+        
+        // Split button
+        splitButton.addEventListener('click', function() {
+            if (!pdfDoc || !pdfData) {
+                showStatus('Please upload a PDF file first', 'error');
+                return;
+            }
+            
+            const pageRanges = parsePageRanges(pageRangeInput.value, totalPages);
+            
+            if (pageRanges.length === 0) {
+                showStatus('Please enter valid page numbers', 'error');
+                return;
+            }
+            
+            // Disable button and show status
+            splitButton.disabled = true;
+            showStatus('Processing PDF...', 'loading');
+            updateProgress(0);
+            
+            // Create an array of promises for rendering each page
+            const renderPromises = pageRanges.map(function(pageNum) {
+                return pdfDoc.getPage(pageNum).then(function(page) {
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    
+                    return page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise.then(function() {
+                        return {
+                            pageNum: pageNum,
+                            canvas: canvas,
+                            width: viewport.width,
+                            height: viewport.height
+                        };
+                    });
+                });
+            });
+            
+            // Process all pages
+            Promise.all(renderPromises).then(function(renderedPages) {
+                try {
+                    // Get jsPDF instance
+                    const { jsPDF } = window.jspdf;
+                    
+                    // Get dimensions from first page
+                    const firstPage = renderedPages[0];
+                    
+                    // Create PDF with correct orientation
+                    const orientation = firstPage.width > firstPage.height ? 'landscape' : 'portrait';
+                    const pdf = new jsPDF({
+                        orientation: orientation,
+                        unit: 'pt',
+                        format: [firstPage.width, firstPage.height]
+                    });
+                    
+                    // Add each page
+                    renderedPages.forEach(function(page, index) {
+                        // Add new page if not the first page
+                        if (index > 0) {
+                            // Determine if we need to change orientation for this page
+                            const pageOrientation = page.width > page.height ? 'landscape' : 'portrait';
+                            pdf.addPage([page.width, page.height], pageOrientation);
+                        }
+                        
+                        // Add the image
+                        const imgData = page.canvas.toDataURL('image/jpeg', 0.95);
+                        pdf.addImage(imgData, 'JPEG', 0, 0, page.width, page.height);
+                        
+                        // Update progress
+                        updateProgress(((index + 1) / renderedPages.length) * 100);
+                    });
+                    
+                    // Generate the PDF
+                    splitPdfOutput = pdf.output('blob');
+                    
+                    // Show download container
+                    downloadContainer.classList.remove('hidden');
+                    
+                    // Update status
+                    showStatus('PDF split successfully! Click the download button to save it.', 'success');
+                } catch (error) {
+                    console.error('Error creating PDF:', error);
+                    showStatus('Error creating PDF: ' + error.message, 'error');
+                }
+            }).catch(function(error) {
+                console.error('Error rendering pages:', error);
+                showStatus('Error rendering pages: ' + error.message, 'error');
+            }).finally(function() {
+                // Re-enable button
+                splitButton.disabled = false;
+            });
+        });
+        
+        // Download button
+        downloadButton.addEventListener('click', function() {
+            if (splitPdfOutput) {
+                const fileName = pdfFile.name.replace('.pdf', '') + '_split.pdf';
+                download(splitPdfOutput, fileName, 'application/pdf');
+            }
+        });
+    </script>
+</body>
+</html>

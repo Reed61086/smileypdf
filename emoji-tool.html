@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Integration - SmileyPDF</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- PDF.js for PDF handling -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Emoji Picker -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <style>
+        emoji-picker {
+            width: 100%;
+            max-width: 320px;
+            height: 400px;
+        }
+        .emoji-container {
+            font-size: 24px;
+            line-height: 1.5;
+        }
+    </style>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            <div class="hidden md:flex items-center space-x-4">
+                 <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+                 <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                     </button>
+                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                         <a href="text-to-speech.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Text to Speech</a>
+                         <a href="pdf-templates.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Templates</a>
+                         <a href="emoji-tool.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Emoji Integration</a>
+                      </div>
+                  </div>
+                  <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+                  <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+                  <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+              </div>
+               <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                   <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                       <span class="sr-only">Open menu</span>
+                       <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                       <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                   </button>
+              </div>
+         </nav>
+          <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+                <a href="text-to-speech.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Text to Speech</a>
+                <a href="pdf-templates.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Templates</a>
+                <a href="emoji-tool.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Emoji Integration</a>
+             </div>
+          </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 flex-grow">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-gray-800 mb-3">Emoji Integration</h1>
+                <p class="text-gray-600 text-lg">Add emojis seamlessly into your PDF content to make your documents more expressive.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Text Editor Section -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">1. Enter Your Text</h3>
+                        <textarea id="textInput" class="w-full h-64 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type or paste your text here..."></textarea>
+                        
+                        <div class="mt-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Recently Used Emojis</h4>
+                            <div id="recentEmojis" class="flex flex-wrap gap-2 p-2 border border-gray-200 rounded-lg min-h-[50px]">
+                                <!-- Recent emojis will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Emoji Picker Section -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">2. Choose Emojis</h3>
+                        <emoji-picker id="emojiPicker"></emoji-picker>
+                    </div>
+                </div>
+                
+                <!-- Preview Section -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">3. Preview</h3>
+                    <div id="previewArea" class="p-4 border border-gray-300 rounded-lg min-h-[100px] emoji-container">
+                        <!-- Preview content will appear here -->
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end space-x-4">
+                        <button id="copyBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                            <i class="fas fa-copy mr-2"></i> Copy Text with Emojis
+                        </button>
+                        <button id="createPdfBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                            <i class="fas fa-file-pdf mr-2"></i> Create PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Use Section -->
+            <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">How to Add Emojis to Your PDF</h2>
+                <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                    <li>Type or paste your text in the editor on the left.</li>
+                    <li>Click on emojis from the picker on the right to insert them at the cursor position.</li>
+                    <li>Preview how your text will look with the emojis.</li>
+                    <li>Click "Create PDF" to generate a PDF document with your emoji-enhanced text.</li>
+                    <li>You can also copy the text with emojis to use in other applications.</li>
+                </ol>
+                
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-2">Pro Tips:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-blue-800">
+                        <li>Use emojis sparingly for professional documents.</li>
+                        <li>Your recently used emojis will appear in the "Recently Used" section for quick access.</li>
+                        <li>You can search for specific emojis using the search box in the emoji picker.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4>
+                    <p>Free online tools for your PDF tasks.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white">About</a></li>
+                        <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html" class="hover:text-white">Privacy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Set the current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Emoji integration functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const textInput = document.getElementById('textInput');
+            const emojiPicker = document.getElementById('emojiPicker');
+            const previewArea = document.getElementById('previewArea');
+            const recentEmojis = document.getElementById('recentEmojis');
+            const copyBtn = document.getElementById('copyBtn');
+            const createPdfBtn = document.getElementById('createPdfBtn');
+            
+            let recentEmojisList = [];
+            
+            // Update preview when text changes
+            textInput.addEventListener('input', updatePreview);
+            
+            // Handle emoji selection
+            emojiPicker.addEventListener('emoji-click', event => {
+                const emoji = event.detail.unicode;
+                insertEmojiAtCursor(emoji);
+                addToRecentEmojis(emoji);
+            });
+            
+            // Copy button functionality
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(textInput.value)
+                    .then(() => {
+                        alert('Text with emojis copied to clipboard!');
+                    })
+                    .catch(err => {
+                        console.error('Could not copy text: ', err);
+                        alert('Failed to copy text. Please try again.');
+                    });
+            });
+            
+            // Create PDF button functionality
+            createPdfBtn.addEventListener('click', () => {
+                alert('In a full implementation, this would create a PDF with your emoji text. For now, this is just a demonstration.');
+            });
+            
+            // Insert emoji at cursor position
+            function insertEmojiAtCursor(emoji) {
+                const startPos = textInput.selectionStart;
+                const endPos = textInput.selectionEnd;
+                const textBefore = textInput.value.substring(0, startPos);
+                const textAfter = textInput.value.substring(endPos, textInput.value.length);
+                
+                textInput.value = textBefore + emoji + textAfter;
+                
+                // Set cursor position after the inserted emoji
+                textInput.selectionStart = startPos + emoji.length;
+                textInput.selectionEnd = startPos + emoji.length;
+                
+                // Focus back on the textarea
+                textInput.focus();
+                
+                // Update preview
+                updatePreview();
+            }
+            
+            // Add emoji to recent list
+            function addToRecentEmojis(emoji) {
+                // Remove if already exists
+                recentEmojisList = recentEmojisList.filter(e => e !== emoji);
+                
+                // Add to beginning of array
+                recentEmojisList.unshift(emoji);
+                
+                // Keep only the most recent 10
+                if (recentEmojisList.length > 10) {
+                    recentEmojisList = recentEmojisList.slice(0, 10);
+                }
+                
+                // Update UI
+                updateRecentEmojis();
+            }
+            
+            // Update recent emojis display
+            function updateRecentEmojis() {
+                recentEmojis.innerHTML = '';
+                
+                recentEmojisList.forEach(emoji => {
+                    const emojiSpan = document.createElement('span');
+                    emojiSpan.textContent = emoji;
+                    emojiSpan.className = 'cursor-pointer text-2xl hover:bg-gray-100 p-1 rounded';
+                    emojiSpan.addEventListener('click', () => {
+                        insertEmojiAtCursor(emoji);
+                    });
+                    
+                    recentEmojis.appendChild(emojiSpan);
+                });
+            }
+            
+            // Update preview area
+            function updatePreview() {
+                previewArea.textContent = textInput.value;
+            }
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

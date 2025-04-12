@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Splitter - Simple Version</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">PDF Splitter</h1>
+        
+        <!-- PDF Upload Section -->
+        <div class="mb-6">
+            <div class="flex justify-center">
+                <label class="w-full max-w-xs flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-blue-500 cursor-pointer hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                    <span class="mt-2 text-base">Select PDF file</span>
+                    <input id="pdf-upload" type="file" accept=".pdf" class="hidden" />
+                </label>
+            </div>
+            <div id="file-info" class="mt-4 text-center"></div>
+        </div>
+        
+        <!-- PDF Preview -->
+        <div id="pdf-preview-container" class="mb-6 hidden">
+            <div class="border rounded-lg p-4">
+                <div id="pdf-preview" class="flex justify-center"></div>
+                <div id="pdf-controls" class="flex justify-between items-center mt-4">
+                    <button id="prev-page" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                        <i class="fas fa-chevron-left mr-2"></i>Previous
+                    </button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                        Next<i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Split Options -->
+        <div id="split-options" class="mb-6 hidden">
+            <h2 class="text-xl font-semibold mb-4">Split Options</h2>
+            
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Split Method</h3>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="radio" name="split-method" value="extract" class="mr-2" checked>
+                        Extract specific pages
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="split-method" value="range" class="mr-2">
+                        Split by page range
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="split-method" value="each" class="mr-2">
+                        Split each page into a separate PDF
+                    </label>
+                </div>
+            </div>
+            
+            <div id="page-range-input" class="mb-4">
+                <h3 class="font-medium mb-2">Pages to Extract</h3>
+                <p class="text-sm text-gray-600 mb-2">Enter page numbers and/or page ranges separated by commas.</p>
+                <p class="text-sm text-gray-600 mb-2">Example: 1,3,5-8,10-15</p>
+                <input type="text" id="page-ranges" class="w-full p-2 border rounded" placeholder="1,3,5-8,10-15">
+            </div>
+            
+            <div class="flex justify-center">
+                <button id="split-button" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    <span>Split PDF</span> <i class="fas fa-scissors ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div id="results-container" class="hidden">
+            <h2 class="text-xl font-semibold mb-4">Split Results</h2>
+            <div id="results" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // Global variables
+        let pdfFile = null;
+        let pdfDoc = null;
+        let currentPage = 1;
+        let numPages = 0;
+        
+        // DOM elements
+        const fileInput = document.getElementById('pdf-upload');
+        const fileInfo = document.getElementById('file-info');
+        const previewContainer = document.getElementById('pdf-preview-container');
+        const pdfPreview = document.getElementById('pdf-preview');
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        const pageInfo = document.getElementById('page-info');
+        const splitOptions = document.getElementById('split-options');
+        const pageRangesInput = document.getElementById('page-ranges');
+        const splitButton = document.getElementById('split-button');
+        const resultsContainer = document.getElementById('results-container');
+        const results = document.getElementById('results');
+        
+        // File upload handler
+        fileInput.addEventListener('change', async (e) => {
+            if (e.target.files.length === 0) return;
+            
+            // Reset UI
+            pdfPreview.innerHTML = '';
+            fileInfo.innerHTML = '';
+            resultsContainer.classList.add('hidden');
+            results.innerHTML = '';
+            
+            try {
+                // Get the file
+                pdfFile = e.target.files[0];
+                
+                // Display file info
+                fileInfo.innerHTML = `
+                    <p class="text-green-600">Selected file: ${pdfFile.name}</p>
+                    <p class="text-sm text-gray-600">Size: ${(pdfFile.size / 1024).toFixed(2)} KB</p>
+                `;
+                
+                // Load the PDF
+                const arrayBuffer = await pdfFile.arrayBuffer();
+                pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                numPages = pdfDoc.numPages;
+                
+                // Update UI
+                previewContainer.classList.remove('hidden');
+                splitOptions.classList.remove('hidden');
+                pageInfo.textContent = `Page ${currentPage} of ${numPages}`;
+                
+                // Set default page range
+                pageRangesInput.value = `1-${numPages}`;
+                
+                // Render the first page
+                renderPage(currentPage);
+                
+                console.log(`PDF loaded successfully with ${numPages} pages`);
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                fileInfo.innerHTML = `
+                    <p class="text-red-600">Error loading PDF: ${error.message}</p>
+                `;
+            }
+        });
+        
+        // Page navigation
+        prevButton.addEventListener('click', () => {
+            if (currentPage <= 1) return;
+            currentPage--;
+            renderPage(currentPage);
+        });
+        
+        nextButton.addEventListener('click', () => {
+            if (currentPage >= numPages) return;
+            currentPage++;
+            renderPage(currentPage);
+        });
+        
+        // Render PDF page
+        async function renderPage(pageNumber) {
+            if (!pdfDoc) return;
+            
+            try {
+                // Get the page
+                const page = await pdfDoc.getPage(pageNumber);
+                
+                // Set scale
+                const viewport = page.getViewport({ scale: 1.5 });
+                
+                // Prepare canvas
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                // Clear previous content
+                pdfPreview.innerHTML = '';
+                pdfPreview.appendChild(canvas);
+                
+                // Render PDF page to canvas
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).promise;
+                
+                // Update page info
+                pageInfo.textContent = `Page ${pageNumber} of ${numPages}`;
+                
+                // Update button states
+                prevButton.disabled = pageNumber <= 1;
+                nextButton.disabled = pageNumber >= numPages;
+                
+                console.log(`Page ${pageNumber} rendered successfully`);
+            } catch (error) {
+                console.error('Error rendering page:', error);
+                pdfPreview.innerHTML = `<p class="text-red-600">Error rendering page: ${error.message}</p>`;
+            }
+        }
+        
+        // Parse page ranges
+        function parsePageRanges(input) {
+            if (!input.trim()) return [];
+            
+            const ranges = [];
+            const parts = input.split(',');
+            
+            for (const part of parts) {
+                const trimmedPart = part.trim();
+                
+                if (trimmedPart.includes('-')) {
+                    // Range like "5-8"
+                    const [start, end] = trimmedPart.split('-').map(num => parseInt(num.trim()));
+                    
+                    if (isNaN(start) || isNaN(end)) continue;
+                    
+                    // Add all pages in the range
+                    for (let i = start; i <= end; i++) {
+                        if (i >= 1 && i <= numPages) {
+                            ranges.push(i);
+                        }
+                    }
+                } else {
+                    // Single page like "3"
+                    const pageNum = parseInt(trimmedPart);
+                    
+                    if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= numPages) {
+                        ranges.push(pageNum);
+                    }
+                }
+            }
+            
+            // Remove duplicates and sort
+            return [...new Set(ranges)].sort((a, b) => a - b);
+        }
+        
+        // Split PDF button handler
+        splitButton.addEventListener('click', async () => {
+            if (!pdfDoc || !pdfFile) {
+                alert('Please upload a PDF file first.');
+                return;
+            }
+            
+            try {
+                // Show loading state
+                splitButton.disabled = true;
+                splitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+                
+                // Get split method
+                const splitMethod = document.querySelector('input[name="split-method"]:checked').value;
+                
+                // Determine pages to extract
+                let pagesToExtract = [];
+                
+                if (splitMethod === 'extract' || splitMethod === 'range') {
+                    // Parse page ranges from input
+                    pagesToExtract = parsePageRanges(pageRangesInput.value);
+                    
+                    if (pagesToExtract.length === 0) {
+                        throw new Error('Please enter valid page numbers or ranges.');
+                    }
+                } else if (splitMethod === 'each') {
+                    // Extract each page
+                    for (let i = 1; i <= numPages; i++) {
+                        pagesToExtract.push(i);
+                    }
+                }
+                
+                console.log('Pages to extract:', pagesToExtract);
+                
+                // Read the PDF file
+                const arrayBuffer = await pdfFile.arrayBuffer();
+                
+                // Load the PDF with PDF-Lib
+                const { PDFDocument } = PDFLib;
+                const srcDoc = await PDFDocument.load(arrayBuffer);
+                
+                // Create result PDFs
+                const resultFiles = [];
+                
+                if (splitMethod === 'extract' || splitMethod === 'range') {
+                    // Create a single PDF with selected pages
+                    const newDoc = await PDFDocument.create();
+                    
+                    for (const pageNum of pagesToExtract) {
+                        if (pageNum >= 1 && pageNum <= numPages) {
+                            const [copiedPage] = await newDoc.copyPages(srcDoc, [pageNum - 1]);
+                            newDoc.addPage(copiedPage);
+                        }
+                    }
+                    
+                    const pdfBytes = await newDoc.save();
+                    
+                    resultFiles.push({
+                        name: `${pdfFile.name.replace('.pdf', '')}_pages_${pagesToExtract.join('-')}.pdf`,
+                        data: pdfBytes
+                    });
+                } else if (splitMethod === 'each') {
+                    // Create a separate PDF for each page
+                    for (const pageNum of pagesToExtract) {
+                        const newDoc = await PDFDocument.create();
+                        const [copiedPage] = await newDoc.copyPages(srcDoc, [pageNum - 1]);
+                        newDoc.addPage(copiedPage);
+                        
+                        const pdfBytes = await newDoc.save();
+                        
+                        resultFiles.push({
+                            name: `${pdfFile.name.replace('.pdf', '')}_page_${pageNum}.pdf`,
+                            data: pdfBytes
+                        });
+                    }
+                }
+                
+                // Display results
+                resultsContainer.classList.remove('hidden');
+                results.innerHTML = '';
+                
+                for (const file of resultFiles) {
+                    const blob = new Blob([file.data], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'flex justify-between items-center p-4 border rounded';
+                    resultItem.innerHTML = `
+                        <span>${file.name}</span>
+                        <div>
+                            <a href="${url}" download="${file.name}" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2">
+                                <i class="fas fa-download mr-1"></i> Download
+                            </a>
+                            <a href="${url}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                <i class="fas fa-eye mr-1"></i> View
+                            </a>
+                        </div>
+                    `;
+                    
+                    results.appendChild(resultItem);
+                }
+                
+                console.log(`PDF split successfully into ${resultFiles.length} files`);
+            } catch (error) {
+                console.error('Error splitting PDF:', error);
+                alert('Error splitting PDF: ' + error.message);
+            } finally {
+                // Reset button state
+                splitButton.disabled = false;
+                splitButton.innerHTML = '<span>Split PDF</span> <i class="fas fa-scissors ml-2"></i>';
+            }
+        });
+        
+        // Split method change handler
+        document.querySelectorAll('input[name="split-method"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const method = radio.value;
+                
+                if (method === 'extract' || method === 'range') {
+                    document.getElementById('page-range-input').classList.remove('hidden');
+                } else {
+                    document.getElementById('page-range-input').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

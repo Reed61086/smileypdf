@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,14 @@
     <link rel="icon" type="image/png" href="logo.png">
     <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Additional Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,6 +33,7 @@
         .spinner { animation: spin 1s linear infinite; display: inline-block; }
         #pdfjs-container { position: absolute; left: -9999px; visibility: hidden; }
     </style>
+<link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 <!-- Header -->
@@ -143,7 +152,15 @@
 
              {/* Error Section */}
             <div id="errorSection" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6" role="alert">
-                <div class="flex items-center"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i><p id="errorMessage" class="text-red-700 text-sm"></p></div>
+                <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button><i class="fas fa-exclamation-circle text-red-500 mr-3"></i><p id="errorMessage" class="text-red-700 text-sm"></p></div>
             </div>
 
             {/* Results Section */}
@@ -248,77 +265,221 @@
              function handleDrop(e) { const f=e.dataTransfer.files[0]; if(f) handleFile(f);}
 
             async function handleFile(file) {
-                resetState(); currentFile = file;
-                 if (!file || (!file.type.includes('pdf') && !file.name.toLowerCase().endsWith('.pdf'))) { showError('Please select or drop a valid PDF file.'); return; }
-                 isProcessing = true;
-                uploadContent.classList.add('hidden'); uploadingContent.classList.remove('hidden'); errorSection.classList.add('hidden');
-                 updateProgress(0); updateStatus('Reading file...');
+                console.log('Processing file:', file ? file.name : 'no file');
+                resetState();
+                currentFile = file;
+
+                // Validate file
+                if (!file || (!file.type.includes('pdf') && !file.name.toLowerCase().endsWith('.pdf'))) {
+                    showError('Please select or drop a valid PDF file.');
+                    return;
+                }
+
+                // Start processing
+                isProcessing = true;
+                uploadContent.classList.add('hidden');
+                uploadingContent.classList.remove('hidden');
+                errorSection.classList.add('hidden');
+                updateProgress(0);
+                updateStatus('Reading file...');
 
                 try {
-                    const arrayBuffer = await readFileAsArrayBuffer(file); updateStatus('Loading PDF structure...');
-                     const pdf = await PDFJS.getDocument({ data: arrayBuffer, cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`, cMapPacked: true }).promise;
+                    // Read file as array buffer
+                    console.log('Reading file as array buffer');
+                    const arrayBuffer = await readFileAsArrayBuffer(file);
+
+                    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+                        throw new Error('Failed to read file data');
+                    }
+
+                    updateStatus('Loading PDF structure...');
+                    updateProgress(10);
+
+                    // Load PDF document
+                    console.log('Loading PDF with PDF.js');
+                    const pdf = await PDFJS.getDocument({
+                        data: arrayBuffer,
+                        cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,
+                        cMapPacked: true
+                    }).promise;
+
+                    console.log(`PDF loaded with ${pdf.numPages} pages`);
                     updateStatus('Extracting text...');
+                    updateProgress(20);
+
+                    // Extract text from PDF
                     const fullText = await extractTextFromPDF(pdf);
-                     updateStatus('Creating Word document...'); updateProgress(80);
+
+                    if (!fullText || fullText.trim() === '') {
+                        throw new Error('No text could be extracted from the PDF');
+                    }
+
+                    updateStatus('Creating Word document...');
+                    updateProgress(80);
+
+                    // Generate Word document
                     docxBlob = await generateDocxBlob(fullText);
-                    updateProgress(100); updateStatus('Conversion complete!'); showResult(file);
-                 } catch (error) { showError('Error during conversion: ' + error.message); console.error(error); resetState(); } // Ensure reset on error
-                 finally { isProcessing = false; } // Removed setTimeout for loading hiding, let showResult handle it
-             }
+
+                    if (!docxBlob || docxBlob.size === 0) {
+                        throw new Error('Failed to create Word document');
+                    }
+
+                    console.log(`Word document created successfully (${docxBlob.size} bytes)`);
+                    updateProgress(100);
+                    updateStatus('Conversion complete!');
+                    showResult(file);
+                } catch (error) {
+                    console.error('Conversion error:', error);
+                    showError('Error during conversion: ' + error.message);
+                    resetState();
+                } finally {
+                    isProcessing = false;
+                }
+            }
 
              function readFileAsArrayBuffer(f) { return new Promise((res,rej)=>{ const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(new Error('Failed reading file'));r.readAsArrayBuffer(f);});}
 
              async function extractTextFromPDF(pdfDocInstance) {
-                let fullText = ''; const total = pdfDocInstance.numPages;
-                 for (let i = 1; i <= total; i++) {
-                     updateProgress(20+(50*i/total), `Extracting page ${i}/${total}...`);
-                     try {
+                console.log(`Extracting text from PDF with ${pdfDocInstance.numPages} pages`);
+                let fullText = '';
+                const total = pdfDocInstance.numPages;
+
+                for (let i = 1; i <= total; i++) {
+                    updateProgress(20+(50*i/total), `Extracting page ${i}/${total}...`);
+                    try {
                         const page = await pdfDocInstance.getPage(i);
-                        const tc = await page.getTextContent({ normalizeWhitespace: true }); // Keep normalizeWhitespace
-                        let lastY = null; let lineBuffer = '';
-                         tc.items.forEach(item => {
-                             const currentY = item.transform[5];
-                            // Check for significant vertical drop OR an explicit EOL marker from pdf.js heuristics
-                            if (lastY !== null && (Math.abs(currentY - lastY) > (item.height * 0.8) || item.hasEOL )) {
-                                fullText += lineBuffer.trim() + '\n'; // Add trimmed line buffer
-                                lineBuffer = item.str; // Start new buffer
-                             } else {
-                                 // Check for significant horizontal gap before adding a space
-                                 if (lineBuffer.length > 0 && !lineBuffer.endsWith(' ') && item.transform[4] > (lastX + lastWidth + 1) ) { // Check last item's end X + small buffer
+                        console.log(`Processing page ${i}`);
+
+                        // Get text content with normalized whitespace
+                        const tc = await page.getTextContent({ normalizeWhitespace: true });
+
+                        // Variables to track position
+                        let lastY = null;
+                        let lastX = null;
+                        let lastWidth = 0;
+                        let lineBuffer = '';
+
+                        // Process each text item
+                        tc.items.forEach(item => {
+                            // Skip empty items
+                            if (!item.str || item.str.trim() === '') return;
+
+                            const currentY = item.transform[5];
+                            const currentX = item.transform[4];
+
+                            // Check for new line (significant vertical position change or explicit end of line)
+                            if (lastY !== null && (Math.abs(currentY - lastY) > (item.height * 0.8) || item.hasEOL)) {
+                                // Add current line to full text if it's not empty
+                                if (lineBuffer.trim() !== '') {
+                                    fullText += lineBuffer.trim() + '\n';
+                                }
+                                // Start new line buffer
+                                lineBuffer = item.str;
+                            } else {
+                                // Continue on same line
+                                // Add space if there's a significant horizontal gap
+                                if (lineBuffer.length > 0 &&
+                                    !lineBuffer.endsWith(' ') &&
+                                    lastX !== null &&
+                                    currentX > (lastX + lastWidth + 2)) {
                                     lineBuffer += ' ';
-                                 }
-                                 lineBuffer += item.str;
-                             }
-                             lastY = currentY;
-                             lastX = item.transform[4]; // Store X start
-                             lastWidth = item.width;   // Store width
-                         });
-                         fullText += lineBuffer.trim() + '\n'; // Add the last line buffer
-                         page.cleanup();
-                         fullText+='\n'; // Add a blank line between pages
+                                }
+                                lineBuffer += item.str;
+                            }
+
+                            // Update position tracking
+                            lastY = currentY;
+                            lastX = currentX;
+                            lastWidth = item.width || 0;
+                        });
+
+                        // Add the last line if not empty
+                        if (lineBuffer.trim() !== '') {
+                            fullText += lineBuffer.trim() + '\n';
+                        }
+
+                        // Add paragraph break between pages
+                        fullText += '\n';
+
+                        // Clean up page resources
+                        page.cleanup();
+
                     } catch (pageError) {
-                        console.warn(`Error processing page ${i}:`, pageError); fullText += `\n--- Error page ${i} ---\n\n`;
-                     }
-                     if (i % 10 === 0) await new Promise(r => setTimeout(r, 5));
-                 }
-                 // Final cleanup
-                return fullText.replace(/ +\n/g, '\n') // Remove trailing spaces before newline
-                             .replace(/\n{3,}/g, '\n\n') // Collapse multiple blank lines
-                             .trim();
+                        console.error(`Error processing page ${i}:`, pageError);
+                        fullText += `\n[Error extracting text from page ${i}]\n\n`;
+                    }
+
+                    // Yield to browser UI thread occasionally
+                    if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
+                }
+
+                // Final cleanup of the text
+                const cleanedText = fullText
+                    .replace(/ +\n/g, '\n')      // Remove trailing spaces before newlines
+                    .replace(/\n{3,}/g, '\n\n')  // Collapse multiple blank lines to max two
+                    .trim();
+
+                console.log(`Extracted ${cleanedText.length} characters of text`);
+                return cleanedText;
              }
 
 
              async function generateDocxBlob(text) {
-                 if (!DOCX) throw new Error("DOCX library not loaded");
-                 try {
-                     const paragraphs = text.split('\n').map(line => new DOCX.Paragraph({
-                         children: [new DOCX.TextRun({ text: line, size: 22 })], // 11pt
-                        spacing: { after: 120 } // ~6pt after paragraph (120 / 20)
-                     }));
-                     const doc = new DOCX.Document({ sections: [{ children: paragraphs }] });
-                     const blob = await DOCX.Packer.toBlob(doc); return blob;
-                 } catch (error) { console.error('Error generating DOCX:', error); throw new Error('Could not generate Word document.'); }
-            } // Correctly closed function
+                console.log('Generating Word document from text:', text.substring(0, 100) + '...');
+                if (!DOCX) throw new Error("DOCX library not loaded");
+
+                try {
+                    // Split text into paragraphs and filter out empty lines
+                    const paragraphs = text.split('\n')
+                        .filter(line => line.trim().length > 0)
+                        .map(line => {
+                            return new DOCX.Paragraph({
+                                children: [new DOCX.TextRun({ text: line, size: 24 })], // 12pt
+                                spacing: { after: 200 } // ~10pt after paragraph
+                            });
+                        });
+
+                    console.log(`Creating document with ${paragraphs.length} paragraphs`);
+
+                    // Add a title paragraph at the beginning
+                    paragraphs.unshift(
+                        new DOCX.Paragraph({
+                            children: [new DOCX.TextRun({
+                                text: "Converted Document",
+                                size: 36,  // 18pt
+                                bold: true
+                            })],
+                            spacing: { after: 400 }, // 20pt
+                            alignment: DOCX.AlignmentType.CENTER
+                        })
+                    );
+
+                    // Create the document with proper sections and margins
+                    const doc = new DOCX.Document({
+                        sections: [{
+                            properties: {
+                                page: {
+                                    margin: {
+                                        top: 1440, // 1 inch (1440 twips)
+                                        right: 1440,
+                                        bottom: 1440,
+                                        left: 1440
+                                    }
+                                }
+                            },
+                            children: paragraphs
+                        }]
+                    });
+
+                    console.log('Document created, packing to blob...');
+                    const blob = await DOCX.Packer.toBlob(doc);
+                    console.log('Blob created successfully');
+                    return blob;
+                } catch (error) {
+                    console.error('Error generating DOCX:', error);
+                    throw new Error('Could not generate Word document: ' + error.message);
+                }
+            }
 
              // --- UI Updates ---
              function updateProgress(pct, msg=null){const clamped=Math.min(pct,100);progressBar.style.width=`${clamped}%`;progressText.textContent=`${Math.round(clamped)}% completed`;if(msg)updateStatus(msg);}
@@ -326,11 +487,49 @@
              function showResult(file){uploadingContent.classList.add('hidden'); resultSection.classList.remove('hidden'); errorSection.classList.add('hidden'); fileNameEl.textContent = file.name.replace(/\.pdf$/i,'.docx'); fileStatus.textContent = 'Ready for download';}
             function showError(msg) { uploadingContent.classList.add('hidden'); uploadContent.classList.remove('hidden'); resultSection.classList.add('hidden'); errorMessageEl.textContent = msg; errorSection.classList.remove('hidden'); /* Removed persistent timer */ }
 
-             function triggerDownload(){if(!docxBlob||!currentFile){showError('No DOCX file ready.'); return;}const newName=currentFile.name.replace(/\.pdf$/i,'.docx'); try { if (SAVEAS) { saveAs(docxBlob,newName); } else { const url=URL.createObjectURL(docxBlob); const a=document.createElement('a');a.href=url;a.download=newName;a.click();URL.revokeObjectURL(url);}} catch(e){console.error("DL Err:", e); showError("Download failed.");}}
+             function triggerDownload() {
+                console.log('Triggering download');
+
+                if (!docxBlob || !currentFile) {
+                    console.error('No DOCX blob or current file available');
+                    showError('No Word document is ready for download. Please try converting again.');
+                    return;
+                }
+
+                const newName = currentFile.name.replace(/\.pdf$/i, '.docx');
+                console.log(`Preparing to download as: ${newName} (${docxBlob.size} bytes)`);
+
+                try {
+                    // Use FileSaver.js if available
+                    if (typeof saveAs === 'function') {
+                        console.log('Using FileSaver.js for download');
+                        saveAs(docxBlob, newName);
+                    } else {
+                        // Fallback to manual download
+                        console.log('Using manual download method');
+                        const url = URL.createObjectURL(docxBlob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = newName;
+                        document.body.appendChild(a); // Needed for Firefox
+                        a.click();
+                        setTimeout(() => {
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        }, 100);
+                    }
+
+                    console.log('Download initiated successfully');
+                } catch (e) {
+                    console.error("Download error:", e);
+                    showError("Download failed: " + e.message);
+                }
+            }
              function resetState(){currentFile=null; docxBlob=null; isProcessing=false; uploadingContent.classList.add('hidden'); uploadContent.classList.remove('hidden'); resultSection.classList.add('hidden'); errorSection.classList.add('hidden'); fileInput.value=null; updateProgress(0); progressText.textContent='0% completed'; updateStatus('Processing your PDF...');} // Reset status text
 
         }); // End of DOMContentLoaded listener - Moved after all function definitions
     </script>
 
+<script src="dark-mode.js"></script>
 </body>
 </html>

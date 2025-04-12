@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic PDF Viewer</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #fileInput { margin-bottom: 20px; }
+        #pdfViewer { border: 1px solid #ccc; min-height: 500px; }
+    </style>
+</head>
+<body>
+    <h1>Basic PDF Viewer</h1>
+    
+    <input type="file" id="fileInput" accept=".pdf">
+    
+    <div id="pdfViewer"></div>
+    
+    <script>
+        document.getElementById('fileInput').onchange = function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var fileReader = new FileReader();
+                
+                fileReader.onload = function() {
+                    var pdfViewer = document.getElementById('pdfViewer');
+                    
+                    // Create an object URL for the file
+                    var objectUrl = URL.createObjectURL(file);
+                    
+                    // Create an iframe to display the PDF
+                    var iframe = document.createElement('iframe');
+                    iframe.width = '100%';
+                    iframe.height = '500px';
+                    iframe.src = objectUrl;
+                    
+                    // Clear previous content and add the iframe
+                    pdfViewer.innerHTML = '';
+                    pdfViewer.appendChild(iframe);
+                };
+                
+                fileReader.readAsArrayBuffer(file);
+            }
+        };
+    </script>
+</body>
+</html>

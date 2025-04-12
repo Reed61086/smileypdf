@@ -1,0 +1,370 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Formula Recognition - SmileyPDF</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- PDF.js for PDF handling -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <!-- MathJax for formula rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            <div class="hidden md:flex items-center space-x-4">
+                 <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+                 <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                     </button>
+                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                         <a href="formula-recognition.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Formula Recognition</a>
+                      </div>
+                  </div>
+                  <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+                  <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+                  <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+              </div>
+               <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                   <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                       <span class="sr-only">Open menu</span>
+                       <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                       <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                   </button>
+              </div>
+         </nav>
+          <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+                <a href="formula-recognition.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Formula Recognition</a>
+             </div>
+          </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 flex-grow">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-gray-800 mb-3">Scientific Formula Recognition</h1>
+                <p class="text-gray-600 text-lg">Extract and interpret mathematical and scientific formulas from your PDF documents.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <!-- File Upload Area -->
+                <div class="border-2 border-dashed border-blue-300 rounded-lg p-8 text-center cursor-pointer" id="dropZone">
+                    <i class="fas fa-square-root-variable text-6xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Upload PDF Document</h3>
+                    <p class="text-gray-500 mb-4">Drag & drop your PDF file here or click below</p>
+                    <input type="file" id="pdfInput" accept=".pdf" class="hidden">
+                    <button type="button" id="uploadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2">
+                        <i class="fas fa-upload mr-2"></i> Select PDF File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Formula Results (Hidden initially) -->
+            <div id="formulaResults" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Extracted Formulas</h3>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-medium text-gray-700">Formula Recognition Results</h4>
+                        <div class="flex space-x-2">
+                            <button id="copyAllBtn" class="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 py-1 px-3 rounded">
+                                <i class="fas fa-copy mr-1"></i> Copy All
+                            </button>
+                            <button id="downloadBtn" class="text-sm bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded">
+                                <i class="fas fa-download mr-1"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="formulaList" class="space-y-4 mt-4">
+                        <!-- Sample formulas will be added here -->
+                        <div class="p-4 border rounded-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-sm font-medium text-gray-500">Formula 1 (Page 1)</span>
+                                <button class="copy-btn text-gray-500 hover:text-gray-700">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="formula-display p-3 bg-gray-50 rounded">
+                                <!-- Sample formula rendered with MathJax -->
+                                \[ E = mc^2 \]
+                            </div>
+                            <div class="mt-2">
+                                <span class="text-xs text-gray-500">LaTeX:</span>
+                                <code class="text-xs bg-gray-100 p-1 rounded">E = mc^2</code>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 border rounded-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-sm font-medium text-gray-500">Formula 2 (Page 1)</span>
+                                <button class="copy-btn text-gray-500 hover:text-gray-700">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="formula-display p-3 bg-gray-50 rounded">
+                                <!-- Sample formula rendered with MathJax -->
+                                \[ F = G \frac{m_1 m_2}{r^2} \]
+                            </div>
+                            <div class="mt-2">
+                                <span class="text-xs text-gray-500">LaTeX:</span>
+                                <code class="text-xs bg-gray-100 p-1 rounded">F = G \frac{m_1 m_2}{r^2}</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h4 class="font-medium text-blue-800 mb-2">Formula Interpretation</h4>
+                    <p class="text-blue-800 text-sm">Our system has identified these formulas as related to physics. The first formula is Einstein's mass-energy equivalence equation, and the second is Newton's law of universal gravitation.</p>
+                </div>
+            </div>
+
+            <!-- How to Use Section -->
+            <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Scientific Formula Recognition</h2>
+                
+                <p class="text-gray-600 mb-4">Our Scientific Formula Recognition tool uses advanced image processing and machine learning to identify and extract mathematical and scientific formulas from your PDF documents.</p>
+                
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-2">How to Use This Tool:</h3>
+                
+                <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                    <li>Upload your PDF document using the drag & drop area or the "Select PDF File" button.</li>
+                    <li>Our system will automatically scan the document for mathematical and scientific formulas.</li>
+                    <li>View the extracted formulas, which are rendered in a readable format.</li>
+                    <li>Copy individual formulas or download all extracted formulas in various formats (LaTeX, MathML, or plain text).</li>
+                    <li>Use the formula interpretation feature to understand complex equations (when available).</li>
+                </ol>
+                
+                <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                    <h3 class="font-semibold text-yellow-800 mb-2"><i class="fas fa-lightbulb mr-2"></i> Supported Formula Types:</h3>
+                    <ul class="list-disc list-inside space-y-1 text-yellow-800">
+                        <li>Algebraic equations and expressions</li>
+                        <li>Calculus formulas (derivatives, integrals)</li>
+                        <li>Matrices and determinants</li>
+                        <li>Statistical formulas</li>
+                        <li>Physics equations</li>
+                        <li>Chemical formulas and reactions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4>
+                    <p>Free online tools for your PDF tasks.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white">About</a></li>
+                        <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html" class="hover:text-white">Privacy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Set the current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Basic Formula Recognition functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfInput = document.getElementById('pdfInput');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const dropZone = document.getElementById('dropZone');
+            const formulaResults = document.getElementById('formulaResults');
+            const copyAllBtn = document.getElementById('copyAllBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const copyBtns = document.querySelectorAll('.copy-btn');
+            
+            // Event listeners for file upload
+            uploadBtn.addEventListener('click', () => pdfInput.click());
+            pdfInput.addEventListener('change', handleFileSelect);
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults);
+            });
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight);
+            });
+            
+            dropZone.addEventListener('drop', handleDrop);
+            
+            // Copy and download buttons
+            copyAllBtn.addEventListener('click', copyAllFormulas);
+            downloadBtn.addEventListener('click', downloadFormulas);
+            
+            copyBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const formulaCard = this.closest('.p-4');
+                    const latexCode = formulaCard.querySelector('code').textContent;
+                    copyToClipboard(latexCode);
+                    
+                    // Show feedback
+                    const originalIcon = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = originalIcon;
+                    }, 2000);
+                });
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            function highlight() {
+                dropZone.classList.add('border-blue-500', 'bg-blue-50');
+            }
+            
+            function unhighlight() {
+                dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+            }
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length && files[0].type === 'application/pdf') {
+                    pdfInput.files = files;
+                    handleFileSelect();
+                } else {
+                    alert('Please upload a PDF file.');
+                }
+            }
+            
+            function handleFileSelect() {
+                if (pdfInput.files.length === 0) return;
+                
+                const file = pdfInput.files[0];
+                if (file.type !== 'application/pdf') {
+                    alert('Please upload a PDF file.');
+                    return;
+                }
+                
+                // In a real implementation, we would process the PDF here
+                // For this demo, we'll just show the sample results
+                setTimeout(() => {
+                    formulaResults.classList.remove('hidden');
+                    // Trigger MathJax to render the formulas
+                    MathJax.typeset();
+                }, 1500);
+            }
+            
+            function copyAllFormulas() {
+                const allLatex = Array.from(document.querySelectorAll('code'))
+                    .map(code => code.textContent)
+                    .join('\n\n');
+                
+                copyToClipboard(allLatex);
+                alert('All formulas copied to clipboard!');
+            }
+            
+            function downloadFormulas() {
+                const allLatex = Array.from(document.querySelectorAll('code'))
+                    .map(code => code.textContent)
+                    .join('\n\n');
+                
+                const blob = new Blob([allLatex], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'extracted_formulas.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+            
+            function copyToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

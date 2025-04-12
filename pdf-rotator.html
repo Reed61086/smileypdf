@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,14 @@
     <link rel="icon" type="image/png" href="logo.png">
      <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Additional Libraries -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Redundant but kept from user feedback -->
@@ -29,6 +37,7 @@
         #pdfPreview::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .page-thumbnail.selected { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); } /* Added selection style */
     </style>
+<link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-50 min-h-screen">
 <!-- Header -->
@@ -70,7 +79,17 @@
              <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
          </div>
           <!-- Mobile Menu Button -->
-          <div class="md:hidden">
+          <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
               <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
                   <span class="sr-only">Open menu</span>
                   <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
@@ -119,9 +138,9 @@
                         <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
                         <p class="text-lg font-medium text-gray-700 mb-2">Drag & drop your PDF file here</p>
                         <p class="text-gray-500 mb-4">or</p>
-                        <label for="fileInput" class="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer">
+                        <button type="button" class="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition cursor-pointer">
                             Select File
-                        </label>
+                        </button>
                         <input id="fileInput" type="file" accept=".pdf" class="hidden">
                     </div>
                 </div>
@@ -252,27 +271,109 @@
              pdfPreview.addEventListener('click', handleThumbnailClick); // Delegate click to parent
 
 
-             function setupUploadListeners() { ['dragenter','dragover','dragleave','drop'].forEach(ev => dropzone.addEventListener(ev, preventDefaults)); document.body.addEventListener('dragenter', preventDefaults); document.body.addEventListener('dragover', preventDefaults); document.body.addEventListener('drop', preventDefaults); ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,()=>dropzone.classList.add('active'))); ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,()=>dropzone.classList.remove('active'))); dropzone.addEventListener('drop',handleDrop); dropzone.querySelector('label').addEventListener('click', ()=>fileInput.click()); /* Fix label click */ fileInput.addEventListener('change',handleFileSelect);}
+             function setupUploadListeners() {
+                 // Prevent defaults for drag events
+                 ['dragenter','dragover','dragleave','drop'].forEach(ev => {
+                     dropzone.addEventListener(ev, preventDefaults);
+                 });
+
+                 // Prevent defaults on body to avoid browser handling
+                 document.body.addEventListener('dragenter', preventDefaults);
+                 document.body.addEventListener('dragover', preventDefaults);
+                 document.body.addEventListener('drop', preventDefaults);
+
+                 // Add active class for visual feedback
+                 ['dragenter','dragover'].forEach(ev => {
+                     dropzone.addEventListener(ev, () => dropzone.classList.add('active'));
+                 });
+
+                 // Remove active class
+                 ['dragleave','drop'].forEach(ev => {
+                     dropzone.addEventListener(ev, () => dropzone.classList.remove('active'));
+                 });
+
+                 // Handle file drop
+                 dropzone.addEventListener('drop', handleDrop);
+
+                 // Handle button click
+                 const uploadButton = dropzone.querySelector('button');
+                 if (uploadButton) {
+                     uploadButton.addEventListener('click', (e) => {
+                         e.preventDefault();
+                         fileInput.click();
+                     });
+                 }
+
+                 // Handle file selection
+                 fileInput.addEventListener('change', handleFileSelect);
+             }
              function preventDefaults(e){e.preventDefault(); e.stopPropagation();}
-             function handleDrop(e){if(isProcessing)return;handleFileUpload(e.dataTransfer.files[0]);}
-             function handleFileSelect(e){if(isProcessing)return;handleFileUpload(e.target.files[0]);fileInput.value=null;}
+             function handleDrop(e){
+                console.log('File dropped');
+                if(isProcessing) {
+                    console.log('Processing in progress, ignoring dropped file');
+                    return;
+                }
+
+                const dt = e.dataTransfer;
+                if (!dt || !dt.files || dt.files.length === 0) {
+                    console.log('No files in drop event');
+                    return;
+                }
+
+                const file = dt.files[0];
+                console.log('Dropped file:', file.name, file.type);
+
+                handleFileUpload(file);
+            }
+             function handleFileSelect(e){
+                console.log('File selected via input');
+                if(isProcessing) {
+                    console.log('Processing in progress, ignoring file selection');
+                    return;
+                }
+
+                const file = e.target.files[0];
+                if (!file) {
+                    console.log('No file selected');
+                    return;
+                }
+
+                console.log('Selected file:', file.name, file.type);
+                handleFileUpload(file);
+
+                // Reset the file input so the same file can be selected again
+                fileInput.value = null;
+            }
 
             async function handleFileUpload(file) {
-                if (!file || !(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) { showError("Please upload a valid PDF file.", 5000); return; }
-                 resetTool(false); isProcessing = true; showProcessingMessage('Reading file...');
+                console.log('Processing file upload:', file ? file.name : 'no file');
+
+                if (!file || !(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) {
+                    showError("Please upload a valid PDF file.", 5000);
+                    return;
+                }
+
+                resetTool(false);
+                isProcessing = true;
+                showProcessingMessage('Reading file...');
 
                 try {
-                     pdfFileBytes = new Uint8Array(await file.arrayBuffer());
-                     currentFile = file; showProcessingMessage('Loading PDF...');
+                    console.log('Reading file as array buffer');
+                    pdfFileBytes = new Uint8Array(await file.arrayBuffer());
+                    currentFile = file;
+                    showProcessingMessage('Loading PDF...');
 
-                     // Load concurrently
+                    console.log('Loading PDF with PDF.js and PDF-lib');
+                    // Load concurrently
                     [pdfLibDoc, pdfJsDoc] = await Promise.all([
                         PDFLib.PDFDocument.load(pdfFileBytes, { ignoreEncryption: true }),
-                         PDFJS.getDocument({ data: pdfFileBytes, cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`, cMapPacked: true }).promise
-                     ]);
+                        PDFJS.getDocument({ data: pdfFileBytes, cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`, cMapPacked: true }).promise
+                    ]);
 
+                    console.log('PDF loaded successfully');
                     fileNameDisplay.textContent = `File: ${file.name} (${(file.size / 1024 /1024).toFixed(2)} MB)`;
-                     fileNameDisplay.classList.remove('hidden');
+                    fileNameDisplay.classList.remove('hidden');
                     controlsSection.classList.remove('hidden');
                     previewSection.classList.remove('hidden'); // Show preview section immediately
                      previewPlaceholder.classList.remove('hidden'); // Show loading text
@@ -345,16 +446,97 @@
 
             // --- Download & Reset ---
              function downloadRotatedPDF() { if (!pdfFileBytes || !currentFile) { showError("No processed PDF.", 5000); return; } try { const blob=new Blob([pdfFileBytes],{type:'application/pdf'}); const orig=currentFile.name.replace(/\.pdf$/i, ''); saveAs(blob,`${orig}-rotated.pdf`); showSuccessMessage('Download started!', 3000); } catch(err) { console.error("DL Err:", err); showError("Failed to start download."); } }
-            function resetTool(showDefaultMsg=true) { isProcessing=false; currentFile=null; pdfLibDoc=null; pdfJsDoc=null; pdfFileBytes=null; selectedPagesIndices=[]; currentRotationOption=0; controlsSection.classList.add('hidden'); previewPlaceholder.classList.remove('hidden'); previewSection.innerHTML=''; /* Clear children including loading */ previewSection.appendChild(previewPlaceholder); /* Add loading text back */ resultSection.classList.add('hidden'); fileInput.value=null; fileError.classList.add('hidden'); hideProcessingMessage(); rotateOptions.forEach(btn=>btn.classList.remove('active')); pageRangeInput.value=''; rotateSelected.disabled=true; if(showDefaultMsg){fileNameDisplay.textContent='';fileNameDisplay.classList.add('hidden');} else {fileNameDisplay.textContent='';} updateSelectedCount(); }
+            function resetTool(showDefaultMsg=true) {
+                isProcessing = false;
+                currentFile = null;
+                pdfLibDoc = null;
+                pdfJsDoc = null;
+                pdfFileBytes = null;
+                selectedPagesIndices = [];
+                currentRotationOption = 0;
+
+                // Hide sections
+                controlsSection.classList.add('hidden');
+                previewSection.classList.add('hidden');
+                resultSection.classList.add('hidden');
+
+                // Reset preview
+                pdfPreview.innerHTML = '';
+                previewPlaceholder.classList.remove('hidden');
+
+                // Reset form elements
+                fileInput.value = null;
+                fileError.classList.add('hidden');
+                hideProcessingMessage();
+                rotateOptions.forEach(btn => btn.classList.remove('active'));
+                pageRangeInput.value = '';
+                rotateSelected.disabled = true;
+
+                // Reset file display
+                if (showDefaultMsg) {
+                    fileNameDisplay.textContent = '';
+                    fileNameDisplay.classList.add('hidden');
+                } else {
+                    fileNameDisplay.textContent = '';
+                }
+
+                updateSelectedCount();
+            }
 
              // --- Utility Functions ---
-            function showError(msg, persist=false, duration=5000) { if(!fileError)return; fileError.textContent=msg; fileError.classList.remove('hidden'); if(!persist){ setTimeout(() => fileError.classList.add('hidden'), duration); }}
-            function showSuccessMessage(msg, duration=3000) { if(!successMessage) return; successText.textContent = msg; successMessage.classList.remove('hidden'); setTimeout(() => successMessage.classList.add('hidden'), duration);}
-             function showProcessingMessage(msg, hide=false){if(!processingIndicator)return;if(hide){processingIndicator.classList.add('hidden');}else{processingIndicator.querySelector('span').textContent=msg||'Processing...'; processingIndicator.classList.remove('hidden');}}
-             function hideProcessingMessage(){if(processingIndicator)processingIndicator.classList.add('hidden');}
-             function handleError(err, contextMsg) { console.error(contextMsg, err); showError(`${contextMsg} ${err.message || 'Please try again.'}`, true); isProcessing=false; hideProcessingMessage(); /* Maybe reset further? */}
+            function showError(msg, persist=false, duration=5000) {
+                const fileError = document.getElementById('fileError');
+                if (!fileError) return;
+
+                console.error('Error:', msg);
+                fileError.textContent = msg;
+                fileError.classList.remove('hidden');
+
+                if (!persist) {
+                    setTimeout(() => fileError.classList.add('hidden'), duration);
+                }
+            }
+            function showSuccessMessage(msg, duration=3000) {
+                const successMessage = document.getElementById('successMessage');
+                const successText = document.getElementById('successText');
+                if (!successMessage || !successText) return;
+
+                successText.textContent = msg;
+                successMessage.classList.remove('hidden');
+                setTimeout(() => successMessage.classList.add('hidden'), duration);
+            }
+             function showProcessingMessage(msg, hide=false){
+                const processingIndicator = document.getElementById('processingIndicator');
+                if (!processingIndicator) return;
+
+                if (hide) {
+                    processingIndicator.classList.add('hidden');
+                } else {
+                    const msgSpan = processingIndicator.querySelector('span');
+                    if (msgSpan) {
+                        msgSpan.textContent = msg || 'Processing...';
+                    }
+                    processingIndicator.classList.remove('hidden');
+                }
+            }
+
+            function hideProcessingMessage(){
+                const processingIndicator = document.getElementById('processingIndicator');
+                if (processingIndicator) {
+                    processingIndicator.classList.add('hidden');
+                }
+            }
+             function handleError(err, contextMsg) {
+                console.error(contextMsg, err);
+                showError(`${contextMsg} ${err.message || 'Please try again.'}`, true);
+                isProcessing = false;
+                hideProcessingMessage();
+                // Reset the tool to allow trying again
+                resetTool(false);
+            }
          });
     </script>
 
+<script src="dark-mode.js"></script>
 </body>
 </html>

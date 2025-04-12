@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Advanced PDF Splitting Techniques for Better Document Management | SmileyPDF Blog</title>
+    <meta name="description" content="Learn 7 professional PDF splitting techniques to organize your documents more efficiently. Discover how to extract pages, split by bookmarks, divide by size, and more.">
+    <meta name="keywords" content="PDF splitting techniques, split PDF by bookmark, extract PDF pages, PDF document management, organize PDF files, PDF splitting best practices, PDF organization tips">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="canonical" href="https://smileypdf.com/blog-post-5.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://smileypdf.com/blog-post-5.html">
+    <meta property="og:title" content="7 Advanced PDF Splitting Techniques for Better Document Management">
+    <meta property="og:description" content="Learn 7 professional PDF splitting techniques to organize your documents more efficiently. Discover how to extract pages, split by bookmarks, divide by size, and more.">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/blog-post-5.html">
+    <meta property="twitter:title" content="7 Advanced PDF Splitting Techniques for Better Document Management">
+    <meta property="twitter:description" content="Learn 7 professional PDF splitting techniques to organize your documents more efficiently. Discover how to extract pages, split by bookmarks, divide by size, and more.">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+    
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "7 Advanced PDF Splitting Techniques for Better Document Management",
+      "image": "https://smileypdf.com/og-image.jpg",
+      "datePublished": "2024-07-15T08:00:00+00:00",
+      "dateModified": "2024-07-15T08:00:00+00:00",
+      "author": {
+        "@type": "Organization",
+        "name": "SmileyPDF",
+        "url": "https://smileypdf.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "SmileyPDF",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://smileypdf.com/logo.png"
+        }
+      },
+      "description": "Learn 7 professional PDF splitting techniques to organize your documents more efficiently. Discover how to extract pages, split by bookmarks, divide by size, and more."
+    }
+    </script>
+    
+    <style>
+        /* Optional: Add custom styles for blog posts */
+        .prose p { margin-bottom: 1em; }
+        .prose ul { list-style: disc; margin-left: 1.5em; margin-bottom: 1em; }
+        .prose ol { list-style: decimal; margin-left: 1.5em; margin-bottom: 1em; }
+        .prose h2 { margin-top: 1.5em; margin-bottom: 0.8em; font-size: 1.5em; font-weight: 600; color: #1f2937; }
+        .prose h3 { margin-top: 1.2em; margin-bottom: 0.6em; font-size: 1.25em; font-weight: 600; color: #1f2937; }
+        .prose img { margin: 1.5em 0; border-radius: 0.375rem; }
+        .prose a { color: #2563eb; text-decoration: underline; }
+        .prose a:hover { color: #1d4ed8; }
+        .prose blockquote { border-left: 4px solid #e5e7eb; padding-left: 1em; font-style: italic; margin: 1.5em 0; color: #4b5563; }
+    </style>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <!-- Logo Link -->
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+                <!-- Tools Dropdown -->
+                 <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                         x-transition:enter="transition ease-out duration-100 transform"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75 transform"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                         style="display: none;" x-cloak>
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                         <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF Splitter</a>
+                    </div>
+                 </div>
+                <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm text-white bg-blue-600">Blog</a>
+                <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+                <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                    <span class="sr-only">Open menu</span>
+                    <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                    <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 bg-blue-700">Blog</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF Tools</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Split PDF</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        <article class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md prose lg:prose-lg">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">7 Advanced PDF Splitting Techniques for Better Document Management</h1>
+            <p class="text-sm text-gray-500 mb-6 border-b pb-4">Published on July 15, 2024</p>
+
+            <p class="text-gray-700 leading-relaxed">
+                PDF documents are the standard for sharing and preserving information across platforms, but managing large PDFs can be challenging. Whether you're dealing with lengthy reports, comprehensive manuals, or extensive research papers, knowing how to effectively split PDFs can significantly improve your document workflow and organization. In this guide, we'll explore seven advanced PDF splitting techniques that professionals use to manage their documents more efficiently.
+            </p>
+
+            <!-- Ad Block -->
+            <div class="my-8 text-center">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-9273434855071552"
+                     data-ad-slot="6257062799"></ins>
+                <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+            </div>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">1. Split by Logical Document Sections</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Rather than arbitrarily dividing a document, consider splitting your PDF based on its logical sections. This approach maintains the document's natural organization and makes it easier to navigate and share specific content.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>How to implement:</strong> Identify natural breaking points in your document such as chapters, sections, or topics. Use our <a href="pdf-splitter.html" class="text-blue-600 hover:underline">PDF Splitter tool</a> to extract these sections by specifying the corresponding page ranges.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Best for:</strong> Books, manuals, reports with distinct sections, academic papers, and legal documents.
+            </p>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">2. Split by Bookmarks (Table of Contents)</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Many professional PDFs include bookmarks that outline the document's structure. These bookmarks can serve as perfect splitting points for creating logically organized smaller documents.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>How to implement:</strong> First, check if your PDF has bookmarks by opening the bookmarks panel in your PDF viewer. Note the page numbers associated with each bookmark, then use these page ranges to split your document.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Best for:</strong> Technical documentation, ebooks, annual reports, and any document with a well-defined table of contents.
+            </p>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">3. Extract Pages by Content Type</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Sometimes you need to separate different types of content within a document, such as extracting all charts, tables, or appendices into separate files.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>How to implement:</strong> Review your document and identify pages containing specific content types. Create a list of these page numbers (they may not be consecutive), then use the "Extract specific pages" option in our PDF Splitter to create a new document with just these pages.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Best for:</strong> Research papers, data-heavy reports, financial documents, and presentations.
+            </p>
+
+            <!-- Ad Block -->
+            <div class="my-8 text-center">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-9273434855071552"
+                     data-ad-slot="6257062799"></ins>
+                <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+            </div>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">4. Split by File Size</h2>
+            <p class="text-gray-700 leading-relaxed">
+                When you need to share PDFs via email or platforms with file size limitations, splitting a large document into smaller, equally-sized parts can be essential.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>How to implement:</strong> Determine the maximum file size you need (e.g., 10MB for email attachments). Calculate approximately how many pages would fit within this size limit based on your document's current size-to-page ratio. Then split the document into chunks of that many pages.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Best for:</strong> Large documents that need to be emailed, uploaded to platforms with size restrictions, or shared via messaging apps.
+            </p>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">5. Split for Collaborative Editing</h2>
+            <p class="text-gray-700 leading-relaxed">
+                When multiple people need to work on different sections of a document simultaneously, splitting the PDF allows for parallel editing without conflicts.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>How to implement:</strong> Identify which sections need to be edited by different team members. Split the document accordingly, distribute the sections to the appropriate team members, and then use a <a href="merge-pdf.html" class="text-blue-600 hover:underline">PDF Merger tool</a> to recombine the edited sections later.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Best for:</strong> Team projects, collaborative reports, documents requiring input from multiple departments, and manuscripts with multiple authors.
+            </p>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">6. Extract Form Data Pages</h2>
+            <p class="text-gray-700 leading-relaxed">
+                For documents containing forms or questionnaires filled out by multiple respondents, you might want to extract just the pages containing the completed forms.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>How to implement:</strong> Identify the page numbers containing completed forms. Use the specific page extraction feature to pull out just these pages, creating a condensed document of responses.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Best for:</strong> Surveys, application forms, feedback forms, and any document where you need to compile responses from multiple sources.
+            </p>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">7. Create Focused Reading Materials</h2>
+            <p class="text-gray-700 leading-relaxed">
+                When studying or researching, you might want to extract only the most relevant pages from multiple sources to create a focused reading document.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>How to implement:</strong> Extract the key pages from each source document using our PDF Splitter. Then, combine these extracted pages into a new, consolidated document using our <a href="merge-pdf.html" class="text-blue-600 hover:underline">PDF Merger tool</a>.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                <strong>Best for:</strong> Students, researchers, professionals preparing for presentations, and anyone needing to compile information from multiple sources.
+            </p>
+
+            <!-- Ad Block -->
+            <div class="my-8 text-center">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-9273434855071552"
+                     data-ad-slot="6257062799"></ins>
+                <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+            </div>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Best Practices for PDF Splitting</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Regardless of which splitting technique you choose, following these best practices will help ensure successful results:
+            </p>
+            
+            <ul class="list-disc list-inside ml-4 space-y-2 text-gray-700 leading-relaxed">
+                <li><strong>Always work with a copy</strong> of your original PDF to prevent accidental data loss.</li>
+                <li><strong>Use descriptive filenames</strong> for your split documents to make them easy to identify later.</li>
+                <li><strong>Consider adding page numbers</strong> to your documents before splitting to maintain reference points.</li>
+                <li><strong>Test your split PDFs</strong> to ensure all content, formatting, and interactive elements work correctly.</li>
+                <li><strong>Document your splitting strategy</strong>, especially for complex documents that you might need to reconstruct later.</li>
+                <li><strong>Use client-side tools</strong> like SmileyPDF for sensitive documents to maintain privacy and security.</li>
+            </ul>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
+                <p class="text-blue-700">
+                    <strong>Pro Tip:</strong> When splitting PDFs for professional purposes, consider creating a cover page for each split document that references the original source. This helps maintain context and ensures proper attribution.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Tools for PDF Splitting</h2>
+            <p class="text-gray-700 leading-relaxed">
+                While there are many PDF tools available, we recommend using SmileyPDF's <a href="pdf-splitter.html" class="text-blue-600 hover:underline">free online PDF Splitter</a> for several reasons:
+            </p>
+            
+            <ul class="list-disc list-inside ml-4 space-y-2 text-gray-700 leading-relaxed">
+                <li><strong>Client-side processing:</strong> Your documents never leave your device, ensuring complete privacy.</li>
+                <li><strong>No installation required:</strong> Works directly in your web browser without additional software.</li>
+                <li><strong>Multiple splitting options:</strong> Extract specific pages, split by range, or separate each page.</li>
+                <li><strong>Completely free:</strong> No hidden fees, subscriptions, or limitations.</li>
+                <li><strong>Cross-platform compatibility:</strong> Works on Windows, Mac, Linux, iOS, and Android devices.</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Conclusion</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Mastering these PDF splitting techniques can significantly improve your document management workflow. Whether you're organizing research materials, preparing client deliverables, or simply trying to make large documents more manageable, strategic PDF splitting is a valuable skill.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Remember that the best splitting approach depends on your specific needs and the nature of your documents. Experiment with different techniques to find what works best for your workflow, and don't hesitate to combine multiple approaches for complex document management tasks.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Ready to start splitting your PDFs more effectively? Try our <a href="pdf-splitter.html" class="text-blue-600 hover:underline">free online PDF Splitter tool</a> today and experience the benefits of improved document organization.
+            </p>
+
+            <!-- Author Bio -->
+            <div class="mt-12 pt-6 border-t border-gray-200">
+                <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-full" src="logo.png" alt="SmileyPDF">
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-900">SmileyPDF Team</p>
+                        <div class="text-sm text-gray-500">
+                            <p>PDF experts passionate about making document management easier for everyone.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Posts -->
+            <div class="mt-12">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Related Articles</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <a href="blog-post-1.html" class="block p-4 border rounded-lg hover:bg-gray-50 transition duration-150">
+                        <h4 class="font-medium text-gray-900 mb-1">5 Quick Tips for Editing PDFs Online</h4>
+                        <p class="text-sm text-gray-500">Learn how to make common edits to your PDF documents without expensive software.</p>
+                    </a>
+                    <a href="blog-post-2.html" class="block p-4 border rounded-lg hover:bg-gray-50 transition duration-150">
+                        <h4 class="font-medium text-gray-900 mb-1">How to Convert PDF to Word Without Losing Formatting</h4>
+                        <p class="text-sm text-gray-500">Discover techniques to maintain your document's layout when converting from PDF to Word.</p>
+                    </a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 mt-12">
+        <div class="container mx-auto px-4 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">About SmileyPDF</h4>
+                    <p class="mb-3">SmileyPDF offers free online PDF tools to help you manage your PDF files without installing any software.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">PDF Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="merge-pdf.html" class="hover:text-white">Merge PDF</a></li>
+                        <li><a href="pdf-splitter.html" class="hover:text-white">Split PDF</a></li>
+                        <li><a href="pdf-to-word.html" class="hover:text-white">PDF to Word</a></li>
+                        <li><a href="pdf-to-jpg.html" class="hover:text-white">PDF to JPG</a></li>
+                        <li><a href="image-to-pdf.html" class="hover:text-white">Image to PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                        <li><a href="about.html" class="hover:text-white">About</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">Legal & Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-600 pt-8 mt-8 text-sm text-center">
+                <p class="mb-2">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</p>
+                <p class="text-gray-400">SmileyPDF is not affiliated with Adobe Systems Incorporated.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

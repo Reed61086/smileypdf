@@ -1,0 +1,503 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable PDF Templates - SmileyPDF</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- PDF.js for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            <div class="hidden md:flex items-center space-x-4">
+                 <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+                 <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                     </button>
+                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                         <a href="text-to-speech.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Text to Speech</a>
+                         <a href="pdf-templates.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Templates</a>
+                      </div>
+                  </div>
+                  <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+                  <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+                  <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+              </div>
+               <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                   <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                       <span class="sr-only">Open menu</span>
+                       <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                       <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                   </button>
+              </div>
+         </nav>
+          <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+                <a href="text-to-speech.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Text to Speech</a>
+                <a href="pdf-templates.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Templates</a>
+             </div>
+          </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 flex-grow">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-gray-800 mb-3">Customizable PDF Templates</h1>
+                <p class="text-gray-600 text-lg">Use pre-designed templates for various documents and customize them to your needs.</p>
+            </div>
+
+            <!-- Template Selection Section -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Choose a Template</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Resume Template -->
+                    <div class="template-card border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow" data-template="resume">
+                        <div class="h-40 bg-gray-200 flex items-center justify-center">
+                            <i class="fas fa-file-alt text-4xl text-gray-500"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-medium text-gray-800">Resume Template</h4>
+                            <p class="text-gray-600 text-sm mt-1">Professional resume layout</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Invoice Template -->
+                    <div class="template-card border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow" data-template="invoice">
+                        <div class="h-40 bg-gray-200 flex items-center justify-center">
+                            <i class="fas fa-file-invoice-dollar text-4xl text-gray-500"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-medium text-gray-800">Invoice Template</h4>
+                            <p class="text-gray-600 text-sm mt-1">Business invoice with calculations</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Letter Template -->
+                    <div class="template-card border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow" data-template="letter">
+                        <div class="h-40 bg-gray-200 flex items-center justify-center">
+                            <i class="fas fa-envelope text-4xl text-gray-500"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-medium text-gray-800">Business Letter</h4>
+                            <p class="text-gray-600 text-sm mt-1">Formal business letter format</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Template Editor (Hidden initially) -->
+            <div id="templateEditor" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Customize Your Template</h3>
+                
+                <div id="editorFields" class="space-y-4">
+                    <!-- Fields will be dynamically added based on selected template -->
+                </div>
+                
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button id="previewBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                        <i class="fas fa-eye mr-2"></i> Preview
+                    </button>
+                    <button id="downloadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+                        <i class="fas fa-download mr-2"></i> Download PDF
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Preview Modal (Hidden) -->
+            <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-auto p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Template Preview</h3>
+                        <button id="closePreviewBtn" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="previewContent" class="border p-4 min-h-[500px]">
+                        <!-- Preview content will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Use Section -->
+            <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">How to Use PDF Templates</h2>
+                <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                    <li>Choose a template from the available options.</li>
+                    <li>Fill in the customizable fields with your information.</li>
+                    <li>Preview your document to see how it will look.</li>
+                    <li>Download the finished PDF document.</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4>
+                    <p>Free online tools for your PDF tasks.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white">About</a></li>
+                        <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2 uppercase">Legal</h4>
+                    <ul>
+                        <li><a href="privacy.html" class="hover:text-white">Privacy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Set the current year in the footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Template functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const templateCards = document.querySelectorAll('.template-card');
+            const templateEditor = document.getElementById('templateEditor');
+            const editorFields = document.getElementById('editorFields');
+            const previewBtn = document.getElementById('previewBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const previewModal = document.getElementById('previewModal');
+            const closePreviewBtn = document.getElementById('closePreviewBtn');
+            const previewContent = document.getElementById('previewContent');
+            
+            // Template definitions
+            const templates = {
+                resume: {
+                    name: 'Resume Template',
+                    fields: [
+                        { id: 'name', label: 'Full Name', type: 'text', placeholder: 'John Doe' },
+                        { id: 'email', label: 'Email', type: 'email', placeholder: 'john@example.com' },
+                        { id: 'phone', label: 'Phone', type: 'tel', placeholder: '(123) 456-7890' },
+                        { id: 'summary', label: 'Professional Summary', type: 'textarea', placeholder: 'Experienced professional with...' },
+                        { id: 'experience', label: 'Work Experience', type: 'textarea', placeholder: 'List your work experience here...' },
+                        { id: 'education', label: 'Education', type: 'textarea', placeholder: 'List your education here...' },
+                        { id: 'skills', label: 'Skills', type: 'textarea', placeholder: 'List your skills here...' }
+                    ]
+                },
+                invoice: {
+                    name: 'Invoice Template',
+                    fields: [
+                        { id: 'businessName', label: 'Business Name', type: 'text', placeholder: 'Your Business Name' },
+                        { id: 'businessAddress', label: 'Business Address', type: 'textarea', placeholder: '123 Business St, City, State, ZIP' },
+                        { id: 'clientName', label: 'Client Name', type: 'text', placeholder: 'Client Name' },
+                        { id: 'clientAddress', label: 'Client Address', type: 'textarea', placeholder: 'Client Address' },
+                        { id: 'invoiceNumber', label: 'Invoice Number', type: 'text', placeholder: 'INV-001' },
+                        { id: 'invoiceDate', label: 'Invoice Date', type: 'date' },
+                        { id: 'dueDate', label: 'Due Date', type: 'date' },
+                        { id: 'items', label: 'Items (Description, Quantity, Price)', type: 'textarea', placeholder: 'Item 1, 1, $100\nItem 2, 2, $50' }
+                    ]
+                },
+                letter: {
+                    name: 'Business Letter',
+                    fields: [
+                        { id: 'senderName', label: 'Sender Name', type: 'text', placeholder: 'Your Name' },
+                        { id: 'senderAddress', label: 'Sender Address', type: 'textarea', placeholder: 'Your Address' },
+                        { id: 'date', label: 'Date', type: 'date' },
+                        { id: 'recipientName', label: 'Recipient Name', type: 'text', placeholder: 'Recipient Name' },
+                        { id: 'recipientAddress', label: 'Recipient Address', type: 'textarea', placeholder: 'Recipient Address' },
+                        { id: 'subject', label: 'Subject', type: 'text', placeholder: 'Re: Important Matter' },
+                        { id: 'greeting', label: 'Greeting', type: 'text', placeholder: 'Dear Mr./Ms. Last Name,' },
+                        { id: 'body', label: 'Letter Body', type: 'textarea', placeholder: 'Write your letter content here...' },
+                        { id: 'closing', label: 'Closing', type: 'text', placeholder: 'Sincerely,' }
+                    ]
+                }
+            };
+            
+            let currentTemplate = null;
+            
+            // Event listeners
+            templateCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const templateId = card.dataset.template;
+                    loadTemplate(templateId);
+                });
+            });
+            
+            previewBtn.addEventListener('click', showPreview);
+            downloadBtn.addEventListener('click', generatePDF);
+            closePreviewBtn.addEventListener('click', () => {
+                previewModal.classList.add('hidden');
+            });
+            
+            // Load template fields
+            function loadTemplate(templateId) {
+                if (!templates[templateId]) return;
+                
+                currentTemplate = templates[templateId];
+                editorFields.innerHTML = '';
+                
+                currentTemplate.fields.forEach(field => {
+                    const fieldContainer = document.createElement('div');
+                    
+                    const label = document.createElement('label');
+                    label.className = 'block text-sm font-medium text-gray-700 mb-1';
+                    label.textContent = field.label;
+                    label.setAttribute('for', field.id);
+                    
+                    let input;
+                    if (field.type === 'textarea') {
+                        input = document.createElement('textarea');
+                        input.className = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500';
+                        input.rows = 3;
+                    } else {
+                        input = document.createElement('input');
+                        input.className = 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500';
+                        input.type = field.type;
+                    }
+                    
+                    input.id = field.id;
+                    input.name = field.id;
+                    if (field.placeholder) input.placeholder = field.placeholder;
+                    
+                    fieldContainer.appendChild(label);
+                    fieldContainer.appendChild(input);
+                    editorFields.appendChild(fieldContainer);
+                });
+                
+                templateEditor.classList.remove('hidden');
+                templateEditor.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Show preview
+            function showPreview() {
+                if (!currentTemplate) return;
+                
+                const formData = getFormData();
+                let previewHTML = '';
+                
+                switch (currentTemplate.name) {
+                    case 'Resume Template':
+                        previewHTML = generateResumePreview(formData);
+                        break;
+                    case 'Invoice Template':
+                        previewHTML = generateInvoicePreview(formData);
+                        break;
+                    case 'Business Letter':
+                        previewHTML = generateLetterPreview(formData);
+                        break;
+                }
+                
+                previewContent.innerHTML = previewHTML;
+                previewModal.classList.remove('hidden');
+            }
+            
+            // Generate PDF
+            function generatePDF() {
+                alert('PDF download functionality would be implemented here. In a real implementation, this would create and download a PDF based on your template.');
+            }
+            
+            // Get form data
+            function getFormData() {
+                const data = {};
+                currentTemplate.fields.forEach(field => {
+                    const element = document.getElementById(field.id);
+                    data[field.id] = element ? element.value : '';
+                });
+                return data;
+            }
+            
+            // Generate preview HTML for each template type
+            function generateResumePreview(data) {
+                return `
+                    <div class="font-sans">
+                        <div class="text-center mb-6">
+                            <h1 class="text-2xl font-bold">${data.name || 'Full Name'}</h1>
+                            <p>${data.email || 'email@example.com'} | ${data.phone || '(123) 456-7890'}</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h2 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Professional Summary</h2>
+                            <p>${data.summary || 'No summary provided.'}</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h2 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Experience</h2>
+                            <p style="white-space: pre-line">${data.experience || 'No experience provided.'}</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h2 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Education</h2>
+                            <p style="white-space: pre-line">${data.education || 'No education provided.'}</p>
+                        </div>
+                        
+                        <div>
+                            <h2 class="text-lg font-semibold border-b border-gray-300 pb-1 mb-2">Skills</h2>
+                            <p style="white-space: pre-line">${data.skills || 'No skills provided.'}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateInvoicePreview(data) {
+                // Parse items
+                let itemsHTML = '<tr><th class="border p-2 text-left">Description</th><th class="border p-2">Quantity</th><th class="border p-2">Price</th><th class="border p-2">Total</th></tr>';
+                let total = 0;
+                
+                if (data.items) {
+                    const lines = data.items.split('\n');
+                    lines.forEach(line => {
+                        if (line.trim()) {
+                            const [desc, qty, price] = line.split(',').map(item => item.trim());
+                            const quantity = parseInt(qty) || 0;
+                            const unitPrice = parseFloat(price.replace('$', '')) || 0;
+                            const lineTotal = quantity * unitPrice;
+                            total += lineTotal;
+                            
+                            itemsHTML += `
+                                <tr>
+                                    <td class="border p-2">${desc || 'Item'}</td>
+                                    <td class="border p-2 text-center">${quantity}</td>
+                                    <td class="border p-2 text-right">$${unitPrice.toFixed(2)}</td>
+                                    <td class="border p-2 text-right">$${lineTotal.toFixed(2)}</td>
+                                </tr>
+                            `;
+                        }
+                    });
+                }
+                
+                return `
+                    <div class="font-sans">
+                        <div class="flex justify-between mb-8">
+                            <div>
+                                <h1 class="text-2xl font-bold">${data.businessName || 'Business Name'}</h1>
+                                <p style="white-space: pre-line">${data.businessAddress || 'Business Address'}</p>
+                            </div>
+                            <div class="text-right">
+                                <h2 class="text-xl font-bold">INVOICE</h2>
+                                <p><strong>Invoice #:</strong> ${data.invoiceNumber || 'INV-001'}</p>
+                                <p><strong>Date:</strong> ${data.invoiceDate || 'Date'}</p>
+                                <p><strong>Due Date:</strong> ${data.dueDate || 'Due Date'}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="font-semibold mb-2">Bill To:</h3>
+                            <p>${data.clientName || 'Client Name'}</p>
+                            <p style="white-space: pre-line">${data.clientAddress || 'Client Address'}</p>
+                        </div>
+                        
+                        <table class="w-full mb-8 border-collapse">
+                            ${itemsHTML}
+                            <tr>
+                                <td colspan="3" class="border p-2 text-right font-bold">Total:</td>
+                                <td class="border p-2 text-right font-bold">$${total.toFixed(2)}</td>
+                            </tr>
+                        </table>
+                        
+                        <div>
+                            <p class="font-semibold">Payment Terms:</p>
+                            <p>Please pay within 30 days of receiving this invoice.</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateLetterPreview(data) {
+                return `
+                    <div class="font-sans p-4">
+                        <div class="text-right mb-8">
+                            <p>${data.senderName || 'Sender Name'}</p>
+                            <p style="white-space: pre-line">${data.senderAddress || 'Sender Address'}</p>
+                            <p>${data.date || 'Date'}</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <p>${data.recipientName || 'Recipient Name'}</p>
+                            <p style="white-space: pre-line">${data.recipientAddress || 'Recipient Address'}</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p><strong>${data.subject || 'Subject'}</strong></p>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <p>${data.greeting || 'Dear Sir/Madam,'}</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <p style="white-space: pre-line">${data.body || 'Letter body content...'}</p>
+                        </div>
+                        
+                        <div>
+                            <p>${data.closing || 'Sincerely,'}</p>
+                            <p class="mt-8">${data.senderName || 'Sender Name'}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

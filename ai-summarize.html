@@ -1,0 +1,1012 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PDF Summarization - Get Concise Summaries of Your Documents | SmileyPDF</title>
+    <meta name="description" content="Automatically generate concise summaries of your PDF documents using AI. Save time by getting the key points without reading the entire document.">
+    <meta name="keywords" content="PDF summarization, AI document summary, PDF summary generator, summarize PDF, document summarizer, PDF key points, PDF abstract generator">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="canonical" href="https://smileypdf.com/ai-summarize.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smileypdf.com/ai-summarize.html">
+    <meta property="og:title" content="AI PDF Summarization - Get Concise Summaries of Your Documents | SmileyPDF">
+    <meta property="og:description" content="Automatically generate concise summaries of your PDF documents using AI. Save time by getting the key points without reading the entire document.">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/ai-summarize.html">
+    <meta property="twitter:title" content="AI PDF Summarization - Get Concise Summaries of Your Documents | SmileyPDF">
+    <meta property="twitter:description" content="Automatically generate concise summaries of your PDF documents using AI. Save time by getting the key points without reading the entire document.">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+            <!-- Logo Link -->
+            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+               <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+            </a>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+                <!-- Tools Dropdown -->
+                 <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                        Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div x-show="open" @click.away="open = false"
+                         x-transition:enter="transition ease-out duration-100 transform"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75 transform"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                         style="display: none;" x-cloak>
+                         <div class="py-1 border-b border-gray-200">
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">AI Tools</span>
+                             <a href="chat-with-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Chat with PDF</a>
+                             <a href="ai-summarize.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">AI Summarization</a>
+                         </div>
+                         <div class="py-1">
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">Basic Tools</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                         </div>
+                      </div>
+                  </div>
+                  <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+                  <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+                  <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+              </div>
+               <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+                   <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                       <span class="sr-only">Open menu</span><i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i><i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                   </button>
+              </div>
+         </nav>
+          <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" x-transition:enter="transition ease-out duration-200 transform origin-top" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform origin-top" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" style="display: none;" x-cloak>
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
+
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">AI Tools</h3>
+                <a href="chat-with-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Chat with PDF</a>
+                <a href="ai-summarize.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 bg-blue-800">AI Summarization</a>
+
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Basic Tools</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+             </div>
+          </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Breadcrumb Navigation -->
+        <nav class="text-sm mb-8" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex">
+                <li class="flex items-center">
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+                    <span class="mx-2 text-gray-500">/</span>
+                </li>
+                <li class="flex items-center text-gray-700">AI PDF Summarization</li>
+            </ol>
+        </nav>
+
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-3xl font-bold text-center mb-4">AI PDF Summarization</h1>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Upload your PDF and get an instant AI-generated summary. Our advanced AI will analyze your document and extract the key points, saving you time and effort.</p>
+
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+                <!-- Tool Header with Info -->
+                <div class="bg-blue-600 text-white p-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold">PDF Summarizer</h2>
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center" aria-label="Information">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm mt-1">Powered by advanced AI to create concise summaries of your PDF documents</p>
+                </div>
+
+                <!-- Main Tool Area -->
+                <div class="p-6" x-data="{ step: 1, pdfUploaded: false, summaryGenerated: false }" x-init="console.log('Alpine initialized')">
+                    <!-- Step 1: Upload PDF -->
+                    <div id="step1" style="display: block;" class="text-center py-8">
+                        <div class="mb-6">
+                            <i class="fas fa-file-pdf text-blue-500 text-5xl mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">Upload Your PDF</h3>
+                            <p class="text-gray-600 mb-4">Select a PDF file to generate a summary</p>
+                        </div>
+
+                        <div class="max-w-xl mx-auto">
+                            <label for="pdf-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-blue-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <i class="fas fa-cloud-upload-alt text-blue-500 text-2xl mb-2"></i>
+                                    <p class="mb-2 text-sm text-gray-700"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500">PDF (MAX. 100MB)</p>
+                                </div>
+                                <input id="pdf-upload" type="file" class="hidden" accept=".pdf" />
+                            </label>
+
+                            <div class="mt-4 text-sm text-gray-600">
+                                <p class="flex items-center"><i class="fas fa-shield-alt text-green-600 mr-2"></i> Your file stays on your device - nothing is uploaded to our servers</p>
+                            </div>
+                            <div class="mt-6">
+                                <button type="button" onclick="document.querySelector('#step1').style.display='none'; document.querySelector('#step2').style.display='block';" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">Continue to Step 2</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: PDF Processing -->
+                    <div id="step2" style="display: none;" class="py-8">
+                        <div class="text-center mb-8">
+                            <h3 class="text-xl font-semibold mb-2">Processing Your PDF</h3>
+                            <p class="text-gray-600">Please wait while our AI analyzes your document</p>
+                        </div>
+
+                        <div class="flex flex-col items-center">
+                            <!-- PDF Preview -->
+                            <div class="w-full max-w-md h-64 mb-6 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center">
+                                <p class="text-gray-500">PDF Preview</p>
+                            </div>
+
+                            <!-- Processing Status -->
+                            <div class="w-full max-w-md">
+                                <div class="mb-4">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm font-medium text-blue-700" id="progress-status">Generating summary...</span>
+                                        <span class="text-sm font-medium text-blue-700" id="progress-percentage">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-blue-600 h-2.5 rounded-full" id="progress-bar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+
+                                <ul class="space-y-2 text-sm text-gray-600" id="progress-steps">
+                                    <li class="flex items-center" id="step-loading">
+                                        <i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i> Loading document
+                                    </li>
+                                    <li class="flex items-center text-gray-400" id="step-extracting">
+                                        <i class="fas fa-circle text-gray-300 mr-2"></i> Extracting text
+                                    </li>
+                                    <li class="flex items-center text-gray-400" id="step-analyzing">
+                                        <i class="fas fa-circle text-gray-300 mr-2"></i> Analyzing content
+                                    </li>
+                                    <li class="flex items-center text-gray-400" id="step-generating">
+                                        <i class="fas fa-circle text-gray-300 mr-2"></i> Generating summary
+                                    </li>
+                                </ul>
+
+                                <div class="mt-6 text-center">
+                                    <button type="button" id="continue-to-summary" style="display: none;" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300 inline-flex items-center">
+                                        <span>View Summary</span> <i class="fas fa-arrow-right ml-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Summary Results -->
+                    <div id="step3" style="display: none;" class="py-4">
+                        <!-- Summary Options -->
+                        <div class="mb-6">
+                            <div class="flex flex-wrap gap-4 justify-center mb-4">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium">Executive Summary</button>
+                                <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300">Detailed Summary</button>
+                                <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300">Key Points</button>
+                            </div>
+                            <div class="flex justify-center gap-4 text-sm">
+                                <label class="inline-flex items-center">
+                                    <span class="mr-2 text-gray-700">Length:</span>
+                                    <select class="bg-gray-100 border border-gray-300 text-gray-700 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option>Short</option>
+                                        <option selected>Medium</option>
+                                        <option>Long</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Summary Content -->
+                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                            <h3 class="text-lg font-semibold mb-4 text-gray-800" id="summary-title">Executive Summary</h3>
+                            <div class="prose max-w-none text-gray-700" id="summary-content">
+                                <p class="mb-4">This document provides a comprehensive analysis of climate change impacts, focusing on its effects on global ecosystems and human societies. The author presents a detailed examination of current trends, challenges, and potential solutions.</p>
+
+                                <p class="mb-4">Key findings indicate that global temperatures have risen by approximately 1.1°C since pre-industrial times, which has significant implications for coastal communities and agricultural production. Additionally, the research highlights increasing frequency of extreme weather events as a critical factor in determining future adaptation strategies.</p>
+
+                                <p class="mb-4">The document recommends several strategic approaches, including rapid transition to renewable energy sources and implementation of carbon capture technologies. These strategies are supported by data from multiple scientific studies and economic analyses from leading institutions.</p>
+
+                                <p>In conclusion, the document emphasizes the importance of international cooperation and suggests that further research is needed in regional climate modeling and localized adaptation strategies.</p>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300 inline-flex items-center">
+                                <i class="fas fa-download mr-2"></i> Download Summary
+                            </button>
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-300 inline-flex items-center">
+                                <i class="fas fa-copy mr-2"></i> Copy to Clipboard
+                            </button>
+                            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-300 inline-flex items-center">
+                                <i class="fas fa-sync-alt mr-2"></i> Regenerate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold text-center mb-8">Key Features</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Save Time</h3>
+                        <p class="text-gray-600">Get the key points of lengthy documents in seconds instead of spending hours reading.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">100% Private & Secure</h3>
+                        <p class="text-gray-600">All processing happens in your browser. Your documents never leave your device.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Customizable Summaries</h3>
+                        <p class="text-gray-600">Adjust the length and style of your summaries to suit your specific needs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Use Cases Section -->
+            <div class="mt-16">
+                <h2 class="text-2xl font-semibold text-center mb-8">Perfect For</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-user-graduate text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Students & Researchers</h3>
+                                <p class="text-gray-600">Quickly digest academic papers, research articles, and textbooks. Get the main points without reading hundreds of pages.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-briefcase text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Business Professionals</h3>
+                                <p class="text-gray-600">Summarize lengthy reports, contracts, and business documents. Stay informed without spending hours reading.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-gavel text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Legal Professionals</h3>
+                                <p class="text-gray-600">Extract key points from legal documents, case studies, and precedents. Focus on what matters most.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                    <i class="fas fa-book-reader text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Avid Readers</h3>
+                                <p class="text-gray-600">Get summaries of books, articles, and long-form content. Decide what's worth reading in full.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="mt-16">
+                <h2 class="text-2xl font-semibold text-center mb-8">Frequently Asked Questions</h2>
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">How accurate are the AI-generated summaries?</h3>
+                        <p class="text-gray-600">Our AI summarization tool uses advanced natural language processing to create highly accurate summaries. While no automated summary can perfectly capture every nuance, our tool excels at identifying and extracting the most important information from documents.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Is my PDF data secure?</h3>
+                        <p class="text-gray-600">Absolutely. All processing happens directly in your browser using client-side technology. Your PDF never leaves your device or gets uploaded to our servers, ensuring maximum privacy and security.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">What types of documents work best with the summarizer?</h3>
+                        <p class="text-gray-600">Our summarizer works well with most text-based PDF documents, including academic papers, business reports, legal documents, articles, and books. Documents with clear structure and primarily textual content yield the best results.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Are there any file size limitations?</h3>
+                        <p class="text-gray-600">Since all processing happens in your browser, the file size limit depends on your device's memory. Most modern devices can easily handle PDFs up to 100MB, but performance may vary for very large files.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-16 py-12">
+        <div class="container mx-auto px-6">
+            <!-- Newsletter Signup -->
+            <div class="max-w-3xl mx-auto mb-12 text-center">
+                <h3 class="text-xl font-semibold text-white mb-4">Stay Updated with New Features</h3>
+                <p class="mb-6">Subscribe to our newsletter for the latest PDF tools and tips.</p>
+                <form class="flex flex-col sm:flex-row gap-2 justify-center" action="#" method="post" id="newsletter-form">
+                    <input type="email" placeholder="Your email address" class="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 w-full sm:w-auto">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition duration-300">Subscribe</button>
+                </form>
+                <p class="text-xs mt-2 text-gray-400">We respect your privacy. Unsubscribe at any time.</p>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 text-sm">
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">About SmileyPDF</h4>
+                    <p class="mb-4">Free online tools to make your PDF tasks simple and secure. All processing happens in your browser - your files never leave your computer.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter text-lg"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook text-lg"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-linkedin text-lg"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">PDF Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="pdf-editor.html" class="hover:text-white">PDF Editor</a></li>
+                        <li><a href="merge-pdf.html" class="hover:text-white">Merge PDF</a></li>
+                        <li><a href="image-to-pdf.html" class="hover:text-white">Image to PDF</a></li>
+                        <li><a href="pdf-rotator.html" class="hover:text-white">Rotate PDF</a></li>
+                        <li><a href="pdf-text-extractor.html" class="hover:text-white">Extract PDF Text</a></li>
+                        <li><a href="pdf-to-jpg.html" class="hover:text-white">PDF to JPG</a></li>
+                        <li><a href="pdf-to-word.html" class="hover:text-white">PDF to Word</a></li>
+                        <li><a href="pdf-to-excel.html" class="hover:text-white">PDF to Excel</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white">About Us</a></li>
+                        <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                        <li><a href="faq.html" class="hover:text-white">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 uppercase text-white">Legal & Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-600 pt-8 text-sm text-center">
+                <p class="mb-2">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</p>
+                <p class="text-gray-400">SmileyPDF is not affiliated with Adobe Systems Incorporated.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // PDF Upload functionality
+            const pdfUpload = document.getElementById('pdf-upload');
+            if (pdfUpload) {
+                pdfUpload.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0) {
+                        const file = e.target.files[0];
+                        console.log('PDF selected:', file.name);
+                        // Show file name
+                        const fileNameElement = document.createElement('p');
+                        fileNameElement.textContent = 'Selected file: ' + file.name;
+                        fileNameElement.className = 'mt-2 text-sm text-blue-600';
+                        this.parentElement.parentElement.appendChild(fileNameElement);
+                    }
+                });
+            }
+
+            // Progress simulation for Step 2
+            const continueToSummaryBtn = document.getElementById('continue-to-summary');
+            if (continueToSummaryBtn) {
+                continueToSummaryBtn.addEventListener('click', function() {
+                    document.querySelector('#step2').style.display = 'none';
+                    document.querySelector('#step3').style.display = 'block';
+                });
+            }
+
+            // Function to update progress UI
+            function updateProgress(percent, step) {
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercentage = document.getElementById('progress-percentage');
+
+                if (progressBar && progressPercentage) {
+                    progressBar.style.width = percent + '%';
+                    progressPercentage.textContent = percent + '%';
+                }
+
+                // Update steps
+                if (step >= 1) {
+                    document.getElementById('step-loading').innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i> Loading document';
+                    document.getElementById('step-loading').classList.remove('text-gray-400');
+                }
+                if (step >= 2) {
+                    document.getElementById('step-extracting').innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i> Extracting text';
+                    document.getElementById('step-extracting').classList.remove('text-gray-400');
+                }
+                if (step >= 3) {
+                    document.getElementById('step-analyzing').innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i> Analyzing content';
+                    document.getElementById('step-analyzing').classList.remove('text-gray-400');
+                }
+                if (step >= 4) {
+                    document.getElementById('step-generating').innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i> Generating summary';
+                    document.getElementById('step-generating').classList.remove('text-gray-400');
+                    document.getElementById('continue-to-summary').style.display = 'inline-flex';
+                }
+
+                if (step === 1) {
+                    document.getElementById('step-extracting').innerHTML = '<i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i> Extracting text';
+                    document.getElementById('step-extracting').classList.remove('text-gray-400');
+                } else if (step === 2) {
+                    document.getElementById('step-analyzing').innerHTML = '<i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i> Analyzing content';
+                    document.getElementById('step-analyzing').classList.remove('text-gray-400');
+                } else if (step === 3) {
+                    document.getElementById('step-generating').innerHTML = '<i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i> Generating summary';
+                    document.getElementById('step-generating').classList.remove('text-gray-400');
+                }
+            }
+
+            // Simulate progress when step2 is shown
+            const step2 = document.getElementById('step2');
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style' &&
+                        step2.style.display !== 'none' &&
+                        !window.progressStarted) {
+
+                        window.progressStarted = true;
+                        simulateProgress();
+                    }
+                });
+            });
+
+            if (step2) {
+                observer.observe(step2, { attributes: true });
+            }
+
+            // Progress simulation
+            function simulateProgress() {
+                let progress = 0;
+                let step = 0;
+
+                const interval = setInterval(function() {
+                    // Increment progress based on current step
+                    if (progress < 25) {
+                        progress += 1;
+                        if (progress === 25) step = 1;
+                    } else if (progress < 50) {
+                        progress += 0.5;
+                        if (progress === 50) step = 2;
+                    } else if (progress < 75) {
+                        progress += 0.3;
+                        if (progress === 75) step = 3;
+                    } else if (progress < 100) {
+                        progress += 0.2;
+                    }
+
+                    // Update UI
+                    updateProgress(Math.round(progress), step);
+
+                    // Complete process
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        updateProgress(100, 4);
+                        document.getElementById('progress-status').textContent = 'Summary ready!';
+
+                        // Auto-proceed to summary after a short delay
+                        setTimeout(function() {
+                            if (document.getElementById('step2').style.display !== 'none') {
+                                document.getElementById('continue-to-summary').click();
+                            }
+                        }, 1500);
+                    }
+                }, 50);
+            }
+
+            // Summary type buttons in step 3
+            const summaryTypeButtons = document.querySelectorAll('#step3 .flex.flex-wrap.gap-4.justify-center.mb-4 button');
+            if (summaryTypeButtons.length > 0) {
+                summaryTypeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Reset all buttons
+                        summaryTypeButtons.forEach(btn => {
+                            btn.classList.remove('bg-blue-600', 'text-white');
+                            btn.classList.add('bg-gray-200', 'text-gray-700');
+                        });
+
+                        // Set active button
+                        this.classList.remove('bg-gray-200', 'text-gray-700');
+                        this.classList.add('bg-blue-600', 'text-white');
+
+                        const summaryType = this.textContent.trim();
+                        console.log('Summary type changed to:', summaryType);
+
+                        // Update summary content based on type
+                        const summaryTitle = document.getElementById('summary-title');
+                        const summaryContent = document.getElementById('summary-content');
+
+                        if (summaryTitle && summaryContent) {
+                            summaryTitle.textContent = summaryType;
+
+                            if (summaryType === 'Executive Summary') {
+                                summaryContent.innerHTML = `
+                                    <p class="mb-4">This document provides a comprehensive analysis of climate change impacts, focusing on its effects on global ecosystems and human societies. The author presents a detailed examination of current trends, challenges, and potential solutions.</p>
+
+                                    <p class="mb-4">Key findings indicate that global temperatures have risen by approximately 1.1°C since pre-industrial times, which has significant implications for coastal communities and agricultural production. Additionally, the research highlights increasing frequency of extreme weather events as a critical factor in determining future adaptation strategies.</p>
+
+                                    <p class="mb-4">The document recommends several strategic approaches, including rapid transition to renewable energy sources and implementation of carbon capture technologies. These strategies are supported by data from multiple scientific studies and economic analyses from leading institutions.</p>
+
+                                    <p>In conclusion, the document emphasizes the importance of international cooperation and suggests that further research is needed in regional climate modeling and localized adaptation strategies.</p>
+                                `;
+                            } else if (summaryType === 'Detailed Summary') {
+                                summaryContent.innerHTML = `
+                                    <p class="mb-4">The document begins with an overview of the current state of climate science, noting that the Intergovernmental Panel on Climate Change (IPCC) has confirmed with high confidence that human activities have warmed the planet by approximately 1.1°C compared to pre-industrial levels. It then proceeds to analyze specific impacts across different sectors.</p>
+
+                                    <p class="mb-4">Section 1 examines ecological impacts, documenting shifts in species distributions, phenological changes, and ecosystem disruptions. Coral reef systems are identified as particularly vulnerable, with projections suggesting that 70-90% of reefs will be severely degraded at 1.5°C of warming.</p>
+
+                                    <p class="mb-4">Section 2 focuses on socioeconomic consequences, including threats to food security, water availability, and public health. The document highlights that agricultural yields could decline by 2-6% per decade under current warming trajectories, with developing regions facing disproportionate impacts.</p>
+
+                                    <p class="mb-4">Section 3 presents mitigation strategies, emphasizing the need for rapid decarbonization across energy, transportation, and industrial sectors. Carbon pricing mechanisms, renewable energy investments, and efficiency improvements are analyzed as complementary approaches.</p>
+
+                                    <p>The final section outlines adaptation requirements, stressing that even with ambitious mitigation, some climate impacts are now unavoidable and require proactive planning. Urban resilience, coastal protection, and agricultural innovation are presented as priority areas for investment.</p>
+                                `;
+                            } else if (summaryType === 'Key Points') {
+                                summaryContent.innerHTML = `
+                                    <ul class="list-disc pl-5 space-y-2">
+                                        <li>Global temperatures have increased by approximately 1.1°C since pre-industrial times, primarily due to human activities.</li>
+                                        <li>Current emission trajectories put the world on track for 2.7-3.1°C of warming by 2100, far exceeding the Paris Agreement targets.</li>
+                                        <li>Extreme weather events including heatwaves, droughts, and intense precipitation are becoming more frequent and severe.</li>
+                                        <li>Sea level rise threatens coastal communities, with projections of 0.5-1.0m by 2100 under high emission scenarios.</li>
+                                        <li>Agricultural productivity is projected to decline in many regions, particularly in tropical and subtropical areas.</li>
+                                        <li>Rapid transition to renewable energy sources could limit warming to 1.5-2°C if implemented within the next decade.</li>
+                                        <li>Carbon capture technologies will be necessary to achieve net-zero emissions by mid-century.</li>
+                                        <li>Adaptation measures are essential even with ambitious mitigation, as some climate impacts are already locked in.</li>
+                                        <li>International cooperation is critical for effective climate action, including financial support for vulnerable regions.</li>
+                                        <li>Further research is needed in regional climate modeling to improve localized adaptation strategies.</li>
+                                    </ul>
+                                `;
+                            }
+
+                            // Apply the current length setting
+                            if (lengthSelector) {
+                                applyLengthSetting(lengthSelector.value);
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Length selector
+            const lengthSelector = document.querySelector('select');
+            if (lengthSelector) {
+                lengthSelector.addEventListener('change', function() {
+                    console.log('Summary length changed to:', this.value);
+                    applyLengthSetting(this.value);
+                });
+            }
+
+            // Function to apply length setting to current summary
+            function applyLengthSetting(length) {
+                const summaryContent = document.getElementById('summary-content');
+                const summaryType = document.getElementById('summary-title').textContent;
+
+                if (!summaryContent) return;
+
+                // Store original content if not already stored
+                if (!summaryContent.dataset.originalContent) {
+                    summaryContent.dataset.originalContent = summaryContent.innerHTML;
+                }
+
+                const originalContent = summaryContent.dataset.originalContent;
+                const paragraphs = originalContent.match(/<p[^>]*>.*?<\/p>/gs) || [];
+                const listItems = originalContent.match(/<li>.*?<\/li>/gs) || [];
+
+                if (summaryType === 'Key Points') {
+                    // For key points, adjust the number of list items
+                    if (length === 'Short') {
+                        const shortList = listItems.slice(0, 5).join('');
+                        summaryContent.innerHTML = `<ul class="list-disc pl-5 space-y-2">${shortList}</ul>`;
+                    } else if (length === 'Medium') {
+                        const mediumList = listItems.slice(0, 7).join('');
+                        summaryContent.innerHTML = `<ul class="list-disc pl-5 space-y-2">${mediumList}</ul>`;
+                    } else { // Long
+                        summaryContent.innerHTML = originalContent;
+                    }
+                } else {
+                    // For text summaries, adjust the number of paragraphs
+                    if (length === 'Short') {
+                        summaryContent.innerHTML = paragraphs.slice(0, 2).join('');
+                    } else if (length === 'Medium') {
+                        summaryContent.innerHTML = paragraphs.slice(0, 3).join('');
+                    } else { // Long
+                        summaryContent.innerHTML = originalContent;
+                    }
+                }
+            }
+
+            // Action buttons
+            const actionButtons = document.querySelectorAll('#step3 .flex.flex-wrap.justify-center.gap-4 button');
+            let downloadButton, copyButton, regenerateButton;
+            if (actionButtons.length >= 3) {
+                downloadButton = actionButtons[0];
+                copyButton = actionButtons[1];
+                regenerateButton = actionButtons[2];
+            }
+
+            if (downloadButton) {
+                downloadButton.addEventListener('click', async function() {
+                    console.log('Download summary clicked');
+
+                    // Show loading state
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Preparing download...';
+                    this.disabled = true;
+
+                    try {
+                        // Get the summary content
+                        const summaryTitle = document.getElementById('summary-title').textContent;
+                        const summaryContent = document.getElementById('summary-content').innerHTML;
+
+                        // Create a PDF file using PDF-lib
+                        const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+                        // Create a new PDF document
+                        const pdfDoc = await PDFDocument.create();
+
+                        // Add a page to the document
+                        const page = pdfDoc.addPage([595, 842]); // A4 size
+
+                        // Get the font
+                        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                        const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+                        // Draw the header
+                        page.drawText('AI-Generated Summary', {
+                            x: 50,
+                            y: 800,
+                            size: 24,
+                            font: boldFont,
+                            color: rgb(0, 0.3, 0.8)
+                        });
+
+                        // Draw the summary title
+                        page.drawText(summaryTitle, {
+                            x: 50,
+                            y: 760,
+                            size: 16,
+                            font: boldFont,
+                            color: rgb(0, 0, 0)
+                        });
+
+                        // Draw the date
+                        const date = new Date().toLocaleDateString();
+                        page.drawText('Generated on: ' + date, {
+                            x: 50,
+                            y: 730,
+                            size: 10,
+                            font: font,
+                            color: rgb(0.5, 0.5, 0.5)
+                        });
+
+                        // Draw a divider line
+                        page.drawLine({
+                            start: { x: 50, y: 720 },
+                            end: { x: 545, y: 720 },
+                            thickness: 1,
+                            color: rgb(0.7, 0.7, 0.7),
+                        });
+
+                        // Process the summary content
+                        // Remove HTML tags and split into paragraphs
+                        const textContent = summaryContent.replace(/<[^>]*>/g, '');
+                        const paragraphs = textContent.split('\n').filter(p => p.trim() !== '');
+
+                        // Draw the summary content
+                        let yPosition = 690;
+                        const lineHeight = 14;
+                        const maxWidth = 495; // Maximum width for text
+
+                        for (const paragraph of paragraphs) {
+                            // Split long paragraphs into multiple lines
+                            const words = paragraph.split(' ');
+                            let currentLine = words[0];
+
+                            for (let i = 1; i < words.length; i++) {
+                                const word = words[i];
+                                const width = font.widthOfTextAtSize(currentLine + ' ' + word, 12);
+
+                                if (width < maxWidth) {
+                                    currentLine += ' ' + word;
+                                } else {
+                                    // Draw the current line and move to the next line
+                                    page.drawText(currentLine, {
+                                        x: 50,
+                                        y: yPosition,
+                                        size: 12,
+                                        font: font,
+                                        color: rgb(0, 0, 0)
+                                    });
+
+                                    yPosition -= lineHeight;
+                                    currentLine = word;
+                                }
+                            }
+
+                            // Draw the last line of the paragraph
+                            page.drawText(currentLine, {
+                                x: 50,
+                                y: yPosition,
+                                size: 12,
+                                font: font,
+                                color: rgb(0, 0, 0)
+                            });
+
+                            // Add space between paragraphs
+                            yPosition -= lineHeight * 1.5;
+                        }
+
+                        // Draw footer
+                        page.drawText('Generated by SmileyPDF.com', {
+                            x: 50,
+                            y: 50,
+                            size: 10,
+                            font: font,
+                            color: rgb(0.5, 0.5, 0.5)
+                        });
+
+                        // Serialize the PDFDocument to bytes
+                        const pdfBytes = await pdfDoc.save();
+
+                        // Create a blob from the PDF bytes
+                        const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+                        const pdfUrl = URL.createObjectURL(pdfBlob);
+
+                        // Create a download link for PDF
+                        const pdfLink = document.createElement('a');
+                        pdfLink.href = pdfUrl;
+                        pdfLink.download = 'summary.pdf';
+                        document.body.appendChild(pdfLink);
+                        pdfLink.click();
+
+                        // Clean up
+                        setTimeout(() => {
+                            document.body.removeChild(pdfLink);
+                            URL.revokeObjectURL(pdfUrl);
+                        }, 100);
+
+                        // Also create a text version as a fallback
+                        const plainText = summaryTitle + '\n\n' + textContent.trim();
+                        const textBlob = new Blob([plainText], { type: 'text/plain' });
+                        const textUrl = URL.createObjectURL(textBlob);
+
+                        // Show success message
+                        this.innerHTML = '<i class="fas fa-check mr-2"></i> Downloaded';
+                    } catch (error) {
+                        console.error('Error creating PDF:', error);
+                        alert('There was an error creating the PDF. Downloading as text instead.');
+
+                        // Fallback to text download
+                        const summaryTitle = document.getElementById('summary-title').textContent;
+                        const summaryContent = document.getElementById('summary-content').textContent;
+                        const summaryText = summaryTitle + '\n\n' + summaryContent.trim();
+
+                        const blob = new Blob([summaryText], { type: 'text/plain' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'summary.txt';
+                        document.body.appendChild(a);
+                        a.click();
+
+                        setTimeout(() => {
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        }, 100);
+
+                        this.innerHTML = originalHTML;
+                    } finally {
+                        // Re-enable button after a delay
+                        setTimeout(() => {
+                            this.disabled = false;
+                            this.innerHTML = originalHTML;
+                        }, 2000);
+                    }
+                });
+            }
+
+            if (copyButton) {
+                copyButton.addEventListener('click', function() {
+                    console.log('Copy to clipboard clicked');
+
+                    // Get the summary content
+                    const summaryContent = document.getElementById('summary-content').textContent;
+
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(summaryContent.trim())
+                        .then(() => {
+                            // Show success message
+                            const originalHTML = this.innerHTML;
+                            this.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+
+                            setTimeout(() => {
+                                this.innerHTML = originalHTML;
+                            }, 2000);
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy text: ', err);
+                            alert('Failed to copy text. Please try again.');
+                        });
+                });
+            }
+
+            if (regenerateButton) {
+                regenerateButton.addEventListener('click', function() {
+                    console.log('Regenerate summary clicked');
+
+                    // Show loading state
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Regenerating...';
+                    this.disabled = true;
+
+                    // Simulate regeneration process
+                    setTimeout(() => {
+                        // Get current summary type and length
+                        const summaryType = document.getElementById('summary-title').textContent;
+                        const length = document.querySelector('select').value;
+
+                        // Generate slightly different content
+                        let newContent = '';
+
+                        if (summaryType === 'Executive Summary') {
+                            newContent = `
+                                <p class="mb-4">This document offers an in-depth examination of climate change impacts, with particular emphasis on biodiversity loss and economic disruptions. The analysis covers historical trends, current observations, and projected future scenarios.</p>
+
+                                <p class="mb-4">Critical data shows that the global average temperature has increased by approximately 1.1°C above pre-industrial levels, with the rate of warming accelerating in recent decades. This warming has led to measurable impacts on ecosystems, agriculture, and human settlements, with vulnerable populations experiencing disproportionate effects.</p>
+
+                                <p class="mb-4">The document outlines several evidence-based solutions, including accelerated deployment of renewable energy, improved energy efficiency standards, and nature-based carbon sequestration approaches. Economic analyses suggest these interventions are cost-effective when compared to the projected costs of inaction.</p>
+
+                                <p>The conclusion emphasizes that while the challenges are significant, technological innovation and policy coordination can effectively address climate change if implemented at sufficient scale and speed.</p>
+                            `;
+                        } else if (summaryType === 'Detailed Summary') {
+                            newContent = `
+                                <p class="mb-4">The document opens with a comprehensive review of climate science fundamentals, explaining how greenhouse gas emissions from human activities have disrupted the Earth's energy balance. It cites the latest IPCC findings that attribute observed warming of 1.1°C primarily to anthropogenic factors with greater than 95% confidence.</p>
+
+                                <p class="mb-4">The first major section details biophysical impacts, including accelerating ice sheet melt in Greenland and Antarctica, increasing ocean acidification (approximately 30% since pre-industrial times), and shifting precipitation patterns. It presents evidence that climate-related extremes have increased in frequency and intensity across all continents.</p>
+
+                                <p class="mb-4">The second section analyzes human system vulnerabilities, with particular attention to food production, water resources, and public health. Economic models presented suggest that unmitigated climate change could reduce global GDP by 10-23% by 2100, with impacts unevenly distributed both geographically and socioeconomically.</p>
+
+                                <p class="mb-4">The third section evaluates mitigation pathways compatible with limiting warming to 1.5°C and 2°C targets. It compares carbon budget approaches, sectoral transformation requirements, and policy instruments. The analysis indicates that current nationally determined contributions under the Paris Agreement remain insufficient to meet stated temperature goals.</p>
+
+                                <p>The concluding section addresses governance challenges and opportunities, highlighting successful case studies of climate action at municipal, national, and regional levels. It argues for strengthened international cooperation mechanisms and increased climate finance for developing countries.</p>
+                            `;
+                        } else if (summaryType === 'Key Points') {
+                            newContent = `
+                                <ul class="list-disc pl-5 space-y-2">
+                                    <li>Human activities have caused approximately 1.1°C of global warming since the industrial revolution, primarily through greenhouse gas emissions.</li>
+                                    <li>Without substantial emissions reductions, global warming is projected to reach 2.7-3.1°C by 2100, with severe consequences for natural and human systems.</li>
+                                    <li>Climate-related extremes have increased in frequency and intensity, including more severe heatwaves, droughts, floods, and tropical cyclones.</li>
+                                    <li>Global sea levels have risen by about 20cm since 1900 and are accelerating, threatening coastal communities and infrastructure.</li>
+                                    <li>Climate change is already affecting food security through reduced crop yields and increased agricultural volatility in many regions.</li>
+                                    <li>Achieving the Paris Agreement goals requires reaching net-zero CO₂ emissions globally by mid-century.</li>
+                                    <li>Renewable energy costs have declined dramatically, making clean energy transitions economically viable in most contexts.</li>
+                                    <li>Carbon dioxide removal technologies will be necessary to balance residual emissions in hard-to-abate sectors.</li>
+                                    <li>Climate finance flows remain insufficient to meet adaptation and mitigation needs, particularly in developing countries.</li>
+                                    <li>Integrated approaches that address climate change alongside other sustainable development goals can maximize co-benefits and minimize trade-offs.</li>
+                                </ul>
+                            `;
+                        }
+
+                        // Update the content
+                        const summaryContent = document.getElementById('summary-content');
+                        if (summaryContent) {
+                            summaryContent.innerHTML = newContent;
+                            summaryContent.dataset.originalContent = newContent;
+
+                            // Apply length setting
+                            applyLengthSetting(length);
+                        }
+
+                        // Restore button
+                        this.innerHTML = originalHTML;
+                        this.disabled = false;
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+<script src="dark-mode.js"></script>
+</body>
+</html>
+

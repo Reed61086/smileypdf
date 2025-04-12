@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Splitter - Alternative Approach</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #fileInfo {
+            margin-top: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .step {
+            margin-bottom: 10px;
+        }
+        .note {
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>PDF Splitter - Alternative Approach</h1>
+    
+    <div class="instructions">
+        <h3>How to Split a PDF:</h3>
+        <div class="step">1. Upload your PDF file</div>
+        <div class="step">2. View the PDF to identify which pages you want to extract</div>
+        <div class="step">3. Enter the page numbers you want to extract</div>
+        <div class="step">4. Download the PDF and follow the instructions for splitting</div>
+        <p class="note">Note: This approach uses external tools for the actual splitting since browser-based splitting has limitations.</p>
+    </div>
+    
+    <div class="container">
+        <h2>Step 1: Upload PDF</h2>
+        <input type="file" id="pdfFile" accept=".pdf">
+        <div id="fileInfo"></div>
+    </div>
+    
+    <div id="viewerContainer" class="container hidden">
+        <h2>Step 2: View PDF</h2>
+        <p>Click the button below to open the PDF in a new tab:</p>
+        <button id="viewButton" class="button">View PDF</button>
+    </div>
+    
+    <div id="splitContainer" class="container hidden">
+        <h2>Step 3: Specify Pages to Extract</h2>
+        <p>Enter the page numbers you want to extract (e.g., 1,3,5-7):</p>
+        <input type="text" id="pageRange" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+        
+        <h2>Step 4: Split PDF</h2>
+        <p>Since browser-based PDF splitting has limitations, we recommend these options:</p>
+        
+        <div style="margin-top: 15px;">
+            <h3>Option 1: Use an Online PDF Splitter</h3>
+            <p>1. Download your PDF by clicking the button below</p>
+            <p>2. Upload it to one of these free online PDF splitters:</p>
+            <ul>
+                <li><a href="https://www.ilovepdf.com/split_pdf" target="_blank">iLovePDF</a></li>
+                <li><a href="https://smallpdf.com/split-pdf" target="_blank">Smallpdf</a></li>
+                <li><a href="https://www.sejda.com/split-pdf" target="_blank">Sejda</a></li>
+            </ul>
+            <p>3. Enter the same page numbers you specified above</p>
+            <button id="downloadButton" class="button" disabled>Download PDF</button>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h3>Option 2: Use Desktop Software</h3>
+            <p>1. Download your PDF by clicking the button above</p>
+            <p>2. Use one of these free desktop applications:</p>
+            <ul>
+                <li><a href="https://www.adobe.com/acrobat/online/split-pdf.html" target="_blank">Adobe Acrobat Reader</a> (free version)</li>
+                <li><a href="https://pdfsam.org/download-pdfsam-basic/" target="_blank">PDF Split and Merge Basic</a></li>
+            </ul>
+            <p>3. Follow the application's instructions to split the PDF using the page numbers you specified</p>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const pdfFileInput = document.getElementById('pdfFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const viewerContainer = document.getElementById('viewerContainer');
+        const viewButton = document.getElementById('viewButton');
+        const splitContainer = document.getElementById('splitContainer');
+        const pageRange = document.getElementById('pageRange');
+        const downloadButton = document.getElementById('downloadButton');
+        
+        // Variables
+        let pdfFile = null;
+        let pdfObjectUrl = null;
+        
+        // File input change handler
+        pdfFileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Store the file
+            pdfFile = file;
+            
+            // Create object URL
+            if (pdfObjectUrl) {
+                URL.revokeObjectURL(pdfObjectUrl);
+            }
+            pdfObjectUrl = URL.createObjectURL(file);
+            
+            // Display file info
+            fileInfo.innerHTML = `
+                <p><strong>Selected file:</strong> ${file.name}</p>
+                <p><strong>Size:</strong> ${Math.round(file.size / 1024)} KB</p>
+            `;
+            
+            // Show the viewer container
+            viewerContainer.classList.remove('hidden');
+            
+            // Show the split container
+            splitContainer.classList.remove('hidden');
+            
+            // Enable the download button
+            downloadButton.disabled = false;
+        });
+        
+        // View button click handler
+        viewButton.addEventListener('click', function() {
+            if (pdfObjectUrl) {
+                window.open(pdfObjectUrl, '_blank');
+            }
+        });
+        
+        // Download button click handler
+        downloadButton.addEventListener('click', function() {
+            if (pdfFile && pdfObjectUrl) {
+                // Create a download link
+                const link = document.createElement('a');
+                link.href = pdfObjectUrl;
+                link.download = pdfFile.name;
+                link.click();
+            }
+        });
+        
+        // Page range input handler
+        pageRange.addEventListener('input', function() {
+            // Store the page range in localStorage for reference
+            localStorage.setItem('pdfSplitPageRange', this.value);
+        });
+    </script>
+</body>
+</html>
