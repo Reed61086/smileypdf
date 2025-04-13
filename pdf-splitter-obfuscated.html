@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Splitter - Extract Pages from PDF Files Online | SmileyPDF</title>
+    <meta name="description" content="Split PDF files online for free. Extract specific pages or page ranges from your PDF documents with our easy-to-use PDF splitter tool. No installation or registration required.">
+    <meta name="keywords" content="PDF splitter, split PDF, extract PDF pages, PDF page extractor, online PDF splitter, free PDF splitter, PDF tools">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="canonical" href="https://smileypdf.com/pdf-splitter.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-splitter.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-splitter.html">
+    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/pdf-splitter.html">
+
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        /* Custom styles */
+        .tool-container {
+            max-width: 1200px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <img src="logo.png" alt="SmileyPDF Logo" class="h-10">
+                    <span class="text-xl font-bold text-blue-600 dark:text-blue-400">SmileyPDF</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Home</a>
+                    <a href="about.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">About</a>
+                    <a href="contact.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Contact</a>
+                    <a href="hi/pdf-splitter.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">हिंदी</a>
+                    <button id="theme-toggle" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="tool-container mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <!-- Tool Header -->
+            <div class="bg-blue-600 dark:bg-blue-700 p-6 text-white">
+                <h1 class="text-3xl font-bold mb-2">PDF Splitter</h1>
+                <p class="text-blue-100">Extract specific pages from your PDF documents</p>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="p-6">
+                <!-- File Upload Section -->
+                <div class="mb-6">
+                    <label for="pdf-upload" class="block text-lg font-medium mb-2">Select PDF File</label>
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <label for="pdf-upload" class="flex-grow cursor-pointer bg-blue-50 dark:bg-gray-700 border-2 border-dashed border-blue-300 dark:border-gray-600 rounded-lg p-4 text-center hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-file-pdf text-4xl text-blue-500 dark:text-blue-400 mb-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">Click to select a PDF file or drag and drop here</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 mt-1">Maximum file size: 50MB</span>
+                            </div>
+                            <input type="file" id="pdf-upload" accept=".pdf" class="hidden">
+                        </label>
+                    </div>
+                    <div id="file-info" class="mt-3"></div>
+                </div>
+
+                <!-- PDF Preview -->
+                <div id="pdf-preview-container" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">PDF Preview</h2>
+                    <div id="pdf-preview" class="border rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700"></div>
+                </div>
+
+                <!-- Split Options -->
+                <div id="split-options" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">Split Options</h2>
+                    <div class="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <label for="page-ranges" class="block mb-2">Enter page numbers or ranges to extract:</label>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <input type="text" id="page-ranges" placeholder="e.g., 1,3,5-8,10-15" class="flex-grow p-2 border rounded dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+                            <button id="split-button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">
+                                Split PDF
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                            <i class="fas fa-info-circle mr-1"></i> Separate individual pages with commas and specify ranges with hyphens.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progress-container" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">Processing...</h2>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                        <div id="progress-bar" class="bg-green-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div id="results-container" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">Results</h2>
+                    <div id="results"></div>
+                </div>
+
+                <!-- Tool Information -->
+                <div class="mt-8">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">How to Split a PDF File Online</h2>
+
+                    <p class="mb-4">Our free PDF splitter tool allows you to extract specific pages from your PDF documents in just a few simple steps. Whether you need to separate chapters from an e-book, extract specific sections from a report, or split a scanned document into individual pages, our tool makes it quick and easy.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-6 mb-3">Key Features</h3>
+
+                    <ul class="list-disc pl-6 mb-6 space-y-2">
+                        <li><strong>Free to Use:</strong> Split your PDF files without any cost or limitations.</li>
+                        <li><strong>No Registration Required:</strong> Start splitting PDFs immediately without creating an account.</li>
+                        <li><strong>Client-Side Processing:</strong> Your files never leave your device, ensuring complete privacy.</li>
+                        <li><strong>Works on All Devices:</strong> Compatible with Windows, Mac, Linux, iOS, and Android.</li>
+                        <li><strong>No Installation Needed:</strong> Works directly in your web browser without additional software.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-6 mb-3">Common Use Cases for PDF Splitting</h3>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="border rounded-lg p-4 bg-blue-50 dark:bg-gray-700">
+                            <h4 class="font-medium text-blue-800 dark:text-blue-300 mb-2">Business Documents</h4>
+                            <p class="dark:text-gray-300">Extract specific sections from reports, proposals, or contracts to share only relevant information with clients or colleagues.</p>
+                        </div>
+
+                        <div class="border rounded-lg p-4 bg-blue-50 dark:bg-gray-700">
+                            <h4 class="font-medium text-blue-800 dark:text-blue-300 mb-2">Academic Papers</h4>
+                            <p class="dark:text-gray-300">Split research papers to focus on methodology, results, or literature review sections for more efficient studying or citation.</p>
+                        </div>
+
+                        <div class="border rounded-lg p-4 bg-blue-50 dark:bg-gray-700">
+                            <h4 class="font-medium text-blue-800 dark:text-blue-300 mb-2">E-Books and Manuals</h4>
+                            <p class="dark:text-gray-300">Divide large e-books or technical manuals into chapters or sections for easier reading and reference.</p>
+                        </div>
+
+                        <div class="border rounded-lg p-4 bg-blue-50 dark:bg-gray-700">
+                            <h4 class="font-medium text-blue-800 dark:text-blue-300 mb-2">Scanned Documents</h4>
+                            <p class="dark:text-gray-300">Separate multi-page scanned documents into individual files for better organization and archiving.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-6 mb-3">How to Split a PDF File</h3>
+
+                    <ol class="list-decimal pl-6 mb-6 space-y-2">
+                        <li><strong>Upload Your PDF:</strong> Click the "Select PDF file" button and choose the document you want to split.</li>
+                        <li><strong>Preview Your Document:</strong> Once uploaded, you'll see a preview of your PDF to help you identify the pages you need.</li>
+                        <li><strong>Specify Pages to Extract:</strong> Enter the page numbers or ranges you want to extract (e.g., "1,3,5-8,10-15").</li>
+                        <li><strong>Split Your PDF:</strong> Click the "Split PDF" button and wait for the processing to complete.</li>
+                        <li><strong>Download Your Results:</strong> Once processing is finished, download your split PDF file.</li>
+                    </ol>
+
+                    <div class="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-400 p-4 mb-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-lightbulb text-yellow-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-300">Pro Tip</h3>
+                                <div class="text-sm text-yellow-700 dark:text-yellow-200">
+                                    <p>For large documents, consider splitting them into logical sections rather than individual pages. This makes it easier to manage and share your files.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-6 mb-3">Frequently Asked Questions</h3>
+
+                    <div class="space-y-4 mb-6">
+                        <div class="border-b dark:border-gray-700 pb-4">
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-2">Is there a file size limit for the PDF splitter?</h4>
+                            <p class="dark:text-gray-300">While our tool can handle most PDF files, browser limitations may affect performance with extremely large documents (over 100MB). For best results, we recommend files under 50MB.</p>
+                        </div>
+
+                        <div class="border-b dark:border-gray-700 pb-4">
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-2">Is my data secure when using this tool?</h4>
+                            <p class="dark:text-gray-300">Absolutely! Our PDF splitter processes files entirely in your browser. Your documents never leave your device or get uploaded to our servers, ensuring complete privacy and security.</p>
+                        </div>
+
+                        <div class="border-b dark:border-gray-700 pb-4">
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-2">Can I split password-protected or encrypted PDFs?</h4>
+                            <p class="dark:text-gray-300">Currently, our tool cannot process password-protected or encrypted PDFs. You'll need to remove the protection before uploading the document.</p>
+                        </div>
+
+                        <div class="border-b dark:border-gray-700 pb-4">
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-2">Will the split PDF maintain the original formatting?</h4>
+                            <p class="dark:text-gray-300">Yes, our tool preserves the original formatting, including text, images, and layout. The extracted pages will look exactly as they do in the original document.</p>
+                        </div>
+
+                        <div class="border-b dark:border-gray-700 pb-4">
+                            <h4 class="font-medium text-gray-900 dark:text-white mb-2">Can I use this tool on my mobile device?</h4>
+                            <p class="dark:text-gray-300">Yes, our PDF splitter works on all modern mobile browsers, including Safari on iOS and Chrome on Android. The interface is responsive and adapts to smaller screens.</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-6 mb-3">Why Choose SmileyPDF for Splitting Your Documents?</h3>
+
+                    <p class="mb-4 dark:text-gray-300">At SmileyPDF, we believe that essential document tools should be accessible to everyone. That's why we've created a suite of free, online PDF tools that prioritize ease of use, privacy, and functionality.</p>
+
+                    <p class="mb-4 dark:text-gray-300">Our PDF splitter is designed with simplicity in mind, allowing anyone to extract pages from their documents without technical knowledge. At the same time, we don't compromise on features or security, offering a professional-grade tool that processes your files locally in your browser.</p>
+
+                    <p class="mb-4 dark:text-gray-300">Whether you're a student, professional, or casual user, our PDF splitter provides a quick and reliable solution for managing your documents. And if you need more PDF tools, check out our <a href="merge-pdf.html" class="text-blue-600 dark:text-blue-400 hover:underline">PDF Merger</a>, <a href="pdf-to-word.html" class="text-blue-600 dark:text-blue-400 hover:underline">PDF to Word Converter</a>, or <a href="pdf-editor.html" class="text-blue-600 dark:text-blue-400 hover:underline">PDF Editor</a>.</p>
+
+                    <div class="bg-blue-50 dark:bg-gray-700 border border-blue-200 dark:border-gray-600 rounded-lg p-4 mt-6">
+                        <h4 class="font-medium text-blue-800 dark:text-blue-300 mb-2">Ready to try our other PDF tools?</h4>
+                        <p class="mb-3 dark:text-gray-300">SmileyPDF offers a complete suite of free online PDF tools to help you manage your documents:</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            <a href="merge-pdf.html" class="text-blue-600 dark:text-blue-400 hover:underline">Merge PDF</a>
+                            <a href="pdf-editor.html" class="text-blue-600 dark:text-blue-400 hover:underline">Edit PDF</a>
+                            <a href="pdf-to-word.html" class="text-blue-600 dark:text-blue-400 hover:underline">PDF to Word</a>
+                            <a href="pdf-to-jpg.html" class="text-blue-600 dark:text-blue-400 hover:underline">PDF to JPG</a>
+                            <a href="image-to-pdf.html" class="text-blue-600 dark:text-blue-400 hover:underline">Image to PDF</a>
+                            <a href="pdf-text-extractor.html" class="text-blue-600 dark:text-blue-400 hover:underline">Extract Text</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About SmileyPDF</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">SmileyPDF provides free online PDF tools to help you manage your documents efficiently. Our tools are designed to be easy to use, secure, and accessible from any device.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Popular Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="pdf-editor.html" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">PDF Editor</a></li>
+                        <li><a href="merge-pdf.html" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">Merge PDF</a></li>
+                        <li><a href="pdf-splitter.html" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">Split PDF</a></li>
+                        <li><a href="pdf-to-word.html" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">PDF to Word</a></li>
+                        <li><a href="image-to-pdf.html" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">Image to PDF</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">Terms of Service</a></li>
+                    </ul>
+                    <h3 class="text-lg font-semibold mt-4 mb-4">Stay Updated</h3>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="flex-grow p-2 border rounded-l dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 text-center text-gray-600 dark:text-gray-400">
+                <p>&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Include the obfuscated JavaScript -->
+    <script src="pdf-splitter-obfuscated.js"></script>
+    <script src="dark-mode.js"></script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65">
+</body>
+</html>
