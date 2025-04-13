@@ -1,11 +1,19 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="hi">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WRM63JPK');</script>
+<!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF स्प्लिटर - PDF फाइलों को अलग-अलग दस्तावेजों में विभाजित करें | SmileyPDF</title>
-    <meta name="description" content="हमारे 100% मुफ्त ऑनलाइन PDF स्प्लिटर टूल के साथ बड़ी PDF फाइलों को छोटे दस्तावेजों में विभाजित करें। विशिष्ट पृष्ठ निकालें, कई PDF में विभाजित करें, या प्रत्येक पृष्ठ को अलग करें।">
-    <meta name="keywords" content="PDF स्प्लिटर, PDF विभाजक, PDF पृष्ठ निकालें, PDF पेज एक्सट्रैक्टर, PDF विभाजित करें, PDF पृष्ठ अलग करें, ऑनलाइन PDF स्प्लिटर">
+    <title>PDF ???????? - PDF ?????? ?? ???-??? ?????????? ??? ??????? ???? | SmileyPDF</title>
+    <meta name="description" content="????? 100% ????? ?????? PDF ???????? ??? ?? ??? ???? PDF ?????? ?? ???? ?????????? ??? ??????? ????? ??????? ????? ???????, ?? PDF ??? ??????? ????, ?? ???????? ????? ?? ??? ?????">
+    <meta name="keywords" content="PDF ????????, PDF ??????, PDF ????? ???????, PDF ??? ????????????, PDF ??????? ????, PDF ????? ??? ????, ?????? PDF ????????">
     <link rel="icon" type="image/png" href="../logo.png">
     <link rel="canonical" href="https://smileypdf.com/hi/pdf-splitter.html">
 
@@ -24,6 +32,11 @@
 <link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-100 font-sans">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WRM63JPK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
     <!-- Header -->
     <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
@@ -36,23 +49,23 @@
             <div class="absolute right-20 top-4 md:right-4">
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
-                        <span class="mr-1">हिंदी</span>
+                        <span class="mr-1">?????</span>
                         <i class="fas fa-globe text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                         <a href="../pdf-splitter.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
-                        <a href="pdf-splitter.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                        <a href="pdf-splitter.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">?????</a>
                     </div>
                 </div>
             </div>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-4">
-                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">???</a>
                 <!-- Tools Dropdown -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
-                        टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        ????? <i class="fas fa-chevron-down ml-1 text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false"
                          x-transition:enter="transition ease-out duration-100 transform"
@@ -64,22 +77,22 @@
                          class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
                          style="display: none;" x-cloak>
                          <div class="py-1">
-                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">बेसिक टूल्स</span>
-                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
-                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
-                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
-                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
-                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्ट</a>
-                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
-                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
-                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
-                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF स्प्लिटर</a>
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">????? ?????</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?????</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ????</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">???? ?? PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?????</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ??????? ???????????</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? ????</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? ??????</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF ????????</a>
                          </div>
                      </div>
                  </div>
-                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
-                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
-                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">?????</a>
+                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">????? ???? ???</a>
+                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">??????</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -95,7 +108,7 @@
 </div>
 <div class="md:hidden">
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                    <span class="sr-only">मेनू खोलें</span>
+                    <span class="sr-only">???? ?????</span>
                     <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
                     <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
                 </button>
@@ -105,18 +118,18 @@
         <!-- Mobile Menu -->
         <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
-                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
-                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
-                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">?????</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">????? ???? ???</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">??????</a>
 
-                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF टूल्स</h3>
-                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
-                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
-                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
-                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF स्प्लिटर</a>
-                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
-                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF ?????</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?????</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ????</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???? ?? PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF ????????</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? ????</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? JPG</a>
             </div>
         </div>
     </header>
@@ -127,20 +140,20 @@
         <nav class="text-sm mb-8" aria-label="Breadcrumb">
             <ol class="list-none p-0 inline-flex">
                 <li class="flex items-center">
-                    <a href="index.html" class="text-blue-600 hover:text-blue-800">होम</a>
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">???</a>
                     <span class="mx-2 text-gray-500">/</span>
                 </li>
                 <li class="flex items-center">
-                    <span class="text-gray-700">PDF स्प्लिटर</span>
+                    <span class="text-gray-700">PDF ????????</span>
                 </li>
             </ol>
         </nav>
 
         <!-- Page Title -->
         <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">PDF स्प्लिटर</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">PDF ????????</h1>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                बड़ी PDF फाइलों को छोटे दस्तावेजों में विभाजित करें, विशिष्ट पृष्ठ निकालें, या प्रत्येक पृष्ठ को अलग-अलग PDF में बदलें।
+                ???? PDF ?????? ?? ???? ?????????? ??? ??????? ????, ??????? ????? ???????, ?? ???????? ????? ?? ???-??? PDF ??? ??????
             </p>
         </div>
 
@@ -148,12 +161,12 @@
             <!-- Tool Header with Info -->
             <div class="bg-blue-600 text-white p-4">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold">PDF स्प्लिटर टूल</h2>
-                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center" aria-label="जानकारी">
+                    <h2 class="text-xl font-semibold">PDF ???????? ???</h2>
+                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center" aria-label="???????">
                         <i class="fas fa-info"></i>
                     </button>
                 </div>
-                <p class="text-sm mt-1">पृष्ठों को निकालें या अपनी PDF को कई दस्तावेज़ों में विभाजित करें</p>
+                <p class="text-sm mt-1">??????? ?? ??????? ?? ???? PDF ?? ?? ??????????? ??? ??????? ????</p>
             </div>
 
             <!-- Main Tool Area -->
@@ -163,7 +176,7 @@
                     <div class="flex justify-center">
                         <label class="w-full max-w-xs flex flex-col items-center px-4 py-6 bg-white rounded-lg shadow-lg tracking-wide border border-blue-500 cursor-pointer hover:bg-blue-500 hover:text-white">
                             <i class="fas fa-cloud-upload-alt fa-3x"></i>
-                            <span class="mt-2 text-base">PDF फाइल चुनें</span>
+                            <span class="mt-2 text-base">PDF ???? ?????</span>
                             <input id="pdf-upload" type="file" accept=".pdf" class="hidden" />
                         </label>
                     </div>
@@ -179,44 +192,44 @@
 
                 <!-- Split Options -->
                 <div id="split-options" class="mb-6 hidden">
-                    <h2 class="text-xl font-semibold mb-4">विभाजन विकल्प</h2>
+                    <h2 class="text-xl font-semibold mb-4">?????? ??????</h2>
                     <div id="page-range-input" class="mb-4">
-                        <h3 class="font-medium mb-2">निकालने के लिए पृष्ठ</h3>
-                        <p class="text-sm text-gray-600 mb-2">पृष्ठ संख्याओं और/या पृष्ठ रेंज को अल्पविराम से अलग करके दर्ज करें।</p>
-                        <p class="text-sm text-gray-600 mb-2">उदाहरण: 1,3,5-8,10-15</p>
+                        <h3 class="font-medium mb-2">??????? ?? ??? ?????</h3>
+                        <p class="text-sm text-gray-600 mb-2">????? ???????? ??/?? ????? ???? ?? ????????? ?? ??? ???? ???? ?????</p>
+                        <p class="text-sm text-gray-600 mb-2">??????: 1,3,5-8,10-15</p>
                         <input type="text" id="page-ranges" class="w-full p-2 border rounded" placeholder="1,3,5-8,10-15">
                     </div>
 
                     <div class="mb-4">
-                        <h3 class="font-medium mb-2">विभाजन विधि</h3>
+                        <h3 class="font-medium mb-2">?????? ????</h3>
                         <div class="space-y-2">
                             <label class="flex items-center">
                                 <input type="radio" name="split-method" value="extract" class="mr-2" checked>
-                                <span>चयनित पृष्ठों को एक नई PDF में निकालें</span>
+                                <span>????? ??????? ?? ?? ?? PDF ??? ???????</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="radio" name="split-method" value="remove" class="mr-2">
-                                <span>चयनित पृष्ठों को हटाकर एक नई PDF बनाएं</span>
+                                <span>????? ??????? ?? ????? ?? ?? PDF ?????</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="radio" name="split-method" value="split-each" class="mr-2">
-                                <span>प्रत्येक पृष्ठ को अलग PDF में विभाजित करें</span>
+                                <span>???????? ????? ?? ??? PDF ??? ??????? ????</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="radio" name="split-method" value="split-n" class="mr-2">
-                                <span>हर N पृष्ठों के बाद विभाजित करें</span>
+                                <span>?? N ??????? ?? ??? ??????? ????</span>
                             </label>
                         </div>
                     </div>
 
                     <div id="split-n-pages" class="mb-4 hidden">
-                        <h3 class="font-medium mb-2">प्रत्येक PDF में पृष्ठों की संख्या</h3>
+                        <h3 class="font-medium mb-2">???????? PDF ??? ??????? ?? ??????</h3>
                         <input type="number" id="pages-per-pdf" class="w-full p-2 border rounded" min="1" value="1">
                     </div>
 
                     <div class="mt-6">
                         <button id="process-pdf" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded transition duration-300">
-                            PDF प्रोसेस करें
+                            PDF ??????? ????
                         </button>
                     </div>
                 </div>
@@ -224,18 +237,18 @@
                 <!-- Processing Indicator -->
                 <div id="processing" class="text-center py-8 hidden">
                     <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-                    <p class="mt-4 text-gray-600">PDF प्रोसेस हो रही है...</p>
+                    <p class="mt-4 text-gray-600">PDF ??????? ?? ??? ??...</p>
                 </div>
 
                 <!-- Results Section -->
                 <div id="results" class="mt-6 hidden">
-                    <h2 class="text-xl font-semibold mb-4">परिणाम</h2>
+                    <h2 class="text-xl font-semibold mb-4">??????</h2>
                     <div id="download-links" class="space-y-3">
                         <!-- Download links will be added here -->
                     </div>
                     <div class="mt-6">
                         <button id="start-over" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded transition duration-300">
-                            नई PDF के साथ शुरू करें
+                            ?? PDF ?? ??? ???? ????
                         </button>
                     </div>
                 </div>
@@ -243,8 +256,8 @@
                 <!-- Error Message -->
                 <div id="error-message" class="mt-6 hidden">
                     <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
-                        <p class="font-bold">त्रुटि</p>
-                        <p id="error-text">PDF प्रोसेस करते समय एक त्रुटि हुई। कृपया दोबारा कोशिश करें।</p>
+                        <p class="font-bold">??????</p>
+                        <p id="error-text">PDF ??????? ???? ??? ?? ?????? ???? ????? ?????? ????? ?????</p>
                     </div>
                 </div>
             </div>
@@ -254,7 +267,7 @@
     <!-- Simple Footer -->
     <footer class="bg-gray-800 text-gray-300 mt-12 py-6">
         <div class="container mx-auto px-4 text-center">
-            <p>&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</p>
+            <p>&copy; <span id="current-year"></span> SmileyPDF. ?????????? ?????????</p>
         </div>
     </footer>
 
@@ -317,7 +330,7 @@
             if (!pdfFile) return;
 
             if (pdfFile.type !== 'application/pdf') {
-                showError('कृपया एक वैध PDF फाइल चुनें।');
+                showError('????? ?? ??? PDF ???? ??????');
                 return;
             }
 
@@ -355,7 +368,7 @@
                     // Update page range placeholder
                     pageRangeInput.placeholder = `1-${totalPages}`;
                 }).catch(function(error) {
-                    showError('PDF लोड करने में त्रुटि: ' + error.message);
+                    showError('PDF ??? ???? ??? ??????: ' + error.message);
                 });
             };
 
@@ -387,7 +400,7 @@
         // Process PDF based on selected options
         function processPdf() {
             if (!pdfDoc) {
-                showError('कृपया पहले एक PDF फाइल अपलोड करें।');
+                showError('????? ???? ?? PDF ???? ????? ?????');
                 return;
             }
 
@@ -421,7 +434,7 @@
                     splitByNPages();
                     break;
                 default:
-                    showError('कृपया एक विभाजन विधि चुनें।');
+                    showError('????? ?? ?????? ???? ??????');
                     processingIndicator.classList.add('hidden');
                     splitOptions.classList.remove('hidden');
                     previewContainer.classList.remove('hidden');
@@ -432,7 +445,7 @@
         function extractPages() {
             const pageRanges = parsePageRanges(pageRangeInput.value, totalPages);
             if (pageRanges.length === 0) {
-                showError('कृपया वैध पृष्ठ संख्या या रेंज दर्ज करें।');
+                showError('????? ??? ????? ?????? ?? ???? ???? ?????');
                 processingIndicator.classList.add('hidden');
                 splitOptions.classList.remove('hidden');
                 previewContainer.classList.remove('hidden');
@@ -449,7 +462,7 @@
         function removePages() {
             const pageRanges = parsePageRanges(pageRangeInput.value, totalPages);
             if (pageRanges.length === 0) {
-                showError('कृपया वैध पृष्ठ संख्या या रेंज दर्ज करें।');
+                showError('????? ??? ????? ?????? ?? ???? ???? ?????');
                 processingIndicator.classList.add('hidden');
                 splitOptions.classList.remove('hidden');
                 previewContainer.classList.remove('hidden');
@@ -495,13 +508,13 @@
                     const resultItem = document.createElement('div');
                     resultItem.className = 'flex justify-between items-center p-3 bg-gray-50 rounded';
                     resultItem.innerHTML = `
-                        <span>पृष्ठ ${pageNumber}</span>
+                        <span>????? ${pageNumber}</span>
                         <div>
                             <a href="${url}" download="${pdfFile.name.replace('.pdf', '')}_page${pageNumber}.pdf" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2">
-                                <i class="fas fa-download mr-1"></i> डाउनलोड
+                                <i class="fas fa-download mr-1"></i> ???????
                             </a>
                             <a href="${url}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                <i class="fas fa-eye mr-1"></i> देखें
+                                <i class="fas fa-eye mr-1"></i> ?????
                             </a>
                         </div>
                     `;
@@ -521,7 +534,7 @@
         function splitByNPages() {
             const n = parseInt(pagesPerPdf.value);
             if (isNaN(n) || n < 1) {
-                showError('कृपया प्रत्येक PDF के लिए वैध पृष्ठ संख्या दर्ज करें।');
+                showError('????? ???????? PDF ?? ??? ??? ????? ?????? ???? ?????');
                 processingIndicator.classList.add('hidden');
                 splitOptions.classList.remove('hidden');
                 previewContainer.classList.remove('hidden');
@@ -558,13 +571,13 @@
                     const resultItem = document.createElement('div');
                     resultItem.className = 'flex justify-between items-center p-3 bg-gray-50 rounded';
                     resultItem.innerHTML = `
-                        <span>पृष्ठ ${startPage}-${endPage}</span>
+                        <span>????? ${startPage}-${endPage}</span>
                         <div>
                             <a href="${url}" download="${pdfFile.name.replace('.pdf', '')}_${startPage}-${endPage}.pdf" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2">
-                                <i class="fas fa-download mr-1"></i> डाउनलोड
+                                <i class="fas fa-download mr-1"></i> ???????
                             </a>
                             <a href="${url}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                <i class="fas fa-eye mr-1"></i> देखें
+                                <i class="fas fa-eye mr-1"></i> ?????
                             </a>
                         </div>
                     `;
@@ -662,7 +675,7 @@
 
                     if (pagesProcessed === pageNumbers.length) {
                         if (renderedPages.length === 0) {
-                            showError('पृष्ठों को रेंडर करने में त्रुटि।');
+                            showError('??????? ?? ????? ???? ??? ???????');
                             processingIndicator.classList.add('hidden');
                             splitOptions.classList.remove('hidden');
                             previewContainer.classList.remove('hidden');
@@ -678,7 +691,7 @@
         // Create PDF from rendered pages
         function createPdf(pages, filename) {
             if (pages.length === 0) {
-                showError('कोई पृष्ठ नहीं मिला।');
+                showError('??? ????? ???? ?????');
                 processingIndicator.classList.add('hidden');
                 splitOptions.classList.remove('hidden');
                 previewContainer.classList.remove('hidden');
@@ -732,10 +745,10 @@
                     '<span>' + filename + '</span>' +
                     '<div>' +
                         '<a href="' + url + '" download="' + filename + '" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2">' +
-                            '<i class="fas fa-download mr-1"></i> डाउनलोड' +
+                            '<i class="fas fa-download mr-1"></i> ???????' +
                         '</a>' +
                         '<a href="' + url + '" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">' +
-                            '<i class="fas fa-eye mr-1"></i> देखें' +
+                            '<i class="fas fa-eye mr-1"></i> ?????' +
                         '</a>' +
                     '</div>';
 
@@ -745,7 +758,7 @@
 
             } catch (error) {
                 console.error('Error creating PDF:', error);
-                showError('PDF बनाने में त्रुटि: ' + error.message);
+                showError('PDF ????? ??? ??????: ' + error.message);
                 processingIndicator.classList.add('hidden');
                 splitOptions.classList.remove('hidden');
                 previewContainer.classList.remove('hidden');

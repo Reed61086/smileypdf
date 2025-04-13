@@ -1,11 +1,19 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="light" lang="hi">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WRM63JPK');</script>
+<!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF टेक्स्ट एक्सट्रैक्टर - PDF से टेक्स्ट निकालें | SmileyPDF</title>
-    <meta name="description" content="हमारे मुफ्त ऑनलाइन PDF टेक्स्ट एक्सट्रैक्टर के साथ PDF फाइलों से टेक्स्ट निकालें। सभी टेक्स्ट कंटेंट को कॉपी करने योग्य फॉर्मेट में बदलें।">
-    <meta name="keywords" content="PDF टेक्स्ट एक्सट्रैक्टर, PDF से टेक्स्ट, PDF टेक्स्ट निकालें, PDF कंटेंट एक्सट्रैक्ट, PDF से कॉपी">
+    <title>PDF ??????? ???????????? - PDF ?? ??????? ??????? | SmileyPDF</title>
+    <meta name="description" content="????? ????? ?????? PDF ??????? ???????????? ?? ??? PDF ?????? ?? ??????? ???????? ??? ??????? ?????? ?? ???? ???? ????? ??????? ??? ??????">
+    <meta name="keywords" content="PDF ??????? ????????????, PDF ?? ???????, PDF ??????? ???????, PDF ?????? ???????????, PDF ?? ????">
     <link rel="icon" type="image/png" href="../logo.png">
     <link rel="canonical" href="https://smileypdf.com/hi/pdf-text-extractor.html">
 
@@ -24,6 +32,11 @@
 <link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-100 font-sans">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WRM63JPK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
     <!-- Header -->
     <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
@@ -36,23 +49,23 @@
             <div class="absolute right-20 top-4 md:right-4">
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
-                        <span class="mr-1">हिंदी</span>
+                        <span class="mr-1">?????</span>
                         <i class="fas fa-globe text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                         <a href="../pdf-text-extractor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
-                        <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                        <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">?????</a>
                     </div>
                 </div>
             </div>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-4">
-                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">???</a>
                 <!-- Tools Dropdown -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
-                        टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        ????? <i class="fas fa-chevron-down ml-1 text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false"
                          x-transition:enter="transition ease-out duration-100 transform"
@@ -64,22 +77,22 @@
                          class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
                          style="display: none;" x-cloak>
                          <div class="py-1">
-                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">बेसिक टूल्स</span>
-                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
-                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
-                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
-                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
-                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF टेक्स्ट एक्सट्रैक्ट</a>
-                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
-                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
-                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
-                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF स्प्लिटर</a>
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">????? ?????</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?????</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ????</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">???? ?? PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?????</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF ??????? ???????????</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? ????</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? ??????</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ????????</a>
                          </div>
                      </div>
                  </div>
-                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
-                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
-                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">?????</a>
+                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">????? ???? ???</a>
+                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">??????</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -95,7 +108,7 @@
 </div>
 <div class="md:hidden">
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                    <span class="sr-only">मेनू खोलें</span>
+                    <span class="sr-only">???? ?????</span>
                     <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
                     <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
                 </button>
@@ -105,19 +118,19 @@
         <!-- Mobile Menu -->
         <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
-                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
-                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
-                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">?????</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">????? ???? ???</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">??????</a>
 
-                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF टूल्स</h3>
-                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
-                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
-                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
-                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF स्प्लिटर</a>
-                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
-                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
-                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF टेक्स्ट एक्सट्रैक्ट</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF ?????</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?????</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ????</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???? ?? PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ????????</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? ????</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? JPG</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF ??????? ???????????</a>
             </div>
         </div>
     </header>
@@ -128,20 +141,20 @@
         <nav class="text-sm mb-8" aria-label="Breadcrumb">
             <ol class="list-none p-0 inline-flex">
                 <li class="flex items-center">
-                    <a href="index.html" class="text-blue-600 hover:text-blue-800">होम</a>
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">???</a>
                     <span class="mx-2 text-gray-500">/</span>
                 </li>
                 <li class="flex items-center">
-                    <span class="text-gray-700">PDF टेक्स्ट एक्सट्रैक्टर</span>
+                    <span class="text-gray-700">PDF ??????? ????????????</span>
                 </li>
             </ol>
         </nav>
 
         <!-- Page Title -->
         <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">PDF टेक्स्ट एक्सट्रैक्टर</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">PDF ??????? ????????????</h1>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                अपनी PDF फाइलों से टेक्स्ट आसानी से निकालें। हमारा मुफ्त ऑनलाइन टूल PDF दस्तावेज़ों से सभी टेक्स्ट कंटेंट को कॉपी करने योग्य फॉर्मेट में बदलता है।
+                ???? PDF ?????? ?? ??????? ????? ?? ???????? ????? ????? ?????? ??? PDF ??????????? ?? ??? ??????? ?????? ?? ???? ???? ????? ??????? ??? ????? ???
             </p>
         </div>
 
@@ -155,44 +168,44 @@
                         <div class="text-4xl text-blue-500 mb-3">
                             <i class="fas fa-file-upload"></i>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-800 mb-2">अपनी PDF फाइल चुनें या यहां खींचें</h3>
-                        <p class="text-gray-500 text-sm mb-4">अधिकतम फाइल साइज़: 100MB</p>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">???? PDF ???? ????? ?? ???? ??????</h3>
+                        <p class="text-gray-500 text-sm mb-4">?????? ???? ?????: 100MB</p>
                         <button id="browseButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
-                            फाइल चुनें
+                            ???? ?????
                         </button>
                     </div>
                     <p class="text-sm text-gray-500">
-                        <i class="fas fa-lock text-xs mr-1"></i> आपकी फाइलें सुरक्षित हैं। सभी फाइलें आपके ब्राउज़र में ही प्रोसेस की जाती हैं और हमारे सर्वर पर अपलोड नहीं होती हैं।
+                        <i class="fas fa-lock text-xs mr-1"></i> ???? ?????? ???????? ???? ??? ?????? ???? ???????? ??? ?? ??????? ?? ???? ??? ?? ????? ????? ?? ????? ???? ???? ????
                     </p>
                 </div>
 
                 <!-- Options Area -->
                 <div class="mb-8 bg-gray-50 p-6 rounded-lg">
-                    <h3 class="text-lg font-medium text-gray-800 mb-4">एक्सट्रैक्शन विकल्प</h3>
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">???????????? ??????</h3>
 
                     <div class="space-y-3">
                         <label class="inline-flex items-center">
                             <input type="checkbox" id="preserveFormatting" class="rounded border-gray-300 text-blue-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" checked>
-                            <span class="ml-2 text-gray-700 text-sm">पैराग्राफ फॉर्मेटिंग बनाए रखें</span>
+                            <span class="ml-2 text-gray-700 text-sm">????????? ?????????? ???? ????</span>
                         </label>
 
                         <label class="inline-flex items-center">
                             <input type="checkbox" id="includeImages" class="rounded border-gray-300 text-blue-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                            <span class="ml-2 text-gray-700 text-sm">इमेज का विवरण शामिल करें (यदि उपलब्ध हो)</span>
+                            <span class="ml-2 text-gray-700 text-sm">???? ?? ????? ????? ???? (??? ?????? ??)</span>
                         </label>
 
                         <div>
-                            <label class="block text-gray-700 text-sm font-medium mb-2">आउटपुट फॉर्मेट</label>
+                            <label class="block text-gray-700 text-sm font-medium mb-2">?????? ???????</label>
                             <select id="outputFormat" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="plain" selected>प्लेन टेक्स्ट (.txt)</option>
-                                <option value="markdown">मार्कडाउन (.md)</option>
+                                <option value="plain" selected>????? ??????? (.txt)</option>
+                                <option value="markdown">????????? (.md)</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="mt-6">
                         <button id="extractButton" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-                            <i class="fas fa-file-export mr-2"></i> टेक्स्ट एक्सट्रैक्ट करें
+                            <i class="fas fa-file-export mr-2"></i> ??????? ??????????? ????
                         </button>
                     </div>
                 </div>
@@ -201,8 +214,8 @@
                 <div id="processingArea" class="hidden">
                     <div class="mb-6 text-center">
                         <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mb-2"></div>
-                        <p class="text-gray-700">आपकी PDF फाइल से टेक्स्ट निकाला जा रहा है...</p>
-                        <p class="text-sm text-gray-500 mt-2">यह प्रक्रिया फाइल के आकार और जटिलता के आधार पर कुछ सेकंड से कुछ मिनट तक ले सकती है।</p>
+                        <p class="text-gray-700">???? PDF ???? ?? ??????? ?????? ?? ??? ??...</p>
+                        <p class="text-sm text-gray-500 mt-2">?? ????????? ???? ?? ???? ?? ?????? ?? ???? ?? ??? ????? ?? ??? ???? ?? ?? ???? ???</p>
                     </div>
                 </div>
 
@@ -210,13 +223,13 @@
                 <div id="resultArea" class="hidden">
                     <div class="mb-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-medium text-gray-800">एक्सट्रैक्ट किया गया टेक्स्ट</h3>
+                            <h3 class="text-lg font-medium text-gray-800">??????????? ???? ??? ???????</h3>
                             <div>
                                 <button id="copyButton" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition mr-2">
-                                    <i class="fas fa-copy mr-1"></i> कॉपी करें
+                                    <i class="fas fa-copy mr-1"></i> ???? ????
                                 </button>
                                 <button id="downloadButton" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                                    <i class="fas fa-download mr-1"></i> डाउनलोड करें
+                                    <i class="fas fa-download mr-1"></i> ??????? ????
                                 </button>
                             </div>
                         </div>
@@ -227,7 +240,7 @@
 
                         <div class="mt-6 text-center">
                             <button id="extractAnotherButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
-                                दूसरी फाइल एक्सट्रैक्ट करें
+                                ????? ???? ??????????? ????
                             </button>
                         </div>
                     </div>
@@ -239,10 +252,10 @@
                         <div class="text-5xl text-red-500 mb-3">
                             <i class="fas fa-exclamation-circle"></i>
                         </div>
-                        <h3 class="text-xl font-medium text-gray-800 mb-2">कुछ गलत हो गया!</h3>
-                        <p class="text-gray-600 mb-4" id="errorMessage">आपकी फाइल को प्रोसेस करते समय एक त्रुटि हुई। कृपया दोबारा कोशिश करें या दूसरी फाइल का उपयोग करें।</p>
+                        <h3 class="text-xl font-medium text-gray-800 mb-2">??? ??? ?? ???!</h3>
+                        <p class="text-gray-600 mb-4" id="errorMessage">???? ???? ?? ??????? ???? ??? ?? ?????? ???? ????? ?????? ????? ???? ?? ????? ???? ?? ????? ?????</p>
                         <button id="tryAgainButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
-                            दोबारा कोशिश करें
+                            ?????? ????? ????
                         </button>
                     </div>
                 </div>
@@ -253,7 +266,7 @@
     <!-- Simple Footer -->
     <footer class="bg-gray-800 text-gray-300 mt-12 py-6">
         <div class="container mx-auto px-4 text-center">
-            <p>&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</p>
+            <p>&copy; <span id="current-year"></span> SmileyPDF. ?????????? ?????????</p>
         </div>
     </footer>
 
@@ -320,7 +333,7 @@
                 if (files.length > 0 && files[0].type === 'application/pdf') {
                     handleFile(files[0]);
                 } else {
-                    showError('कृपया एक वैध PDF फाइल अपलोड करें।');
+                    showError('????? ?? ??? PDF ???? ????? ?????');
                 }
             }
 
@@ -334,7 +347,7 @@
                     if (this.files[0].type === 'application/pdf') {
                         handleFile(this.files[0]);
                     } else {
-                        showError('कृपया एक वैध PDF फाइल अपलोड करें।');
+                        showError('????? ?? ??? PDF ???? ????? ?????');
                     }
                 }
             });
@@ -342,7 +355,7 @@
             // Process the selected file
             function handleFile(file) {
                 if (file.size > 100 * 1024 * 1024) { // 100MB limit
-                    showError('फाइल बहुत बड़ी है। कृपया 100MB से कम आकार की फाइल अपलोड करें।');
+                    showError('???? ???? ???? ??? ????? 100MB ?? ?? ???? ?? ???? ????? ?????');
                     return;
                 }
 
@@ -353,7 +366,7 @@
             // Extract text from PDF
             extractButton.addEventListener('click', () => {
                 if (!currentFile) {
-                    showError('कृपया पहले एक PDF फाइल अपलोड करें।');
+                    showError('????? ???? ?? PDF ???? ????? ?????');
                     return;
                 }
 
@@ -375,7 +388,7 @@
                         extractedText.textContent = extractedContent;
                         showResultUI();
                     } else {
-                        showError('टेक्स्ट निकालते समय एक त्रुटि हुई। कृपया दोबारा कोशिश करें।');
+                        showError('??????? ??????? ??? ?? ?????? ???? ????? ?????? ????? ?????');
                     }
                 }, 2000);
             });
@@ -385,41 +398,41 @@
                 let text = '';
 
                 if (format === 'markdown') {
-                    text = '# सैंपल PDF दस्तावेज़\n\n';
-                    text += '## परिचय\n\n';
-                    text += 'यह एक सैंपल PDF दस्तावेज़ है जिससे टेक्स्ट निकाला गया है। यह केवल एक डेमो है।\n\n';
+                    text = '# ????? PDF ?????????\n\n';
+                    text += '## ?????\n\n';
+                    text += '?? ?? ????? PDF ????????? ?? ????? ??????? ?????? ??? ??? ?? ???? ?? ???? ???\n\n';
 
                     if (keepFormatting) {
-                        text += '### फॉर्मेटिंग के साथ\n\n';
-                        text += '* यह एक बुलेट पॉइंट है\n';
-                        text += '* यहां एक और बुलेट पॉइंट है\n\n';
-                        text += '1. यह एक नंबर्ड लिस्ट है\n';
-                        text += '2. यहां एक और आइटम है\n\n';
+                        text += '### ?????????? ?? ???\n\n';
+                        text += '* ?? ?? ????? ????? ??\n';
+                        text += '* ???? ?? ?? ????? ????? ??\n\n';
+                        text += '1. ?? ?? ?????? ????? ??\n';
+                        text += '2. ???? ?? ?? ???? ??\n\n';
                     }
 
                     if (withImages) {
-                        text += '## इमेज विवरण\n\n';
-                        text += '![Image 1: दस्तावेज़ में पहली इमेज का विवरण]\n\n';
-                        text += '![Image 2: दस्तावेज़ में दूसरी इमेज का विवरण]\n\n';
+                        text += '## ???? ?????\n\n';
+                        text += '![Image 1: ????????? ??? ???? ???? ?? ?????]\n\n';
+                        text += '![Image 2: ????????? ??? ????? ???? ?? ?????]\n\n';
                     }
                 } else {
                     // Plain text format
-                    text = 'सैंपल PDF दस्तावेज़\n\n';
-                    text += 'परिचय\n\n';
-                    text += 'यह एक सैंपल PDF दस्तावेज़ है जिससे टेक्स्ट निकाला गया है। यह केवल एक डेमो है।\n\n';
+                    text = '????? PDF ?????????\n\n';
+                    text += '?????\n\n';
+                    text += '?? ?? ????? PDF ????????? ?? ????? ??????? ?????? ??? ??? ?? ???? ?? ???? ???\n\n';
 
                     if (keepFormatting) {
-                        text += 'फॉर्मेटिंग के साथ\n\n';
-                        text += '- यह एक बुलेट पॉइंट है\n';
-                        text += '- यहां एक और बुलेट पॉइंट है\n\n';
-                        text += '1. यह एक नंबर्ड लिस्ट है\n';
-                        text += '2. यहां एक और आइटम है\n\n';
+                        text += '?????????? ?? ???\n\n';
+                        text += '- ?? ?? ????? ????? ??\n';
+                        text += '- ???? ?? ?? ????? ????? ??\n\n';
+                        text += '1. ?? ?? ?????? ????? ??\n';
+                        text += '2. ???? ?? ?? ???? ??\n\n';
                     }
 
                     if (withImages) {
-                        text += 'इमेज विवरण\n\n';
-                        text += '[Image 1: दस्तावेज़ में पहली इमेज का विवरण]\n\n';
-                        text += '[Image 2: दस्तावेज़ में दूसरी इमेज का विवरण]\n\n';
+                        text += '???? ?????\n\n';
+                        text += '[Image 1: ????????? ??? ???? ???? ?? ?????]\n\n';
+                        text += '[Image 2: ????????? ??? ????? ???? ?? ?????]\n\n';
                     }
                 }
 
@@ -470,7 +483,7 @@
                         .then(() => {
                             // Change button text temporarily to indicate success
                             const originalText = copyButton.innerHTML;
-                            copyButton.innerHTML = '<i class="fas fa-check mr-1"></i> कॉपी किया गया';
+                            copyButton.innerHTML = '<i class="fas fa-check mr-1"></i> ???? ???? ???';
                             setTimeout(() => {
                                 copyButton.innerHTML = originalText;
                             }, 2000);
