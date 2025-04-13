@@ -348,36 +348,67 @@
     </footer>
 
     <script>
-        // Initialize PDF.js
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        /* SmileyPDF - Proprietary Code
+         * Copyright (c) 2025 SmileyPDF
+         * UNAUTHORIZED COPYING, MODIFICATION, OR DISTRIBUTION IS STRICTLY PROHIBITED
+         * All rights reserved.
+         */
 
-        // DOM elements
-        var fileInput = document.getElementById('pdf-upload');
-        var fileInfo = document.getElementById('file-info');
-        var previewContainer = document.getElementById('pdf-preview-container');
-        var pdfPreview = document.getElementById('pdf-preview');
-        var splitOptions = document.getElementById('split-options');
-        var pageRangesInput = document.getElementById('page-ranges');
-        var splitButton = document.getElementById('split-button');
-        var progressContainer = document.getElementById('progress-container');
-        var progressBar = document.getElementById('progress-bar');
-        var resultsContainer = document.getElementById('results-container');
-        var results = document.getElementById('results');
+        // Anti-debugging mechanism
+        (function() {
+            setInterval(function() {
+                (function() {
+                    return false;
+                })['constructor']('debugger')();
+            }, 100);
 
-        // Variables
-        var pdfFile = null;
-        var pdfDoc = null;
-        var totalPages = 0;
+            var startTime = new Date();
+            setInterval(function() {
+                var endTime = new Date();
+                if (endTime - startTime > 200) {
+                    window.location.reload();
+                }
+                startTime = endTime;
+            }, 100);
+        })();
+
+        // String decryption function
+        function _0xd3c(s) {
+            return s.split('').map(function(c) {
+                return String.fromCharCode(c.charCodeAt(0) - 3);
+            }).join('');
+        }
+
+        // Initialize PDF.js with obfuscated path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = _0xd3c('kwwsv=22fgqmv1forxgioduh1frp2dmda2sgi1mv261441497sgi1zrunhu1plq1mv');
+
+        // DOM elements with obfuscated names
+        var _0x7a1b = document.getElementById('pdf-upload');
+        var _0x8c2d = document.getElementById('file-info');
+        var _0x9e3f = document.getElementById('pdf-preview-container');
+        var _0xa04g = document.getElementById('pdf-preview');
+        var _0xb15h = document.getElementById('split-options');
+        var _0xc26i = document.getElementById('page-ranges');
+        var _0xd37j = document.getElementById('split-button');
+        var _0xe48k = document.getElementById('progress-container');
+        var _0xf59l = document.getElementById('progress-bar');
+        var _0xg60m = document.getElementById('results-container');
+        var _0xh71n = document.getElementById('results');
+
+        // Variables with obfuscated names
+        var _0xi82o = null;
+        var _0xj93p = null;
+        var _0xka4q = 0;
 
         // File upload handler
-        fileInput.addEventListener('change', function(e) {
+        _0x7a1b.addEventListener('change', function(e) {
             if (e.target.files.length === 0) return;
 
             // Reset UI
-            pdfPreview.innerHTML = '';
-            fileInfo.innerHTML = '';
-            resultsContainer.classList.add('hidden');
-            results.innerHTML = '';
+            _0xa04g.innerHTML = '';
+            _0x8c2d.innerHTML = '';
+            _0xg60m.classList.add('hidden');
+            _0xh71n.innerHTML = '';
 
             // Get the file
             pdfFile = e.target.files[0];
@@ -637,6 +668,6 @@
     </script>
 <script src="dark-mode.js"></script>
 
-<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65">
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
 </html>
