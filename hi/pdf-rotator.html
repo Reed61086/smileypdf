@@ -4,9 +4,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF ?????? - PDF ??????? ?? ?????? | SmileyPDF</title>
-    <meta name="description" content="????? ????? ?????? PDF ?????? ?? ??? PDF ??????? ?? ??????? ??????? ?? 90, 180 ?? 270 ?????? ?? ?????? ?? ???? ???? ?? ???????? ?????">
-    <meta name="keywords" content="PDF ??????, PDF ????? ??????, PDF ??????, PDF ????? ?????????, PDF ????? ??????">
+    <title>PDF रोटेटर - PDF पेजेस को घुमाएं | SmileyPDF</title>
+    <meta name="description" content="हमारे मुफ्त ऑनलाइन PDF रोटेटर के साथ PDF पेजेस को आसानी सेकिसी भी 90, 180 या 270 डिग्री पर घुमाएं और नई फाइल को डाउनलोड करें">
+    <meta name="keywords" content="PDF रोटेटर, PDF पेज घुमाना, PDF रोटेशन, PDF पेज रोटेशन, PDF पेज घुमाएं">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="canonical" href="https://smileypdf.com/hi/pdf-rotator.html">
 
@@ -38,23 +38,23 @@
             <div class="absolute right-20 top-4 md:right-4">
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
-                        <span class="mr-1">?????</span>
+                        <span class="mr-1">हिंदी</span>
                         <i class="fas fa-globe text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                         <a href="../pdf-rotator.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
-                        <a href="pdf-rotator.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">?????</a>
+                        <a href="pdf-rotator.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
                     </div>
                 </div>
             </div>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-4">
-                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">???</a>
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
                 <!-- Tools Dropdown -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
-                        ????? <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false"
                          x-transition:enter="transition ease-out duration-100 transform"
@@ -66,22 +66,22 @@
                          class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
                          style="display: none;" x-cloak>
                          <div class="py-1">
-                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">????? ?????</span>
-                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?????</a>
-                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ????</a>
-                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">???? ?? PDF</a>
-                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF ?????</a>
-                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ??????? ???????????</a>
-                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? JPG</a>
-                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? ????</a>
-                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? ??????</a>
-                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ????????</a>
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">पीडीएफ टूल्स</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF रोटेट</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF स्प्लिटर</a>
                          </div>
                      </div>
                  </div>
-                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">?????</a>
-                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">????? ???? ???</a>
-                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">??????</a>
+                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -97,7 +97,7 @@
 </div>
 <div class="md:hidden">
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                    <span class="sr-only">???? ?????</span>
+                    <span class="sr-only">मेनू खोलें</span>
                     <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
                     <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
                 </button>
@@ -107,17 +107,17 @@
         <!-- Mobile Menu -->
         <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???</a>
-                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">?????</a>
-                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">????? ???? ???</a>
-                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">??????</a>
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
 
-                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF ?????</h3>
-                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?????</a>
-                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ????</a>
-                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???? ?? PDF</a>
-                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ????????</a>
-                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? ????</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF टूल्स</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF स्प्लिटर</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
                 <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? JPG</a>
                 <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF ?????</a>
             </div>
@@ -196,13 +196,13 @@
                         <!-- Rotation Controls -->
                         <div class="flex flex-wrap justify-center gap-4 mb-6">
                             <button id="rotateLeft" class="flex items-center justify-center px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">
-                                <i class="fas fa-undo mr-2"></i> 90� ???? ??????
+                                <i class="fas fa-undo mr-2"></i> 90� ???? ??????
                             </button>
                             <button id="rotateRight" class="flex items-center justify-center px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">
-                                <i class="fas fa-redo mr-2"></i> 90� ???? ??????
+                                <i class="fas fa-redo mr-2"></i> 90� ???? ??????
                             </button>
                             <button id="rotate180" class="flex items-center justify-center px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">
-                                <i class="fas fa-sync mr-2"></i> 180� ??????
+                                <i class="fas fa-sync mr-2"></i> 180� ??????
                             </button>
                         </div>
 
@@ -536,7 +536,7 @@
     </script>
 <script src="dark-mode.js"></script>
 
-<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65">
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
 </html>
 

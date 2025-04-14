@@ -4,9 +4,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF ?? ?????? - PDF ?? Excel ?????????? ??? ????? | SmileyPDF</title>
-    <meta name="description" content="????? ????? ?????? PDF ?? Excel ???????? ?? ??? PDF ?????? ?? ?????? ????? Excel ?????????? ??? ?????? ???? ?? ???? ?? ???? ??? ?? ????????">
-    <meta name="keywords" content="PDF ?? ??????, PDF ?? Excel ????????, PDF ?? Excel ??? ?????, PDF ?? ??????????, PDF ???? ???????????">
+    <title>PDF से एक्सेल - PDF को Excel दस्तावेज़ में बदलें | SmileyPDF</title>
+    <meta name="description" content="हमारे मुफ्त ऑनलाइन PDF से Excel कन्वर्टर के साथ PDF फाइलों को आसानी सेसे Excel दस्तावेज़ों में बदलें डेटा को सही और सटीक रूप में निकालें">
+    <meta name="keywords" content="PDF से एक्सेल, PDF से Excel कन्वर्टर, PDF से Excel में बदलें, PDF से स्प्रेडशीट, PDF डेटा एक्सट्रैक्टर">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="canonical" href="https://smileypdf.com/hi/pdf-to-excel.html">
 
@@ -38,23 +38,23 @@
             <div class="absolute right-20 top-4 md:right-4">
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
-                        <span class="mr-1">?????</span>
+                        <span class="mr-1">हिंदी</span>
                         <i class="fas fa-globe text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                         <a href="../pdf-to-excel.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
-                        <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">?????</a>
+                        <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
                     </div>
                 </div>
             </div>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-4">
-                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">???</a>
+                <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
                 <!-- Tools Dropdown -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
-                        ????? <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
                     </button>
                     <div x-show="open" @click.away="open = false"
                          x-transition:enter="transition ease-out duration-100 transform"
@@ -66,22 +66,22 @@
                          class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
                          style="display: none;" x-cloak>
                          <div class="py-1">
-                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">????? ?????</span>
-                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?????</a>
-                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ????</a>
-                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">???? ?? PDF</a>
-                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?????</a>
-                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ??????? ???????????</a>
-                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? JPG</a>
-                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ?? ????</a>
-                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF ?? ??????</a>
-                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF ????????</a>
+                             <span class="block px-4 py-1 text-xs font-semibold text-gray-500">पीडीएफ टूल्स</span>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-600 font-medium">PDF से एक्सेल</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF स्प्लिटर</a>
                          </div>
                      </div>
                  </div>
-                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">?????</a>
-                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">????? ???? ???</a>
-                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">??????</a>
+                 <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+                 <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+                 <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
             </div>
 
             <!-- Mobile Menu Button -->
@@ -97,7 +97,7 @@
 </div>
 <div class="md:hidden">
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                    <span class="sr-only">???? ?????</span>
+                    <span class="sr-only">मेनू खोलें</span>
                     <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
                     <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
                 </button>
@@ -107,19 +107,19 @@
         <!-- Mobile Menu -->
         <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???</a>
-                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">?????</a>
-                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">????? ???? ???</a>
-                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">??????</a>
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
 
-                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF ?????</h3>
-                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?????</a>
-                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ????</a>
-                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">???? ?? PDF</a>
-                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ????????</a>
-                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? ????</a>
-                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF ?? JPG</a>
-                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF ?? ??????</a>
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF टूल्स</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF स्प्लिटर</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-700">PDF से एक्सेल</a>
             </div>
         </div>
     </header>
@@ -130,20 +130,20 @@
         <nav class="text-sm mb-8" aria-label="Breadcrumb">
             <ol class="list-none p-0 inline-flex">
                 <li class="flex items-center">
-                    <a href="index.html" class="text-blue-600 hover:text-blue-800">???</a>
+                    <a href="index.html" class="text-blue-600 hover:text-blue-800">होम</a>
                     <span class="mx-2 text-gray-500">/</span>
                 </li>
                 <li class="flex items-center">
-                    <span class="text-gray-700">PDF ?? ??????</span>
+                    <span class="text-gray-700">PDF से एक्सेल</span>
                 </li>
             </ol>
         </nav>
 
         <!-- Page Title -->
         <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">PDF ?? ?????? ????????</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">PDF से एक्सेल कन्वर्टर</h1>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                ???? PDF ?????? ?? ????? ?? ?????? ????? Excel ?????????? ??? ?????? ????? ????? ?????? ??? ???? ?? ???? ?? ???? ??? ?? ??????? ???
+                अपनी PDF फाइलों को आसानी से संपादन योग्य Excel दस्तावेज़ों में बदलें हमारे मुफ्त ऑनलाइन टूल के साथ डेटा को सही और सटीक रूप में निकालें
             </p>
         </div>
 
@@ -157,39 +157,39 @@
                         <div class="text-4xl text-blue-500 mb-3">
                             <i class="fas fa-file-upload"></i>
                         </div>
-                        <h3 class="text-lg font-medium text-gray-800 mb-2">???? PDF ???? ????? ?? ???? ??????</h3>
-                        <p class="text-gray-500 text-sm mb-4">?????? ???? ?????: 100MB</p>
+                        <h3 class="text-lg font-medium text-gray-800 mb-2">अपनी PDF फाइल चुनें या यहाँ खींचें</h3>
+                        <p class="text-gray-500 text-sm mb-4">अधिकतम फाइल साइज: 100MB</p>
                         <button id="browseButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
-                            ???? ?????
+                            फाइल चुनें
                         </button>
                     </div>
                     <p class="text-sm text-gray-500">
-                        <i class="fas fa-lock text-xs mr-1"></i> ???? ?????? ???????? ???? ??? ?????? ???? ???????? ??? ?? ??????? ?? ???? ??? ?? ????? ????? ?? ????? ???? ???? ????
+                        <i class="fas fa-lock text-xs mr-1"></i> आपकी फाइलें सुरक्षित रहती हैं क्योंकि सभी प्रोसेसिंग आपके ब्राउजर में ही होती है और कोई फाइल हमारे सर्वर पर अपलोड नहीं होती हैं
                     </p>
                 </div>
 
                 <!-- Options Area -->
                 <div class="mb-8 bg-gray-50 p-6 rounded-lg">
-                    <h3 class="text-lg font-medium text-gray-800 mb-4">???????? ??????</h3>
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">कन्वर्टर विकल्प</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Excel Format -->
                         <div>
-                            <label class="block text-gray-700 text-sm font-medium mb-2">?????? ???????</label>
+                            <label class="block text-gray-700 text-sm font-medium mb-2">एक्सेल फॉर्मेट</label>
                             <select id="excelFormat" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="xlsx" selected>XLSX (?????? Excel)</option>
-                                <option value="xls">XLS (?????? Excel)</option>
-                                <option value="csv">CSV (???? ???????? ????????)</option>
+                                <option value="xlsx" selected>XLSX (आधुनिक Excel)</option>
+                                <option value="xls">XLS (पुराना Excel)</option>
+                                <option value="csv">CSV (कॉमा सेपरेटेड वैल्यूज)</option>
                             </select>
                         </div>
 
                         <!-- Sheet Options -->
                         <div>
-                            <label class="block text-gray-700 text-sm font-medium mb-2">??? ??????</label>
+                            <label class="block text-gray-700 text-sm font-medium mb-2">शीट विकल्प</label>
                             <select id="sheetOption" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="single" selected>??? ???? ?? ??? ???</option>
-                                <option value="multiple">???????? ???? ?? ??? ??? ???</option>
-                                <option value="pages">???????? ????? ?? ??? ??? ???</option>
+                                <option value="single" selected>सभी डेटा एक शीट में</option>
+                                <option value="multiple">अलग-अलग टेबल के लिए अलग शीट</option>
+                                <option value="pages">प्रत्येक पेज के लिए अलग शीट</option>
                             </select>
                         </div>
                     </div>
@@ -197,18 +197,18 @@
                     <div class="mt-4 space-y-3">
                         <label class="inline-flex items-center">
                             <input type="checkbox" id="includeImages" class="rounded border-gray-300 text-blue-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                            <span class="ml-2 text-gray-700 text-sm">???? ?? ??? ??? ??? ????? ???? (??? ???? ??)</span>
+                            <span class="ml-2 text-gray-700 text-sm">इमेज को भी शीट में शामिल करें (जहां संभव हो)</span>
                         </label>
 
                         <label class="inline-flex items-center">
                             <input type="checkbox" id="preserveFormatting" class="rounded border-gray-300 text-blue-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" checked>
-                            <span class="ml-2 text-gray-700 text-sm">?????????? ???? ???? (?????, ???, ???)</span>
+                            <span class="ml-2 text-gray-700 text-sm">फॉर्मेटिंग बनाए रखें (फॉन्ट, रंग, आदि)</span>
                         </label>
                     </div>
 
                     <div class="mt-6">
                         <button id="convertButton" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
-                            <i class="fas fa-file-export mr-2"></i> Excel ??? ??????? ????
+                            <i class="fas fa-file-export mr-2"></i> Excel में कन्वर्ट करें
                         </button>
                     </div>
                 </div>
@@ -217,8 +217,8 @@
                 <div id="processingArea" class="hidden">
                     <div class="mb-6 text-center">
                         <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mb-2"></div>
-                        <p class="text-gray-700">???? PDF ???? ?? Excel ??? ???? ?? ??? ??...</p>
-                        <p class="text-sm text-gray-500 mt-2">?? ????????? ???? ?? ???? ?? ?????? ?? ???? ?? ??? ????? ?? ??? ???? ?? ?? ???? ???</p>
+                        <p class="text-gray-700">आपकी PDF फाइल को Excel में बदला जा रहा है...</p>
+                        <p class="text-sm text-gray-500 mt-2">यह प्रक्रिया फाइल के आकार और जटिलता के आधार पर कुछ सेकंड से कुछ मिनट तक ले सकती है</p>
                     </div>
                 </div>
 
@@ -228,13 +228,13 @@
                         <div class="text-5xl text-green-500 mb-3">
                             <i class="fas fa-check-circle"></i>
                         </div>
-                        <h3 class="text-xl font-medium text-gray-800 mb-2">???????? ???? ???!</h3>
-                        <p class="text-gray-600 mb-4">???? PDF ???? ??????????? Excel ??? ??? ?? ?? ???</p>
+                        <h3 class="text-xl font-medium text-gray-800 mb-2">कन्वर्ट हो गया है!</h3>
+                        <p class="text-gray-600 mb-4">आपकी PDF फाइल सफलतापूर्वक Excel में बदल दी गई है</p>
                         <button id="downloadButton" class="bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-8 rounded-lg transition duration-300 mb-4">
-                            <i class="fas fa-download mr-2"></i> Excel ???? ??????? ????
+                            <i class="fas fa-download mr-2"></i> Excel फाइल डाउनलोड करें
                         </button>
                         <p class="text-sm text-gray-500">
-                            <a href="#" id="convertAnother" class="text-blue-500 hover:underline">????? ???? ??????? ????</a>
+                            <a href="#" id="convertAnother" class="text-blue-500 hover:underline">दूसरी फाइल कन्वर्ट करें</a>
                         </p>
                     </div>
                 </div>
@@ -245,10 +245,10 @@
                         <div class="text-5xl text-red-500 mb-3">
                             <i class="fas fa-exclamation-circle"></i>
                         </div>
-                        <h3 class="text-xl font-medium text-gray-800 mb-2">??? ??? ?? ???!</h3>
-                        <p class="text-gray-600 mb-4" id="errorMessage">???? ???? ?? ??????? ???? ??? ?? ?????? ???? ????? ?????? ????? ???? ?? ????? ???? ?? ????? ?????</p>
+                        <h3 class="text-xl font-medium text-gray-800 mb-2">कुछ गड़बड़ हो गई!</h3>
+                        <p class="text-gray-600 mb-4" id="errorMessage">आपकी फाइल को कन्वर्ट करते समय एक समस्या हुई। कृपया दोबारा प्रयास करें या दूसरी फाइल के साथ कोशिश करें</p>
                         <button id="tryAgainButton" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
-                            ?????? ????? ????
+                            दोबारा प्रयास करें
                         </button>
                     </div>
                 </div>
@@ -259,7 +259,7 @@
     <!-- Simple Footer -->
     <footer class="bg-gray-800 text-gray-300 mt-12 py-6">
         <div class="container mx-auto px-4 text-center">
-            <p>&copy; <span id="current-year"></span> SmileyPDF. ?????????? ?????????</p>
+            <p>&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित</p>
         </div>
     </footer>
 
@@ -452,7 +452,7 @@
     </script>
 <script src="dark-mode.js"></script>
 
-<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65">
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
 </html>
 
