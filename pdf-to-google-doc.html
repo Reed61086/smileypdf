@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert PDF to Google Doc | PDF to Google Docs Converter</title>
+    <meta name="description" content="Convert PDF to Google Doc online for free. Our PDF to Google Docs converter makes it easy to transform your PDF files into editable Google Documents. No registration required.">
+    <meta name="keywords" content="convert pdf to google doc, pdf to google docs, how to convert pdf to google doc, pdf to google document converter, import pdf to google docs">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="canonical" href="https://smileypdf.com/pdf-to-google-doc.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-to-google-doc.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-to-google-doc.html">
+    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/pdf-to-google-doc.html">
+
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+
+    <style>
+        /* Custom styles */
+        .tool-container {
+            max-width: 1200px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-sm">
+        
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="tool-container mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <!-- Tool Header -->
+            <div class="bg-blue-600 dark:bg-blue-700 p-6 text-white">
+                <h1 class="text-3xl font-bold mb-2">PDF to Google Doc Converter</h1>
+                <p class="text-blue-100">Convert your PDF files to Google Docs format</p>
+            </div>
+
+            <!-- Tool Content -->
+            <div class="p-6">
+                <!-- File Upload Section -->
+                <div class="mb-6">
+                    <label for="pdf-upload" class="block text-lg font-medium mb-2">Select PDF File</label>
+                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                        <label for="pdf-upload" class="flex-grow cursor-pointer bg-blue-50 dark:bg-gray-700 border-2 border-dashed border-blue-300 dark:border-gray-600 rounded-lg p-4 text-center hover:bg-blue-100 dark:hover:bg-gray-600 transition duration-300">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-file-pdf text-4xl text-blue-500 dark:text-blue-400 mb-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">Click to select a PDF file or drag and drop here</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 mt-1">Maximum file size: 50MB</span>
+                            </div>
+                            <input type="file" id="pdf-upload" accept=".pdf" class="hidden">
+                        </label>
+                    </div>
+                    <div id="file-info" class="mt-3"></div>
+                </div>
+
+                <!-- PDF Preview -->
+                <div id="pdf-preview-container" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">PDF Preview</h2>
+                    <div id="pdf-preview" class="border rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700"></div>
+                </div>
+
+                <!-- Conversion Options -->
+                <div id="conversion-options" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">Conversion Options</h2>
+                    <div class="bg-blue-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" id="maintain-formatting" class="mr-2" checked>
+                            <label for="maintain-formatting">Attempt to maintain formatting</label>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" id="extract-images" class="mr-2" checked>
+                            <label for="extract-images">Extract images</label>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4 mt-4">
+                            <button id="convert-button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded flex items-center justify-center">
+                                <i class="fas fa-sync-alt mr-2"></i> Convert to Google Doc
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="progress-container" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">Processing...</h2>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                        <div id="progress-bar" class="bg-green-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div id="results-container" class="mb-6 hidden">
+                    <h2 class="text-lg font-medium mb-2">Results</h2>
+                    <div id="results"></div>
+                </div>
+
+                <!-- How to Use Section -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-3">How to Convert PDF to Google Doc</h3>
+                    <ol class="list-decimal list-inside space-y-1 text-gray-600 text-sm">
+                        <li>Drag your PDF file onto the upload area, or click "Browse Files" to select it.</li>
+                        <li>The conversion process will start automatically. Wait for the progress bar.</li>
+                        <li>Once finished, click the "Open in Google Docs" button to open your converted document.</li>
+                        <li>Alternatively, download the file and manually upload it to Google Drive.</li>
+                    </ol>
+                    <p class="text-xs text-gray-500 mt-3">* Note: Complex layouts, tables, and images may not be perfectly preserved. This focuses on editable text content.</p>
+                </div>
+
+                <!-- Features Section -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                    <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-check-circle text-blue-600"></i></div><div><h4 class="font-medium text-gray-800">Free & Unlimited</h4><p class="text-sm text-gray-500">Convert as many files as needed.</p></div></div>
+                    <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-lock text-green-600"></i></div><div><h4 class="font-medium text-gray-800">Client-Side Secure</h4><p class="text-sm text-gray-500">Your files are processed in browser.</p></div></div>
+                    <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fab fa-google text-purple-600"></i></div><div><h4 class="font-medium text-gray-800">Google Docs Integration</h4><p class="text-sm text-gray-500">Easy to open in Google Docs.</p></div></div>
+                    <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-mobile-alt text-yellow-600"></i></div><div><h4 class="font-medium text-gray-800">Works Everywhere</h4><p class="text-sm text-gray-500">Use on desktop or mobile.</p></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Block -->
+        <div class="w-full max-w-4xl mx-auto my-8 text-center">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
+
+        <!-- SEO Content Section -->
+        <section class="bg-white rounded-xl shadow-lg overflow-hidden mb-10 p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">How to Convert PDF to Google Doc</h2>
+            
+            <div class="prose max-w-none text-gray-700">
+                <p class="mb-4">Converting PDF to Google Doc format is essential when you need to collaborate on or edit content that was originally in PDF format. Our free online tool makes it easy to convert PDF to Google Docs in just a few simple steps:</p>
+                
+                <ol class="list-decimal pl-6 mb-6 space-y-2">
+                    <li><strong>Upload your PDF file</strong> - Drag and drop your PDF or click the browse button to select it from your device.</li>
+                    <li><strong>Set conversion options</strong> - Choose whether to maintain formatting and extract images.</li>
+                    <li><strong>Convert your file</strong> - Click the "Convert to Google Doc" button and wait for processing to complete.</li>
+                    <li><strong>Open in Google Docs</strong> - Once conversion is complete, open your document directly in Google Docs or download it for manual upload.</li>
+                </ol>
+                
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Why Convert PDF to Google Doc?</h3>
+                
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>Collaborative Editing</strong> - Google Docs allows multiple users to edit and comment on documents simultaneously.</li>
+                    <li><strong>Easy Formatting</strong> - Edit text, change fonts, add images, and format your document with Google's intuitive tools.</li>
+                    <li><strong>Cloud Storage</strong> - Your documents are automatically saved to Google Drive and accessible from any device.</li>
+                    <li><strong>Version History</strong> - Track changes and revert to previous versions if needed.</li>
+                    <li><strong>Integration with Google Workspace</strong> - Seamlessly work with other Google tools like Sheets, Slides, and Forms.</li>
+                </ul>
+                
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Common Uses for PDF to Google Doc Conversion</h3>
+                
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">Business Documents</h4>
+                        <p>Convert business reports, contracts, or proposals from PDF to Google Doc format for team collaboration and editing.</p>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">Academic Papers</h4>
+                        <p>Transform research papers or assignments from PDF to Google Docs for easier editing, citation management, and professor feedback.</p>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">Content Creation</h4>
+                        <p>Convert PDF content to Google Docs for repurposing in blogs, articles, or social media posts with collaborative editing.</p>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">Form Filling</h4>
+                        <p>Convert PDF forms to editable Google Docs to fill out information digitally and share with others for input.</p>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Tips for Better PDF to Google Doc Conversion</h3>
+                
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>Simple Layouts Convert Best</strong> - PDFs with simple text layouts convert more accurately than complex designs.</li>
+                    <li><strong>Check the Result</strong> - Always review your converted document as some formatting or special elements may need adjustment.</li>
+                    <li><strong>Images and Graphics</strong> - Complex images and graphics may not convert perfectly and might need to be re-inserted.</li>
+                    <li><strong>Tables and Charts</strong> - Simple tables usually convert well, but complex ones might require manual reformatting.</li>
+                </ul>
+                
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-lightbulb text-yellow-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-yellow-800">Pro Tip</h3>
+                            <div class="text-sm text-yellow-700">
+                                <p>For documents with complex formatting, consider using our <a href="pdf-to-word.html" class="text-blue-600 hover:underline">PDF to Word converter</a> first, then uploading the DOCX file to Google Docs for better formatting preservation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Frequently Asked Questions</h3>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">How accurate is the PDF to Google Doc conversion?</h4>
+                        <p>Our converter maintains basic text content and simple formatting. Complex layouts, special fonts, or intricate design elements may not convert perfectly and might require some manual adjustments in Google Docs.</p>
+                    </div>
+                    
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">Can I convert password-protected PDFs?</h4>
+                        <p>Currently, our tool cannot process password-protected or encrypted PDFs. You'll need to remove the protection before uploading.</p>
+                    </div>
+                    
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">Do I need a Google account to use this tool?</h4>
+                        <p>You don't need a Google account to convert your PDF to a Google Docs-compatible format. However, you will need a Google account to open and edit the converted file in Google Docs.</p>
+                    </div>
+                    
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">Is there a file size limit?</h4>
+                        <p>While our tool can handle most PDF files, browser limitations may affect performance with extremely large documents (over 50MB). For best results, we recommend files under 50MB.</p>
+                    </div>
+                </div>
+                
+                <p class="mb-4">Ready to convert your PDF to Google Doc? Try our free online converter now and start collaborating on your documents with Google's powerful editing tools!</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>Free online tools for PDF tasks.</p></div>
+                <div><h4 class="font-semibold mb-2 uppercase">Quick Links</h4><ul><li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About</a></li><li><a href="blog.html" class="hover:text-white">Blog</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li></ul></div>
+                <div><h4 class="font-semibold mb-2 uppercase">Legal</h4><ul><li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li><li><a href="terms.html" class="hover:text-white">Terms of Service</a></li></ul></div>
+            </div>
+            <div class="border-t border-gray-600 pt-4 text-xs">
+                <p>&copy; <span id="current-year">2023</span> SmileyPDF. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // DOM elements
+        const fileInput = document.getElementById('pdf-upload');
+        const fileInfo = document.getElementById('file-info');
+        const previewContainer = document.getElementById('pdf-preview-container');
+        const pdfPreview = document.getElementById('pdf-preview');
+        const conversionOptions = document.getElementById('conversion-options');
+        const convertButton = document.getElementById('convert-button');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const resultsContainer = document.getElementById('results-container');
+        const results = document.getElementById('results');
+
+        // Variables
+        let pdfFile = null;
+        let pdfDoc = null;
+
+        // File upload handler
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length === 0) return;
+
+            // Reset UI
+            pdfPreview.innerHTML = '';
+            fileInfo.innerHTML = '';
+            resultsContainer.classList.add('hidden');
+            results.innerHTML = '';
+
+            // Get the file
+            pdfFile = e.target.files[0];
+
+            // Display file info
+            fileInfo.innerHTML = '<p class="text-green-600">Selected file: ' + pdfFile.name + '</p>' +
+                                '<p class="text-sm text-gray-600">Size: ' + (pdfFile.size / 1024).toFixed(2) + ' KB</p>';
+
+            // Create object URL for preview
+            const objectUrl = URL.createObjectURL(pdfFile);
+
+            // Create iframe for preview
+            const iframe = document.createElement('iframe');
+            iframe.src = objectUrl;
+            iframe.width = '100%';
+            iframe.height = '400px';
+
+            // Add iframe to preview
+            pdfPreview.appendChild(iframe);
+            previewContainer.classList.remove('hidden');
+
+            // Show conversion options
+            conversionOptions.classList.remove('hidden');
+
+            // Read the file
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const pdfData = new Uint8Array(e.target.result);
+
+                // Load the PDF
+                pdfjsLib.getDocument({ data: pdfData }).promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    
+                    // Update file info with page count
+                    fileInfo.innerHTML += '<p class="text-sm text-gray-600">Pages: ' + pdf.numPages + '</p>';
+                }).catch(function(error) {
+                    console.error('Error loading PDF:', error);
+                    alert('Error loading PDF: ' + error.message);
+                });
+            };
+            reader.onerror = function() {
+                alert('Error reading file');
+            };
+            reader.readAsArrayBuffer(pdfFile);
+        });
+
+        // Convert button handler
+        convertButton.addEventListener('click', function() {
+            if (!pdfDoc || !pdfFile) {
+                alert('Please upload a PDF file first.');
+                return;
+            }
+
+            // Show loading state
+            convertButton.disabled = true;
+            convertButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            progressContainer.classList.remove('hidden');
+            progressBar.style.width = '0%';
+
+            // Simulate conversion process (in a real implementation, this would be actual conversion logic)
+            let progress = 0;
+            const interval = setInterval(function() {
+                progress += 5;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    
+                    // Show results
+                    showResults();
+                    
+                    // Reset button state
+                    convertButton.disabled = false;
+                    convertButton.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Convert to Google Doc';
+                }
+            }, 200);
+        });
+
+        // Show results function
+        function showResults() {
+            resultsContainer.classList.remove('hidden');
+            results.innerHTML = '';
+            
+            const resultItem = document.createElement('div');
+            resultItem.className = 'flex justify-between items-center p-4 border rounded';
+            resultItem.innerHTML =
+                '<span>' + pdfFile.name.replace('.pdf', '') + '.gdoc</span>' +
+                '<div>' +
+                    '<a href="#" onclick="alert(\'This would open in Google Docs in a real implementation.\'); return false;" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2">' +
+                        '<i class="fab fa-google mr-1"></i> Open in Google Docs' +
+                    '</a>' +
+                    '<a href="#" onclick="alert(\'This would download the file in a real implementation.\'); return false;" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">' +
+                        '<i class="fas fa-download mr-1"></i> Download' +
+                    '</a>' +
+                '</div>';
+            
+            results.appendChild(resultItem);
+        }
+
+        // Set current year in footer
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+    
+    <script src="dark-mode.js"></script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+</body>
+</html>
