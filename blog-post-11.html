@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Convert PDF to Excel: Expert Tips for Accurate Data Extraction | SmileyPDF Blog</title>
+    <meta name="description" content="Learn the most effective methods to convert PDF to Excel with perfect accuracy. Discover expert techniques for extracting tables, numbers, and data from PDF files.">
+    <meta name="keywords" content="convert PDF to Excel, how to convert PDF to Excel, PDF to Excel converter, PDF to spreadsheet, extract tables from PDF, PDF data extraction">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="canonical" href="https://smileypdf.com/blog-post-11.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/blog-post-11.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/blog-post-11.html">
+    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/blog-post-11.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://smileypdf.com/blog-post-11.html">
+    <meta property="og:title" content="How to Convert PDF to Excel: Expert Tips for Accurate Data Extraction">
+    <meta property="og:description" content="Learn the most effective methods to convert PDF to Excel with perfect accuracy. Discover expert techniques for extracting tables, numbers, and data from PDF files.">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/blog-post-11.html">
+    <meta property="twitter:title" content="How to Convert PDF to Excel: Expert Tips for Accurate Data Extraction">
+    <meta property="twitter:description" content="Learn the most effective methods to convert PDF to Excel with perfect accuracy. Discover expert techniques for extracting tables, numbers, and data from PDF files.">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    typography: {
+                        DEFAULT: {
+                            css: {
+                                maxWidth: '100%',
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center space-x-2">
+                    <img src="logo.png" alt="SmileyPDF Logo" class="h-10">
+                    <span class="text-xl font-bold">SmileyPDF</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-4">
+                    <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" @click.away="open = false" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm flex items-center">
+                            Tools
+                            <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="open" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 text-gray-800"
+                             style="display: none;" x-cloak>
+                             <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
+                             <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
+                             <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
+                             <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
+                             <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
+                             <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
+                             <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
+                             <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                             <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Splitter</a>
+                        </div>
+                    </div>
+                    <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
+                    <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
+                    <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-white focus:outline-none" x-data="{ open: false }" @click="open = !open; $dispatch('toggle-mobile-menu', {open})">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden bg-blue-800 hidden" x-data="{ open: false }" @toggle-mobile-menu.window="open = $event.detail.open" x-show="open" x-cloak>
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
+                
+                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">PDF Tools</h3>
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Splitter</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        <article class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md prose lg:prose-lg">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">How to Convert PDF to Excel: Expert Tips for Accurate Data Extraction</h1>
+            <p class="text-sm text-gray-500 mb-6 border-b pb-4">Published on August 10, 2024</p>
+
+            <p class="text-gray-700 leading-relaxed">
+                Converting PDF files to Excel spreadsheets is a common challenge for professionals working with data. Whether you're dealing with financial reports, data tables, or any numerical information locked in PDF format, knowing how to efficiently convert PDF to Excel can save hours of manual data entry and prevent costly errors.
+            </p>
+
+            <p class="text-gray-700 leading-relaxed">
+                In this comprehensive guide, we'll explore the most effective methods to convert PDF to Excel, focusing on accuracy, efficiency, and handling different types of PDF documents.
+            </p>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Why Converting PDF to Excel Can Be Challenging</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Before diving into solutions, it's important to understand why PDF to Excel conversion can be tricky:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li><strong>PDF is a display format:</strong> PDFs are designed to maintain visual appearance, not data structure.</li>
+                <li><strong>Complex layouts:</strong> Tables in PDFs may have merged cells, multiple columns, or unusual formatting.</li>
+                <li><strong>Scanned documents:</strong> PDFs created from scans are images, not text, requiring OCR (Optical Character Recognition).</li>
+                <li><strong>Security features:</strong> Some PDFs have restrictions that prevent content extraction.</li>
+                <li><strong>Mixed content:</strong> PDFs often contain a mix of tables, text, images, and charts.</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Method 1: Using Online PDF to Excel Converters</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Online converters offer the quickest solution for occasional PDF to Excel conversions.
+            </p>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Using SmileyPDF's PDF to Excel Converter</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Our <a href="pdf-to-excel.html" class="text-blue-600 hover:underline">free PDF to Excel converter</a> provides a secure, browser-based solution:
+            </p>
+            <ol class="text-gray-700 leading-relaxed">
+                <li><strong>Upload your PDF:</strong> Drag and drop your PDF file or click to browse your files.</li>
+                <li><strong>Select conversion options:</strong> Choose whether to convert all pages or specific ones.</li>
+                <li><strong>Convert:</strong> Click the convert button and wait for the process to complete.</li>
+                <li><strong>Download:</strong> Get your Excel file (.xlsx) with the extracted data.</li>
+            </ol>
+            <p class="text-gray-700 leading-relaxed">
+                The key advantage of our tool is privacy – all processing happens in your browser, so your sensitive financial or business data never leaves your device.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
+                <p class="text-blue-700">
+                    <strong>Pro Tip:</strong> For best results with online converters, ensure your PDF has clearly defined tables with consistent formatting. PDFs with well-structured data convert more accurately than those with complex layouts.
+                </p>
+            </div>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Other Online Converters</h3>
+            <p class="text-gray-700 leading-relaxed">
+                While we recommend our tool for its privacy features, other popular online PDF to Excel converters include:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li><strong>Smallpdf:</strong> Good for simple tables with a clean interface.</li>
+                <li><strong>Adobe Acrobat Online:</strong> Provides good accuracy but requires an Adobe account for full features.</li>
+                <li><strong>PDFTables:</strong> Specializes in table extraction with advanced algorithms.</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Method 2: Using Desktop Software</h2>
+            <p class="text-gray-700 leading-relaxed">
+                For regular conversions or handling complex PDFs, desktop software offers more control and advanced features.
+            </p>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Adobe Acrobat Pro DC</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Adobe's premium PDF software provides professional-grade conversion:
+            </p>
+            <ol class="text-gray-700 leading-relaxed">
+                <li>Open your PDF in Adobe Acrobat Pro DC.</li>
+                <li>Go to Tools > Export PDF.</li>
+                <li>Select "Spreadsheet" and then "Microsoft Excel Workbook" as the format.</li>
+                <li>Click "Export" and choose your save location.</li>
+                <li>Adjust settings in the dialog box if needed.</li>
+                <li>Click "Save" to complete the conversion.</li>
+            </ol>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Microsoft Excel</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Excel itself can open PDF files in newer versions:
+            </p>
+            <ol class="text-gray-700 leading-relaxed">
+                <li>Open Excel and go to File > Open.</li>
+                <li>Change the file type filter to "All Files" or "PDF Files."</li>
+                <li>Select your PDF file and click "Open."</li>
+                <li>Excel will analyze the file and attempt to convert it.</li>
+                <li>Review the conversion and make any necessary adjustments.</li>
+                <li>Save the file as an Excel workbook.</li>
+            </ol>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Method 3: OCR for Scanned PDFs</h2>
+            <p class="text-gray-700 leading-relaxed">
+                If your PDF contains scanned tables or images of spreadsheets, you'll need OCR technology to extract the data.
+            </p>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Using OCR-Enabled Converters</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Our <a href="pdf-to-excel.html" class="text-blue-600 hover:underline">PDF to Excel converter</a> includes OCR capabilities for handling scanned documents. The process is similar to regular conversion but includes these additional considerations:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li><strong>Image quality matters:</strong> Higher resolution scans produce better OCR results.</li>
+                <li><strong>Check for skew:</strong> Straighten scanned pages before conversion if possible.</li>
+                <li><strong>Review carefully:</strong> OCR is not perfect, so always verify the extracted data.</li>
+                <li><strong>Consider specialized OCR:</strong> For very complex tables or poor-quality scans, specialized OCR software may be necessary.</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Tips for Accurate PDF to Excel Conversion</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Follow these expert tips to improve the accuracy of your PDF to Excel conversions:
+            </p>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">1. Prepare Your PDF</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Before conversion, optimize your PDF for better results:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li><strong>Remove unnecessary pages:</strong> Convert only the pages containing tables you need.</li>
+                <li><strong>Check for text recognition:</strong> Ensure text-based PDFs are not actually images.</li>
+                <li><strong>Simplify if possible:</strong> If you created the PDF, consider recreating it with simpler table structures.</li>
+            </ul>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">2. Choose the Right Tool for Your PDF Type</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Different PDFs require different approaches:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li><strong>Native digital PDFs:</strong> Online converters work well for these.</li>
+                <li><strong>Scanned documents:</strong> Use OCR-enabled tools.</li>
+                <li><strong>Complex tables:</strong> Desktop software often handles these better.</li>
+                <li><strong>Secured PDFs:</strong> You may need to remove security restrictions first (if you have permission).</li>
+            </ul>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">3. Post-Conversion Cleanup</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Even the best conversions usually need some adjustment:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li><strong>Check for merged cells:</strong> These often cause alignment issues.</li>
+                <li><strong>Verify data types:</strong> Ensure numbers are recognized as numbers, not text.</li>
+                <li><strong>Look for missing data:</strong> Footnotes or small text might be missed.</li>
+                <li><strong>Fix formatting:</strong> Apply proper Excel formatting to make the data more usable.</li>
+                <li><strong>Remove artifacts:</strong> Delete any headers, footers, or page numbers that got included in the data.</li>
+            </ul>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 my-6">
+                <p class="text-yellow-700">
+                    <strong>Important:</strong> Always verify the converted data against the original PDF, especially for financial or critical business information. Conversion errors can lead to incorrect analysis or decisions.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Handling Different Types of PDF Tables</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Different table structures require different approaches:
+            </p>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Simple Tables</h3>
+            <p class="text-gray-700 leading-relaxed">
+                For basic tables with clear rows and columns:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li>Most online converters handle these well</li>
+                <li>Look for clean cell separation in the output</li>
+                <li>Check that headers are properly identified</li>
+            </ul>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Complex Financial Tables</h3>
+            <p class="text-gray-700 leading-relaxed">
+                For financial statements, reports with nested columns, or multi-level headers:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li>Use desktop software like Adobe Acrobat Pro or specialized financial tools</li>
+                <li>Consider converting to CSV first, then importing to Excel for more control</li>
+                <li>Be prepared to restructure complex hierarchical data manually</li>
+            </ul>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Forms and Structured Data</h3>
+            <p class="text-gray-700 leading-relaxed">
+                For data that appears in forms rather than traditional tables:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li>Consider using data extraction tools that can map fields to columns</li>
+                <li>You may need to create a custom template for recurring form conversions</li>
+                <li>Sometimes manual extraction is more efficient for very unique layouts</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Advanced Techniques for Data Scientists and Analysts</h2>
+            <p class="text-gray-700 leading-relaxed">
+                For those working with data at scale or requiring automation:
+            </p>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Using Python for PDF to Excel Conversion</h3>
+            <p class="text-gray-700 leading-relaxed">
+                Python offers powerful libraries for PDF data extraction:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li><strong>Tabula-py:</strong> Excellent for extracting tables from PDFs</li>
+                <li><strong>PyPDF2 + pandas:</strong> Combine these for text extraction and data structuring</li>
+                <li><strong>Camelot:</strong> Specialized in complex table extraction with fine-tuning options</li>
+            </ul>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Batch Processing</h3>
+            <p class="text-gray-700 leading-relaxed">
+                For converting multiple PDFs:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li>Look for tools with batch processing capabilities</li>
+                <li>Consider scripting solutions for recurring conversion tasks</li>
+                <li>Set up validation checks to flag potential conversion errors</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Common Challenges and Solutions</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Here are solutions to common PDF to Excel conversion problems:
+            </p>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Problem: Tables Split Across Pages</h3>
+            <p class="text-gray-700 leading-relaxed">
+                When tables continue from one page to another:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li>Convert the entire document and manually join the tables in Excel</li>
+                <li>Look for "continuous table" options in advanced converters</li>
+                <li>Use desktop software that can recognize table continuations</li>
+            </ul>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Problem: Numbers Converted as Text</h3>
+            <p class="text-gray-700 leading-relaxed">
+                When Excel doesn't recognize numbers properly:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li>Use Excel's "Text to Columns" feature</li>
+                <li>Apply the VALUE() function to convert text to numbers</li>
+                <li>Check for hidden characters or spaces that might be affecting recognition</li>
+            </ul>
+
+            <h3 class="text-xl font-medium text-gray-800 mt-6 mb-2">Problem: Formatting Loss</h3>
+            <p class="text-gray-700 leading-relaxed">
+                When the converted data loses important formatting:
+            </p>
+            <ul class="text-gray-700 leading-relaxed">
+                <li>Use conditional formatting in Excel to recreate color coding</li>
+                <li>Create Excel templates with predefined styles for recurring conversions</li>
+                <li>Consider using macros to automate reformatting tasks</li>
+            </ul>
+
+            <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-3">Conclusion</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Converting PDF to Excel doesn't have to be a headache. With the right tools and techniques, you can efficiently extract data while maintaining accuracy. For most users, online converters like our <a href="pdf-to-excel.html" class="text-blue-600 hover:underline">PDF to Excel tool</a> provide the perfect balance of convenience, accuracy, and data security.
+            </p>
+
+            <p class="text-gray-700 leading-relaxed">
+                Remember that the quality of your conversion depends on the structure of your original PDF, the tool you choose, and the post-conversion cleanup. By following the tips in this guide, you'll be able to efficiently convert your PDF documents to Excel spreadsheets for analysis, reporting, or data manipulation.
+            </p>
+
+            <p class="text-gray-700 leading-relaxed">
+                Ready to convert your PDF to Excel? Try our <a href="pdf-to-excel.html" class="text-blue-600 hover:underline">free online converter</a> now and experience fast, secure conversion with excellent data accuracy.
+            </p>
+
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Related Articles</h3>
+                <ul class="space-y-2">
+                    <li><a href="blog-post-8.html" class="text-blue-600 hover:underline">PDF to Word Conversion: Preserving Formatting and Layout</a></li>
+                    <li><a href="blog-post-10.html" class="text-blue-600 hover:underline">How to Convert PDF to JPG: Complete Guide for High-Quality Images</a></li>
+                    <li><a href="blog-post-9.html" class="text-blue-600 hover:underline">10 Effective Ways to Compress PDF Files Without Losing Quality</a></li>
+                </ul>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About SmileyPDF</h3>
+                    <p class="text-gray-400">SmileyPDF offers free online PDF tools to help you manage your documents efficiently. Our tools are designed to be easy to use, secure, and accessible from any device.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Popular Tools</h3>
+                    <ul class="space-y-2">
+                        <li><a href="pdf-editor.html" class="text-gray-400 hover:text-white">PDF Editor</a></li>
+                        <li><a href="merge-pdf.html" class="text-gray-400 hover:text-white">Merge PDF</a></li>
+                        <li><a href="pdf-splitter.html" class="text-gray-400 hover:text-white">Split PDF</a></li>
+                        <li><a href="pdf-to-word.html" class="text-gray-400 hover:text-white">PDF to Word</a></li>
+                        <li><a href="pdf-to-excel.html" class="text-gray-400 hover:text-white">PDF to Excel</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <p class="text-gray-400 mb-4">Have questions or feedback? We'd love to hear from you!</p>
+                    <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Contact Us</a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; <span id="current-year">2024</span> SmileyPDF. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+</body>
+</html>
