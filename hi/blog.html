@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ब्लॉग - PDF टिप्स और ट्रिक्स - SmileyPDF</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <style>
+        /* Optional: Add custom styles here */
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+<link rel="stylesheet" href="../dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+ <!-- Header -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Desktop Menu -->
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">हिंदी</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <a href="../blog.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="blog.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+            <!-- Tools Dropdown -->
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                    टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100 transform"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75 transform"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a>
+                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                     <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                 </div>
+             </div>
+             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm text-white bg-blue-600">ब्लॉग</a>
+             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+         </div>
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                  <span class="sr-only">मेनू खोलें</span>
+                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+              </button>
+         </div>
+    </nav>
+     <!-- Mobile Menu Panel -->
+     <div x-show="mobileMenuOpen"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         x-transition:enter="transition ease-out duration-200 transform origin-top"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="display: none;" x-cloak>
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 text-white bg-blue-700">ब्लॉग</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3>
+            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a>
+            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्टर</a>
+            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a>
+        </div>
+     </div>
+</header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">SmileyPDF ब्लॉग</h1>
+        <p class="text-lg text-gray-600 text-center mb-8 max-w-2xl mx-auto">
+            आपके PDF दस्तावेजों और हमारे मुफ्त ऑनलाइन टूल का अधिकतम लाभ उठाने के लिए टिप्स, ट्रिक्स और गाइड।
+         </p>
+
+        <!-- Ad Block -->
+        <div class="w-full max-w-4xl mx-auto py-2 text-center">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-9273434855071552"
+                 data-ad-slot="6257062799"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+        </div>
+
+        <!-- Blog Post Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+
+            <!-- Blog Post 1 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center">
+                     <i class="fas fa-pencil-alt text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-1.html" class="hover:text-blue-600">ऑनलाइन PDF संपादन के लिए 5 त्वरित टिप्स</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        PDF में तेज़ी से बदलाव करने की ज़रूरत है? SmileyPDF जैसे ऑनलाइन टूल का उपयोग करके बिना किसी सॉफ्टवेयर को इंस्टॉल किए टेक्स्ट, इमेज और हस्ताक्षर आसानी से जोड़ना सीखें...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>10 जून, 2024</span>
+                        <a href="blog-post-1.html" class="text-blue-500 hover:underline font-medium">और पढ़ें <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 2 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-green-200 to-teal-300 flex items-center justify-center">
+                     <i class="fas fa-object-group text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-2.html" class="hover:text-blue-600">कई PDF फाइलों को आसानी से मर्ज कैसे करें</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        कई PDF दस्तावेजों को एक में जोड़ना एक आम कार्य है। यह गाइड आपको दिखाती है कि हमारे मुफ्त ऑनलाइन टूल का उपयोग करके PDF को जल्दी और सुरक्षित रूप से कैसे मर्ज करें...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>5 जून, 2024</span>
+                        <a href="blog-post-2.html" class="text-blue-500 hover:underline font-medium">और पढ़ें <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 3 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-yellow-200 to-orange-300 flex items-center justify-center"> <i class="fas fa-file-image text-5xl text-white opacity-50"></i></div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2"><a href="blog-post-3.html" class="hover:text-blue-600">गाइड: इमेज (JPG, PNG, WEBP) को PDF में बदलना</a></h2>
+                     <p class="text-gray-600 text-sm mb-4">फोटो या स्कैन को बंडल करने की आवश्यकता है? ऑनलाइन कई इमेज को एक व्यवस्थित PDF फाइल में बदलना सीखें।</p>
+                     <div class="flex justify-between items-center text-xs text-gray-500"><span>15 जून, 2024</span> <a href="blog-post-3.html" class="text-blue-500 hover:underline font-medium">और पढ़ें <i class="fas fa-arrow-right text-xs ml-1"></i></a></div>
+                 </div>
+             </div>
+            <!-- Blog Post 4 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-red-200 to-pink-300 flex items-center justify-center"> <i class="fas fa-rotate text-5xl text-white opacity-50"></i></div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2"><a href="blog-post-4.html" class="hover:text-blue-600">PDF पेज को रोटेट करने की आवश्यकता है? यहां बताया गया है कैसे!</a></h2>
+                     <p class="text-gray-600 text-sm mb-4">उलटे-सीधे स्कैन या गलत पृष्ठ ओरिएंटेशन को हमारे ऑनलाइन PDF रोटेट करने के स्टेप-बाय-स्टेप गाइड से आसानी से ठीक करें।</p>
+                     <div class="flex justify-between items-center text-xs text-gray-500"><span>20 जून, 2024</span> <a href="blog-post-4.html" class="text-blue-500 hover:underline font-medium">और पढ़ें <i class="fas fa-arrow-right text-xs ml-1"></i></a></div>
+                 </div>
+            </div>
+
+            <!-- Blog Post 5 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-purple-200 to-indigo-300 flex items-center justify-center">
+                     <i class="fas fa-scissors text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-5.html" class="hover:text-blue-600">बेहतर दस्तावेज़ प्रबंधन के लिए 7 उन्नत PDF विभाजन तकनीकें</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        अपने दस्तावेज़ कार्यप्रवाह और संगठन को बेहतर बनाने के लिए PDF विभाजित करने की पेशेवर तकनीकें सीखें। पृष्ठों को निकालने, बुकमार्क द्वारा विभाजित करने और अधिक जानकारी प्राप्त करें...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>15 जुलाई, 2024</span>
+                        <a href="blog-post-5.html" class="text-blue-500 hover:underline font-medium">और पढ़ें <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 6 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-blue-200 to-cyan-300 flex items-center justify-center">
+                     <i class="fas fa-lock text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-6.html" class="hover:text-blue-600">How to Protect Sensitive Information in PDF Documents</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Learn effective methods to secure sensitive information in your PDF documents. Discover password protection, redaction, and other security techniques...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>July 18, 2024</span>
+                        <a href="blog-post-6.html" class="text-blue-500 hover:underline font-medium">Read More <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 7 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-green-200 to-emerald-300 flex items-center justify-center">
+                     <i class="fas fa-universal-access text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-7.html" class="hover:text-blue-600">Creating Accessible PDF Documents: A Complete Guide</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Learn how to create accessible PDF documents that everyone can use. Discover techniques for making PDFs readable by screen readers and accessible to people with disabilities...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>July 22, 2024</span>
+                        <a href="blog-post-7.html" class="text-blue-500 hover:underline font-medium">Read More <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 8 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-orange-200 to-amber-300 flex items-center justify-center">
+                     <i class="fas fa-file-word text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-8.html" class="hover:text-blue-600">PDF to Word Conversion: Preserving Formatting and Layout</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Learn expert techniques for converting PDF to Word documents while maintaining formatting, layout, and styles. Discover the best tools and methods for perfect conversions...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>July 25, 2024</span>
+                        <a href="blog-post-8.html" class="text-blue-500 hover:underline font-medium">Read More <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 9 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-pink-200 to-rose-300 flex items-center justify-center">
+                     <i class="fas fa-compress-alt text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-9.html" class="hover:text-blue-600">10 Effective Ways to Compress PDF Files Without Losing Quality</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Learn 10 proven techniques to reduce PDF file size while maintaining document quality. Discover the best methods for compressing images, removing unnecessary elements, and optimizing PDFs...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>July 28, 2024</span>
+                        <a href="blog-post-9.html" class="text-blue-500 hover:underline font-medium">Read More <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 10 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center">
+                     <i class="fas fa-file-image text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-10.html" class="hover:text-blue-600">How to Convert PDF to JPG: Complete Guide for High-Quality Images</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Learn the best methods to convert PDF to JPG, JPEG, and PNG with perfect quality. Discover expert tips for extracting images from PDFs while maintaining resolution...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>August 5, 2024</span>
+                        <a href="blog-post-10.html" class="text-blue-500 hover:underline font-medium">Read More <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 11 -->
+            <div class="blog-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                 <div class="w-full h-48 bg-gradient-to-br from-green-200 to-teal-300 flex items-center justify-center">
+                     <i class="fas fa-file-excel text-5xl text-white opacity-50"></i>
+                 </div>
+                 <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                        <a href="blog-post-11.html" class="hover:text-blue-600">How to Convert PDF to Excel: Expert Tips for Accurate Data Extraction</a>
+                    </h2>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Learn the most effective methods to convert PDF to Excel with perfect accuracy. Discover expert techniques for extracting tables, numbers, and data from PDF files...
+                    </p>
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>August 10, 2024</span>
+                        <a href="blog-post-11.html" class="text-blue-500 hover:underline font-medium">Read More <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <!-- Pagination Placeholder -->
+         <!--
+         <div class="mt-12 flex justify-center"> ... </div>
+         -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-16 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>आपके PDF कार्यों को सरल और सुरक्षित बनाने के लिए मुफ्त ऑनलाइन टूल।</p></div>
+                <div><h4 class="font-semibold mb-2 uppercase">त्वरित लिंक्स</h4><ul><li><a href="index.html" class="hover:text-white">होम</a></li><li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li><li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li><li><a href="contact.html" class="hover:text-white">संपर्क</a></li></ul></div>
+                <div><h4 class="font-semibold mb-2 uppercase">कानूनी</h4><ul><li><a href="privacy.html" class="hover:text-white">गोपनीयता नीति</a></li><li class="mt-1"><a href="terms.html" class="hover:text-white">सेवा की शर्तें</a></li></ul></div>
+            </div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+<script src="../dark-mode.js"></script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+</body>
+</html>
