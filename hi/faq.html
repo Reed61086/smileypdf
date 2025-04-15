@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अक्सर पूछे जाने वाले प्रश्न (FAQ) - SmileyPDF</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <style>
+        /* Remove default marker from summary */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        /* Add transition for rotation */
+        details summary .arrow-icon { transition: transform 0.2s ease-in-out; }
+        details[open] summary .arrow-icon { transform: rotate(180deg); }
+    </style>
+<link rel="stylesheet" href="../dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+ <!-- Header -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Desktop Menu -->
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">हिंदी</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <a href="../faq.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="faq.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+            <!-- Tools Dropdown -->
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                    टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100 transform"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75 transform"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a>
+                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                 </div>
+             </div>
+             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+
+         </div>
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                  <span class="sr-only">मेनू खोलें</span>
+                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+              </button>
+         </div>
+    </nav>
+     <!-- Mobile Menu Panel -->
+     <div x-show="mobileMenuOpen"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         x-transition:enter="transition ease-out duration-200 transform origin-top"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="display: none;" x-cloak>
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3>
+            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a>
+            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्टर</a>
+            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+        </div>
+     </div>
+</header>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">अक्सर पूछे जाने वाले प्रश्न (FAQ)</h1>
+
+            <div class="space-y-4">
+
+                <details class="p-4 border rounded-lg bg-gray-50 group" open>
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">क्या SmileyPDF वास्तव में उपयोग करने के लिए मुफ्त है?</span>
+                        <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                        हां, बिल्कुल! SmileyPDF पर उपलब्ध सभी टूल पूरी तरह से उपयोग करने के लिए मुफ्त हैं। हम विज्ञापन के माध्यम से साइट का समर्थन करते हैं, इसलिए आप बिना किसी लागत, साइन-अप, या उपयोग की संख्या पर सीमा के सभी सुविधाओं तक पहुंच सकते हैं।
+                    </div>
+                </details>
+
+                <details class="p-4 border rounded-lg bg-gray-50 group">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">क्या मेरी फाइलें अपलोड करना सुरक्षित है? क्या वे सुरक्षित हैं?</span>
+                         <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                        आपकी सुरक्षा और गोपनीयता हमारी सर्वोच्च प्राथमिकता है। SmileyPDF आपकी सभी फाइलों को सीधे आपके वेब ब्राउज़र (क्लाइंट-साइड) में प्रोसेस करता है। <strong>आपकी फाइलें कभी भी हमारे सर्वर पर अपलोड नहीं की जाती हैं।</strong> वे पूरी प्रक्रिया के दौरान आपके कंप्यूटर पर रहती हैं, जिससे अधिकतम गोपनीयता और सुरक्षा सुनिश्चित होती है।
+                    </div>
+                </details>
+
+                <details class="p-4 border rounded-lg bg-gray-50 group">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">क्या मुझे कोई सॉफ्टवेयर इंस्टॉल करने की आवश्यकता है?</span>
+                         <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                        कोई इंस्टॉलेशन आवश्यक नहीं है। SmileyPDF पूरी तरह से आपके वेब ब्राउज़र (जैसे Chrome, Firefox, Safari, Edge) में ऑनलाइन काम करता है। बस वेबसाइट पर जाएं और सीधे टूल का उपयोग करें।
+                    </div>
+                </details>
+
+                <details class="p-4 border rounded-lg bg-gray-50 group">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">क्या फाइल के आकार या उपयोग की संख्या पर सीमाएं हैं?</span>
+                         <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                         चूंकि प्रोसेसिंग आपके ब्राउज़र में होती है, हमारी तरफ से कोई कृत्रिम फाइल आकार सीमा नहीं है। हालांकि, अत्यधिक बड़ी फाइलें आपके कंप्यूटर के संसाधनों (मेमोरी/CPU) पर दबाव डाल सकती हैं और ब्राउज़र को धीमा या अनुत्तरदायी बना सकती हैं। इस बात पर कोई सीमा नहीं है कि आप टूल का उपयोग कितनी बार कर सकते हैं।
+                    </div>
+                </details>
+
+                 <details class="p-4 border rounded-lg bg-gray-50 group">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">पेज लोड होने के बाद कौन से टूल ऑफलाइन काम करते हैं?</span>
+                         <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                        अधिकांश टूल (PDF एडिटर, मर्ज PDF, रोटेट PDF, इमेज टू PDF, PDF टू JPG, PDF टू वर्ड [बेसिक टेक्स्ट], एक्सट्रैक्ट टेक्स्ट [नॉन-OCR]) टूल पेज लोड होने के बाद आपके ब्राउज़र में पूरी तरह से ऑफलाइन फाइलों को प्रोसेस करते हैं। <strong>OCR टेक्स्ट एक्सट्रैक्टर</strong> विकल्प को वर्तमान में प्रोसेसिंग के दौरान Tesseract.js इंजन के साथ संवाद करने और आवश्यक भाषा डेटा डाउनलोड करने के लिए इंटरनेट कनेक्शन की आवश्यकता होती है, यदि कैश नहीं किया गया है।
+                    </div>
+                </details>
+
+                <details class="p-4 border rounded-lg bg-gray-50 group">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">OCR (ऑप्टिकल कैरेक्टर रिकग्निशन) में अधिक समय क्यों लगता है?</span>
+                         <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                         OCR में प्रत्येक पृष्ठ की छवि का विश्लेषण, वर्ण आकारों की पहचान, और उन्हें डिजिटल टेक्स्ट में परिवर्तित करना शामिल है। इसके लिए जटिल कंप्यूटेशन और कभी-कभी भाषा डेटा डाउनलोड करने की आवश्यकता होती है, जिससे यह PDF में पहले से मौजूद टेक्स्ट को पढ़ने की तुलना में धीमा हो जाता है।
+                    </div>
+                </details>
+
+                 <!-- Ad Block -->
+                 <div class="w-full my-6 text-center">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-9273434855071552"
+                         data-ad-slot="6257062799"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+                </div>
+
+                <details class="p-4 border rounded-lg bg-gray-50 group">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">मेरा कन्वर्ट किया गया वर्ड दस्तावेज़ PDF से अलग दिखता है?</span>
+                         <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                     <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                        PDF से वर्ड कन्वर्जन मुख्य रूप से टेक्स्ट को निकालने और बुनियादी पैराग्राफ संरचना को बनाए रखने पर केंद्रित है। PDF एक फिक्स्ड-लेआउट फॉर्मेट है, जबकि वर्ड फ्लो-आधारित है। जटिल लेआउट, कॉलम, तालिकाएं, विशेष फोंट और एम्बेडेड इमेज पूरी तरह से अनुवादित नहीं हो सकती हैं। लक्ष्य आसानी से संपादन योग्य टेक्स्ट सामग्री प्रदान करना है।
+                    </div>
+                </details>
+
+                <details class="p-4 border rounded-lg bg-gray-50 group">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer hover:bg-gray-100 p-2 rounded transition">
+                        <span class="text-gray-800">अगर मेरे पास और प्रश्न हैं या मुझे कोई बग मिलता है तो क्या होगा?</span>
+                         <span class="arrow-icon ml-4 text-gray-500">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 mt-3 text-sm px-2 pb-2">
+                        हम आपकी प्रतिक्रिया को महत्व देते हैं! यदि आपको कोई समस्या आती है या ऐसे प्रश्न हैं जिनका उत्तर यहां नहीं दिया गया है, तो कृपया <a href="contact.html" class="text-blue-600 hover:underline">हमसे संपर्क करें</a>। समस्या के बारे में विवरण प्रदान करना (जैसे उपयोग किया गया टूल और फाइल का प्रकार) हमें सेवा को बेहतर बनाने में मदद करता है।
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-16 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>आपके PDF कार्यों को सरल और सुरक्षित बनाने के लिए मुफ्त ऑनलाइन टूल।</p></div>
+                <div><h4 class="font-semibold mb-2 uppercase">त्वरित लिंक्स</h4><ul><li><a href="index.html" class="hover:text-white">होम</a></li><li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li><li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li><li><a href="contact.html" class="hover:text-white">संपर्क</a></li></ul></div>
+                <div><h4 class="font-semibold mb-2 uppercase">कानूनी</h4><ul><li><a href="privacy.html" class="hover:text-white">गोपनीयता नीति</a></li><li><a href="terms.html" class="hover:text-white">सेवा की शर्तें</a></li></ul></div>
+            </div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+<script src="../dark-mode.js"></script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+</body>
+</html>
