@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>इमेज को PDF में ऑनलाइन बदलें - मुफ्त JPG से PDF टूल | SmileyPDF</title>
-    <meta name="description" content="JPG, PNG और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अनुकूलन योग्य विकल्पों के साथ अपनी इमेज से पेशेवर PDF दस्तावेज़ बनाएं। कोई पंजीकरण आवश्यक नहीं है।">
+    <meta name="description" content="JPG, PNG और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अनुकूलन योग्य विकल्पों के साथ अपनी इमेज से पेशेवर PDF दस्तावेज बनाएं। कोई पंजीकरण आवश्यक नहीं।">
     <meta name="keywords" content="image to PDF, JPG to PDF, PNG to PDF, convert images to PDF, free image converter, picture to PDF, photo to PDF, image PDF creator">
     <meta name="author" content="SmileyPDF">
     <meta name="robots" content="index, follow">
@@ -166,7 +166,7 @@
     <main class="container mx-auto px-4 py-12 max-w-6xl flex-grow">
         <div class="text-center mb-12">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">इमेज से PDF कन्वर्टर</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">अपनी JPG, PNG और WEBP इमेज को एक सिंगल, प्रोफेशनल PDF दस्तावेज़ में बदलें। ओरिएंटेशन, मार्जिन और पेज साइज़ को समायोजित करें।</p>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">अपनी JPG, PNG और WEBP इमेज को एक सिंगल, प्रोफेशनल PDF दस्तावेज में बदलें। ओरिएंटेशन, मार्जिन और पेज साइज को एडजस्ट करें।</p>
         </div>
 
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
@@ -197,7 +197,7 @@
                     </select>
                 </div>
                  <div>
-                     <label for="size" class="block text-sm font-medium text-gray-700 mb-1">पेज साइज़:</label>
+                     <label for="size" class="block text-sm font-medium text-gray-700 mb-1">पेज साइज:</label>
                     <select id="size" class="border border-gray-300 rounded-md px-3 py-2 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                          <option value="A4" selected>A4</option>
                          <option value="Letter">US लेटर</option>
@@ -214,7 +214,7 @@
              <!-- 3. Image Preview & Reorder -->
              <div id="previewContainer" class="hidden">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-medium text-gray-900">इमेज (<span id="imageCount">0</span>) - पुनर्व्यवस्थित करने के लिए खींचें</h3>
+                    <h3 class="text-lg font-medium text-gray-900">इमेज (<span id="imageCount">0</span>) - क्रम बदलने के लिए खींचें</h3>
                     <button id="clearBtn" type="button" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:opacity-50" disabled>
                         <i class="fas fa-trash-alt mr-1"></i>सभी हटाएं
                     </button>
@@ -247,7 +247,7 @@
                 </div>
                 <div class="flex flex-wrap justify-center gap-4">
                     <button id="downloadBtn" type="button" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-download mr-2"></i>PDF डाउनलोड करें</button>
-                    <button id="newPdfBtn" type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"><i class="fas fa-plus mr-2"></i>और इमेज कन्वर्ट करें</button>
+                    <button id="newPdfBtn" type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"><i class="fas fa-plus mr-2"></i>अधिक इमेज कन्वर्ट करें</button>
                  </div>
              </div>
             <div id="pdfPreviewContainer" class="border border-gray-200 rounded-lg p-4 hidden bg-white">
@@ -260,9 +260,9 @@
          <div class="mt-12 bg-white rounded-xl shadow-md p-6">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">इमेज को PDF में कैसे बदलें</h2>
              <ol class="list-decimal list-inside space-y-2 text-gray-700 max-w-2xl mx-auto">
-                 <li><strong>इमेज चुनें:</strong> JPG, PNG, या WEBP इमेज ड्रैग और ड्रॉप करें, या "इमेज चुनें" बटन का उपयोग करें।</li>
+                 <li><strong>इमेज चुनें:</strong> JPG, PNG, या WEBP इमेज को ड्रैग और ड्रॉप करें, या "इमेज चुनें" बटन का उपयोग करें।</li>
                  <li><strong>क्रम व्यवस्थित करें:</strong> इमेज नीचे दिखाई देती हैं। PDF में दिखाई देने के क्रम को सेट करने के लिए प्रीव्यू को खींचें। इसे हटाने के लिए प्रीव्यू पर <i class="fas fa-times text-red-500 text-xs align-middle"></i> पर क्लिक करें।</li>
-                 <li><strong>सेटिंग्स समायोजित करें:</strong> पेज ओरिएंटेशन (पोर्ट्रेट/लैंडस्केप), साइज़ (A4, लेटर, आदि), और मिलीमीटर में मार्जिन साइज़ चुनें।</li>
+                 <li><strong>सेटिंग्स समायोजित करें:</strong> पेज ओरिएंटेशन (पोर्ट्रेट/लैंडस्केप), साइज (A4, लेटर, आदि), और मिलीमीटर में मार्जिन साइज चुनें।</li>
                  <li><strong>PDF जनरेट करें:</strong> "PDF जनरेट करें" बटन पर क्लिक करें।</li>
                 <li><strong>डाउनलोड करें:</strong> पूरा होने पर, "PDF डाउनलोड करें" पर क्लिक करें। डाउनलोड करने से पहले वैकल्पिक रूप से PDF का पूर्वावलोकन कर सकते हैं।</li>
              </ol>
