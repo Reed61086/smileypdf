@@ -38,7 +38,7 @@
         #pdfPreview::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .page-thumbnail.selected { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4); } /* Added selection style */
     </style>
-<link rel="stylesheet" href="dark-mode.css">
+<link rel="stylesheet" href="../dark-mode.css">
 </head>
 <body class="bg-gray-50 min-h-screen">
 
@@ -49,6 +49,7 @@
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
            <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
         </a>
+        <!-- Desktop Menu -->
         <!-- Language Selector -->
         <div class="absolute right-20 top-4 md:right-4">
             <div class="relative" x-data="{ open: false }">
@@ -62,7 +63,6 @@
                 </div>
             </div>
         </div>
-        <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
             <!-- Tools Dropdown -->
@@ -144,7 +144,7 @@
         <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800 mb-2">PDF पेज रोटेटर</h1>
-                <p class="text-gray-600">व्यक्तिगत पेज या रेंज चुनें और उन्हें घड़ी की दिशा में या घड़ी के विपरीत दिशा में घुमाएं। अपनी PDF में परिवर्तनों को स्थायी रूप से सहेजें।</p>
+                <p class="text-gray-600">व्यक्तिगत पृष्ठों या रेंज का चयन करें और उन्हें घड़ी की दिशा में या घड़ी के विपरीत दिशा में घुमाएं। अपनी PDF में परिवर्तनों को स्थायी रूप से सहेजें।</p>
             </div>
 
             <div class="mb-8">
@@ -181,59 +181,59 @@
                     </div>
                      <div class="flex flex-wrap items-center gap-4">
                         <div class="flex items-center space-x-2 flex-grow">
-                            <label for="pageRangeInput" class="text-gray-700">पेजों पर लागू करें:</label>
-                            <input type="text" id="pageRangeInput" placeholder="जैसे 1, 3, 5-8 या सभी चयनित के लिए खाली छोड़ दें" class="border border-gray-300 rounded px-3 py-1 w-full max-w-xs">
+                            <label for="pageRangeInput" class="text-gray-700">Apply to Pages:</label>
+                            <input type="text" id="pageRangeInput" placeholder="e.g. 1, 3, 5-8 or leave blank for all selected" class="border border-gray-300 rounded px-3 py-1 w-full max-w-xs">
                         </div>
                          <div class="flex items-center space-x-2 mt-2 md:mt-0 flex-shrink-0">
-                            <button type="button" id="selectAll" class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 transition">सभी चुनें</button>
-                            <button type="button" id="clearSelection" class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 transition">चयन हटाएं</button>
+                            <button type="button" id="selectAll" class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 transition">Select All</button>
+                            <button type="button" id="clearSelection" class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-100 transition">Clear Selection</button>
                         </div>
                          <button type="button" id="rotateSelected" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition flex items-center disabled:opacity-50 mt-2 md:mt-0" disabled>
-                             <i class="fas fa-sync-alt mr-2"></i> घुमाएं
+                             <i class="fas fa-sync-alt mr-2"></i> Rotate
                         </button>
                      </div>
                 </div>
             </div>
 
             <div id="previewSection" class="hidden">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">पेज प्रीव्यू (पेजों को चुनने/हटाने के लिए क्लिक करें)</h2>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Page Preview (Click pages to select/deselect)</h2>
                  <div class="mb-4 text-sm text-gray-600 flex justify-between items-center">
-                    <div>कुल पेज: <span id="totalPages" class="font-medium">0</span></div>
-                    <div id="selectedCount" class="font-medium text-blue-600">0 पेज चुने गए</div>
+                    <div>Total pages: <span id="totalPages" class="font-medium">0</span></div>
+                    <div id="selectedCount" class="font-medium text-blue-600">0 pages selected</div>
                 </div>
                 <div id="pdfPreview" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-2 bg-gray-50 rounded-lg border border-gray-200 min-h-[150px]">
-                     <p id="previewPlaceholder" class="col-span-full text-center text-gray-500 py-8">प्रीव्यू यहां लोड होंगे...</p>
+                     <p id="previewPlaceholder" class="col-span-full text-center text-gray-500 py-8">Previews will load here...</p>
                 </div>
             </div>
 
             <div id="resultSection" class="hidden mt-8 text-center">
                 <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-4">
                     <i class="fas fa-check-circle text-5xl text-green-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold text-green-800 mb-2">रोटेशन लागू किया गया!</h3>
-                    <p class="text-green-600">आपकी PDF को निर्दिष्ट रोटेशन के साथ अपडेट कर दिया गया है। संशोधित फाइल अभी डाउनलोड करें।</p>
+                    <h3 class="text-xl font-semibold text-green-800 mb-2">Rotation Applied!</h3>
+                    <p class="text-green-600">Your PDF has been updated with the specified rotations. Download the modified file now.</p>
                 </div>
                 <button id="downloadBtn" type="button" class="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition inline-flex items-center">
-                    <i class="fas fa-download mr-2"></i> घुमाई गई PDF डाउनलोड करें
+                    <i class="fas fa-download mr-2"></i> Download Rotated PDF
                 </button>
                 <button id="newFileBtn" type="button" class="px-6 py-3 ml-4 border border-gray-300 rounded-lg font-medium hover:bg-gray-100 transition inline-flex items-center">
-                    <i class="fas fa-redo mr-2"></i> दूसरी फाइल प्रोसेस करें
+                    <i class="fas fa-redo mr-2"></i> Process Another File
                 </button>
             </div>
         </div>
 
         <!-- How to Use Section -->
         <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">PDF पेज कैसे घुमाएं</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">How to Rotate PDF Pages</h2>
             <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                <li>ड्रैग और ड्रॉप एरिया या "फाइल चुनें" बटन का उपयोग करके अपनी PDF अपलोड करें।</li>
-                <li>पेज प्रीव्यू दिखाई देंगे। जिन पेजों को आप घुमाना चाहते हैं उन्हें चुनने के लिए उन पर क्लिक करें (उन्हें नीली बॉर्डर मिलेगी)।</li>
-                <li>बड़े पैमाने पर कार्रवाई के लिए "सभी चुनें" या "चयन हटाएं" बटन का उपयोग करें।</li>
-                <li>रोटेशन कोण चुनें (90° घड़ी की दिशा में, 90° घड़ी के विपरीत दिशा में, या 180°)।</li>
-                <li>वैकल्पिक रूप से, "पेजों पर लागू करें" इनपुट में विशिष्ट पेज नंबर या रेंज (जैसे, `1, 3, 5-8`) दर्ज करें। यदि खाली छोड़ दिया जाता है, तो रोटेशन प्रीव्यू में सभी *चयनित* पेजों पर लागू होता है।</li>
-                <li>हरे "घुमाएं" बटन पर क्लिक करें। प्रीव्यू रोटेशन दिखाने के लिए अपडेट होंगे।</li>
-                <li>संतुष्ट होने पर, अपनी फाइल को सहेजने के लिए "घुमाई गई PDF डाउनलोड करें" पर क्लिक करें।</li>
+                <li>Upload your PDF using the drag & drop area or the "Select File" button.</li>
+                <li>Page previews will appear. Click on the pages you want to rotate to select them (they will get a blue border).</li>
+                <li>Use "Select All" or "Clear Selection" buttons for bulk actions.</li>
+                <li>Choose a rotation angle (90� clockwise, 90� counter-clockwise, or 180�).</li>
+                <li>Optionally, enter specific page numbers or ranges (e.g., `1, 3, 5-8`) in the "Apply to Pages" input. If left blank, rotation applies to all *selected* pages in the preview.</li>
+                <li>Click the green "Rotate" button. The previews will update to show the rotation.</li>
+                <li>Once satisfied, click "Download Rotated PDF" to save your file.</li>
             </ol>
-            <p class="text-center text-sm text-gray-500 mt-4">सभी प्रोसेसिंग आपके ब्राउज़र में सुरक्षित रूप से होती है।</p>
+            <p class="text-center text-sm text-gray-500 mt-4">All processing happens securely in your browser.</p>
         </div>
 
         <!-- Ad Block -->
@@ -251,11 +251,11 @@
     <footer class="bg-gray-700 text-gray-300 mt-12 py-8">
         <div class="container mx-auto px-6 text-center">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
-                <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>आपके PDF कार्यों को सरल और सुरक्षित बनाने के लिए मुफ्त ऑनलाइन टूल।</p></div>
-                <div><h4 class="font-semibold mb-2 uppercase">त्वरित लिंक्स</h4><ul><li><a href="index.html" class="hover:text-white">होम</a></li><li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li><li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li><li><a href="contact.html" class="hover:text-white">संपर्क</a></li></ul></div>
-                <div><h4 class="font-semibold mb-2 uppercase">कानूनी</h4><ul><li><a href="privacy.html" class="hover:text-white">प्राइवेसी पॉलिसी</a></li><li><a href="terms.html" class="hover:text-white">सेवा की शर्तें</a></li></ul></div>
+                <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>Free online tools to make your PDF tasks simple and secure.</p></div>
+                <div><h4 class="font-semibold mb-2 uppercase">Quick Links</h4><ul><li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About Us</a></li><li><a href="blog.html" class="hover:text-white">Blog</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li></ul></div>
+                <div><h4 class="font-semibold mb-2 uppercase">Legal</h4><ul><li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li><li><a href="terms.html" class="hover:text-white">Terms of Service</a></li></ul></div>
             </div>
-            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
         </div>
     </footer>
 
@@ -265,7 +265,7 @@
         document.addEventListener('DOMContentLoaded', function() {
              // Lib Check
              let PDFLib, PDFJS;
-             if (typeof window.PDFLib === 'undefined' || typeof window.pdfjsLib === 'undefined' || typeof window.saveAs === 'undefined') { showError("आवश्यक लाइब्रेरी लोड करने में विफल। कृपया रिफ्रेश करें।", true); console.error("Missing PDFLib, PDFJS, or FileSaver"); return; }
+             if (typeof window.PDFLib === 'undefined' || typeof window.pdfjsLib === 'undefined' || typeof window.saveAs === 'undefined') { showError("Required libraries failed to load. Please refresh.", true); console.error("Missing PDFLib, PDFJS, or FileSaver"); return; }
              PDFLib = window.PDFLib; PDFJS = window.pdfjsLib; const { degrees } = PDFLib;
 
              // DOM Elements
@@ -365,19 +365,19 @@
                 console.log('Processing file upload:', file ? file.name : 'no file');
 
                 if (!file || !(file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))) {
-                    showError("कृपया एक वैध PDF फाइल अपलोड करें।", 5000);
+                    showError("Please upload a valid PDF file.", 5000);
                     return;
                 }
 
                 resetTool(false);
                 isProcessing = true;
-                showProcessingMessage('फाइल पढ़ रहा है...');
+                showProcessingMessage('Reading file...');
 
                 try {
                     console.log('Reading file as array buffer');
                     pdfFileBytes = new Uint8Array(await file.arrayBuffer());
                     currentFile = file;
-                    showProcessingMessage('PDF लोड कर रहा है...');
+                    showProcessingMessage('Loading PDF...');
 
                     console.log('Loading PDF with PDF.js and PDF-lib');
                     // Load concurrently
@@ -387,7 +387,7 @@
                     ]);
 
                     console.log('PDF loaded successfully');
-                    fileNameDisplay.textContent = `फाइल: ${file.name} (${(file.size / 1024 /1024).toFixed(2)} MB)`;
+                    fileNameDisplay.textContent = `File: ${file.name} (${(file.size / 1024 /1024).toFixed(2)} MB)`;
                     fileNameDisplay.classList.remove('hidden');
                     controlsSection.classList.remove('hidden');
                     previewSection.classList.remove('hidden'); // Show preview section immediately
@@ -395,13 +395,13 @@
                     pdfPreview.innerHTML = ''; // Clear previous thumbnails if any
                     totalPagesDisplay.textContent = pdfLibDoc.getPageCount(); // Use pdf-lib for count
 
-                    showProcessingMessage(`${pdfLibDoc.getPageCount()} पेज प्रीव्यू रेंडर कर रहा है...`);
+                    showProcessingMessage(`Rendering ${pdfLibDoc.getPageCount()} page previews...`);
                     await renderAllThumbnails(pdfLibDoc.getPageCount()); // Start rendering
                     selectAllPages(); // Select all by default after rendering
 
                 } catch (error) {
                      console.error("Error loading PDF:", error);
-                     showError(`PDF लोड करने में त्रुटि: ${error.message}. फाइल अमान्य या सुरक्षित हो सकती है।`, 0); // Persistent error
+                     showError(`Error loading PDF: ${error.message}. File might be invalid or protected.`, 0); // Persistent error
                      resetTool(true);
                 } finally {
                      isProcessing = false; hideProcessingMessage();
@@ -422,19 +422,19 @@
             function handleRotationOptionClick() { rotateOptions.forEach(btn=>btn.classList.remove('active')); this.classList.add('active'); currentRotationOption = parseInt(this.dataset.degrees); validateAndToggleButtonState(); }
              function handleThumbnailClick(e) { const thumb=e.target.closest('.page-thumbnail'); if(thumb){const pageIdx=parseInt(thumb.dataset.pageIndex); if(!isNaN(pageIdx)) togglePageSelection(pageIdx, thumb);} }
             function togglePageSelection(idx, element) { const arrIdx=selectedPagesIndices.indexOf(idx); if(arrIdx > -1){ selectedPagesIndices.splice(arrIdx, 1); element?.classList.remove('selected');} else { selectedPagesIndices.push(idx); element?.classList.add('selected'); } updateSelectedCount(); validateAndToggleButtonState(); }
-            function updateSelectedCount() { selectedCountDisplay.textContent = `${selectedPagesIndices.length} पेज ${selectedPagesIndices.length !== 1 ? '' : ''} चुने गए`; }
+            function updateSelectedCount() { selectedCountDisplay.textContent = `${selectedPagesIndices.length} page${selectedPagesIndices.length !== 1 ? 's' : ''} selected`; }
             function selectAllPages() { const count = pdfLibDoc?.getPageCount() ?? 0; selectedPagesIndices = Array.from({length: count}, (_, i)=>i); document.querySelectorAll('.page-thumbnail').forEach(thumb=>thumb.classList.add('selected')); updateSelectedCount(); validateAndToggleButtonState(); }
              function clearPageSelection() { selectedPagesIndices=[]; document.querySelectorAll('.page-thumbnail.selected').forEach(thumb=>thumb.classList.remove('selected')); updateSelectedCount(); validateAndToggleButtonState(); }
-            function getIndicesToRotate() { const rangeTxt=pageRangeInput.value.trim(); if(rangeTxt){const parsed=parseRange(rangeTxt,pdfLibDoc?.getPageCount());if(parsed===null){showError("अमान्य पेज रेंज।",5000); return null;} return parsed;} else {return selectedPagesIndices;}}
+            function getIndicesToRotate() { const rangeTxt=pageRangeInput.value.trim(); if(rangeTxt){const parsed=parseRange(rangeTxt,pdfLibDoc?.getPageCount());if(parsed===null){showError("Invalid page range.",5000); return null;} return parsed;} else {return selectedPagesIndices;}}
             function validateAndToggleButtonState() { const canRotate=pdfLibDoc && currentRotationOption !== 0; const indices=getIndicesToRotate(); const isValid = canRotate && indices !== null && indices.length > 0; rotateSelected.disabled = !isValid; return isValid; }
              function parseRange(txt,max) { const res=new Set(); const parts=txt.split(','); try {for(const p of parts){ const t=p.trim(); if(t.includes('-')){ const [s,e]=t.split('-').map(n=>parseInt(n)); if(!isNaN(s)&&!isNaN(e)&&s>=1&&e>=s&&e<=max){for(let i=s;i<=e;i++){res.add(i-1);}}}else{ const n=parseInt(t); if(!isNaN(n)&&n>=1&&n<=max){res.add(n-1);}else{return null;}}} return Array.from(res).sort((a,b)=>a-b); } catch { return null; } }
 
 
              async function processRotation() {
-                if (isProcessing || !validateAndToggleButtonState()) { showError("कृपया रोटेशन और वैध पेज/रेंज चुनें।", 5000); return; }
-                const indicesToRotate = getIndicesToRotate(); if (!indicesToRotate || indicesToRotate.length === 0) { showError("रोटेशन के लिए कोई पेज निर्दिष्ट नहीं है।", 5000); return; }
+                if (isProcessing || !validateAndToggleButtonState()) { showError("Please select rotation and valid pages/range.", 5000); return; }
+                const indicesToRotate = getIndicesToRotate(); if (!indicesToRotate || indicesToRotate.length === 0) { showError("No pages specified for rotation.", 5000); return; }
 
-                isProcessing = true; rotateSelected.disabled = true; showProcessingMessage(`${indicesToRotate.length} पेज घुमा रहा है...`);
+                isProcessing = true; rotateSelected.disabled = true; showProcessingMessage(`Rotating ${indicesToRotate.length} pages...`);
 
                 try {
                      const pages = pdfLibDoc.getPages();
@@ -452,7 +452,7 @@
                     await Promise.all(updatePromises);
 
                      resultSection.classList.remove('hidden'); // Show download
-                     showSuccessMessage('रोटेशन लागू किया गया! डाउनलोड के लिए तैयार।', 5000);
+                     showSuccessMessage('Rotation applied! Ready to download.', 5000);
 
                  } catch (error) { handleError(error, "Error applying rotation:"); }
                  finally { isProcessing = false; showProcessingMessage('', true); validateAndToggleButtonState(); } // Hide spinner, re-validate button
@@ -460,7 +460,7 @@
 
 
             // --- Download & Reset ---
-             function downloadRotatedPDF() { if (!pdfFileBytes || !currentFile) { showError("कोई प्रोसेस्ड PDF नहीं।", 5000); return; } try { const blob=new Blob([pdfFileBytes],{type:'application/pdf'}); const orig=currentFile.name.replace(/\.pdf$/i, ''); saveAs(blob,`${orig}-rotated.pdf`); showSuccessMessage('डाउनलोड शुरू हो गया!', 3000); } catch(err) { console.error("DL Err:", err); showError("डाउनलोड शुरू करने में विफल।"); } }
+             function downloadRotatedPDF() { if (!pdfFileBytes || !currentFile) { showError("No processed PDF.", 5000); return; } try { const blob=new Blob([pdfFileBytes],{type:'application/pdf'}); const orig=currentFile.name.replace(/\.pdf$/i, ''); saveAs(blob,`${orig}-rotated.pdf`); showSuccessMessage('Download started!', 3000); } catch(err) { console.error("DL Err:", err); showError("Failed to start download."); } }
             function resetTool(showDefaultMsg=true) {
                 isProcessing = false;
                 currentFile = null;
@@ -529,7 +529,7 @@
                 } else {
                     const msgSpan = processingIndicator.querySelector('span');
                     if (msgSpan) {
-                        msgSpan.textContent = msg || 'प्रोसेसिंग...';
+                        msgSpan.textContent = msg || 'Processing...';
                     }
                     processingIndicator.classList.remove('hidden');
                 }
@@ -543,7 +543,7 @@
             }
              function handleError(err, contextMsg) {
                 console.error(contextMsg, err);
-                showError(`${contextMsg} ${err.message || 'कृपया पुन: प्रयास करें।'}`, true);
+                showError(`${contextMsg} ${err.message || 'Please try again.'}`, true);
                 isProcessing = false;
                 hideProcessingMessage();
                 // Reset the tool to allow trying again
@@ -552,7 +552,7 @@
          });
     </script>
 
-<script src="../dark-mode.js"></script>
+<script src="dark-mode.js"></script>
 
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
