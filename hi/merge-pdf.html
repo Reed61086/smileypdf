@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>मुफ्त PDF मर्जर - कई PDF फाइलों को ऑनलाइन जोड़ें | SmileyPDF</title>
-    <meta name="description" content="हमारे मुफ्त ऑनलाइन PDF मर्जर टूल के साथ कई PDF फाइलों को एक दस्तावेज़ में मिलाएं। आसानी से अपने PDF को जोड़ें, पुनर्व्यवस्थित करें और व्यवस्थित करें। कोई पंजीकरण आवश्यक नहीं है।">
+    <meta name="description" content="हमारे मुफ्त ऑनलाइन PDF मर्जर टूल के साथ कई PDF फाइलों को एक दस्तावेज़ में मिलाएं। आसानी से अपनी PDF को जोड़ें, पुनर्व्यवस्थित करें और व्यवस्थित करें। कोई पंजीकरण आवश्यक नहीं है।">
     <meta name="keywords" content="PDF merger, combine PDF, merge PDF files, join PDF, PDF combiner, free PDF merger, online PDF merger, merge PDF online, PDF joiner">
     <meta name="author" content="SmileyPDF">
     <meta name="robots" content="index, follow">
@@ -84,7 +84,7 @@
         .drag-handle { cursor: grab; touch-action: none; /* Prevent scrolling on touch devices when dragging handle */ }
         .drag-handle:active { cursor: grabbing; }
     </style>
-<link rel="stylesheet" href="dark-mode.css">
+<link rel="stylesheet" href="../dark-mode.css">
 </head>
 <body class="bg-gray-50 font-sans">
 
@@ -95,6 +95,7 @@
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
            <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
         </a>
+        <!-- Desktop Menu -->
         <!-- Language Selector -->
         <div class="absolute right-20 top-4 md:right-4">
             <div class="relative" x-data="{ open: false }">
@@ -108,7 +109,6 @@
                 </div>
             </div>
         </div>
-        <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
             <!-- Tools Dropdown -->
@@ -188,8 +188,8 @@
 </header>
     <div class="container mx-auto px-4 py-8 max-w-4xl">
         <header class="text-center mb-12">
-            <h1 class="text-3xl md:text-4xl font-bold text-blue-600 mb-3">PDF फाइलों को मर्ज करें</h1>
-            <p class="text-gray-600 text-base md:text-lg">कई PDF दस्तावेजों को अपने ब्राउज़र में एक फाइल में मिलाएं। फाइलें अपलोड करें, क्रम बदलने के लिए ड्रैग करें, और मर्ज करें!</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-600 mb-3">PDF फाइलें मर्ज करें</h1>
+            <p class="text-gray-600 text-base md:text-lg">कई PDF दस्तावेजों को अपने ब्राउज़र में ही एक फाइल में जोड़ें। फाइलें अपलोड करें, पुनर्व्यवस्थित करने के लिए खींचें, और मर्ज करें!</p>
         </header>
 
         <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
@@ -198,7 +198,7 @@
                 <div id="dropZone" class="drop-zone rounded-lg p-8 text-center cursor-pointer mb-6 hover:bg-blue-50 transition relative">
                     <div class="flex flex-col items-center justify-center pointer-events-none">
                         <i class="fas fa-file-pdf text-4xl text-red-500 mb-3"></i>
-                        <p class="text-gray-700 font-medium text-lg">PDF फाइलों को यहां ड्रैग और ड्रॉप करें</p>
+                        <p class="text-gray-700 font-medium text-lg">यहां PDF फाइलें ड्रैग और ड्रॉप करें</p>
                         <p class="text-gray-500 mt-1">या</p>
                         <button id="browseBtn" type="button" class="mt-2 px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition pointer-events-auto focus:outline-none focus:ring-2 focus:ring-blue-300">
                             फाइलें ब्राउज़ करें
@@ -212,15 +212,15 @@
                 </div>
 
                 <div id="filePreviewContainer" class="hidden">
-                    <h3 class="font-medium text-gray-700 mb-3">चुनी गई फाइलें (<span id="fileCountSpan">0</span>) - क्रम बदलने के लिए <i class="fas fa-grip-vertical text-gray-400"></i> ड्रैग करें</h3>
+                    <h3 class="font-medium text-gray-700 mb-3">Selected Files (<span id="fileCountSpan">0</span>) - Drag <i class="fas fa-grip-vertical text-gray-400"></i> to reorder</h3>
                     <div class="bg-gray-50 rounded-lg border border-gray-200 p-3 max-h-[30vh] overflow-y-auto">
                         <ul id="fileList" class="space-y-2">
-                             <li class="py-2 px-2 text-gray-400 text-center italic">PDF फाइलें ड्रॉप करें या अपलोड करने के लिए ब्राउज़ करें</li>
+                             <li class="py-2 px-2 text-gray-400 text-center italic">Drop PDF files or browse to upload</li>
                         </ul>
                     </div>
                     <div class="flex justify-between items-center mt-4">
                         <button id="clearAllBtn" type="button" class="text-red-500 hover:text-red-700 text-sm font-medium flex items-center disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-1 focus:ring-red-300 rounded px-2 py-1" disabled>
-                            <i class="fas fa-trash-alt mr-1"></i> सभी हटाएं
+                            <i class="fas fa-trash-alt mr-1"></i> Clear All
                         </button>
                         <div id="totalSizeSpan" class="text-gray-500 text-sm">Total: 0 MB</div>
                     </div>
@@ -228,7 +228,7 @@
             </div>
 
             <div class="border-t border-gray-200 bg-gray-50 p-6 md:p-8">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">2. आउटपुट फाइल नाम</h2>
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">2. आउटपुट फाइलनेम</h2>
                  <div class="mb-6">
                     <label for="outputFilename" class="sr-only">Output Filename</label>
                     <div class="relative">
@@ -240,10 +240,10 @@
             </div>
 
             <div class="bg-blue-50 border-t border-gray-200 p-6 md:p-8 text-center">
-                 <h2 class="text-xl font-semibold mb-4 text-gray-800">3. मिलाएं और डाउनलोड करें</h2>
+                 <h2 class="text-xl font-semibold mb-4 text-gray-800">3. जोड़ें और डाउनलोड करें</h2>
                 <button id="mergeBtn" type="button" class="w-full md:w-auto px-10 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out flex items-center justify-center mx-auto text-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" disabled>
                     <i class="fas fa-object-group mr-2"></i>
-                    <span id="mergeBtnText">PDF फाइलों को मर्ज करें</span>
+                    <span id="mergeBtnText">PDF फाइलें मर्ज करें</span>
                     <span id="mergeBtnLoader" class="ml-2 hidden">
                         <i class="fas fa-spinner fa-spin"></i>
                     </span>
@@ -259,26 +259,26 @@
                     </div>
                      <div id="errorMessage" class="hidden p-3 bg-red-100 border border-red-400 text-red-800 rounded flex items-center justify-center text-sm" role="alert">
                         <i class="fas fa-exclamation-triangle mr-2"></i>
-                        <span id="errorText">एक त्रुटि उत्पन्न हुई।</span>
+                        <span id="errorText">एक त्रुटि हुई।</span>
                     </div>
                  </div>
             </div>
         </div>
 
         <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 p-6 md:p-8">
-            <h2 class="text-xl font-semibold mb-4 text-gray-800 text-center">PDF फाइलों को मर्ज कैसे करें</h2>
+            <h2 class="text-xl font-semibold mb-4 text-gray-800 text-center">PDF फाइलों को कैसे मर्ज करें</h2>
              <ol class="list-decimal list-inside space-y-4 text-gray-700 max-w-2xl mx-auto">
                 <li>
-                     <strong>PDF अपलोड करें:</strong> "फाइलें ब्राउज़ करें" पर क्लिक करें या ऊपर दिए गए अपलोड क्षेत्र पर PDF ड्रैग और ड्रॉप करें। दो या अधिक फाइलें जोड़ें।
+                     <strong>PDF अपलोड करें:</strong> "फाइलें ब्राउज़ करें" पर क्लिक करें या उपरोक्त अपलोड एरिया पर PDF ड्रैग और ड्रॉप करें। दो या अधिक फाइलें जोड़ें।
                  </li>
                 <li>
-                    <strong>क्रम व्यवस्थित करें:</strong> फाइलें दिखाई देने के बाद, उन्हें आवश्यकतानुसार पुनर्व्यवस्थित करने के लिए <i class="fas fa-grip-vertical text-gray-500 mx-1"></i> हैंडल को ड्रैग करें। <i class="fas fa-arrow-up text-gray-500"></i>/<i class="fas fa-arrow-down text-gray-500"></i> बटनों का उपयोग करें या फाइलों को हटाने के लिए <i class="fas fa-times text-red-500 mx-1"></i> पर क्लिक करें।
+                    <strong>क्रम व्यवस्थित करें:</strong> फाइलें दिखाई देने के बाद, उन्हें आवश्यकतानुसार पुनर्व्यवस्थित करने के लिए <i class="fas fa-grip-vertical text-gray-500 mx-1"></i> हैंडल को खींचें। <i class="fas fa-arrow-up text-gray-500"></i>/<i class="fas fa-arrow-down text-gray-500"></i> बटनों का उपयोग करें या फाइलों को हटाने के लिए <i class="fas fa-times text-red-500 mx-1"></i> पर क्लिक करें।
                 </li>
                 <li>
-                    <strong>नाम सेट करें (वैकल्पिक):</strong> यदि आप चाहें तो आउटपुट फाइलनाम बदलें।
+                    <strong>नाम सेट करें (वैकल्पिक):</strong> यदि आप चाहें तो आउटपुट फाइलनेम बदलें।
                  </li>
                 <li>
-                    <strong>मर्ज और डाउनलोड:</strong> "PDF फाइलों को मर्ज करें" पर क्लिक करें। टूल दस्तावेजों को जोड़ता है और परिणाम डाउनलोड करता है। आपकी फाइलें निजी रहती हैं, केवल आपके ब्राउज़र में प्रोसेस की जाती हैं।
+                    <strong>मर्ज और डाउनलोड करें:</strong> "PDF फाइलें मर्ज करें" पर क्लिक करें। यह टूल दस्तावेजों को जोड़ता है और परिणाम डाउनलोड करता है। आपकी फाइलें निजी रहती हैं, केवल आपके ब्राउज़र में प्रोसेस की जाती हैं।
                 </li>
              </ol>
             <p class="text-center text-sm text-gray-500 mt-4">फाइलें स्थानीय रूप से प्रोसेस की जाती हैं और कभी भी हमारे सर्वर पर अपलोड नहीं की जाती हैं।</p>
@@ -366,11 +366,11 @@
                  if(!selectedFiles || selectedFiles.length === 0 || isProcessing) return;
                  isProcessing = true; hideStatus();
                  const filesToProcess = Array.from(selectedFiles).filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
-                 if(filesToProcess.length === 0) { showStatus('error', 'कोई वैध PDF फाइल नहीं चुनी गई।', 5000); isProcessing = false; return; }
-                 showStatus('processing', `${filesToProcess.length} फाइल(ें) जोड़ रहा है...`); startProgressIndication(true);
+                 if(filesToProcess.length === 0) { showStatus('error', 'No valid PDF files selected.', 5000); isProcessing = false; return; }
+                 showStatus('processing', `Adding ${filesToProcess.length} file(s)...`); startProgressIndication(true);
                  const newObjs = filesToProcess.map(f=>({ id: fileCounter++, file: f }));
                  const dups = []; const validNew = newObjs.filter(nf => { const isDup = files.some(ef => ef.file.name===nf.file.name && ef.file.size===nf.file.size); if(isDup) dups.push(nf.file.name); return !isDup; });
-                 setTimeout(()=>{ files = [...files, ...validNew]; updateFileList(); completeProgressIndication(); isProcessing=false; if(dups.length > 0){ showStatus('error', `${dups.length} डुप्लिकेट फाइल(ें) छोड़ दी गईं।`, 5000);} else if(validNew.length === 0 && filesToProcess.length > 0){ showStatus('error', 'चुनी गई वैध PDF फाइलें पहले से ही सूची में हैं।', 5000);} else if (validNew.length > 0){ hideStatus(); }}, 300);
+                 setTimeout(()=>{ files = [...files, ...validNew]; updateFileList(); completeProgressIndication(); isProcessing=false; if(dups.length > 0){ showStatus('error', `Skipped ${dups.length} duplicate file(s).`, 5000);} else if(validNew.length === 0 && filesToProcess.length > 0){ showStatus('error', 'Selected valid PDF files were already in list.', 5000);} else if (validNew.length > 0){ hideStatus(); }}, 300);
              }
 
             // --- Progress Bar & Status ---
@@ -382,10 +382,10 @@
             // ============ File List & Drag/Drop ============ //
             function updateFileList() {
                  fileList.innerHTML = '';
-                 if(files.length === 0){ fileList.innerHTML = '<li class="py-2 px-2 text-gray-400 text-center italic">PDF फाइलें ड्रॉप करें या अपलोड करने के लिए ब्राउज़ करें</li>'; filePreviewContainer.classList.add('hidden'); mergeBtn.disabled=true; clearAllBtn.disabled=true; totalSizeSpan.textContent = 'कुल: 0 MB'; return;}
+                 if(files.length === 0){ fileList.innerHTML = '<li class="py-2 px-2 text-gray-400 text-center italic">Drop PDF files or browse to upload</li>'; filePreviewContainer.classList.add('hidden'); mergeBtn.disabled=true; clearAllBtn.disabled=true; totalSizeSpan.textContent = 'Total: 0 MB'; return;}
                  filePreviewContainer.classList.remove('hidden'); fileCountSpan.textContent = files.length;
                  const totalBytes = files.reduce((sum, f) => sum + (f.file.size || 0), 0);
-                 totalSizeSpan.textContent = `कुल: ${(totalBytes / (1024*1024)).toFixed(2)} MB`;
+                 totalSizeSpan.textContent = `Total: ${(totalBytes / (1024*1024)).toFixed(2)} MB`;
                  files.forEach(fObj => fileList.appendChild(createListItem(fObj)));
                  mergeBtn.disabled = files.length < 2; clearAllBtn.disabled = files.length === 0;
             }
@@ -395,7 +395,7 @@
              // --- Action Buttons ---
              function moveFile(fileId, direction) { const idx=files.findIndex(f=>f.id===fileId); if(idx===-1 || (direction==='up'&&idx===0) || (direction==='down'&&idx===files.length-1))return; const newIdx=direction==='up'?idx-1:idx+1; [files[idx],files[newIdx]]=[files[newIdx],files[idx]]; updateFileList(); }
              function removeFile(fileId) { files=files.filter(f=>f.id!==fileId); updateFileList(); hideStatus(); }
-             clearAllBtn.addEventListener('click', ()=>{if(files.length>0 && confirm('सभी फाइलें हटाएं?')){files=[]; updateFileList(); hideStatus();}});
+             clearAllBtn.addEventListener('click', ()=>{if(files.length>0 && confirm('Remove all files?')){files=[]; updateFileList(); hideStatus();}});
 
 
              // ============ Merge & Download ============ //
@@ -404,31 +404,31 @@
             async function createMergedPdf(fileObjects) {
                 let pageCount = 0; const mergedDoc = await PDFDocument.create(); let processedCount=0; const totalCount=fileObjects.length;
                 for (const fObj of fileObjects) {
-                    processedCount++; showStatus('processing', `"${fObj.file.name}" प्रोसेस कर रहा है (${processedCount}/${totalCount})`); await new Promise(r=>setTimeout(r, 5));
+                    processedCount++; showStatus('processing', `Processing "${fObj.file.name}" (${processedCount}/${totalCount})`); await new Promise(r=>setTimeout(r, 5));
                      try {
                         const data = await readFileAsArrayBuffer(fObj.file); const pdf = await PDFDocument.load(data, { ignoreEncryption:true, updateMetadata:false }); const indices = pdf.getPageIndices(); if(indices.length === 0) continue; const pages = await mergedDoc.copyPages(pdf, indices); pages.forEach(p => mergedDoc.addPage(p)); pageCount += pages.length;
                     } catch (err) { console.warn(`Skipping file "${fObj.file.name}": ${err.message}`); }
                 }
-                 if (pageCount === 0) { throw new Error("मर्ज त्रुटि: चुनी गई फाइलों में कोई वैध पेज नहीं मिला।"); }
-                showStatus('processing', `PDF फाइनलाइज़ कर रहा है (${pageCount} पेज)...`); await new Promise(r => setTimeout(r, 50));
+                 if (pageCount === 0) { throw new Error("Merge Error: No valid pages found in selected files."); }
+                showStatus('processing', `Finalizing PDF (${pageCount} pages)...`); await new Promise(r => setTimeout(r, 50));
                 const bytes = await mergedDoc.save({ useObjectStreams: true }); return new Blob([bytes], {type:'application/pdf'});
             }
 
             mergeBtn.addEventListener('click', async function() {
                 if (files.length < 2 || isProcessing) return;
-                isProcessing = true; mergeBtnLoader.classList.remove('hidden'); mergeBtnText.textContent = 'मर्ज कर रहा है...'; mergeBtn.disabled = true; clearAllBtn.disabled = true; hideStatus(); showStatus('processing', 'मर्ज शुरू कर रहा है...');
+                isProcessing = true; mergeBtnLoader.classList.remove('hidden'); mergeBtnText.textContent = 'Merging...'; mergeBtn.disabled = true; clearAllBtn.disabled = true; hideStatus(); showStatus('processing', 'Starting merge...');
                 try {
                     const name = outputFilenameInput.value.trim().replace(/[<>:"/\\|?*.]+/g,'_') || 'merged_document'; const fullName = name + '.pdf';
                     const blob = await createMergedPdf(files);
-                    showStatus('success', `मर्ज पूरा हुआ! "${fullName}" डाउनलोड हो रहा है...`);
+                    showStatus('success', `Merge complete! Downloading "${fullName}"...`);
                     if(typeof window.download === 'function') { download(blob, fullName, "application/pdf"); } else { const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = fullName; a.style.display='none'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); console.warn("Used fallback download."); }
                     setTimeout(hideStatus, 6000);
-                } catch (err) { showStatus('error', err.message || 'फाइलों को मर्ज करने में विफल।', 0); console.error(err); }
-                 finally { isProcessing = false; mergeBtnLoader.classList.add('hidden'); mergeBtnText.textContent = 'PDF फाइलों को मर्ज करें'; mergeBtn.disabled = files.length < 2; clearAllBtn.disabled = files.length === 0; }
+                } catch (err) { showStatus('error', err.message || 'Failed to merge files.', 0); console.error(err); }
+                 finally { isProcessing = false; mergeBtnLoader.classList.add('hidden'); mergeBtnText.textContent = 'Merge PDF Files'; mergeBtn.disabled = files.length < 2; clearAllBtn.disabled = files.length === 0; }
             });
         });
     </script>
-<script src="dark-mode.js"></script>
+<script src="../dark-mode.js"></script>
 
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
