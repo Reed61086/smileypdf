@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF को वर्ड में मुफ्त ऑनलाइन बदलें | PDF से वर्ड डॉक्यूमेंट कन्वर्टर</title>
+    <meta name="description" content="PDF को वर्ड डॉक्यूमेंट फॉर्मेट में मुफ्त में बदलें। हमारा ऑनलाइन PDF से वर्ड कन्वर्टर आपकी PDF फाइलों को उच्च सटीकता के साथ संपादनयोग्य DOC और DOCX फॉर्मेट में बदलता है। कोई पंजीकरण आवश्यक नहीं है।">
+    <meta name="keywords" content="convert pdf to word, convert pdf to word free, how to convert pdf to word, pdf to word converter, pdf to doc, pdf to docx, convert pdf to word document, free convert pdf to word">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="canonical" href="https://smileypdf.com/pdf-to-word.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-to-word.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-to-word.html">
+    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/pdf-to-word.html">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Additional Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+     <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <style>
+        /* Styles remain the same */
+        .dropzone { border: 2px dashed #cbd5e0; transition: all 0.3s ease; border-radius: 0.5rem; }
+        .dropzone.active { border-color: #3b82f6; background-color: #eff6ff; }
+        .progress-bar { transition: width 0.5s ease; background-color: #3b82f6; height: 0.625rem; border-radius: 9999px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .spinner { animation: spin 1s linear infinite; display: inline-block; }
+        #pdfjs-container { position: absolute; left: -9999px; visibility: hidden; }
+    </style>
+<link rel="stylesheet" href="../dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- Header -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Desktop Menu -->
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">हिंदी</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <a href="../pdf-to-word.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="pdf-to-word.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+            <!-- Tools Dropdown -->
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                    टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100 transform"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75 transform"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a>
+                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                     <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                 </div>
+             </div>
+             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+         </div>
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                  <span class="sr-only">मेनू खोलें</span>
+                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+              </button>
+         </div>
+    </nav>
+     <!-- Mobile Menu Panel -->
+     <div x-show="mobileMenuOpen"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         x-transition:enter="transition ease-out duration-200 transform origin-top"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="display: none;" x-cloak>
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3>
+            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a>
+            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्टर</a>
+            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a>
+        </div>
+     </div>
+</header>
+    <main class="container mx-auto px-4 py-8 max-w-3xl flex-grow">
+        <!-- Main Title -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-3">
+                <span class="text-blue-600">PDF</span> से <span class="text-green-600">वर्ड</span> कन्वर्टर
+            </h1>
+            <p class="text-gray-600 text-lg">आसानी से अपने PDF दस्तावेजों को संपादनयोग्य माइक्रोसॉफ्ट वर्ड (.docx) फाइलों में बदलें। यह टूल बुनियादी टेक्स्ट लेआउट को संरक्षित रखने का प्रयास करता है।</p>
+            <div class="flex justify-center items-center mt-4 space-x-2">
+                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"><i class="fas fa-infinity mr-1"></i> कोई साइज़ सीमा नहीं</span>
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"><i class="fas fa-lock mr-1"></i> सुरक्षित प्रोसेसिंग</span>
+            </div>
+        </header>
+
+        <!-- Main Converter Section -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-10 p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-2">अपनी PDF अपलोड करें</h2>
+                <p class="text-gray-500">ड्रैग और ड्रॉप करें या अपनी PDF फाइल चुनने के लिए क्लिक करें</p>
+            </div>
+
+
+            <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-8">
+                <div id="uploadContent" class="flex flex-col items-center justify-center">
+                    <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
+                    <p class="text-gray-500 mb-1">यहां PDF फाइल ड्रैग और ड्रॉप करें</p>
+                    <p class="text-sm text-gray-400 mb-4">या</p>
+                     <button type="button" id="browseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">फाइलें ब्राउज़ करें</button>
+                    <input type="file" id="fileInput" class="hidden" accept=".pdf">
+                </div>
+                 <div id="uploadingContent" class="hidden">
+                    <div class="flex items-center justify-center mb-4">
+                         <i class="fas fa-spinner fa-spin text-3xl text-blue-600 spinner"></i>
+                     </div>
+                    <p id="uploadStatusText" class="text-gray-700">आपकी PDF प्रोसेस हो रही है...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4 overflow-hidden"><div id="progressBar" class="progress-bar" style="width: 0%"></div></div>
+                    <p id="progressText" class="text-sm text-gray-500 mt-2">0% पूर्ण</p>
+                </div>
+            </div>
+
+
+            <div id="errorSection" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6" role="alert">
+                <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button><i class="fas fa-exclamation-circle text-red-500 mr-3"></i><p id="errorMessage" class="text-red-700 text-sm"></p></div>
+            </div>
+
+
+             <div id="resultSection" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4">
+                 <div class="flex flex-col sm:flex-row items-center justify-between">
+                     <div class="flex items-center mb-3 sm:mb-0 flex-grow min-w-0">
+                        <i class="fas fa-file-word text-3xl text-blue-700 mr-3 flex-shrink-0"></i>
+                        <div class="min-w-0">
+                            <p id="fileName" class="font-medium text-gray-800 truncate max-w-xs">document.docx</p>
+                            <p id="fileStatus" class="text-sm text-gray-600">डाउनलोड के लिए तैयार</p>
+                        </div>
+                    </div>
+                     <div class="flex space-x-2 flex-shrink-0">
+                        <button id="downloadBtn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition flex items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                             <i class="fas fa-download mr-2"></i> डाउनलोड
+                         </button>
+                        <button id="newFileBtn" type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg text-sm transition flex items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                             <i class="fas fa-redo mr-2"></i> नई फाइल
+                         </button>
+                    </div>
+                </div>
+             </div>
+
+             <!-- How to Use Section -->
+             <div class="mt-8 pt-6 border-t border-gray-200">
+                 <h3 class="text-lg font-semibold text-gray-700 mb-3">PDF को वर्ड में कैसे बदलें</h3>
+                 <ol class="list-decimal list-inside space-y-1 text-gray-600 text-sm">
+                     <li>अपनी PDF फाइल को अपलोड एरिया पर ड्रैग करें, या इसे चुनने के लिए "फाइलें ब्राउज़ करें" पर क्लिक करें।</li>
+                     <li>कन्वर्जन प्रक्रिया स्वचालित रूप से शुरू हो जाएगी। प्रोग्रेस बार के लिए प्रतीक्षा करें।</li>
+                     <li>यह टूल टेक्स्ट निकालता है और बुनियादी पैराग्राफ को संरक्षित रखने का लक्ष्य रखता है।</li>
+                     <li>पूरा होने पर, अपनी वर्ड (.docx) फाइल को सहेजने के लिए "डाउनलोड" बटन पर क्लिक करें।</li>
+                 </ol>
+                 <p class="text-xs text-gray-500 mt-3">* नोट: जटिल लेआउट, तालिकाएँ और छवियाँ पूरी तरह से संरक्षित नहीं हो सकती हैं। यह संपादनयोग्य टेक्स्ट सामग्री पर केंद्रित है।</p>
+             </div>
+
+             <!-- Features Section -->
+             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-check-circle text-blue-600"></i></div><div><h4 class="font-medium text-gray-800">मुफ्त और असीमित</h4><p class="text-sm text-gray-500">जितनी चाहें उतनी फाइलें कन्वर्ट करें।</p></div></div>
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-lock text-green-600"></i></div><div><h4 class="font-medium text-gray-800">क्लाइंट-साइड सुरक्षित</h4><p class="text-sm text-gray-500">आपकी फाइलें ब्राउज़र में प्रोसेस की जाती हैं।</p></div></div>
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-file-word text-purple-600"></i></div><div><h4 class="font-medium text-gray-800">DOCX आउटपुट</h4><p class="text-sm text-gray-500">आधुनिक वर्ड दस्तावेज़ फॉर्मेट।</p></div></div>
+                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-mobile-alt text-yellow-600"></i></div><div><h4 class="font-medium text-gray-800">हर जगह काम करता है</h4><p class="text-sm text-gray-500">डेस्कटॉप या मोबाइल पर उपयोग करें।</p></div></div>
+             </div>
+         </div>
+
+         <!-- Ad Block -->
+         <div class="w-full max-w-4xl mx-auto my-8 text-center">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+         </div>
+
+        <!-- SEO Content Section -->
+        <section class="bg-white rounded-xl shadow-lg overflow-hidden mb-10 p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">PDF को वर्ड दस्तावेज़ में कैसे बदलें</h2>
+
+            <div class="prose max-w-none text-gray-700">
+                <p class="mb-4">PDF को वर्ड फॉर्मेट में बदलना आवश्यक है जब आपको PDF फॉर्मेट में बनाई गई सामग्री को संपादित या संशोधित करने की आवश्यकता हो। हमारा मुफ्त ऑनलाइन टूल केवल कुछ सरल चरणों में PDF को वर्ड दस्तावेजों में बदलना आसान बनाता है:</p>
+
+                <ol class="list-decimal pl-6 mb-6 space-y-2">
+                    <li><strong>अपनी PDF फाइल अपलोड करें</strong> - अपनी PDF को ड्रैग और ड्रॉप करें या अपने डिवाइस से इसे चुनने के लिए ब्राउज़ बटन पर क्लिक करें।</li>
+                    <li><strong>कन्वर्जन के लिए प्रतीक्षा करें</strong> - हमारा टूल आपकी PDF को प्रोसेस करेगा और टेक्स्ट और बुनियादी फॉर्मेटिंग निकालेगा।</li>
+                    <li><strong>अपना वर्ड दस्तावेज़ डाउनलोड करें</strong> - कन्वर्जन पूरा होने के बाद, अपनी संपादनयोग्य DOCX फाइल डाउनलोड करें।</li>
+                </ol>
+
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">हमारे PDF से वर्ड कन्वर्टर को क्यों चुनें?</h3>
+
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>100% मुफ्त</strong> - बिना किसी छिपे शुल्क या सदस्यता की आवश्यकता के PDF को वर्ड में मुफ्त में बदलें।</li>
+                    <li><strong>गोपनीयता संरक्षित</strong> - सभी प्रोसेसिंग आपके ब्राउज़र में होती है। आपकी फाइलें कभी भी आपके डिवाइस से बाहर नहीं जाती हैं।</li>
+                    <li><strong>कोई पंजीकरण नहीं</strong> - खाता बनाने या व्यक्तिगत जानकारी प्रदान करने की कोई आवश्यकता नहीं है।</li>
+                    <li><strong>तेज़ कन्वर्जन</strong> - हमारा टूल आपकी PDF फाइलों को जल्दी से संपादनयोग्य वर्ड दस्तावेजों में बदलता है।</li>
+                    <li><strong>सभी डिवाइस पर काम करता है</strong> - Windows, Mac, Linux, iOS, और Android के साथ संगत।</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">PDF से वर्ड कन्वर्जन के सामान्य उपयोग</h3>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">व्यापारिक दस्तावेज़</h4>
+                        <p>अनुबंधों, प्रस्तावों या रिपोर्टों को संपादित करें जो मूल रूप से PDF के रूप में साझा किए गए थे। अंतिम रूप देने से पहले आवश्यक परिवर्तन करने के लिए PDF को वर्ड दस्तावेज़ फॉर्मेट में बदलें।</p>
+                    </div>
+
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">शैक्षिक पेपर</h4>
+                        <p>PDF फॉर्मेट में शोध पत्रों या असाइनमेंट को संशोधित करें। PDF को वर्ड में बदलने से छात्रों और शोधकर्ताओं को सामग्री और उद्धरणों को अपडेट करने की अनुमति मिलती है।</p>
+                    </div>
+
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">रिज्यूम संपादन</h4>
+                        <p>अपने रिज्यूम या CV को अपडेट करें जो पहले PDF के रूप में सहेजा गया था। हमारा PDF से DOC कन्वर्टर आपकी पेशेवर जानकारी को रिफ्रेश करना आसान बनाता है।</p>
+                    </div>
+
+                    <div class="border rounded-lg p-4 bg-blue-50">
+                        <h4 class="font-medium text-blue-800 mb-2">सामग्री पुनर्उपयोग</h4>
+                        <p>अन्य दस्तावेजों या प्लेटफॉर्म के लिए पुनर्उपयोग करने के लिए PDF ब्रोशर, ईबुक या मैनुअल से सामग्री निकालें।</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">बेहतर PDF से वर्ड कन्वर्जन के लिए टिप्स</h3>
+
+                <ul class="list-disc pl-6 mb-6 space-y-2">
+                    <li><strong>सरल लेआउट सबसे अच्छे से कन्वर्ट होते हैं</strong> - सरल टेक्स्ट लेआउट वाली PDF जटिल डिजाइनों की तुलना में अधिक सटीक रूप से कन्वर्ट होती हैं।</li>
+                    <li><strong>परिणाम की जांच करें</strong> - हमेशा अपने कन्वर्ट किए गए दस्तावेज़ की समीक्षा करें क्योंकि कुछ फॉर्मेटिंग या विशेष तत्वों को समायोजन की आवश्यकता हो सकती है।</li>
+                    <li><strong>छवियां और ग्राफिक्स</strong> - जटिल छवियां और ग्राफिक्स पूरी तरह से कन्वर्ट नहीं हो सकती हैं और उन्हें फिर से डालने की आवश्यकता हो सकती है।</li>
+                    <li><strong>तालिकाएँ और चार्ट</strong> - सरल तालिकाएँ आमतौर पर अच्छी तरह से कन्वर्ट होती हैं, लेकिन जटिल तालिकाओं को मैन्युअल रीफॉर्मेटिंग की आवश्यकता हो सकती है।</li>
+                </ul>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-lightbulb text-yellow-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-yellow-800">प्रो टिप</h3>
+                            <div class="text-sm text-yellow-700">
+                                <p>जटिल फॉर्मेटिंग वाले दस्तावेजों के लिए, कन्वर्जन के बिना PDF में सीधे परिवर्तन करने के लिए हमारे <a href="pdf-editor.html" class="text-blue-600 hover:underline">PDF एडिटर</a> का उपयोग करें।</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">अक्सर पूछे जाने वाले प्रश्न</h3>
+
+                <div class="space-y-4 mb-6">
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">PDF से वर्ड कन्वर्जन कितना सटीक है?</h4>
+                        <p>हमारा कन्वर्टर बुनियादी टेक्स्ट सामग्री और सरल फॉर्मेटिंग को बनाए रखता है। जटिल लेआउट, विशेष फोंट, या जटिल डिजाइन तत्व पूरी तरह से कन्वर्ट नहीं हो सकते हैं और कुछ मैनुअल समायोजन की आवश्यकता हो सकती है।</p>
+                    </div>
+
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">क्या मैं पासवर्ड-सुरक्षित PDF को कन्वर्ट कर सकता हूं?</h4>
+                        <p>वर्तमान में, हमारा टूल पासवर्ड-सुरक्षित या एन्क्रिप्टेड PDF को प्रोसेस नहीं कर सकता है। अपलोड करने से पहले आपको सुरक्षा को हटाने की आवश्यकता होगी।</p>
+                    </div>
+
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">DOC और DOCX फॉर्मेट के बीच क्या अंतर है?</h4>
+                        <p>DOC पुराना माइक्रोसॉफ्ट वर्ड फॉर्मेट है, जबकि DOCX वर्ड 2007 में पेश किया गया नया फॉर्मेट है। DOCX फाइलें आमतौर पर छोटी, अधिक सुरक्षित होती हैं, और आधुनिक वर्ड प्रोसेसर के साथ बेहतर संगतता प्रदान करती हैं। हमारा टूल PDF को DOCX फॉर्मेट में कन्वर्ट करता है।</p>
+                    </div>
+
+                    <div class="border-b pb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">क्या फाइल साइज़ की कोई सीमा है?</h4>
+                        <p>हालांकि हमारा टूल अधिकांश PDF फाइलों को संभाल सकता है, ब्राउज़र की सीमाएं अत्यधिक बड़े दस्तावेजों (100MB से अधिक) के साथ प्रदर्शन को प्रभावित कर सकती हैं। सर्वोत्तम परिणामों के लिए, हम 50MB से कम फाइलों की सिफारिश करते हैं।</p>
+                    </div>
+                </div>
+
+                <p class="mb-4">अपनी PDF को वर्ड में बदलने के लिए तैयार हैं? हमारे मुफ्त ऑनलाइन कन्वर्टर का अभी उपयोग करें और अपनी PDF सामग्री को माइक्रोसॉफ्ट वर्ड फॉर्मेट में संपादित करना शुरू करें!</p>
+            </div>
+        </section>
+     </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+         <div class="container mx-auto px-6 text-center">
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                 <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>आपके PDF कार्यों के लिए मुफ्त ऑनलाइन टूल।</p></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">त्वरित लिंक्स</h4><ul><li><a href="index.html" class="hover:text-white">होम</a></li><li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li><li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li><li><a href="contact.html" class="hover:text-white">संपर्क</a></li></ul></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">कानूनी</h4><ul><li><a href="privacy.html" class="hover:text-white">प्राइवेसी</a></li><li><a href="terms.html" class="hover:text-white">शर्तें</a></li></ul></div>
+             </div>
+             <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</div>
+         </div>
+     </footer>
+
+     <div id="pdfjs-container" class="hidden"></div>
+
+    <script>
+        // --- Library Checks ---
+         let PDFJS, DOCX, SAVEAS;
+         try {
+             if (typeof window.pdfjsLib !== 'undefined') {
+                 PDFJS=window.pdfjsLib;
+                 // Set worker source right after checking
+                 PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;
+            } else { throw new Error("pdf.js missing!"); }
+             if (typeof window.docx !== 'undefined') { DOCX=window.docx; } else { throw new Error("docx library missing!");}
+             if (typeof window.saveAs !== 'undefined') { SAVEAS=window.saveAs; } else { console.warn("FileSaver.js missing.");}
+         } catch (libError) {
+            console.error(libError);
+             // Display a user-friendly error and potentially disable the tool
+             document.body.innerHTML = `<div class="p-8 text-center text-red-600 bg-red-50 min-h-screen flex flex-col justify-center items-center"> <h1 class="text-2xl font-bold mb-4">Initialization Error</h1> <p>A required library (${libError.message}) failed to load. The tool cannot function.</p><p class="mt-2 text-sm">Please check your internet connection, browser extensions, or try refreshing the page.</p></div>`;
+         }
+
+
+         document.addEventListener('DOMContentLoaded', function() {
+             // Check if libraries were loaded before proceeding
+             if (!PDFJS || !DOCX) return; // Stop if libs failed
+
+             // --- DOM Elements ---
+             const dropzone=document.getElementById('dropzone'),fileInput=document.getElementById('fileInput'),browseBtn=document.getElementById('browseBtn'),uploadContent=document.getElementById('uploadContent'),uploadingContent=document.getElementById('uploadingContent'),resultSection=document.getElementById('resultSection'),errorSection=document.getElementById('errorSection'),fileNameEl=document.getElementById('fileName'),fileStatus=document.getElementById('fileStatus'),downloadBtn=document.getElementById('downloadBtn'),errorMessageEl=document.getElementById('errorMessage'),progressBar=document.getElementById('progressBar'),progressText=document.getElementById('progressText'),newFileBtn=document.getElementById('newFileBtn'),uploadStatusText=document.getElementById('uploadStatusText');
+
+             // --- State ---
+             let currentFile = null; let docxBlob = null; let isProcessing = false;
+
+             // --- Event Listeners ---
+             setupUploadListeners();
+             downloadBtn.addEventListener('click', triggerDownload);
+             newFileBtn.addEventListener('click', resetState);
+             document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            function setupUploadListeners() { ['dragenter','dragover','dragleave','drop'].forEach(ev=>{dropzone.addEventListener(ev,preventDefaults);document.body.addEventListener(ev,preventDefaults);}); ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,()=>{if(!isProcessing)dropzone.classList.add('active');})); ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,()=>dropzone.classList.remove('active'))); dropzone.addEventListener('drop',handleDrop); browseBtn.addEventListener('click',()=>fileInput.click()); fileInput.addEventListener('change',function(){if(this.files.length){handleFile(this.files[0]);}}); }
+             function preventDefaults(e){e.preventDefault();e.stopPropagation();}
+             function handleDrop(e) { const f=e.dataTransfer.files[0]; if(f) handleFile(f);}
+
+            async function handleFile(file) {
+                console.log('Processing file:', file ? file.name : 'no file');
+                resetState();
+                currentFile = file;
+
+                // Validate file
+                if (!file || (!file.type.includes('pdf') && !file.name.toLowerCase().endsWith('.pdf'))) {
+                    showError('Please select or drop a valid PDF file.');
+                    return;
+                }
+
+                // Start processing
+                isProcessing = true;
+                uploadContent.classList.add('hidden');
+                uploadingContent.classList.remove('hidden');
+                errorSection.classList.add('hidden');
+                updateProgress(0);
+                updateStatus('Reading file...');
+
+                try {
+                    // Read file as array buffer
+                    console.log('Reading file as array buffer');
+                    const arrayBuffer = await readFileAsArrayBuffer(file);
+
+                    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+                        throw new Error('Failed to read file data');
+                    }
+
+                    updateStatus('Loading PDF structure...');
+                    updateProgress(10);
+
+                    // Load PDF document
+                    console.log('Loading PDF with PDF.js');
+                    const pdf = await PDFJS.getDocument({
+                        data: arrayBuffer,
+                        cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,
+                        cMapPacked: true
+                    }).promise;
+
+                    console.log(`PDF loaded with ${pdf.numPages} pages`);
+                    updateStatus('Extracting text...');
+                    updateProgress(20);
+
+                    // Extract text from PDF
+                    const fullText = await extractTextFromPDF(pdf);
+
+                    if (!fullText || fullText.trim() === '') {
+                        throw new Error('No text could be extracted from the PDF');
+                    }
+
+                    updateStatus('Creating Word document...');
+                    updateProgress(80);
+
+                    // Generate Word document
+                    docxBlob = await generateDocxBlob(fullText);
+
+                    if (!docxBlob || docxBlob.size === 0) {
+                        throw new Error('Failed to create Word document');
+                    }
+
+                    console.log(`Word document created successfully (${docxBlob.size} bytes)`);
+                    updateProgress(100);
+                    updateStatus('Conversion complete!');
+                    showResult(file);
+                } catch (error) {
+                    console.error('Conversion error:', error);
+                    showError('Error during conversion: ' + error.message);
+                    resetState();
+                } finally {
+                    isProcessing = false;
+                }
+            }
+
+             function readFileAsArrayBuffer(f) { return new Promise((res,rej)=>{ const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(new Error('Failed reading file'));r.readAsArrayBuffer(f);});}
+
+             async function extractTextFromPDF(pdfDocInstance) {
+                console.log(`Extracting text from PDF with ${pdfDocInstance.numPages} pages`);
+                let fullText = '';
+                const total = pdfDocInstance.numPages;
+
+                for (let i = 1; i <= total; i++) {
+                    updateProgress(20+(50*i/total), `Extracting page ${i}/${total}...`);
+                    try {
+                        const page = await pdfDocInstance.getPage(i);
+                        console.log(`Processing page ${i}`);
+
+                        // Get text content with normalized whitespace
+                        const tc = await page.getTextContent({ normalizeWhitespace: true });
+
+                        // Variables to track position
+                        let lastY = null;
+                        let lastX = null;
+                        let lastWidth = 0;
+                        let lineBuffer = '';
+
+                        // Process each text item
+                        tc.items.forEach(item => {
+                            // Skip empty items
+                            if (!item.str || item.str.trim() === '') return;
+
+                            const currentY = item.transform[5];
+                            const currentX = item.transform[4];
+
+                            // Check for new line (significant vertical position change or explicit end of line)
+                            if (lastY !== null && (Math.abs(currentY - lastY) > (item.height * 0.8) || item.hasEOL)) {
+                                // Add current line to full text if it's not empty
+                                if (lineBuffer.trim() !== '') {
+                                    fullText += lineBuffer.trim() + '\n';
+                                }
+                                // Start new line buffer
+                                lineBuffer = item.str;
+                            } else {
+                                // Continue on same line
+                                // Add space if there's a significant horizontal gap
+                                if (lineBuffer.length > 0 &&
+                                    !lineBuffer.endsWith(' ') &&
+                                    lastX !== null &&
+                                    currentX > (lastX + lastWidth + 2)) {
+                                    lineBuffer += ' ';
+                                }
+                                lineBuffer += item.str;
+                            }
+
+                            // Update position tracking
+                            lastY = currentY;
+                            lastX = currentX;
+                            lastWidth = item.width || 0;
+                        });
+
+                        // Add the last line if not empty
+                        if (lineBuffer.trim() !== '') {
+                            fullText += lineBuffer.trim() + '\n';
+                        }
+
+                        // Add paragraph break between pages
+                        fullText += '\n';
+
+                        // Clean up page resources
+                        page.cleanup();
+
+                    } catch (pageError) {
+                        console.error(`Error processing page ${i}:`, pageError);
+                        fullText += `\n[Error extracting text from page ${i}]\n\n`;
+                    }
+
+                    // Yield to browser UI thread occasionally
+                    if (i % 5 === 0) await new Promise(r => setTimeout(r, 10));
+                }
+
+                // Final cleanup of the text
+                const cleanedText = fullText
+                    .replace(/ +\n/g, '\n')      // Remove trailing spaces before newlines
+                    .replace(/\n{3,}/g, '\n\n')  // Collapse multiple blank lines to max two
+                    .trim();
+
+                console.log(`Extracted ${cleanedText.length} characters of text`);
+                return cleanedText;
+             }
+
+
+             async function generateDocxBlob(text) {
+                console.log('Generating Word document from text:', text.substring(0, 100) + '...');
+                if (!DOCX) throw new Error("DOCX library not loaded");
+
+                try {
+                    // Split text into paragraphs and filter out empty lines
+                    const paragraphs = text.split('\n')
+                        .filter(line => line.trim().length > 0)
+                        .map(line => {
+                            return new DOCX.Paragraph({
+                                children: [new DOCX.TextRun({ text: line, size: 24 })], // 12pt
+                                spacing: { after: 200 } // ~10pt after paragraph
+                            });
+                        });
+
+                    console.log(`Creating document with ${paragraphs.length} paragraphs`);
+
+                    // Add a title paragraph at the beginning
+                    paragraphs.unshift(
+                        new DOCX.Paragraph({
+                            children: [new DOCX.TextRun({
+                                text: "Converted Document",
+                                size: 36,  // 18pt
+                                bold: true
+                            })],
+                            spacing: { after: 400 }, // 20pt
+                            alignment: DOCX.AlignmentType.CENTER
+                        })
+                    );
+
+                    // Create the document with proper sections and margins
+                    const doc = new DOCX.Document({
+                        sections: [{
+                            properties: {
+                                page: {
+                                    margin: {
+                                        top: 1440, // 1 inch (1440 twips)
+                                        right: 1440,
+                                        bottom: 1440,
+                                        left: 1440
+                                    }
+                                }
+                            },
+                            children: paragraphs
+                        }]
+                    });
+
+                    console.log('Document created, packing to blob...');
+                    const blob = await DOCX.Packer.toBlob(doc);
+                    console.log('Blob created successfully');
+                    return blob;
+                } catch (error) {
+                    console.error('Error generating DOCX:', error);
+                    throw new Error('Could not generate Word document: ' + error.message);
+                }
+            }
+
+             // --- UI Updates ---
+             function updateProgress(pct, msg=null){const clamped=Math.min(pct,100);progressBar.style.width=`${clamped}%`;progressText.textContent=`${Math.round(clamped)}% completed`;if(msg)updateStatus(msg);}
+             function updateStatus(msg){uploadStatusText.textContent = msg;}
+             function showResult(file){uploadingContent.classList.add('hidden'); resultSection.classList.remove('hidden'); errorSection.classList.add('hidden'); fileNameEl.textContent = file.name.replace(/\.pdf$/i,'.docx'); fileStatus.textContent = 'Ready for download';}
+            function showError(msg) { uploadingContent.classList.add('hidden'); uploadContent.classList.remove('hidden'); resultSection.classList.add('hidden'); errorMessageEl.textContent = msg; errorSection.classList.remove('hidden'); /* Removed persistent timer */ }
+
+             function triggerDownload() {
+                console.log('Triggering download');
+
+                if (!docxBlob || !currentFile) {
+                    console.error('No DOCX blob or current file available');
+                    showError('No Word document is ready for download. Please try converting again.');
+                    return;
+                }
+
+                const newName = currentFile.name.replace(/\.pdf$/i, '.docx');
+                console.log(`Preparing to download as: ${newName} (${docxBlob.size} bytes)`);
+
+                try {
+                    // Use FileSaver.js if available
+                    if (typeof saveAs === 'function') {
+                        console.log('Using FileSaver.js for download');
+                        saveAs(docxBlob, newName);
+                    } else {
+                        // Fallback to manual download
+                        console.log('Using manual download method');
+                        const url = URL.createObjectURL(docxBlob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = newName;
+                        document.body.appendChild(a); // Needed for Firefox
+                        a.click();
+                        setTimeout(() => {
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        }, 100);
+                    }
+
+                    console.log('Download initiated successfully');
+                } catch (e) {
+                    console.error("Download error:", e);
+                    showError("Download failed: " + e.message);
+                }
+            }
+             function resetState(){currentFile=null; docxBlob=null; isProcessing=false; uploadingContent.classList.add('hidden'); uploadContent.classList.remove('hidden'); resultSection.classList.add('hidden'); errorSection.classList.add('hidden'); fileInput.value=null; updateProgress(0); progressText.textContent='0% completed'; updateStatus('Processing your PDF...');} // Reset status text
+
+        }); // End of DOMContentLoaded listener - Moved after all function definitions
+    </script>
+
+<script src="../dark-mode.js"></script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+</body>
+</html>
