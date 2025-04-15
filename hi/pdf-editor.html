@@ -132,7 +132,7 @@
              /* Further mobile adjustments if needed */
          }
     </style>
-<link rel="stylesheet" href="dark-mode.css">
+<link rel="stylesheet" href="../dark-mode.css">
 </head>
 <body class="bg-gray-100 font-sans">
 
@@ -143,6 +143,7 @@
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
            <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
         </a>
+        <!-- Desktop Menu -->
         <!-- Language Selector -->
         <div class="absolute right-20 top-4 md:right-4">
             <div class="relative" x-data="{ open: false }">
@@ -156,7 +157,6 @@
                 </div>
             </div>
         </div>
-        <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
             <!-- Tools Dropdown -->
@@ -228,7 +228,7 @@
     <!-- Introductory Text -->
     <div class="container mx-auto px-6 pt-8 pb-4 text-center">
         <h1 class="text-3xl font-bold text-gray-800 mb-2">ऑनलाइन PDF एडिटर</h1>
-        <p class="text-gray-600">अपने PDF दस्तावेजों में आसानी से और मुफ्त में टेक्स्ट, इमेज, हस्ताक्षर और हाइलाइट जोड़ें। सभी प्रोसेसिंग आपके ब्राउज़र में सुरक्षित रूप से की जाती है।</p>
+        <p class="text-gray-600">अपने PDF दस्तावेजों में टेक्स्ट, इमेज, हस्ताक्षर और हाइलाइट आसानी से और मुफ्त में जोड़ें। सभी प्रोसेसिंग आपके ब्राउज़र में सुरक्षित रूप से की जाती है।</p>
     </div>
 
     <!-- Main Editor Interface -->
@@ -237,7 +237,7 @@
         <div class="w-16 bg-white shadow-md flex flex-col items-center py-4 space-y-6 flex-shrink-0 z-20"> <!-- Toolbar above panels -->
             <!-- Upload PDF Button -->
             <div class="group relative">
-                <button id="upload-btn" title="PDF अपलोड करें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button id="upload-btn" title="Upload PDF" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <i class="fas fa-file-upload text-gray-700 text-lg"></i>
                 </button>
                 <span class="tooltip-text">PDF अपलोड करें</span>
@@ -245,11 +245,11 @@
             <input type="file" id="file-input" accept=".pdf"> <!-- Moved outside the button's div -->
             <!-- Tool Buttons -->
              <div class="group relative"><button id="text-tool" title="टेक्स्ट जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-font text-gray-700 text-lg"></i></button><span class="tooltip-text">टेक्स्ट टूल</span></div>
-             <div class="group relative"><button id="signature-tool" title="हस्ताक्षर/इनिशियल्स जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-signature text-gray-700 text-lg"></i></button><span class="tooltip-text">हस्ताक्षर/इनिशियल्स</span></div>
+             <div class="group relative"><button id="signature-tool" title="हस्ताक्षर/आद्याक्षर जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-signature text-gray-700 text-lg"></i></button><span class="tooltip-text">हस्ताक्षर/आद्याक्षर</span></div>
              <div class="group relative"><button id="image-tool" title="इमेज जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-image text-gray-700 text-lg"></i></button><span class="tooltip-text">इमेज टूल</span></div>
              <div class="group relative"><button id="highlight-tool" title="हाइलाइट एरिया" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-highlighter text-gray-700 text-lg"></i></button><span class="tooltip-text">हाइलाइट एरिया</span></div>
             <!-- Save Button at bottom -->
-             <div class="group relative mt-auto"><button id="save-pdf" title="एडिट किया गया PDF सेव करें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-blue-600 hover:bg-blue-700 transition text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-save text-lg"></i></button><span class="tooltip-text">PDF सेव करें</span></div>
+             <div class="group relative mt-auto"><button id="save-pdf" title="एडिटेड PDF सहेजें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-blue-600 hover:bg-blue-700 transition text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-save text-lg"></i></button><span class="tooltip-text">PDF सहेजें</span></div>
         </div>
 
         <!-- Main Content Area (includes viewer and tool panels relative to this) -->
@@ -273,9 +273,9 @@
                          </select>
                          <span id="page-count" class="text-gray-500 text-xs md:text-sm ml-1"></span>
                      </div>
-                     <button id="zoom-out" title="जूम आउट" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-minus text-gray-600 text-sm md:text-base"></i></button>
+                     <button id="zoom-out" title="Zoom Out" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-minus text-gray-600 text-sm md:text-base"></i></button>
                      <span id="zoom-level" class="text-xs md:text-sm text-gray-700 w-10 text-center">100%</span>
-                     <button id="zoom-in" title="जूम इन" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-plus text-gray-600 text-sm md:text-base"></i></button>
+                     <button id="zoom-in" title="Zoom In" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-plus text-gray-600 text-sm md:text-base"></i></button>
                  </div>
              </div>
              <!-- PDF Viewer Area -->
@@ -295,7 +295,7 @@
             <!-- TOOL PANELS (Positioned Absolutely within Main Content) -->
             <!-- Text Tool Panel -->
             <div id="text-tool-panel" class="tool-panel">
-                <label class="mb-1">फॉन्ट परिवार</label>
+                <label class="mb-1">फॉन्ट फैमिली</label>
                 <div class="mb-2">
                     <div class="font-option selected" style="font-family: Arial, sans-serif;" data-font="Arial, sans-serif">Arial</div>
                     <div class="font-option" style="font-family: 'Times New Roman', Times, serif;" data-font="'Times New Roman', Times, serif">Times New Roman</div>
@@ -306,25 +306,25 @@
                 </div>
                  <div class="grid grid-cols-2 gap-x-4 items-center mb-2">
                     <div>
-                        <label for="text-size" class="mb-1">आकार</label>
+                        <label for="text-size" class="mb-1">साइज़</label>
                         <input type="number" id="text-size" value="14" min="8" max="96" step="2" class="w-full">
                     </div>
                     <div class="flex space-x-1 mt-4">
-                         <button id="bold-text" title="बोल्ड" class="format-button"><i class="fas fa-bold"></i></button>
-                         <button id="italic-text" title="इटैलिक" class="format-button"><i class="fas fa-italic"></i></button>
-                         <button id="underline-text" title="अंडरलाइन" class="format-button"><i class="fas fa-underline"></i></button>
+                         <button id="bold-text" title="Bold" class="format-button"><i class="fas fa-bold"></i></button>
+                         <button id="italic-text" title="Italic" class="format-button"><i class="fas fa-italic"></i></button>
+                         <button id="underline-text" title="Underline" class="format-button"><i class="fas fa-underline"></i></button>
                     </div>
                 </div>
                 <label class="mb-1">रंग</label>
                 <div class="color-grid">
-                    <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setCurrentTextProperty('color', 'black')"></div>
-                    <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setCurrentTextProperty('color', 'red')"></div>
-                    <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setCurrentTextProperty('color', 'blue')"></div>
-                    <div class="color-option" style="background-color: #10B981;" data-color="green" title="हरा" onclick="setCurrentTextProperty('color', 'green')"></div>
-                    <div class="color-option" style="background-color: #8B5CF6;" data-color="purple" title="बैंगनी" onclick="setCurrentTextProperty('color', 'purple')"></div>
-                    <div class="color-option" style="background-color: #F59E0B;" data-color="orange" title="नारंगी" onclick="setCurrentTextProperty('color', 'orange')"></div>
-                    <div class="color-option" style="background-color: #6B7280;" data-color="gray" title="ग्रे" onclick="setCurrentTextProperty('color', 'gray')"></div>
-                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc" data-color="white" title="सफेद" onclick="setCurrentTextProperty('color', 'white')"></div>
+                    <div class="color-option selected" style="background-color: #000000;" data-color="black" title="Black" onclick="setCurrentTextProperty('color', 'black')"></div>
+                    <div class="color-option" style="background-color: #EF4444;" data-color="red" title="Red" onclick="setCurrentTextProperty('color', 'red')"></div>
+                    <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="Blue" onclick="setCurrentTextProperty('color', 'blue')"></div>
+                    <div class="color-option" style="background-color: #10B981;" data-color="green" title="Green" onclick="setCurrentTextProperty('color', 'green')"></div>
+                    <div class="color-option" style="background-color: #8B5CF6;" data-color="purple" title="Purple" onclick="setCurrentTextProperty('color', 'purple')"></div>
+                    <div class="color-option" style="background-color: #F59E0B;" data-color="orange" title="Orange" onclick="setCurrentTextProperty('color', 'orange')"></div>
+                    <div class="color-option" style="background-color: #6B7280;" data-color="gray" title="Gray" onclick="setCurrentTextProperty('color', 'gray')"></div>
+                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc" data-color="white" title="White" onclick="setCurrentTextProperty('color', 'white')"></div>
                 </div>
             </div>
 
@@ -333,7 +333,7 @@
                  <div class="flex space-x-2 mb-3">
                      <button id="draw-signature" class="flex-1 bg-blue-600 text-white py-1" title="हस्ताक्षर ड्रॉ करें">ड्रॉ</button>
                      <button id="type-signature" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="हस्ताक्षर टाइप करें">टाइप</button>
-                     <button id="initials-btn" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="इनिशियल्स टाइप करें">इनिशियल्स</button>
+                     <button id="initials-btn" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="आद्याक्षर टाइप करें">आद्याक्षर</button>
                  </div>
 
                 <!-- Drawing Section -->
@@ -341,16 +341,16 @@
                      <canvas id="signature-pad"></canvas>
                      <label class="mt-2 mb-1">पेन का रंग</label>
                      <div class="color-grid mb-2">
-                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setSignatureColor('black')"></div>
-                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setSignatureColor('blue')"></div>
-                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setSignatureColor('red')"></div>
+                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="Black" onclick="setSignatureColor('black')"></div>
+                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="Blue" onclick="setSignatureColor('blue')"></div>
+                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="Red" onclick="setSignatureColor('red')"></div>
                      </div>
                 </div>
 
                  <!-- Typing Section -->
                 <div id="signature-type-container" class="hidden">
-                    <input type="text" id="signature-text" placeholder="अपना हस्ताक्षर टाइप करें">
-                    <input type="text" id="initials-text" placeholder="इनिशियल्स टाइप करें" maxlength="5">
+                    <input type="text" id="signature-text" placeholder="Type your signature">
+                    <input type="text" id="initials-text" placeholder="Type initials" maxlength="5">
                     <label class="mt-2 mb-1">फॉन्ट</label>
                     <select id="signature-font" class="mb-2">
                         <option style="font-family: 'Pacifico', cursive;" value="Pacifico, cursive">Pacifico</option>
@@ -361,13 +361,13 @@
                     </select>
                      <label class="mb-1">टेक्स्ट का रंग</label>
                     <div class="color-grid mb-2">
-                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setTypedSignatureColor('black')"></div>
-                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setTypedSignatureColor('blue')"></div>
-                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setTypedSignatureColor('red')"></div>
+                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="Black" onclick="setTypedSignatureColor('black')"></div>
+                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="Blue" onclick="setTypedSignatureColor('blue')"></div>
+                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="Red" onclick="setTypedSignatureColor('red')"></div>
                     </div>
                  </div>
                 <div class="flex justify-between mt-2">
-                    <button id="clear-signature" class="bg-gray-200 hover:bg-gray-300 text-gray-700" title="क्लीयर">क्लीयर</button>
+                    <button id="clear-signature" class="bg-gray-200 hover:bg-gray-300 text-gray-700" title="साफ करें">साफ करें</button>
                     <button id="save-signature" class="bg-blue-600 hover:bg-blue-700 text-white" title="PDF में जोड़ें">जोड़ें</button>
                 </div>
             </div>
@@ -379,20 +379,20 @@
                      <p>इमेज ड्रैग और ड्रॉप करें या <button id="browse-images" class="text-blue-600 hover:underline focus:outline-none">ब्राउज़ करें</button></p>
                     <input type="file" id="image-input" accept="image/png, image/jpeg, image/gif, image/webp">
                  </div>
-                 <p class="text-xs text-gray-500 mt-1 text-center">PNG, JPG, GIF, WEBP सपोर्ट करता है</p>
+                 <p class="text-xs text-gray-500 mt-1 text-center">PNG, JPG, GIF, WEBP का समर्थन करता है</p>
             </div>
 
             <!-- Highlight Tool Panel -->
             <div id="highlight-tool-panel" class="tool-panel">
                 <label class="mb-1">हाइलाइट का रंग</label>
                  <div class="color-grid mb-2">
-                     <div class="color-option selected" data-color="yellow" title="पीला" onclick="setCurrentHighlightProperty('color', 'yellow')"></div>
-                     <div class="color-option" data-color="green" title="हरा" onclick="setCurrentHighlightProperty('color', 'green')"></div>
-                     <div class="color-option" data-color="blue" title="नीला" onclick="setCurrentHighlightProperty('color', 'blue')"></div>
-                     <div class="color-option" data-color="pink" title="गुलाबी" onclick="setCurrentHighlightProperty('color', 'pink')"></div>
-                     <div class="color-option" data-color="purple" title="बैंगनी" onclick="setCurrentHighlightProperty('color', 'purple')"></div>
+                     <div class="color-option selected" data-color="yellow" title="Yellow" onclick="setCurrentHighlightProperty('color', 'yellow')"></div>
+                     <div class="color-option" data-color="green" title="Green" onclick="setCurrentHighlightProperty('color', 'green')"></div>
+                     <div class="color-option" data-color="blue" title="Blue" onclick="setCurrentHighlightProperty('color', 'blue')"></div>
+                     <div class="color-option" data-color="pink" title="Pink" onclick="setCurrentHighlightProperty('color', 'pink')"></div>
+                     <div class="color-option" data-color="purple" title="Purple" onclick="setCurrentHighlightProperty('color', 'purple')"></div>
                  </div>
-                 <label for="highlight-opacity">अपारदर्शिता (<span id="opacity-value">50</span>%)</label>
+                 <label for="highlight-opacity">ओपेसिटी (<span id="opacity-value">50</span>%)</label>
                  <input type="range" id="highlight-opacity" min="10" max="80" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
             </div>
 
@@ -404,14 +404,14 @@
          <div class="bg-white p-6 rounded-lg shadow-md">
              <h2 class="text-2xl font-semibold text-gray-800 mb-4">PDF एडिटर का उपयोग कैसे करें</h2>
              <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                 <li><i class="fas fa-file-upload text-blue-600 mx-1"></i> पर क्लिक करके अपनी PDF अपलोड करें, या इसे मुख्य क्षेत्र पर ड्रैग और ड्रॉप करें।</li>
+                 <li><i class="fas fa-file-upload text-blue-600 mx-1"></i> पर क्लिक करके अपनी PDF अपलोड करें, या इसे मुख्य एरिया पर ड्रैग और ड्रॉप करें।</li>
                  <li>बाएं टूलबार से एक टूल चुनें: <i class="fas fa-font text-blue-600 mx-1"></i> (टेक्स्ट), <i class="fas fa-signature text-blue-600 mx-1"></i> (हस्ताक्षर), <i class="fas fa-image text-blue-600 mx-1"></i> (इमेज), या <i class="fas fa-highlighter text-blue-600 mx-1"></i> (हाइलाइट एरिया)।</li>
-                 <li>टेक्स्ट, हस्ताक्षर, या इमेज जोड़ने के लिए PDF पेज पर क्लिक करें। हाइलाइट के लिए, वांछित क्षेत्र पर क्लिक करें और ड्रैग करें।</li>
-                 <li>गुणों (फॉन्ट, रंग, आकार, अपारदर्शिता, आदि) को कस्टमाइज़ करने के लिए फ्लोटिंग टूल पैनल का उपयोग करें।</li>
-                 <li>तत्वों को हिलाने के लिए क्लिक करें और ड्रैग करें। आकार बदलने के लिए कोने के हैंडल <span class="inline-block border border-blue-400 bg-white rounded-full w-3 h-3 cursor-nwse-resize -ml-1 -mb-1 relative" style="bottom:-2px; right:-2px;"></span> का उपयोग करें।</li>
-                 <li>किसी तत्व पर होवर करें और उसे हटाने के लिए लाल <span class="text-red-500 font-bold inline-block bg-white border border-red-300 rounded-full w-4 h-4 leading-tight text-center text-xs cursor-pointer">&times;</span> बटन पर क्लिक करें।</li>
+                 <li>टेक्स्ट, हस्ताक्षर, या इमेज जोड़ने के लिए PDF पेज पर क्लिक करें। हाइलाइट के लिए, वांछित एरिया पर क्लिक करें और खींचें।</li>
+                 <li>गुणों (फॉन्ट, रंग, आकार, ओपेसिटी, आदि) को कस्टमाइज़ करने के लिए फ्लोटिंग टूल पैनल का उपयोग करें।</li>
+                 <li>तत्वों को हिलाने के लिए उन्हें क्लिक करें और खींचें। आकार बदलने के लिए कोने के हैंडल <span class="inline-block border border-blue-400 bg-white rounded-full w-3 h-3 cursor-nwse-resize -ml-1 -mb-1 relative" style="bottom:-2px; right:-2px;"></span> का उपयोग करें।</li>
+                 <li>किसी तत्व को हटाने के लिए उस पर होवर करें और लाल <span class="text-red-500 font-bold inline-block bg-white border border-red-300 rounded-full w-4 h-4 leading-tight text-center text-xs cursor-pointer">&times;</span> बटन पर क्लिक करें।</li>
                  <li>शीर्ष-दाएं पेज सेलेक्टर का उपयोग करके पृष्ठों के बीच नेविगेट करें। <i class="fas fa-search-plus mx-1"></i> / <i class="fas fa-search-minus mx-1"></i> बटनों का उपयोग करके जूम करें।</li>
-                 <li>संपादन समाप्त होने पर, अपनी संपादित PDF को डाउनलोड करने के लिए नीले <i class="fas fa-save text-blue-600 mx-1"></i> बटन (नीचे-बाएं) पर क्लिक करें।</li>
+                 <li>संपादन पूरा होने पर, अपनी संपादित PDF को डाउनलोड करने के लिए नीले <i class="fas fa-save text-blue-600 mx-1"></i> बटन (नीचे-बाएं) पर क्लिक करें।</li>
              </ol>
          </div>
      </div>
@@ -2042,7 +2042,7 @@
          and updates the call sites, not the removal of the original definitions.
          If errors persist, the original locations might differ. -->
 
-<script src="dark-mode.js"></script>
+<script src="../dark-mode.js"></script>
 
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
