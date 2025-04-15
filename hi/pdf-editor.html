@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मुफ्त ऑनलाइन PDF एडिटर - PDF टेक्स्ट, इमेज और भी बहुत कुछ एडिट करें | SmileyPDF</title>
+    <meta name="description" content="SmileyPDF के शक्तिशाली PDF एडिटर के साथ मुफ्त में ऑनलाइन PDF फाइलों को एडिट करें। अपने PDF दस्तावेजों में टेक्स्ट, इमेज, हस्ताक्षर, हाइलाइट और एनोटेशन जोड़ें। कोई पंजीकरण आवश्यक नहीं है।">
+    <meta name="keywords" content="PDF editor, edit PDF online, free PDF editor, add text to PDF, PDF annotation, PDF signature, modify PDF, online PDF editor, no registration PDF editor">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="canonical" href="https://smileypdf.com/pdf-editor.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://smileypdf.com/pdf-editor.html">
+    <meta property="og:title" content="Free Online PDF Editor - Edit PDF Text, Images & More | SmileyPDF">
+    <meta property="og:description" content="Edit PDF files online for free with SmileyPDF's powerful PDF editor. Add text, images, signatures, highlights, and annotations to your PDF documents.">
+    <meta property="og:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smileypdf.com/pdf-editor.html">
+    <meta property="twitter:title" content="Free Online PDF Editor - Edit PDF Text, Images & More | SmileyPDF">
+    <meta property="twitter:description" content="Edit PDF files online for free with SmileyPDF's powerful PDF editor. Add text, images, signatures, highlights, and annotations to your PDF documents.">
+    <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SmileyPDF PDF Editor",
+      "url": "https://smileypdf.com/pdf-editor.html",
+      "description": "Free online PDF editor to add text, images, signatures, highlights, and annotations to your PDF documents. No registration required.",
+      "applicationCategory": "DocumentManagement",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "SmileyPDF",
+        "url": "https://smileypdf.com"
+      }
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <!-- Google Fonts for Signature -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Brush+Script+MT&family=Dancing+Script&family=Lucida+Handwriting&family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <style>
+        /* Base styles */
+        body {
+             overflow-y: scroll; /* Ensure scrollbar is always present */
+        }
+         #pdf-render { border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); margin: 0 auto; position: relative; overflow: hidden; /* Prevents annotations going outside on zoom */ }
+         .canvas-container { position: relative; margin: 0 auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+
+        /* Annotation styles */
+         .annotation { position: absolute; cursor: move; /* Move cursor for dragging */ resize: both; /* Enable resize handles */ overflow: visible; min-width: 20px; min-height: 20px; border: 1px dashed transparent; z-index: 5; /* Above canvas, below panels */ transition: border-color 0.2s, background-color 0.2s; }
+         .annotation:hover { border-color: #4F46E5; /* Indigo 600 */ }
+         .annotation.selected { border: 1px solid #4F46E5; background-color: rgba(79, 70, 229, 0.1); }
+        /* Delete button on annotation hover */
+         .delete-btn { position: absolute; top: -10px; /* Adjust position */ right: -10px; width: 20px; /* Size */ height: 20px; background-color: #EF4444; /* Red 500 */ border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; cursor: pointer; z-index: 10; /* Above annotation */ opacity: 0; /* Hidden by default */ transition: opacity 0.2s; pointer-events: auto; /* Allow clicking */ }
+         .annotation:hover .delete-btn { opacity: 1; }
+         /* Resize handle (simple bottom-right) */
+         .annotation::after { content: ''; position: absolute; bottom: -5px; right: -5px; width: 10px; height: 10px; background: #4F46E5; border: 1px solid white; border-radius: 50%; cursor: nwse-resize; opacity: 0; transition: opacity 0.2s; z-index: 11; }
+         .annotation.selected::after { opacity: 1; } /* Show only when selected */
+         /* Text specific annotation style */
+         .editable-text { min-height: 20px; width: 100%; height: 100%; outline: none; padding: 2px 4px; /* Added padding */ cursor: text; box-sizing: border-box; /* Include padding/border in size */ overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; line-height: 1.2; font-size: inherit; /* Inherit from parent annotation properties */ font-family: inherit; }
+
+        /* Signature pad styles */
+         #signature-pad { border: 1px solid #e5e7eb; background-color: white; touch-action: none; /* Important for mobile drawing */ width: 100%; height: 150px; border-radius: 4px; }
+
+        /* Tool panel styles */
+         .tool-panel { position: absolute; /* Positioned relative to main content area */ left: 70px; /* Position next to toolbar */ top: 10px; /* Align with top tool */ background: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); padding: 10px 15px; z-index: 100; width: 260px; /* Slightly wider */ display: none; } /* Hidden by default */
+         /* Style controls inside panels */
+         .tool-panel label { display: block; margin-bottom: 4px; font-size: 12px; color: #4b5563; font-weight: 500; }
+         .tool-panel input[type="number"], .tool-panel input[type="range"], .tool-panel select, .tool-panel input[type="text"] { width: 100%; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; }
+         .tool-panel button { padding: 6px 12px; border-radius: 4px; font-size: 13px; transition: background-color 0.2s; cursor: pointer; border: 1px solid transparent; } /* Added base border */
+         .color-grid { display: flex; flex-wrap: wrap; margin-bottom: 10px; }
+         .color-option { width: 25px; height: 25px; border-radius: 50%; cursor: pointer; margin: 3px; border: 2px solid transparent; transition: transform 0.1s, border-color 0.1s; }
+         .color-option.selected { border-color: #4F46E5; transform: scale(1.15); box-shadow: 0 0 0 2px white; }
+         .font-option { padding: 5px 10px; margin: 2px 0; cursor: pointer; border-radius: 4px; display: block; font-size: 14px; transition: background-color 0.2s; }
+         .font-option.selected, .font-option:hover { background-color: #E5E7EB; /* Gray 200 */ }
+         .font-option.selected { font-weight: bold; }
+        /* Style tool formatting buttons */
+         .format-button { padding: 0.3rem 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; background-color: white; }
+         .format-button.active { background-color: #dbeafe; border-color: #60a5fa; } /* Light blue bg, blue border */
+         .format-button:hover { background-color: #f3f4f6; }
+
+
+        /* Tooltip style */
+         .tooltip-text { position: absolute; left: 60px; top: 50%; transform: translateY(-50%); background-color: #333; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity 0.2s; pointer-events: none; white-space: nowrap; z-index: 1000; }
+         .group:hover .tooltip-text { opacity: 1; }
+
+        /* Signature/Image Specifics */
+         #signature-type-container { margin-top: 10px; }
+         #image-drop-zone { border: 2px dashed #ccc; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; margin-top: 10px; color: #6b7280; }
+         #image-drop-zone:hover, #image-drop-zone.border-blue-500 { border-color: #4F46E5; background-color: rgba(79, 70, 229, 0.05); }
+         #file-input, #image-input { display: none; }
+         #initials-text, #signature-text { width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 4px; margin-top: 5px; display: none; /* Hidden initially */}
+         #signature-text { font-family: 'Brush Script MT', cursive; font-size: 24px;} /* Default font */
+         #initials-text { font-family: 'Brush Script MT', cursive; font-size: 32px; }
+         .active-tool { background-color: #4F46E5 !important; color: white !important; }
+
+
+        /* Responsive adjustments (optional) */
+         @media (max-width: 768px) {
+             .tool-panel { left: 10px; width: calc(100% - 20px); max-width: 300px; }
+             /* Further mobile adjustments if needed */
+         }
+    </style>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+<!-- Header (Same as index.html) -->
+<header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">हिंदी</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <a href="../pdf-editor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="pdf-editor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                </div>
+            </div>
+        </div>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+            <!-- Tools Dropdown -->
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                    टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100 transform"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75 transform"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
+                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
+                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
+                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
+                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a>
+                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
+                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
+                     <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                 </div>
+             </div>
+             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+         </div>
+          <!-- Mobile Menu Button -->
+          <div class="md:hidden">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                  <span class="sr-only">मेनू खोलें</span>
+                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+              </button>
+         </div>
+    </nav>
+     <!-- Mobile Menu Panel -->
+     <div x-show="mobileMenuOpen"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         x-transition:enter="transition ease-out duration-200 transform origin-top"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="display: none;" x-cloak>
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3>
+            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
+            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
+            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
+            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a>
+            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्टर</a>
+            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
+            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
+            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a>
+        </div>
+     </div>
+</header>
+
+    <!-- Introductory Text -->
+    <div class="container mx-auto px-6 pt-8 pb-4 text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">ऑनलाइन PDF एडिटर</h1>
+        <p class="text-gray-600">अपने PDF दस्तावेजों में आसानी से और मुफ्त में टेक्स्ट, इमेज, हस्ताक्षर और हाइलाइट जोड़ें। सभी प्रोसेसिंग आपके ब्राउज़र में सुरक्षित रूप से की जाती है।</p>
+    </div>
+
+    <!-- Main Editor Interface -->
+     <div class="flex h-[calc(100vh-180px)] md:h-[calc(100vh-128px)] overflow-hidden relative"> <!-- Adjust height, more reduction on smaller screens for intro text -->
+        <!-- Left Toolbar -->
+        <div class="w-16 bg-white shadow-md flex flex-col items-center py-4 space-y-6 flex-shrink-0 z-20"> <!-- Toolbar above panels -->
+            <!-- Upload PDF Button -->
+            <div class="group relative">
+                <button id="upload-btn" title="PDF अपलोड करें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <i class="fas fa-file-upload text-gray-700 text-lg"></i>
+                </button>
+                <span class="tooltip-text">PDF अपलोड करें</span>
+            </div>
+            <input type="file" id="file-input" accept=".pdf"> <!-- Moved outside the button's div -->
+            <!-- Tool Buttons -->
+             <div class="group relative"><button id="text-tool" title="टेक्स्ट जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-font text-gray-700 text-lg"></i></button><span class="tooltip-text">टेक्स्ट टूल</span></div>
+             <div class="group relative"><button id="signature-tool" title="हस्ताक्षर/इनिशियल्स जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-signature text-gray-700 text-lg"></i></button><span class="tooltip-text">हस्ताक्षर/इनिशियल्स</span></div>
+             <div class="group relative"><button id="image-tool" title="इमेज जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-image text-gray-700 text-lg"></i></button><span class="tooltip-text">इमेज टूल</span></div>
+             <div class="group relative"><button id="highlight-tool" title="हाइलाइट एरिया" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-highlighter text-gray-700 text-lg"></i></button><span class="tooltip-text">हाइलाइट एरिया</span></div>
+            <!-- Save Button at bottom -->
+             <div class="group relative mt-auto"><button id="save-pdf" title="एडिट किया गया PDF सेव करें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-blue-600 hover:bg-blue-700 transition text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-save text-lg"></i></button><span class="tooltip-text">PDF सेव करें</span></div>
+        </div>
+
+        <!-- Main Content Area (includes viewer and tool panels relative to this) -->
+        <div class="flex-1 flex flex-col overflow-hidden relative">
+             <!-- Top Bar for page navigation/zoom -->
+             <div class="bg-white shadow-sm py-2 px-4 flex items-center justify-between border-b border-gray-200 flex-shrink-0">
+                 <h1 id="pdf-filename" class="text-base md:text-lg font-semibold text-gray-800 truncate max-w-[150px] md:max-w-xs" title="कोई PDF लोड नहीं">PDF एडिटर टूल</h1>
+                 <div class="flex items-center space-x-1 md:space-x-3">
+                     <div class="flex items-center">
+    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+                         <label for="page-select" class="text-gray-600 mr-1 text-xs md:text-sm hidden sm:inline">पेज:</label>
+                         <select id="page-select" class="border rounded px-1 md:px-2 py-0.5 md:py-1 text-xs md:text-sm" disabled>
+                             <option>N/A</option>
+                         </select>
+                         <span id="page-count" class="text-gray-500 text-xs md:text-sm ml-1"></span>
+                     </div>
+                     <button id="zoom-out" title="जूम आउट" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-minus text-gray-600 text-sm md:text-base"></i></button>
+                     <span id="zoom-level" class="text-xs md:text-sm text-gray-700 w-10 text-center">100%</span>
+                     <button id="zoom-in" title="जूम इन" class="w-7 h-7 md:w-8 md:h-8 rounded flex items-center justify-center hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-search-plus text-gray-600 text-sm md:text-base"></i></button>
+                 </div>
+             </div>
+             <!-- PDF Viewer Area -->
+             <div class="flex-1 overflow-auto p-4 md:p-6 bg-gray-50 relative" id="pdf-viewer"> <!-- Relative for canvas container -->
+                <div id="pdf-container" class="relative mx-auto w-max"> <!-- Container for canvas and annotations -->
+                     <div id="pdf-render" class="canvas-container"> <!-- Add positioning for spinner -->
+                         <canvas id="pdf-canvas"></canvas>
+                         <!-- Spinner for loading/rendering -->
+                        <div id="loading-spinner" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50 hidden">
+                             <i class="fas fa-spinner fa-spin text-blue-600 text-4xl"></i>
+                        </div>
+                     </div>
+
+                </div>
+             </div>
+
+            <!-- TOOL PANELS (Positioned Absolutely within Main Content) -->
+            <!-- Text Tool Panel -->
+            <div id="text-tool-panel" class="tool-panel">
+                <label class="mb-1">फॉन्ट परिवार</label>
+                <div class="mb-2">
+                    <div class="font-option selected" style="font-family: Arial, sans-serif;" data-font="Arial, sans-serif">Arial</div>
+                    <div class="font-option" style="font-family: 'Times New Roman', Times, serif;" data-font="'Times New Roman', Times, serif">Times New Roman</div>
+                    <div class="font-option" style="font-family: 'Courier New', Courier, monospace;" data-font="'Courier New', Courier, monospace">Courier New</div>
+                    <div class="font-option" style="font-family: Verdana, sans-serif;" data-font="Verdana, sans-serif">Verdana</div>
+                    <div class="font-option" style="font-family: Georgia, serif;" data-font="Georgia, serif">Georgia</div>
+                    <div class="font-option" style="font-family: 'Comic Sans MS', cursive, sans-serif;" data-font="'Comic Sans MS', cursive, sans-serif">Comic Sans</div>
+                </div>
+                 <div class="grid grid-cols-2 gap-x-4 items-center mb-2">
+                    <div>
+                        <label for="text-size" class="mb-1">आकार</label>
+                        <input type="number" id="text-size" value="14" min="8" max="96" step="2" class="w-full">
+                    </div>
+                    <div class="flex space-x-1 mt-4">
+                         <button id="bold-text" title="बोल्ड" class="format-button"><i class="fas fa-bold"></i></button>
+                         <button id="italic-text" title="इटैलिक" class="format-button"><i class="fas fa-italic"></i></button>
+                         <button id="underline-text" title="अंडरलाइन" class="format-button"><i class="fas fa-underline"></i></button>
+                    </div>
+                </div>
+                <label class="mb-1">रंग</label>
+                <div class="color-grid">
+                    <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setCurrentTextProperty('color', 'black')"></div>
+                    <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setCurrentTextProperty('color', 'red')"></div>
+                    <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setCurrentTextProperty('color', 'blue')"></div>
+                    <div class="color-option" style="background-color: #10B981;" data-color="green" title="हरा" onclick="setCurrentTextProperty('color', 'green')"></div>
+                    <div class="color-option" style="background-color: #8B5CF6;" data-color="purple" title="बैंगनी" onclick="setCurrentTextProperty('color', 'purple')"></div>
+                    <div class="color-option" style="background-color: #F59E0B;" data-color="orange" title="नारंगी" onclick="setCurrentTextProperty('color', 'orange')"></div>
+                    <div class="color-option" style="background-color: #6B7280;" data-color="gray" title="ग्रे" onclick="setCurrentTextProperty('color', 'gray')"></div>
+                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ccc" data-color="white" title="सफेद" onclick="setCurrentTextProperty('color', 'white')"></div>
+                </div>
+            </div>
+
+            <!-- Signature Tool Panel -->
+            <div id="signature-tool-panel" class="tool-panel">
+                 <div class="flex space-x-2 mb-3">
+                     <button id="draw-signature" class="flex-1 bg-blue-600 text-white py-1" title="हस्ताक्षर ड्रॉ करें">ड्रॉ</button>
+                     <button id="type-signature" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="हस्ताक्षर टाइप करें">टाइप</button>
+                     <button id="initials-btn" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="इनिशियल्स टाइप करें">इनिशियल्स</button>
+                 </div>
+
+                <!-- Drawing Section -->
+                <div id="signature-draw-container">
+                     <canvas id="signature-pad"></canvas>
+                     <label class="mt-2 mb-1">पेन का रंग</label>
+                     <div class="color-grid mb-2">
+                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setSignatureColor('black')"></div>
+                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setSignatureColor('blue')"></div>
+                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setSignatureColor('red')"></div>
+                     </div>
+                </div>
+
+                 <!-- Typing Section -->
+                <div id="signature-type-container" class="hidden">
+                    <input type="text" id="signature-text" placeholder="अपना हस्ताक्षर टाइप करें">
+                    <input type="text" id="initials-text" placeholder="इनिशियल्स टाइप करें" maxlength="5">
+                    <label class="mt-2 mb-1">फॉन्ट</label>
+                    <select id="signature-font" class="mb-2">
+                        <option style="font-family: 'Pacifico', cursive;" value="Pacifico, cursive">Pacifico</option>
+                        <option style="font-family: 'Dancing Script', cursive;" value="'Dancing Script', cursive">Dancing Script</option>
+                        <option style="font-family: 'Brush Script MT', cursive;" value="'Brush Script MT', cursive">Brush Script</option>
+                        <option style="font-family: 'Lucida Handwriting', cursive;" value="'Lucida Handwriting', cursive">Lucida Handwriting</option>
+                        <option style="font-family: 'Arial', sans-serif;" value="Arial, sans-serif">Arial</option>
+                    </select>
+                     <label class="mb-1">टेक्स्ट का रंग</label>
+                    <div class="color-grid mb-2">
+                         <div class="color-option selected" style="background-color: #000000;" data-color="black" title="काला" onclick="setTypedSignatureColor('black')"></div>
+                         <div class="color-option" style="background-color: #3B82F6;" data-color="blue" title="नीला" onclick="setTypedSignatureColor('blue')"></div>
+                         <div class="color-option" style="background-color: #EF4444;" data-color="red" title="लाल" onclick="setTypedSignatureColor('red')"></div>
+                    </div>
+                 </div>
+                <div class="flex justify-between mt-2">
+                    <button id="clear-signature" class="bg-gray-200 hover:bg-gray-300 text-gray-700" title="क्लीयर">क्लीयर</button>
+                    <button id="save-signature" class="bg-blue-600 hover:bg-blue-700 text-white" title="PDF में जोड़ें">जोड़ें</button>
+                </div>
+            </div>
+
+             <!-- Image Tool Panel -->
+            <div id="image-tool-panel" class="tool-panel">
+                 <div id="image-drop-zone">
+                    <i class="fas fa-cloud-upload-alt text-3xl mb-2 text-gray-400"></i>
+                     <p>इमेज ड्रैग और ड्रॉप करें या <button id="browse-images" class="text-blue-600 hover:underline focus:outline-none">ब्राउज़ करें</button></p>
+                    <input type="file" id="image-input" accept="image/png, image/jpeg, image/gif, image/webp">
+                 </div>
+                 <p class="text-xs text-gray-500 mt-1 text-center">PNG, JPG, GIF, WEBP सपोर्ट करता है</p>
+            </div>
+
+            <!-- Highlight Tool Panel -->
+            <div id="highlight-tool-panel" class="tool-panel">
+                <label class="mb-1">हाइलाइट का रंग</label>
+                 <div class="color-grid mb-2">
+                     <div class="color-option selected" data-color="yellow" title="पीला" onclick="setCurrentHighlightProperty('color', 'yellow')"></div>
+                     <div class="color-option" data-color="green" title="हरा" onclick="setCurrentHighlightProperty('color', 'green')"></div>
+                     <div class="color-option" data-color="blue" title="नीला" onclick="setCurrentHighlightProperty('color', 'blue')"></div>
+                     <div class="color-option" data-color="pink" title="गुलाबी" onclick="setCurrentHighlightProperty('color', 'pink')"></div>
+                     <div class="color-option" data-color="purple" title="बैंगनी" onclick="setCurrentHighlightProperty('color', 'purple')"></div>
+                 </div>
+                 <label for="highlight-opacity">अपारदर्शिता (<span id="opacity-value">50</span>%)</label>
+                 <input type="range" id="highlight-opacity" min="10" max="80" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- How to Use Section (Improved with Icons) -->
+    <div class="container mx-auto px-6 py-8">
+         <div class="bg-white p-6 rounded-lg shadow-md">
+             <h2 class="text-2xl font-semibold text-gray-800 mb-4">PDF एडिटर का उपयोग कैसे करें</h2>
+             <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                 <li><i class="fas fa-file-upload text-blue-600 mx-1"></i> पर क्लिक करके अपनी PDF अपलोड करें, या इसे मुख्य क्षेत्र पर ड्रैग और ड्रॉप करें।</li>
+                 <li>बाएं टूलबार से एक टूल चुनें: <i class="fas fa-font text-blue-600 mx-1"></i> (टेक्स्ट), <i class="fas fa-signature text-blue-600 mx-1"></i> (हस्ताक्षर), <i class="fas fa-image text-blue-600 mx-1"></i> (इमेज), या <i class="fas fa-highlighter text-blue-600 mx-1"></i> (हाइलाइट एरिया)।</li>
+                 <li>टेक्स्ट, हस्ताक्षर, या इमेज जोड़ने के लिए PDF पेज पर क्लिक करें। हाइलाइट के लिए, वांछित क्षेत्र पर क्लिक करें और ड्रैग करें।</li>
+                 <li>गुणों (फॉन्ट, रंग, आकार, अपारदर्शिता, आदि) को कस्टमाइज़ करने के लिए फ्लोटिंग टूल पैनल का उपयोग करें।</li>
+                 <li>तत्वों को हिलाने के लिए क्लिक करें और ड्रैग करें। आकार बदलने के लिए कोने के हैंडल <span class="inline-block border border-blue-400 bg-white rounded-full w-3 h-3 cursor-nwse-resize -ml-1 -mb-1 relative" style="bottom:-2px; right:-2px;"></span> का उपयोग करें।</li>
+                 <li>किसी तत्व पर होवर करें और उसे हटाने के लिए लाल <span class="text-red-500 font-bold inline-block bg-white border border-red-300 rounded-full w-4 h-4 leading-tight text-center text-xs cursor-pointer">&times;</span> बटन पर क्लिक करें।</li>
+                 <li>शीर्ष-दाएं पेज सेलेक्टर का उपयोग करके पृष्ठों के बीच नेविगेट करें। <i class="fas fa-search-plus mx-1"></i> / <i class="fas fa-search-minus mx-1"></i> बटनों का उपयोग करके जूम करें।</li>
+                 <li>संपादन समाप्त होने पर, अपनी संपादित PDF को डाउनलोड करने के लिए नीले <i class="fas fa-save text-blue-600 mx-1"></i> बटन (नीचे-बाएं) पर क्लिक करें।</li>
+             </ol>
+         </div>
+     </div>
+
+     <!-- Ad Block -->
+    <div class="w-full max-w-4xl mx-auto my-8 text-center">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9273434855071552"
+             data-ad-slot="6257062799"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+    </div>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="bg-gray-700 text-gray-300 mt-12 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>आपके PDF कार्यों को सरल और सुरक्षित बनाने के लिए मुफ्त ऑनलाइन टूल।</p></div>
+                <div><h4 class="font-semibold mb-2 uppercase">त्वरित लिंक्स</h4><ul><li><a href="index.html" class="hover:text-white">होम</a></li><li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li><li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li><li><a href="contact.html" class="hover:text-white">संपर्क</a></li></ul></div>
+                <div><h4 class="font-semibold mb-2 uppercase">कानूनी</h4><ul><li><a href="privacy.html" class="hover:text-white">प्राइवेसी पॉलिसी</a></li><li><a href="terms.html" class="hover:text-white">सेवा की शर्तें</a></li></ul></div>
+            </div>
+            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</div>
+        </div>
+    </footer>
+
+    <script>
+        // PDF.js setup
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const { jsPDF } = window.jspdf; // Make jsPDF available
+
+        // --- Configuration ---
+        const COLOR_MAP = { black: '#000000', red: '#EF4444', blue: '#3B82F6', green: '#10B981', orange: '#F59E0B', purple: '#8B5CF6', gray: '#6B7280', white: '#ffffff' };
+        const HIGHLIGHT_COLOR_MAP = { yellow: 'rgba(253, 224, 71, ##OPACITY##)', green: 'rgba(75, 181, 67, ##OPACITY##)', blue: 'rgba(59, 130, 246, ##OPACITY##)', pink: 'rgba(236, 72, 153, ##OPACITY##)', purple: 'rgba(139, 92, 246, ##OPACITY##)' };
+        const DEFAULT_TEXT_PROPS = { fontFamily: 'Arial, sans-serif', fontSize: 14, color: 'black', bold: false, italic: false, underline: false };
+        const DEFAULT_HIGHLIGHT_PROPS = { color: 'yellow', opacity: 0.5 };
+        const SIGNATURE_FONTS = {
+            "Pacifico, cursive": "Pacifico", // Match display name to value used in CSS/JS
+            "'Dancing Script', cursive": "Dancing Script",
+            "'Brush Script MT', cursive": "Brush Script MT",
+            "'Lucida Handwriting', cursive": "Lucida Handwriting",
+            "Arial, sans-serif": "Arial"
+        };
+
+        // --- State Variables ---
+        let pdfDoc = null, pdfFilename = 'No PDF Loaded', pageNum = 1, pageRendering = false, pageNumPending = null, scale = 1.0, totalPages = 0;
+        let activeTool = null, annotations = [], selectedAnnotation = null, isDragging = false, isResizing = false, dragOffsetX = 0, dragOffsetY = 0, isDrawingHighlight = false, highlightStartX = 0, highlightStartY = 0, tempHighlightDiv = null;
+        let signaturePad = null;
+        let currentSignatureMode = 'draw'; // Default signature mode
+        let currentSignatureColor = 'black', currentTypedSignatureColor = 'black', currentSignatureFont = Object.keys(SIGNATURE_FONTS)[0]; // Default to first font
+        let currentTextProperties = { ...DEFAULT_TEXT_PROPS };
+        let currentHighlightProperties = { ...DEFAULT_HIGHLIGHT_PROPS };
+
+        // --- DOM Elements ---
+        const canvas = document.getElementById('pdf-canvas'), ctx = canvas.getContext('2d');
+        const pdfContainer = document.getElementById('pdf-container');
+        const pdfRender = document.getElementById('pdf-render');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pageSelect = document.getElementById('page-select');
+        const pageCountSpan = document.getElementById('page-count');
+        const zoomInBtn = document.getElementById('zoom-in');
+        const zoomOutBtn = document.getElementById('zoom-out');
+        const zoomLevelSpan = document.getElementById('zoom-level');
+        const saveBtn = document.getElementById('save-pdf');
+        const filenameTitle = document.getElementById('pdf-filename');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        // --- Core Functions (Define early) ---
+        function clearSelection() {
+            if (selectedAnnotation) {
+                selectedAnnotation.classList.remove('selected');
+                const deleteBtn = selectedAnnotation.querySelector('.delete-btn');
+                if(deleteBtn) deleteBtn.style.opacity = '0';
+                selectedAnnotation = null;
+                console.log("Selection cleared.");
+            }
+        }
+
+        function handlePageChange(event) {
+             const selectedPage = parseInt(event.target.value, 10);
+             if (!isNaN(selectedPage) && selectedPage !== pageNum && !pageRendering) {
+                 queueRenderPage(selectedPage);
+             }
+         }
+
+        // --- Text Tool Functions ---
+        function setupTextPanelListeners() {
+            const panel = document.getElementById('text-tool-panel');
+            if (!panel) { console.error("Text tool panel not found for listeners"); return; }
+            console.log("Setting up text panel listeners...");
+
+            // Font Family
+            panel.querySelectorAll('.font-option[data-font]').forEach(el => {
+                el.removeEventListener('click', handleFontFamilyClick); // Remove old listener if any
+                el.addEventListener('click', handleFontFamilyClick);
+            });
+
+            // Font Size
+            const sizeInput = panel.querySelector('#text-size');
+            if (sizeInput) {
+                sizeInput.removeEventListener('input', handleFontSizeInput);
+                sizeInput.addEventListener('input', handleFontSizeInput);
+            } else { console.warn("Text size input not found"); }
+
+            // Bold
+            const boldBtn = panel.querySelector('#bold-text');
+            if (boldBtn) {
+                boldBtn.removeEventListener('click', handleBoldClick);
+                boldBtn.addEventListener('click', handleBoldClick);
+            } else { console.warn("Bold button not found"); }
+
+            // Italic
+            const italicBtn = panel.querySelector('#italic-text');
+            if (italicBtn) {
+                italicBtn.removeEventListener('click', handleItalicClick);
+                italicBtn.addEventListener('click', handleItalicClick);
+            } else { console.warn("Italic button not found"); }
+
+            // Underline
+            const underlineBtn = panel.querySelector('#underline-text');
+            if (underlineBtn) {
+                underlineBtn.removeEventListener('click', handleUnderlineClick);
+                underlineBtn.addEventListener('click', handleUnderlineClick);
+            } else { console.warn("Underline button not found"); }
+
+            // Color
+            panel.querySelectorAll('.color-option[data-color]').forEach(el => {
+                el.removeEventListener('click', handleColorClick); // Use named function
+                el.addEventListener('click', handleColorClick);
+            });
+        }
+        // Event handler functions for text panel
+        function handleFontFamilyClick() {
+            setCurrentTextProperty('fontFamily', this.dataset.font);
+            document.querySelectorAll('#text-tool-panel .font-option').forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+        }
+        function handleFontSizeInput(e) { setCurrentTextProperty('fontSize', parseInt(e.target.value, 10) || 14); }
+        function handleBoldClick() { const newState = !currentTextProperties.bold; setCurrentTextProperty('bold', newState); this.classList.toggle('active', newState); }
+        function handleItalicClick() { const newState = !currentTextProperties.italic; setCurrentTextProperty('italic', newState); this.classList.toggle('active', newState); }
+        function handleUnderlineClick() { const newState = !currentTextProperties.underline; setCurrentTextProperty('underline', newState); this.classList.toggle('active', newState); }
+        function handleColorClick() {
+            const color = this.dataset.color;
+            setCurrentTextProperty('color', color);
+            document.querySelectorAll('#text-tool-panel .color-option').forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+        }
+
+        function updateTextPanelControls(properties) {
+            const panel = document.getElementById('text-tool-panel');
+            if (!panel || !properties) { console.warn("Cannot update text panel controls", panel, properties); return; }
+            console.log("Updating text panel controls with:", properties);
+
+            panel.querySelectorAll('.font-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.font === properties.fontFamily);
+            });
+            const sizeInput = panel.querySelector('#text-size');
+            if (sizeInput) sizeInput.value = properties.fontSize || 14;
+            panel.querySelector('#bold-text')?.classList.toggle('active', !!properties.bold);
+            panel.querySelector('#italic-text')?.classList.toggle('active', !!properties.italic);
+            panel.querySelector('#underline-text')?.classList.toggle('active', !!properties.underline);
+            panel.querySelectorAll('.color-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.color === properties.color);
+            });
+        }
+
+        function setCurrentTextProperty(prop, value) {
+            currentTextProperties[prop] = value;
+            console.log(`Set currentTextProperty: ${prop} = ${value}`);
+            if (selectedAnnotation && selectedAnnotation.dataset.type === 'text') {
+                applyAnnotationProperties(selectedAnnotation, currentTextProperties);
+                updateAnnotationData(selectedAnnotation); // Update stored data too
+            }
+        }
+
+        // --- Signature Tool Functions ---
+        function setupSignaturePanelListeners() {
+            console.log("Setting up signature panel listeners");
+            const panel = document.getElementById('signature-tool-panel');
+            if (!panel) return;
+
+            // Mode switching buttons
+            const drawBtn = panel.querySelector('#draw-signature');
+            const typeBtn = panel.querySelector('#type-signature');
+            const initialsBtn = panel.querySelector('#initials-btn');
+
+            if (drawBtn) drawBtn.addEventListener('click', () => switchSignatureMode(drawBtn, 'draw'));
+            if (typeBtn) typeBtn.addEventListener('click', () => switchSignatureMode(typeBtn, 'type'));
+            if (initialsBtn) initialsBtn.addEventListener('click', () => switchSignatureMode(initialsBtn, 'initials'));
+
+            // Clear and save buttons
+            const clearBtn = panel.querySelector('#clear-signature');
+            const saveBtn = panel.querySelector('#save-signature');
+
+            if (clearBtn) clearBtn.addEventListener('click', clearSignature);
+            if (saveBtn) saveBtn.addEventListener('click', addSignatureToPDF);
+
+            // Font select
+            const fontSelect = panel.querySelector('#signature-font');
+            if (fontSelect) fontSelect.addEventListener('change', () => setTypedSignatureFont(fontSelect.value));
+
+            // Text inputs
+            const signatureText = panel.querySelector('#signature-text');
+            const initialsText = panel.querySelector('#initials-text');
+
+            if (signatureText) signatureText.addEventListener('input', () => previewTypedSignature(signatureText.value, 'signature'));
+            if (initialsText) initialsText.addEventListener('input', () => previewTypedSignature(initialsText.value, 'initials'));
+
+            // Color options
+            panel.querySelectorAll('#signature-draw-container .color-option').forEach(el => {
+                el.addEventListener('click', () => setSignatureColor(el.dataset.color));
+            });
+
+            panel.querySelectorAll('#signature-type-container .color-option').forEach(el => {
+                el.addEventListener('click', () => setTypedSignatureColor(el.dataset.color));
+            });
+        }
+
+        function switchSignatureMode(button, mode) {
+            console.log(`Switching signature mode to: ${mode}`);
+            const panel = document.getElementById('signature-tool-panel');
+            if (!panel) return;
+
+            // Reset all buttons
+            panel.querySelectorAll('button').forEach(btn => {
+                if (btn.id === 'draw-signature' || btn.id === 'type-signature' || btn.id === 'initials-btn') {
+                    btn.classList.remove('bg-blue-600', 'text-white');
+                    btn.classList.add('bg-gray-100', 'border', 'border-gray-300');
+                }
+            });
+
+            // Highlight the selected button
+            button.classList.remove('bg-gray-100', 'border', 'border-gray-300');
+            button.classList.add('bg-blue-600', 'text-white');
+
+            // Show/hide appropriate containers
+            const drawContainer = panel.querySelector('#signature-draw-container');
+            const typeContainer = panel.querySelector('#signature-type-container');
+            const signatureInput = panel.querySelector('#signature-text');
+            const initialsInput = panel.querySelector('#initials-text');
+
+            if (mode === 'draw') {
+                if (drawContainer) drawContainer.classList.remove('hidden');
+                if (typeContainer) typeContainer.classList.add('hidden');
+                currentSignatureMode = 'draw';
+                resizeSignatureCanvas();
+            } else {
+                if (drawContainer) drawContainer.classList.add('hidden');
+                if (typeContainer) typeContainer.classList.remove('hidden');
+                currentSignatureMode = mode;
+
+                // Focus the appropriate input
+                if (mode === 'type' && signatureInput) {
+                    signatureInput.classList.remove('hidden');
+                    if (initialsInput) initialsInput.classList.add('hidden');
+                    signatureInput.focus();
+                } else if (mode === 'initials' && initialsInput) {
+                    initialsInput.classList.remove('hidden');
+                    if (signatureInput) signatureInput.classList.add('hidden');
+                    initialsInput.focus();
+                }
+            }
+        }
+
+        function clearSignature() {
+            console.log('Clearing signature');
+            if (signaturePad) signaturePad.clear();
+            const signatureText = document.getElementById('signature-text');
+            const initialsText = document.getElementById('initials-text');
+            if (signatureText) signatureText.value = '';
+            if (initialsText) initialsText.value = '';
+        }
+
+        function addSignatureToPDF() {
+            console.log('Adding signature to PDF');
+            let signatureImage = '';
+
+            if (currentSignatureMode === 'draw') {
+                if (signaturePad && !signaturePad.isEmpty()) {
+                    signatureImage = signaturePad.toDataURL('image/png');
+                } else {
+                    alert('Please draw your signature first.');
+                    return;
+                }
+            } else if (currentSignatureMode === 'type') {
+                const text = document.getElementById('signature-text').value.trim();
+                if (!text) {
+                    alert('Please type your signature first.');
+                    return;
+                }
+                signatureImage = createTextSignatureImage(text, 'signature');
+            } else if (currentSignatureMode === 'initials') {
+                const text = document.getElementById('initials-text').value.trim();
+                if (!text) {
+                    alert('Please type your initials first.');
+                    return;
+                }
+                signatureImage = createTextSignatureImage(text, 'initials');
+            }
+
+            if (signatureImage) {
+                // Calculate position (center of the viewport)
+                const viewerRect = pdfViewer.getBoundingClientRect();
+                const canvasRect = canvas.getBoundingClientRect();
+
+                const x = (viewerRect.width / 2) - 75 + pdfViewer.scrollLeft; // 75 = half of default width
+                const y = (viewerRect.height / 2) - 40 + pdfViewer.scrollTop; // 40 = approximate half height
+
+                addAnnotation(x, y, 150, 80, 'signature', signatureImage);
+                setActiveTool(null); // Deactivate tool after adding
+            }
+        }
+
+        function createTextSignatureImage(text, type) {
+            // Create a canvas to render the text signature
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            canvas.width = 400;
+            canvas.height = type === 'signature' ? 150 : 100;
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Set text properties
+            ctx.font = `${type === 'signature' ? '48px' : '36px'} ${currentSignatureFont}`;
+            ctx.fillStyle = currentSignatureColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Draw text
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            // Return as data URL
+            return canvas.toDataURL('image/png');
+        }
+
+        function setTypedSignatureFont(font) {
+            console.log(`Setting typed signature font to: ${font}`);
+            currentSignatureFont = font;
+
+            // Update preview if text exists
+            const signatureText = document.getElementById('signature-text');
+            const initialsText = document.getElementById('initials-text');
+
+            if (currentSignatureMode === 'type' && signatureText && signatureText.value) {
+                previewTypedSignature(signatureText.value, 'signature');
+            } else if (currentSignatureMode === 'initials' && initialsText && initialsText.value) {
+                previewTypedSignature(initialsText.value, 'initials');
+            }
+        }
+
+        function previewTypedSignature(text, type) {
+            console.log(`Previewing typed ${type}: ${text}`);
+            // In a full implementation, this would show a preview of the typed signature
+            // For now, we'll just log it
+        }
+
+        function setSignatureColor(color) {
+            console.log(`Setting signature color to: ${color}`);
+            if (!signaturePad) return;
+
+            // Update color options UI
+            const container = document.getElementById('signature-draw-container');
+            if (container) {
+                container.querySelectorAll('.color-option').forEach(el => {
+                    el.classList.toggle('selected', el.dataset.color === color);
+                });
+            }
+
+            // Set the pen color
+            signaturePad.penColor = COLOR_MAP[color] || COLOR_MAP.black;
+        }
+
+        function setTypedSignatureColor(color) {
+            console.log(`Setting typed signature color to: ${color}`);
+            currentSignatureColor = COLOR_MAP[color] || COLOR_MAP.black;
+
+            // Update color options UI
+            const container = document.getElementById('signature-type-container');
+            if (container) {
+                container.querySelectorAll('.color-option').forEach(el => {
+                    el.classList.toggle('selected', el.dataset.color === color);
+                });
+            }
+
+            // Update preview if text exists
+            const signatureText = document.getElementById('signature-text');
+            const initialsText = document.getElementById('initials-text');
+
+            if (currentSignatureMode === 'type' && signatureText && signatureText.value) {
+                previewTypedSignature(signatureText.value, 'signature');
+            } else if (currentSignatureMode === 'initials' && initialsText && initialsText.value) {
+                previewTypedSignature(initialsText.value, 'initials');
+            }
+        }
+
+
+        // --- Other Tool Panel Functions ---
+        function setupImagePanelListeners() {
+            console.log("Setting up image panel listeners");
+            const panel = document.getElementById('image-tool-panel');
+            if (!panel) {
+                console.error("Image tool panel not found");
+                return;
+            }
+
+            const dropZone = panel.querySelector('#image-drop-zone');
+            const browseBtn = panel.querySelector('#browse-images');
+            const imageInput = panel.querySelector('#image-input');
+
+            console.log("Image panel elements:", { dropZone, browseBtn, imageInput });
+
+            if (dropZone) {
+                // Prevent default behaviors for all drag events
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log(`Image dropzone ${eventName} event`);
+                    });
+                });
+
+                // Add highlight class on drag enter/over
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => {
+                        console.log('Adding highlight to dropzone');
+                        dropZone.classList.add('border-blue-500', 'bg-blue-50');
+                    });
+                });
+
+                // Remove highlight class on drag leave/drop
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => {
+                        console.log('Removing highlight from dropzone');
+                        dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+                    });
+                });
+
+                // Handle the drop event
+                dropZone.addEventListener('drop', (e) => {
+                    console.log('Drop event on image dropzone');
+                    handleImageDrop(e);
+                });
+
+                // Also add click handler to the entire drop zone
+                dropZone.addEventListener('click', () => {
+                    console.log('Dropzone clicked, triggering file input');
+                    if (imageInput) imageInput.click();
+                });
+            }
+
+            if (browseBtn) {
+                browseBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Prevent default button behavior
+                    e.stopPropagation(); // Prevent event bubbling
+                    console.log('Browse button clicked');
+                    if (imageInput) imageInput.click();
+                });
+            }
+
+            if (imageInput) {
+                imageInput.addEventListener('change', (e) => {
+                    console.log('Image input change event');
+                    handleImageFileSelect(e);
+                });
+            }
+        }
+
+        function setupHighlightPanelListeners() {
+            console.log("Setting up highlight panel listeners");
+            const panel = document.getElementById('highlight-tool-panel');
+            if (!panel) return;
+
+            // Color options
+            panel.querySelectorAll('.color-option').forEach(el => {
+                el.addEventListener('click', function() {
+                    const color = this.dataset.color;
+                    setCurrentHighlightProperty('color', color);
+                    panel.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Opacity slider
+            const opacitySlider = panel.querySelector('#highlight-opacity');
+            const opacityValue = panel.querySelector('#opacity-value');
+
+            if (opacitySlider && opacityValue) {
+                opacitySlider.addEventListener('input', function() {
+                    const value = this.value;
+                    opacityValue.textContent = value;
+                    setCurrentHighlightProperty('opacity', value / 100);
+                });
+            }
+        }
+
+        function updateHighlightPanelControls(properties) {
+            console.log("Updating highlight panel controls", properties);
+            const panel = document.getElementById('highlight-tool-panel');
+            if (!panel || !properties) return;
+
+            // Update color selection
+            panel.querySelectorAll('.color-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.color === properties.color);
+            });
+
+            // Update opacity slider
+            const opacitySlider = panel.querySelector('#highlight-opacity');
+            const opacityValue = panel.querySelector('#opacity-value');
+
+            if (opacitySlider && opacityValue && properties.opacity) {
+                const opacityPercent = Math.round(properties.opacity * 100);
+                opacitySlider.value = opacityPercent;
+                opacityValue.textContent = opacityPercent;
+            }
+        }
+
+        function setCurrentHighlightProperty(prop, value) {
+            console.log(`Setting highlight property: ${prop}=${value}`);
+            currentHighlightProperties[prop] = value;
+
+            if (selectedAnnotation && selectedAnnotation.dataset.type === 'highlight') {
+                applyAnnotationProperties(selectedAnnotation, currentHighlightProperties);
+                updateAnnotationData(selectedAnnotation);
+            }
+        }
+
+        function handleImageFileSelect(event) {
+            console.log('Image file selected');
+            const file = event.target.files[0];
+            if (!file) {
+                console.warn('No file selected');
+                return;
+            }
+
+            console.log('Selected file:', file.name, file.type, file.size);
+
+            if (!file.type.match('image.*')) {
+                alert('Please select an image file (PNG, JPG, GIF, WEBP).');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                console.log('FileReader onload event');
+                addImageToPDF(e.target.result);
+            };
+            reader.onerror = function(e) {
+                console.error('FileReader error:', e);
+                alert('Error reading the image file. Please try another file.');
+            };
+
+            console.log('Starting to read file as data URL');
+            reader.readAsDataURL(file);
+
+            // Reset the file input so the same file can be selected again
+            event.target.value = '';
+        }
+
+        function handleImageDrop(event) {
+            console.log('Image dropped');
+
+            const dt = event.dataTransfer;
+            if (!dt || !dt.files || dt.files.length === 0) {
+                console.warn('No files in drop event');
+                return;
+            }
+
+            const file = dt.files[0];
+            console.log('Dropped file:', file.name, file.type, file.size);
+
+            if (file.type.match('image.*')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    console.log('FileReader onload event for dropped file');
+                    addImageToPDF(e.target.result);
+                };
+                reader.onerror = function(e) {
+                    console.error('FileReader error for dropped file:', e);
+                    alert('Error reading the dropped image. Please try another file.');
+                };
+
+                console.log('Starting to read dropped file as data URL');
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please drop an image file (PNG, JPG, GIF, WEBP).');
+            }
+        }
+
+        function addImageToPDF(imageDataUrl) {
+            console.log('Adding image to PDF');
+            if (!imageDataUrl) {
+                console.error('No image data URL provided');
+                return;
+            }
+
+            if (!pdfDoc) {
+                alert('Please upload a PDF document first.');
+                return;
+            }
+
+            // Create an Image object to get the dimensions
+            const img = new Image();
+            img.onload = function() {
+                console.log('Image loaded, dimensions:', img.width, 'x', img.height);
+
+                // Calculate position (center of the viewport)
+                const viewerRect = pdfViewer.getBoundingClientRect();
+
+                // Calculate a reasonable size based on the image dimensions
+                // while maintaining aspect ratio
+                const maxWidth = 300; // Maximum width for the image
+                const maxHeight = 300; // Maximum height for the image
+
+                let width = img.width;
+                let height = img.height;
+
+                // Scale down if necessary while maintaining aspect ratio
+                if (width > maxWidth) {
+                    const ratio = maxWidth / width;
+                    width = maxWidth;
+                    height = height * ratio;
+                }
+
+                if (height > maxHeight) {
+                    const ratio = maxHeight / height;
+                    height = maxHeight;
+                    width = width * ratio;
+                }
+
+                // Center the image in the viewport
+                const x = (viewerRect.width / 2) - (width / 2) + pdfViewer.scrollLeft;
+                const y = (viewerRect.height / 2) - (height / 2) + pdfViewer.scrollTop;
+
+                console.log('Adding image annotation at:', x, y, 'with size:', width, 'x', height);
+                addAnnotation(x, y, width, height, 'image', imageDataUrl);
+                setActiveTool(null); // Deactivate tool after adding
+            };
+
+            img.onerror = function() {
+                console.error('Error loading image');
+                alert('Error loading the image. Please try another file.');
+            };
+
+            img.src = imageDataUrl;
+        }
+
+        // --- Annotation Management Functions ---
+        function applyAnnotationProperties(annotationDiv, properties) {
+             console.log('applyAnnotationProperties start:', annotationDiv?.id, properties); // Log start
+             if (!annotationDiv || !properties) return;
+             const type = annotationDiv.dataset.type;
+             if (type === 'text') {
+                 const textEl = annotationDiv.querySelector('.editable-text');
+                 if (textEl) {
+                     textEl.style.fontFamily = properties.fontFamily || DEFAULT_TEXT_PROPS.fontFamily;
+                     textEl.style.fontSize = (properties.fontSize || DEFAULT_TEXT_PROPS.fontSize) + 'px';
+                     textEl.style.color = COLOR_MAP[properties.color || DEFAULT_TEXT_PROPS.color] || COLOR_MAP.black;
+                     textEl.style.fontWeight = properties.bold ? 'bold' : 'normal';
+                     textEl.style.fontStyle = properties.italic ? 'italic' : 'normal';
+                     textEl.style.textDecoration = properties.underline ? 'underline' : 'none';
+                     annotationDiv.style.height = 'auto'; // Let height adjust
+                 }
+             } else if (type === 'highlight') {
+                 const color = properties.color || DEFAULT_HIGHLIGHT_PROPS.color;
+                 const opacity = properties.opacity || DEFAULT_HIGHLIGHT_PROPS.opacity;
+                 annotationDiv.style.backgroundColor = HIGHLIGHT_COLOR_MAP[color]?.replace('##OPACITY##', opacity) || 'rgba(255, 255, 0, 0.5)';
+             } // Add image/signature cases if needed
+             console.log('applyAnnotationProperties end:', annotationDiv?.id); // Log end
+         }
+
+        function selectAnnotation(annotationDiv) {
+             console.log('selectAnnotation start:', annotationDiv?.id); // Log start
+             clearSelection(); // Deselect previous
+             selectedAnnotation = annotationDiv;
+             if (!selectedAnnotation) return;
+             selectedAnnotation.classList.add('selected');
+             // Update panels based on selected type
+             const type = selectedAnnotation.dataset.type;
+             const data = annotations.find(a => a.id === selectedAnnotation.id);
+             if (data) {
+                 if (type === 'text') {
+                     currentTextProperties = { ...(data.properties || DEFAULT_TEXT_PROPS) }; // Load its properties
+                     updateTextPanelControls(currentTextProperties);
+                     setActiveTool('text'); // Show text panel
+                 } else if (type === 'highlight') {
+                     currentHighlightProperties = { ...(data.properties || DEFAULT_HIGHLIGHT_PROPS) };
+                     updateHighlightPanelControls(currentHighlightProperties);
+                     setActiveTool('highlight');
+                 } else { // Image or Signature
+                     setActiveTool(null); // Hide panels for image/signature for now
+                 }
+             }
+             console.log('selectAnnotation end:', annotationDiv?.id); // Log end
+         }
+        function updateAnnotationData(annotationDiv) {
+             if (!annotationDiv || !annotationDiv.id) return;
+             const index = annotations.findIndex(a => a.id === annotationDiv.id);
+             if (index > -1) {
+                 const data = annotations[index];
+                 data.x = parseFloat(annotationDiv.style.left);
+                 data.y = parseFloat(annotationDiv.style.top);
+                 data.width = annotationDiv.offsetWidth;
+                 data.height = annotationDiv.offsetHeight;
+                 if (data.type === 'text') {
+                     data.content = annotationDiv.querySelector('.editable-text')?.innerText || '';
+                     data.properties = { ...currentTextProperties }; // Save current text props
+                 } else if (data.type === 'highlight') {
+                     data.properties = { ...currentHighlightProperties };
+                 }
+                 // Add cases for image/signature if needed
+                 console.log('Updated annotation data:', data);
+             }
+         }
+        function deleteAnnotation(id) {
+             console.log(`Deleting annotation: ${id}`);
+             const index = annotations.findIndex(a => a.id === id);
+             if (index > -1) {
+                 annotations.splice(index, 1);
+                 document.getElementById(id)?.remove();
+                 clearSelection(); // Deselect after deleting
+             }
+         }
+        function redrawAnnotations() {
+             console.log('Redrawing annotations for page', pageNum);
+             pdfContainer.querySelectorAll('.annotation').forEach(el => el.remove()); // Clear existing DOM elements
+             annotations.forEach(annotationData => {
+                 if (annotationData.page === pageNum) {
+                     createAnnotationElement(annotationData); // Need this function defined
+                 }
+             });
+         }
+        function updateZoom(delta) {
+             console.log(`Updating zoom by: ${delta}`);
+             scale = Math.max(0.25, Math.min(scale + delta, 3.0));
+             if(pdfDoc) {
+                 queueRenderPage(pageNum); // Re-render the page with new scale
+             }
+         }
+
+        function createAnnotationElement(annotationData) {
+             if (!annotationData || !annotationData.id) { console.error("Invalid annotation data for element creation", annotationData); return null; }
+             console.log("Creating element for:", annotationData.id);
+             const annotationDiv = document.createElement('div');
+             annotationDiv.id = annotationData.id;
+             annotationDiv.className = 'annotation';
+             annotationDiv.dataset.type = annotationData.type;
+             annotationDiv.style.left = annotationData.x + 'px';
+             annotationDiv.style.top = annotationData.y + 'px';
+             annotationDiv.style.width = annotationData.width + 'px';
+             annotationDiv.style.height = annotationData.height === 'auto' ? 'auto' : annotationData.height + 'px';
+             annotationDiv.style.zIndex = '5';
+
+             const deleteBtn = document.createElement('button');
+             deleteBtn.className = 'delete-btn';
+             deleteBtn.innerHTML = '&times;';
+             deleteBtn.title = 'Delete';
+             deleteBtn.onclick = (e) => { e.stopPropagation(); deleteAnnotation(annotationData.id); };
+             annotationDiv.appendChild(deleteBtn);
+
+             switch (annotationData.type) {
+                 case 'text':
+                     annotationDiv.style.resize = 'both';
+                     const textDiv = document.createElement('div');
+                     textDiv.className = 'editable-text';
+                     textDiv.contentEditable = 'true';
+                     textDiv.innerText = annotationData.content || '';
+                     textDiv.style.lineHeight = '1.2';
+                     textDiv.addEventListener('input', () => updateAnnotationData(annotationDiv));
+                     textDiv.addEventListener('focus', () => selectAnnotation(annotationDiv));
+                     annotationDiv.appendChild(textDiv);
+                     applyAnnotationProperties(annotationDiv, annotationData.properties || DEFAULT_TEXT_PROPS);
+                     if(annotationData.height === 'auto') annotationDiv.style.height = 'auto'; // Ensure auto height is set
+                     break;
+                 case 'highlight':
+                     annotationDiv.style.resize = 'both';
+                     annotationDiv.style.pointerEvents = 'auto';
+                     applyAnnotationProperties(annotationDiv, annotationData.properties || DEFAULT_HIGHLIGHT_PROPS);
+                     break;
+                 case 'image':
+                 case 'signature':
+                     annotationDiv.style.resize = 'both';
+                     const img = document.createElement('img');
+                     img.src = annotationData.content;
+                     img.style.width = '100%';
+                     img.style.height = '100%';
+                     img.style.objectFit = 'contain';
+                     img.style.pointerEvents = 'none';
+                     annotationDiv.appendChild(img);
+                     break;
+             }
+             pdfContainer.appendChild(annotationDiv);
+             return annotationDiv;
+         }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM Content Loaded - Initializing"); // Debug log
+
+            // --- Get elements and attach critical upload listener FIRST ---
+            const uploadBtn = document.getElementById('upload-btn');
+            const fileInput = document.getElementById('file-input');
+            if (uploadBtn && fileInput) {
+                uploadBtn.addEventListener('click', () => {
+                    console.log("Upload button clicked via listener"); // Debug log
+                    fileInput.click();
+                });
+                console.log("Upload button listener attached EARLY."); // Debug log
+            } else {
+                console.error("Upload button or file input element not found!");
+            }
+            if(fileInput) {
+               fileInput.addEventListener('change', handleFileSelect);
+               console.log("File input change listener attached EARLY."); // Debug log
+            } else {
+                console.error("File input element not found for change listener!");
+            }
+            // --- End critical upload listener setup ---
+
+            populateFontOptions();
+            initializeSignaturePad();
+            window.addEventListener('resize', () => {
+                 resizeSignatureCanvas();
+                 if (pdfDoc) queueRenderPage(pageNum);
+            });
+            renderBlankCanvas();
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Setup the rest of the listeners
+            setupEventListeners(); // This function will now exclude upload listeners
+
+            // Load Google Fonts
+             WebFont.load({
+                 google: { families: ['Pacifico', 'Dancing Script'] }
+             });
+             console.log("DOM Init complete, Font loading started."); // Debug log
+        });
+
+
+        function populateFontOptions() {
+             const textFontSelect = document.getElementById('text-font-family'); // Assuming you add an ID to text font container/select
+             const sigFontSelect = document.getElementById('signature-font');
+
+            // Populate Signature Font Select
+             if(sigFontSelect) {
+                 sigFontSelect.innerHTML = ''; // Clear existing
+                 Object.entries(SIGNATURE_FONTS).forEach(([fontValue, fontName]) => {
+                    const option = document.createElement('option');
+                     option.value = fontValue;
+                     option.textContent = fontName;
+                     option.style.fontFamily = fontValue;
+                     sigFontSelect.appendChild(option);
+                 });
+                sigFontSelect.value = currentSignatureFont; // Set initial value
+            }
+
+             // Populate Text Font Div (Example - adjust if using select)
+             const textFontContainer = document.getElementById('text-tool-panel')?.querySelector('.font-options-container'); // Add a container div if using divs
+            if (textFontContainer) {
+                textFontContainer.innerHTML = '';
+                 // Add similar logic to create font option divs/options as needed
+                 // Example for the current div structure:
+                 ['Arial, sans-serif', "'Times New Roman', Times, serif", "'Courier New', Courier, monospace", "Verdana, sans-serif", "Georgia, serif", "'Comic Sans MS', cursive, sans-serif"].forEach(font => {
+                    const div = document.createElement('div');
+                    div.className = 'font-option';
+                    div.style.fontFamily = font;
+                    div.dataset.font = font;
+                     div.textContent = font.split(',')[0].replace(/['"]/g, ''); // Simple display name
+                    if(font === DEFAULT_TEXT_PROPS.fontFamily) div.classList.add('selected');
+                     div.onclick = function() { setCurrentTextProperty('fontFamily', this.dataset.font); };
+                     textFontContainer.appendChild(div);
+                 });
+             }
+        }
+
+
+        function initializeSignaturePad() {
+             const signatureCanvas = document.getElementById('signature-pad');
+             if (!signatureCanvas) { console.warn("Signature pad canvas element not found."); return; }
+             try {
+                signaturePad = new SignaturePad(signatureCanvas, {
+                     backgroundColor: 'rgba(255, 255, 255, 0)',
+                     penColor: COLOR_MAP[currentSignatureColor] || COLOR_MAP.black
+                 });
+                 resizeSignatureCanvas();
+             } catch(e) {
+                 console.error("Error initializing SignaturePad:", e);
+                 document.getElementById('draw-signature')?.classList.add('hidden'); // Hide draw option if error
+                 switchSignatureMode(document.getElementById('type-signature'), 'type'); // Default to type mode
+            }
+         }
+
+        function resizeSignatureCanvas() {
+             if (!signaturePad || !signaturePad.canvas) return;
+             const canvasEl = signaturePad.canvas;
+             if (!canvasEl.offsetParent || canvasEl.offsetWidth === 0) return;
+             const ratio = Math.max(window.devicePixelRatio || 1, 1);
+             canvasEl.width = canvasEl.offsetWidth * ratio;
+             canvasEl.height = canvasEl.offsetHeight * ratio;
+             canvasEl.getContext('2d').scale(ratio, ratio);
+             const data = signaturePad.toData(); // Save existing signature data
+             signaturePad.clear(); // Need to clear before applying data
+            if(data) signaturePad.fromData(data); // Redraw signature
+         }
+
+
+        // --- Event Listeners Setup ---
+        function setupEventListeners() {
+             // Toolbar Buttons (Upload listener is attached earlier in DOMContentLoaded)
+             document.getElementById('text-tool').addEventListener('click', () => setActiveTool('text'));
+             document.getElementById('signature-tool').addEventListener('click', () => setActiveTool('signature'));
+             document.getElementById('image-tool').addEventListener('click', () => setActiveTool('image'));
+             document.getElementById('highlight-tool').addEventListener('click', () => setActiveTool('highlight'));
+             // Ensure saveBtn is defined or retrieved here if not global
+             const saveBtn = document.getElementById('save-pdf'); // Assuming saveBtn might not be global
+             if(saveBtn) {
+                saveBtn.addEventListener('click', savePDF);
+             } else {
+                 console.error("Save button not found!");
+             }
+
+            // Top Bar Controls
+             pageSelect.addEventListener('change', handlePageChange);
+             zoomInBtn.addEventListener('click', () => updateZoom(0.25));
+             zoomOutBtn.addEventListener('click', () => updateZoom(-0.25));
+
+             // PDF Viewer Interaction (Main Listener)
+             pdfContainer.addEventListener('mousedown', handleContainerMouseDown); // Attach to container to capture all clicks inside
+             // Move and Up listeners on the window/document for better capture during drag
+             window.addEventListener('mousemove', handleWindowMouseMove);
+             window.addEventListener('mouseup', handleWindowMouseUp);
+
+             // Tool Panel Specific Listeners
+             // Calls moved to after function definitions
+             setupTextPanelListeners();
+             setupSignaturePanelListeners();
+             setupImagePanelListeners();
+             setupHighlightPanelListeners();
+
+            // Global Deselection (Improved)
+             document.addEventListener('click', (e) => {
+                 // Only deselect if the click is truly outside relevant elements
+                 const isOutsideAnnotation = !e.target.closest('.annotation');
+                 const isOutsidePanel = !e.target.closest('.tool-panel');
+                 const isOutsideToolbar = !e.target.closest('.w-16.bg-white'); // Check if click is not on toolbar
+                 const isOutsideTopBar = !e.target.closest('.bg-white.shadow-sm'); // Check if not on top bar controls
+
+                 if (selectedAnnotation && isOutsideAnnotation && isOutsidePanel && isOutsideToolbar && isOutsideTopBar) {
+                    clearSelection();
+                 }
+             });
+
+            // Keyboard Delete
+             document.addEventListener('keydown', (e) => {
+                // Check if focus is not in an input/textarea/contenteditable
+                 const activeEl = document.activeElement;
+                 const isInputFocused = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable);
+
+                if ((e.key === 'Delete' || e.key === 'Backspace') && selectedAnnotation && !isInputFocused) {
+                     deleteAnnotation(selectedAnnotation.id);
+                     e.preventDefault(); // Prevent browser back navigation on Backspace
+                }
+             });
+         }
+
+        // --- PDF Loading & Rendering --- (Largely unchanged, add Spinner calls)
+        function showSpinner() { if(loadingSpinner) loadingSpinner.classList.remove('hidden'); }
+        function hideSpinner() { if(loadingSpinner) loadingSpinner.classList.add('hidden'); }
+
+        function handleFileSelect(event) {
+             const file = event.target.files[0];
+             if (file && file.type === 'application/pdf') {
+                 pdfFilename = file.name; filenameTitle.textContent = pdfFilename; filenameTitle.title = pdfFilename; // Update title
+                 showSpinner();
+                 const reader = new FileReader();
+                 reader.onload = (e) => loadPDF(new Uint8Array(e.target.result));
+                 reader.onerror = () => { alert('Error reading file.'); hideSpinner(); resetToBlank();}
+                 reader.readAsArrayBuffer(file);
+             } else if (file) { alert('Please select a valid PDF file.'); }
+             event.target.value = null; // Reset input
+         }
+
+         function loadPDF(data) {
+            const loadingTask = pdfjsLib.getDocument({ data: data, cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/', cMapPacked: true }); // Add cMaps for better text
+            loadingTask.promise.then(pdf => {
+                pdfDoc = pdf;
+                totalPages = pdf.numPages;
+                 updatePageSelect();
+                 pageNum = 1; scale = 1.0; // Reset scale
+                 zoomLevelSpan.textContent = '100%';
+                 resetEditorState(); // Clear previous annotations etc.
+                enableControls();
+                 queueRenderPage(1); // Start rendering page 1
+             }).catch(error => {
+                console.error('Detailed PDF Loading Error:', error); // Log the full error object
+                let errorMsg = 'Error loading PDF.';
+                 if (error && error.name === 'PasswordException') { // Check if error exists
+                     errorMsg = 'PDF is password-protected. Please provide an unprotected file.';
+                 } else if (error && error.message) { // Use specific message if available
+                     // Avoid overly technical messages if possible, but show something more specific
+                     if (error.message.includes('Invalid PDF structure')) {
+                         errorMsg = 'Could not load PDF: Invalid PDF structure detected.';
+                     } else if (error.message.includes('Missing PDF')) {
+                          errorMsg = 'Could not load PDF: File seems incomplete or missing data.';
+                     } else {
+                         errorMsg = `Could not load PDF: ${error.message}`; // Fallback to raw message
+                     }
+                 } else {
+                     errorMsg = 'Could not load PDF. The file might be corrupted or invalid (Unknown reason).'; // Generic fallback
+                 }
+                 alert(errorMsg);
+                 resetToBlank();
+                 hideSpinner();
+             });
+         }
+
+         function queueRenderPage(num) {
+            if (pageRendering) { pageNumPending = num; } else { renderPage(num); }
+         }
+
+        function renderPage(num) {
+             if (!pdfDoc || num < 1 || num > totalPages) { console.warn(`Invalid page number requested: ${num}`); return;}
+             pageRendering = true; pageNum = num;
+             showSpinner();
+             pageSelect.value = num; // Ensure dropdown matches
+
+            pdfDoc.getPage(num).then(page => {
+                 const desiredWidth = pdfViewer.offsetWidth * 0.95; // Target 95% of viewer width initially
+                let initialViewport = page.getViewport({ scale: 1.0 });
+                 scale = desiredWidth / initialViewport.width; // Calculate scale to fit width
+                scale = Math.min(scale, 2.0); // Limit max initial scale
+                 scale = Math.max(0.25, scale); // Limit min initial scale
+                 zoomLevelSpan.textContent = `${Math.round(scale * 100)}%`; // Update zoom display
+
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height; canvas.width = viewport.width;
+                pdfRender.style.width = viewport.width + 'px'; pdfRender.style.height = viewport.height + 'px';
+
+                const renderContext = { canvasContext: ctx, viewport: viewport, /* enhanceTextSelection: true // For future text selection */ };
+                 return page.render(renderContext).promise;
+             }).then(() => {
+                 pageRendering = false;
+                 hideSpinner();
+                 if (pageNumPending !== null) { const pending = pageNumPending; pageNumPending = null; renderPage(pending); }
+                 else { redrawAnnotations(); } // Redraw only when current render finishes
+             }).catch(err => {
+                console.error("Error rendering page:", err);
+                 pageRendering = false; hideSpinner();
+             });
+         }
+
+
+        function renderBlankCanvas() {
+             canvas.width = pdfViewer.offsetWidth * 0.8 || 600; // Default size based on viewer
+            canvas.height = canvas.width * 1.414 || 840; // Approx A4 ratio
+            pdfRender.style.width = canvas.width + 'px'; pdfRender.style.height = canvas.height + 'px';
+
+             ctx.fillStyle = '#f9fafb'; // Light gray bg
+             ctx.fillRect(0, 0, canvas.width, canvas.height);
+             ctx.fillStyle = '#6b7280'; // Gray text
+             ctx.font = '20px Arial'; ctx.textAlign = 'center';
+             ctx.fillText('Upload or Drop a PDF to Start', canvas.width / 2, canvas.height / 2 - 20);
+             ctx.font = '14px Arial';
+             ctx.fillText('(Use the button or drag & drop file here)', canvas.width / 2, canvas.height / 2 + 10);
+         }
+
+        // Reset state *without* clearing the canvas immediately
+        function resetEditorState() {
+             annotations = [];
+             clearSelection();
+             setActiveTool(null);
+             pdfContainer.querySelectorAll('.annotation').forEach(el => el.remove());
+             if (signaturePad) signaturePad.clear();
+             document.getElementById('signature-text').value = '';
+             document.getElementById('initials-text').value = '';
+             // Reset tool panel values if needed (optional)
+             currentTextProperties = { ...DEFAULT_TEXT_PROPS };
+             currentHighlightProperties = { ...DEFAULT_HIGHLIGHT_PROPS };
+             // Calls moved to after function definitions
+             updateTextPanelControls(currentTextProperties);
+             updateHighlightPanelControls(currentHighlightProperties);
+        }
+
+
+        function resetToBlank() {
+             pdfDoc = null; pdfFilename = 'No PDF Loaded'; filenameTitle.textContent = 'PDF Editor Tool'; filenameTitle.title = pdfFilename; pageNum = 1; scale = 1.0; totalPages = 0; zoomLevelSpan.textContent = '100%';
+             updatePageSelect(); // Clears/disables select
+             resetEditorState(); // Clear annotations data and UI elements
+             renderBlankCanvas(); // Draw the placeholder text
+             disableControls();
+             hideSpinner();
+        }
+
+
+        function enableControls() {
+            pageSelect.disabled = false;
+            zoomInBtn.disabled = false;
+            zoomOutBtn.disabled = false;
+             saveBtn.disabled = false;
+            document.querySelectorAll('.group > button[id$="-tool"]').forEach(btn => {btn.disabled = false; btn.classList.remove('opacity-50', 'cursor-not-allowed')}); // Enable tool buttons
+        }
+        function disableControls() {
+             pageSelect.disabled = true;
+             zoomInBtn.disabled = true;
+             zoomOutBtn.disabled = true;
+             saveBtn.disabled = true;
+             document.querySelectorAll('.group > button[id$="-tool"]').forEach(btn => {btn.disabled = true; btn.classList.add('opacity-50', 'cursor-not-allowed')});
+        }
+
+
+        function updatePageSelect() {
+            pageSelect.innerHTML = ''; // Clear options
+             if (totalPages > 0) {
+                 for (let i = 1; i <= totalPages; i++) {
+                     const option = document.createElement('option'); option.value = i; option.textContent = '' + i; pageSelect.appendChild(option);
+                 }
+                 pageCountSpan.textContent = `of ${totalPages}`;
+                 pageSelect.disabled = totalPages <= 1; // Disable if only 1 page
+                 pageSelect.value = pageNum;
+            } else {
+                pageSelect.innerHTML = '<option>N/A</option>';
+                pageCountSpan.textContent = '';
+                 pageSelect.disabled = true;
+            }
+        }
+
+        // --- Viewer Interaction Handlers (using listeners on window/container now) ---
+
+        function handleContainerMouseDown(e) {
+            const target = e.target;
+             // Check if the click started on an annotation
+             const clickedAnnotation = target.closest('.annotation');
+             if (clickedAnnotation) {
+                // Prevent drag/resize if clicking delete button or editable content
+                if (target.classList.contains('delete-btn') || target.isContentEditable) {
+                     // If contenteditable, select the annotation and activate text tool
+                    if(target.isContentEditable) {
+                         selectAnnotation(clickedAnnotation);
+                         setActiveTool('text');
+                         // Let browser handle focus etc.
+                     }
+                    return;
+                }
+
+                // Check if click is on resize handle (simple check)
+                 const isResizeHandle = e.offsetX >= clickedAnnotation.offsetWidth - 10 && e.offsetY >= clickedAnnotation.offsetHeight - 10;
+
+                selectAnnotation(clickedAnnotation); // Select it
+
+                 if (isResizeHandle && clickedAnnotation.style.resize !== 'none') { // Check if resizable
+                    isResizing = true;
+                    isDragging = false;
+                     dragOffsetX = e.clientX; // Store initial mouse pos for resize calc
+                     dragOffsetY = e.clientY;
+                    pdfViewer.style.cursor = 'nwse-resize';
+                } else { // Start dragging
+                    isDragging = true;
+                     isResizing = false;
+                    // Offset from top-left corner of the dragged element
+                     const rect = clickedAnnotation.getBoundingClientRect();
+                     dragOffsetX = e.clientX - rect.left;
+                     dragOffsetY = e.clientY - rect.top;
+                     pdfViewer.style.cursor = 'move';
+                 }
+                 e.preventDefault(); // Prevent browser drag behavior, text selection etc.
+
+            } else if ((target === canvas || target === pdfContainer || target === pdfRender) && activeTool === 'highlight' && pdfDoc) {
+                // Start drawing highlight rectangle
+                isDrawingHighlight = true;
+                 const rect = canvas.getBoundingClientRect(); // Get canvas pos relative to viewport
+                 // Calculate mouse pos relative to canvas, accounting for scroll
+                 highlightStartX = e.clientX - rect.left + pdfViewer.scrollLeft;
+                 highlightStartY = e.clientY - rect.top + pdfViewer.scrollTop;
+
+                tempHighlightDiv = document.createElement('div');
+                 tempHighlightDiv.style.position = 'absolute'; // Position relative to pdfContainer
+                 tempHighlightDiv.style.border = '1px dashed #4F46E5';
+                 tempHighlightDiv.style.backgroundColor = HIGHLIGHT_COLOR_MAP[currentHighlightProperties.color]?.replace('##OPACITY##', currentHighlightProperties.opacity) || 'rgba(255, 255, 0, 0.3)';
+                 tempHighlightDiv.style.left = highlightStartX + 'px';
+                 tempHighlightDiv.style.top = highlightStartY + 'px';
+                 tempHighlightDiv.style.width = '0px';
+                 tempHighlightDiv.style.height = '0px';
+                 tempHighlightDiv.style.zIndex = '6'; // Above canvas
+                 tempHighlightDiv.style.pointerEvents = 'none';
+                 pdfContainer.appendChild(tempHighlightDiv); // Append to container
+
+                 pdfViewer.style.cursor = 'crosshair';
+                 e.preventDefault();
+            }
+            // Removed text adding logic from mousedown
+        }
+
+
+        function handleWindowMouseMove(e) {
+             if (isDragging && selectedAnnotation) {
+                 // Calculate new top/left based on initial offset and current mouse position relative to viewer
+                 const viewerRect = pdfViewer.getBoundingClientRect();
+                 // Mouse pos relative to viewer viewport
+                let mouseX = e.clientX - viewerRect.left;
+                 let mouseY = e.clientY - viewerRect.top;
+                 // Account for scroll position to get pos relative to the full scrollable content
+                 mouseX += pdfViewer.scrollLeft;
+                 mouseY += pdfViewer.scrollTop;
+
+                let newX = mouseX - dragOffsetX;
+                 let newY = mouseY - dragOffsetY;
+
+                // Constrain within canvas bounds
+                 newX = Math.max(0, Math.min(newX, canvas.offsetWidth - selectedAnnotation.offsetWidth));
+                 newY = Math.max(0, Math.min(newY, canvas.offsetHeight - selectedAnnotation.offsetHeight));
+
+                 selectedAnnotation.style.left = newX + 'px';
+                 selectedAnnotation.style.top = newY + 'px';
+
+             } else if (isResizing && selectedAnnotation) {
+                 // Calculate new width/height based on initial pos and current mouse pos
+                 const initialWidth = selectedAnnotation.offsetWidth;
+                 const initialHeight = selectedAnnotation.offsetHeight;
+                 const dx = e.clientX - dragOffsetX; // Change in mouse X since drag start
+                 const dy = e.clientY - dragOffsetY; // Change in mouse Y
+
+                let newWidth = initialWidth + dx;
+                 let newHeight = initialHeight + dy;
+
+                 // Minimum size constraints
+                 newWidth = Math.max(20, newWidth);
+                 newHeight = Math.max(20, newHeight);
+
+                // Max size constraints (within canvas bounds from its origin)
+                 newWidth = Math.min(newWidth, canvas.offsetWidth - selectedAnnotation.offsetLeft);
+                 newHeight = Math.min(newHeight, canvas.offsetHeight - selectedAnnotation.offsetTop);
+
+                 selectedAnnotation.style.width = newWidth + 'px';
+                 selectedAnnotation.style.height = (selectedAnnotation.dataset.type === 'text' ? 'auto' : newHeight + 'px'); // Allow text height auto-adjust
+
+
+                 // Update dragOffsetX/Y for continuous resize calculation relative to last pos
+                 // dragOffsetX = e.clientX; // Actually, no, keep initial click pos for size calculation from start point
+                 // dragOffsetY = e.clientY;
+
+
+            } else if (isDrawingHighlight && tempHighlightDiv) {
+                const rect = canvas.getBoundingClientRect();
+                 // Calculate current mouse position relative to canvas, including scroll
+                 const currentX = e.clientX - rect.left + pdfViewer.scrollLeft;
+                 const currentY = e.clientY - rect.top + pdfViewer.scrollTop;
+
+                const left = Math.min(currentX, highlightStartX);
+                 const top = Math.min(currentY, highlightStartY);
+                 const width = Math.abs(currentX - highlightStartX);
+                 const height = Math.abs(currentY - highlightStartY);
+
+                tempHighlightDiv.style.left = `${left}px`;
+                tempHighlightDiv.style.top = `${top}px`;
+                tempHighlightDiv.style.width = `${width}px`;
+                tempHighlightDiv.style.height = `${height}px`;
+            }
+        }
+
+
+        function handleWindowMouseUp(e) {
+            if (isDragging || isResizing) {
+                if(selectedAnnotation) {
+                    // Final update to the data object
+                    updateAnnotationData(selectedAnnotation);
+                }
+             }
+             if (isDrawingHighlight && tempHighlightDiv) {
+                // Get final dimensions from the temporary div
+                 const width = parseFloat(tempHighlightDiv.style.width);
+                 const height = parseFloat(tempHighlightDiv.style.height);
+                 const left = parseFloat(tempHighlightDiv.style.left);
+                 const top = parseFloat(tempHighlightDiv.style.top);
+
+                 tempHighlightDiv.remove(); // Remove visual feedback div
+                 tempHighlightDiv = null;
+
+                // Add the actual annotation if size is meaningful
+                 if (width > 5 && height > 5) {
+                    addAnnotation(left, top, width, height, 'highlight');
+                 }
+             }
+
+             // Reset interaction states
+             if (isDragging || isResizing || isDrawingHighlight) {
+                 isDragging = false;
+                 isResizing = false;
+                 isDrawingHighlight = false;
+                 pdfViewer.style.cursor = 'default'; // Reset cursor
+            }
+
+            // Check if it was a click to add text (Re-added from previous working state)
+            const isClickOnViewerArea = pdfViewer.contains(e.target) && e.target !== pdfViewer; // Click inside viewer, but not on scrollbar itself
+            if (activeTool === 'text' &&
+                !e.target.closest('.annotation') &&
+                !e.target.closest('.tool-panel') &&
+                isClickOnViewerArea &&
+                !isDragging && !isResizing && !isDrawingHighlight)
+            {
+                console.log("Condition met to add text annotation on mouseup."); // Debug log
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left + pdfViewer.scrollLeft;
+                const y = e.clientY - rect.top + pdfViewer.scrollTop;
+
+                // Ensure coordinates are within canvas bounds before adding
+                if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
+                     addAnnotation(x, y, 200, 'auto', 'text'); // Add text annotation
+                } else {
+                    console.log("Click was outside canvas bounds, not adding text.");
+                }
+            }
+            // Reset drag offsets regardless
+            dragOffsetX = 0; dragOffsetY = 0;
+        }
+
+        // (Removed handleViewerClick - replaced by logic within mousedown/mouseup/global click listener)
+
+
+        // --- Tool State Management & Panel Updates ---
+         function setActiveTool(tool) {
+             console.log(`setActiveTool called with: ${tool}`); // Log entry
+             const previouslyActiveTool = activeTool;
+
+             // Hide all panels first
+             document.querySelectorAll('.tool-panel').forEach(p => p.style.display = 'none');
+             // Remove active class from all tool buttons
+             document.querySelectorAll('.w-16.bg-white button[id$="-tool"]').forEach(b => b.classList.remove('active-tool'));
+
+             // If the clicked tool is the currently active one, deactivate it
+             if (previouslyActiveTool === tool) {
+                 activeTool = null;
+                 console.log("Deactivating current tool.");
+             } else {
+                 // Otherwise, set the new tool as active
+                 activeTool = tool;
+                 console.log(`Activating tool: ${activeTool}`);
+
+                 if (activeTool) {
+                     const toolBtn = document.getElementById(`${activeTool}-tool`);
+                     if (toolBtn) {
+                         toolBtn.classList.add('active-tool');
+                         console.log(`Added active class to button: ${toolBtn.id}`);
+                     } else {
+                          console.error(`Button for tool ${activeTool} not found!`);
+                     }
+
+                     const panelId = `${activeTool}-tool-panel`;
+                     const panel = document.getElementById(panelId);
+                     if (panel) {
+                         panel.style.display = 'block'; // Make the selected panel visible
+                         console.log(`Set display=block for panel: ${panelId}`);
+                         // Ensure panel updates if needed when activated
+                         switch (activeTool) {
+                             case 'text': updateTextPanelControls(currentTextProperties); break;
+                             case 'signature': resizeSignatureCanvas(); break;
+                             case 'highlight': updateHighlightPanelControls(currentHighlightProperties); break;
+                         }
+                     } else {
+                         console.error(`Tool panel with ID ${panelId} not found!`);
+                     }
+                 }
+             }
+
+             // Update cursor based on the final activeTool state
+             pdfViewer.style.cursor = (activeTool === 'text') ? 'text' : (activeTool === 'highlight') ? 'crosshair' : 'default';
+             console.log(`Cursor set to: ${pdfViewer.style.cursor}`);
+         }
+
+        // --- Annotation Creation/Manipulation/Deletion ---
+         function addAnnotation(x, y, width = 0, height = 0, type, content = '') {
+             if (!type || !pdfDoc) { console.warn("Cannot add annotation, invalid type or no PDF doc"); return; }
+             console.log(`addAnnotation called: type=${type}, x=${x}, y=${y}`); // Log entry
+
+             const annotationId = `annotation-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+             // Declare annotationDiv *before* the switch statement
+             const annotationDiv = document.createElement('div');
+             annotationDiv.id = annotationId;
+             annotationDiv.className = 'annotation';
+             annotationDiv.dataset.type = type;
+             annotationDiv.style.left = `${x}px`;
+             annotationDiv.style.top = `${y}px`;
+             annotationDiv.style.zIndex = '5';
+             console.log("Created annotationDiv:", annotationDiv.id);
+
+             // Add delete button (common to all types)
+             const deleteBtn = document.createElement('button');
+             deleteBtn.className = 'delete-btn';
+             deleteBtn.innerHTML = '&times;';
+             deleteBtn.title = 'Delete';
+             deleteBtn.onclick = (e) => { e.stopPropagation(); deleteAnnotation(annotationId); };
+             annotationDiv.appendChild(deleteBtn);
+
+             const annotationData = {
+                 id: annotationId,
+                 page: pageNum,
+                 type: type,
+                 x: x,
+                 y: y,
+                 width: width,
+                 height: height, // Initial height, might be 'auto' for text
+                 content: content,
+                 properties: {}
+             };
+
+             switch (type) {
+                 case 'text':
+                     console.log("addAnnotation: Handling text type");
+                     annotationDiv.style.resize = 'both';
+                     annotationDiv.style.width = `${width || 200}px`; // Default width
+                     annotationDiv.style.height = 'auto'; // Auto height initially
+                     const textDiv = document.createElement('div');
+                     textDiv.className = 'editable-text';
+                     textDiv.contentEditable = 'true';
+                     textDiv.innerText = content || 'New Text'; // Default text
+                     textDiv.style.lineHeight = '1.2';
+                     textDiv.addEventListener('input', () => updateAnnotationData(annotationDiv));
+                     textDiv.addEventListener('focus', () => selectAnnotation(annotationDiv));
+                     annotationDiv.appendChild(textDiv);
+                     annotationData.properties = { ...currentTextProperties }; // Use current tool props
+                     applyAnnotationProperties(annotationDiv, annotationData.properties);
+                     // Append to DOM *before* calculating height
+                     console.log("addAnnotation: Appending text annotationDiv");
+                     pdfContainer.appendChild(annotationDiv);
+                     // Calculate height *after* appending and applying styles
+                     annotationData.height = annotationDiv.offsetHeight;
+                     annotationDiv.style.height = annotationData.height + 'px'; // Set explicit height now
+                     console.log("addAnnotation: Text annotation div appended and height set to:", annotationData.height);
+                     break; // Break here for text case
+
+                 case 'highlight':
+                     console.log("addAnnotation: Handling highlight type");
+                     annotationDiv.style.resize = 'both';
+                     annotationDiv.style.width = `${width}px`;
+                     annotationDiv.style.height = `${height}px`;
+                     annotationDiv.style.pointerEvents = 'auto';
+                     annotationData.properties = { ...currentHighlightProperties };
+                     applyAnnotationProperties(annotationDiv, annotationData.properties);
+                     pdfContainer.appendChild(annotationDiv); // Append highlight
+                     break; // Break here for highlight case
+
+                 case 'image':
+                 case 'signature':
+                     console.log('Handling signature/image type in addAnnotation'); // Log signature case
+                     annotationDiv.style.resize = 'both';
+                     const img = document.createElement('img');
+                     img.src = content; // Content is the data URL
+                     img.style.width = '100%';
+                     img.style.height = '100%';
+                     img.style.objectFit = 'contain';
+                     img.style.pointerEvents = 'none';
+                     annotationDiv.appendChild(img);
+                     annotationData.width = width || 150; // Default image width
+                     annotationData.height = height || 'auto'; // Default image height
+                     annotationDiv.style.width = annotationData.width + 'px';
+                     annotationDiv.style.height = annotationData.height === 'auto' ? 'auto' : annotationData.height + 'px';
+                     pdfContainer.appendChild(annotationDiv); // Append image/sig
+                     break; // Break here for image/sig case
+
+                 default:
+                     console.error("Unknown annotation type:", type);
+                     return; // Don't add unknown types
+             }
+
+             // Don't append again if already appended in switch
+             // if (type !== 'text') {
+                 // pdfContainer.appendChild(annotationDiv); // Already appended in switch cases
+             // }
+
+             annotations.push(annotationData);
+             console.log("Annotation added to array:", annotationData);
+
+             // Select the newly added annotation (except maybe highlight?)
+             if (type !== 'highlight') {
+                 selectAnnotation(annotationDiv);
+                 if (type === 'text') {
+                     // Focus the editable text div
+                     annotationDiv.querySelector('.editable-text')?.focus();
+                 }
+             } else {
+                 clearSelection(); // Don't keep highlight selected after drawing
+             }
+         }
+
+        // --- PDF Saving ---
+        async function savePDF() {
+            if (!pdfDoc) { alert('No PDF loaded.'); return; }
+            const annotationsToSave = JSON.parse(JSON.stringify(annotations)); // Deep copy
+            showSpinner(); saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; console.log('Save started...');
+
+            try {
+                 // Get page dimensions accurately first
+                 const pageDimensions = [];
+                 for (let i = 1; i <= totalPages; i++) {
+                     try {
+                         const page = await pdfDoc.getPage(i);
+                         const viewport = page.getViewport({ scale: 1.0 });
+                         pageDimensions.push({ width: viewport.width, height: viewport.height });
+                     } catch (pageError) {
+                         console.error(`Error getting dimensions for page ${i}:`, pageError);
+                         // Use default A4 dimensions if we can't get the actual page dimensions
+                         pageDimensions.push({ width: 595.28, height: 841.89 }); // Default A4 pt
+                     }
+                 }
+
+                // Create jsPDF instance
+                const firstPageDim = pageDimensions[0] || { width: 595.28, height: 841.89 }; // Default A4 pt
+                const newPdf = new jsPDF({
+                    unit: 'pt',
+                    format: [firstPageDim.width, firstPageDim.height],
+                    compress: true
+                 });
+                 const standardFonts = newPdf.getFontList(); // Get available standard fonts
+
+                 const loadImage = (src) => new Promise((resolve, reject) => { const img = new Image(); img.onload = () => resolve(img); img.onerror = (err) => { console.error("Image load failed in save:", src.substring(0,50), err); reject(err);}; img.src = src; });
+                 const tempCanvas = document.createElement('canvas');
+                 const tempCtx = tempCanvas.getContext('2d');
+
+                for (let i = 1; i <= totalPages; i++) {
+                    console.log(`Processing page ${i}...`);
+                     const page = await pdfDoc.getPage(i);
+                     const dims = pageDimensions[i-1];
+                    const viewport = page.getViewport({ scale: 1.0 }); // Use 1x scale for drawing quality
+
+                    // Add page with correct dimensions *before* drawing
+                     if (i > 1) {
+                        newPdf.addPage([dims.width, dims.height], dims.width > dims.height ? 'landscape' : 'portrait');
+                    }
+                     newPdf.setPage(i); // Ensure we're drawing on the correct page
+
+                    tempCanvas.width = viewport.width; tempCanvas.height = viewport.height;
+
+                    // 1. Render original page to temp canvas
+                     await page.render({ canvasContext: tempCtx, viewport: viewport }).promise;
+
+                    // 2. Draw annotations onto the temp canvas
+                    const pageAnnotations = annotationsToSave.filter(a => a.page === i);
+                    for (const annotation of pageAnnotations) {
+                        // Convert annotation coordinates (which are based on the *scaled* view)
+                        // back to the original 1.0 scale coordinates for drawing on the temp canvas.
+                        // Note: The 'scale' variable holds the *current display scale*.
+                        const originalX = annotation.x / scale;
+                        const originalY = annotation.y / scale;
+                        const originalWidth = annotation.width / scale;
+                        let originalHeight = annotation.height === 'auto' ? 0 : annotation.height / scale; // Calculate text height below
+
+                        tempCtx.save();
+                        try {
+                             switch (annotation.type) {
+                                case 'text':
+                                    const props = annotation.properties || DEFAULT_TEXT_PROPS;
+                                    const fontSize = (props.fontSize || 14) / scale; // Font size at 1.0 scale
+                                    let fontStyle = '';
+                                    if (props.bold) fontStyle += 'bold ';
+                                    if (props.italic) fontStyle += 'italic ';
+                                    tempCtx.font = `${fontStyle}${fontSize}px ${props.fontFamily || 'Arial'}`;
+                                    tempCtx.fillStyle = COLOR_MAP[props.color || 'black'] || COLOR_MAP.black;
+                                    tempCtx.textBaseline = 'top';
+
+                                    const lines = (annotation.content || '').split('\n');
+                                    const lineHeight = fontSize * 1.2; // Line height at 1.0 scale
+                                    originalHeight = lines.length * lineHeight; // Recalculate height based on lines
+
+                                    for(let lineIdx = 0; lineIdx < lines.length; lineIdx++) {
+                                         const lineY = originalY + (lineIdx * lineHeight);
+                                         tempCtx.fillText(lines[lineIdx], originalX, lineY);
+                                         // Manual underline if needed
+                                         if (props.underline) {
+                                             const textWidth = tempCtx.measureText(lines[lineIdx]).width;
+                                             tempCtx.fillRect(originalX, lineY + fontSize * 0.9, textWidth, fontSize * 0.08); // Adjust underline position/thickness
+                                         }
+                                     }
+                                     break;
+
+                                case 'highlight':
+                                     const hlProps = annotation.properties || DEFAULT_HIGHLIGHT_PROPS;
+                                     const hlColor = hlProps.color || 'yellow';
+                                     const hlOpacity = hlProps.opacity || 0.5;
+                                     tempCtx.globalAlpha = hlOpacity; // Set opacity
+                                     tempCtx.fillStyle = HIGHLIGHT_COLOR_MAP[hlColor]?.replace('##OPACITY##', '1') || 'rgba(255, 255, 0, 1)'; // Use full color, alpha handles opacity
+                                     tempCtx.fillRect(originalX, originalY, originalWidth, annotation.height / scale); // Use original height
+                                     tempCtx.globalAlpha = 1.0; // Reset opacity
+                                     break;
+                                case 'signature':
+                                case 'image':
+                                     try {
+                                         const img = await loadImage(annotation.content);
+                                         // Draw image maintaining aspect ratio within the annotation bounds
+                                         tempCtx.drawImage(img, originalX, originalY, originalWidth, annotation.height / scale);
+                                     } catch (imgErr) {
+                                         console.error("Could not draw image annotation:", imgErr);
+                                     }
+                                     break;
+                             }
+                        } catch (drawErr) { console.error("Annotation draw err:", drawErr); }
+                        finally { tempCtx.restore(); }
+                    } // End loop through annotations for page
+
+                     // 3. Add the combined image to jsPDF
+                    const imgData = tempCanvas.toDataURL('image/png', 0.95); // Use PNG for better quality with transparency
+                    newPdf.addImage(imgData, 'PNG', 0, 0, dims.width, dims.height, undefined, 'FAST');
+                    console.log(` Page ${i} rendered and added.`);
+                 } // End loop through pages
+
+                 console.log('Generating final PDF...');
+                 const newFilename = pdfFilename.replace(/\.pdf$/i, '-edited.pdf');
+                 newPdf.save(newFilename); // Trigger download
+
+            } catch (error) {
+                 console.error('Error during PDF save process:', error);
+                 alert('An error occurred while saving the PDF. Please check the console.');
+            } finally {
+                 hideSpinner(); saveBtn.disabled = false; saveBtn.innerHTML = '<i class="fas fa-save text-lg"></i>'; console.log('Save finished.');
+            }
+        }
+
+
+        // --- Global Helper Functions --- (Keep as is)
+
+    </script>
+
+    <!-- NOTE: The actual definitions for setup...Listeners and update...Controls functions
+         were assumed to be somewhere below this point and have been moved above
+         the DOMContentLoaded listener. This diff only shows the insertion point
+         and updates the call sites, not the removal of the original definitions.
+         If errors persist, the original locations might differ. -->
+
+<script src="dark-mode.js"></script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+</body>
+</html>
