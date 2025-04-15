@@ -4,8 +4,8 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>इमेज को PDF में बदलें - मुफ्त JPG से PDF टूल | SmileyPDF</title>
-    <meta name="description" content="JPG, PNG और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अपनी इमेज से कस्टमाइज़ेबल विकल्पों के साथ पेशेवर PDF दस्तावेज़ बनाएं। कोई पंजीकरण आवश्यक नहीं है।">
+    <title>इमेज को PDF में ऑनलाइन बदलें - मुफ्त JPG से PDF टूल | SmileyPDF</title>
+    <meta name="description" content="JPG, PNG और WEBP इमेज को मुफ्त में ऑनलाइन PDF में बदलें। अनुकूलन योग्य विकल्पों के साथ अपनी इमेज से पेशेवर PDF दस्तावेज़ बनाएं। कोई पंजीकरण आवश्यक नहीं है।">
     <meta name="keywords" content="image to PDF, JPG to PDF, PNG to PDF, convert images to PDF, free image converter, picture to PDF, photo to PDF, image PDF creator">
     <meta name="author" content="SmileyPDF">
     <meta name="robots" content="index, follow">
@@ -105,7 +105,7 @@
         /* Responsive controls */
         @media (max-width: 640px) { .controls { flex-direction: column; align-items: stretch; } .controls > div { margin-bottom: 0.75rem; width: 100%; } select, input[type=number] { width: 100%;} }
     </style>
-<link rel="stylesheet" href="dark-mode.css">
+<link rel="stylesheet" href="../dark-mode.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
@@ -166,7 +166,7 @@
     <main class="container mx-auto px-4 py-12 max-w-6xl flex-grow">
         <div class="text-center mb-12">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">इमेज से PDF कन्वर्टर</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">अपनी JPG, PNG और WEBP इमेजों को एक पेशेवर PDF दस्तावेज़ में बदलें। ओरिएंटेशन, मार्जिन और पेज साइज़ को समायोजित करें।</p>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">अपनी JPG, PNG और WEBP इमेज को एक सिंगल, प्रोफेशनल PDF दस्तावेज़ में बदलें। ओरिएंटेशन, मार्जिन और पेज साइज़ को समायोजित करें।</p>
         </div>
 
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
@@ -174,11 +174,11 @@
             <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-6 bg-gray-50 hover:bg-blue-50">
                  <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
                     <i class="fas fa-cloud-upload-alt text-5xl text-blue-500"></i>
-                     <h3 class="text-xl font-semibold text-gray-800">इमेजों को यहां ड्रैग और ड्रॉप करें</h3>
+                     <h3 class="text-xl font-semibold text-gray-800">इमेज यहां ड्रैग और ड्रॉप करें</h3>
                     <p class="text-gray-500">JPG, PNG, WEBP फाइलों का समर्थन करता है</p>
                     <p class="text-gray-500">या</p>
                     <button type="button" id="browseBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 pointer-events-auto">
-                        <i class="fas fa-folder-open mr-2"></i>इमेजें चुनें
+                        <i class="fas fa-folder-open mr-2"></i>इमेज चुनें
                     </button>
                 </div>
                 <input type="file" id="fileInput" class="hidden" multiple accept="image/jpeg, image/png, image/webp">
@@ -214,13 +214,13 @@
              <!-- 3. Image Preview & Reorder -->
              <div id="previewContainer" class="hidden">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-medium text-gray-900">इमेजें (<span id="imageCount">0</span>) - क्रम बदलने के लिए ड्रैग करें</h3>
+                    <h3 class="text-lg font-medium text-gray-900">इमेज (<span id="imageCount">0</span>) - पुनर्व्यवस्थित करने के लिए खींचें</h3>
                     <button id="clearBtn" type="button" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 disabled:opacity-50" disabled>
                         <i class="fas fa-trash-alt mr-1"></i>सभी हटाएं
                     </button>
                  </div>
                  <div id="imagePreviews" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg min-h-[150px]">
-                    <p id="previewPlaceholder" class="col-span-full text-center text-gray-400 italic py-10">प्रीव्यू देखने के लिए इमेजें अपलोड करें</p>
+                    <p id="previewPlaceholder" class="col-span-full text-center text-gray-400 italic py-10">प्रीव्यू देखने के लिए इमेज अपलोड करें</p>
                  </div>
              </div>
 
@@ -247,7 +247,7 @@
                 </div>
                 <div class="flex flex-wrap justify-center gap-4">
                     <button id="downloadBtn" type="button" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"><i class="fas fa-download mr-2"></i>PDF डाउनलोड करें</button>
-                    <button id="newPdfBtn" type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"><i class="fas fa-plus mr-2"></i>अधिक इमेजें कन्वर्ट करें</button>
+                    <button id="newPdfBtn" type="button" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"><i class="fas fa-plus mr-2"></i>और इमेज कन्वर्ट करें</button>
                  </div>
              </div>
             <div id="pdfPreviewContainer" class="border border-gray-200 rounded-lg p-4 hidden bg-white">
@@ -258,10 +258,10 @@
 
         <!-- How to Use Section -->
          <div class="mt-12 bg-white rounded-xl shadow-md p-6">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">इमेजों को PDF में कैसे बदलें</h2>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">इमेज को PDF में कैसे बदलें</h2>
              <ol class="list-decimal list-inside space-y-2 text-gray-700 max-w-2xl mx-auto">
-                 <li><strong>इमेजें चुनें:</strong> JPG, PNG, या WEBP इमेजों को ड्रैग और ड्रॉप करें, या "इमेजें चुनें" बटन का उपयोग करें।</li>
-                 <li><strong>क्रम व्यवस्थित करें:</strong> इमेजें नीचे दिखाई देती हैं। PDF में उनके दिखाई देने के क्रम को सेट करने के लिए प्रीव्यू को ड्रैग करें। इसे हटाने के लिए प्रीव्यू पर <i class="fas fa-times text-red-500 text-xs align-middle"></i> पर क्लिक करें।</li>
+                 <li><strong>इमेज चुनें:</strong> JPG, PNG, या WEBP इमेज ड्रैग और ड्रॉप करें, या "इमेज चुनें" बटन का उपयोग करें।</li>
+                 <li><strong>क्रम व्यवस्थित करें:</strong> इमेज नीचे दिखाई देती हैं। PDF में दिखाई देने के क्रम को सेट करने के लिए प्रीव्यू को खींचें। इसे हटाने के लिए प्रीव्यू पर <i class="fas fa-times text-red-500 text-xs align-middle"></i> पर क्लिक करें।</li>
                  <li><strong>सेटिंग्स समायोजित करें:</strong> पेज ओरिएंटेशन (पोर्ट्रेट/लैंडस्केप), साइज़ (A4, लेटर, आदि), और मिलीमीटर में मार्जिन साइज़ चुनें।</li>
                  <li><strong>PDF जनरेट करें:</strong> "PDF जनरेट करें" बटन पर क्लिक करें।</li>
                 <li><strong>डाउनलोड करें:</strong> पूरा होने पर, "PDF डाउनलोड करें" पर क्लिक करें। डाउनलोड करने से पहले वैकल्पिक रूप से PDF का पूर्वावलोकन कर सकते हैं।</li>
@@ -291,8 +291,8 @@
      <script>
          document.addEventListener('DOMContentLoaded', function() {
             // Lib Check
-            let PDFLib; if(typeof window.PDFLib!=='undefined'){PDFLib=window.PDFLib;}else{showError("गंभीर त्रुटि: PDF लाइब्रेरी नहीं मिली।", true);return;}
-            if(typeof window.saveAs === 'undefined'){console.warn("FileSaver.js नहीं मिला।");}
+            let PDFLib; if(typeof window.PDFLib!=='undefined'){PDFLib=window.PDFLib;}else{showError("Fatal Error: PDF library missing.", true);return;}
+            if(typeof window.saveAs === 'undefined'){console.warn("FileSaver.js missing.");}
             const { PDFDocument, PageSizes } = PDFLib;
 
             // DOM Elements
@@ -312,10 +312,10 @@
             function handleDrop(e){handleFiles(e.dataTransfer.files);}
             function handleFilesEvent(e){handleFiles(e.target.files);}
 
-            function handleFiles(newFileList){if(isProcessing||!newFileList||newFileList.length===0)return;hideStatus();errorEl.classList.add('hidden');const types=['image/jpeg','image/png','image/webp'];const images=Array.from(newFileList).filter(f=>types.includes(f.type));if(images.length===0){showError('कोई वैध इमेज (JPG, PNG, WEBP) नहीं चुनी गई।',5000);return;}if(images.length<newFileList.length){showError(`गैर-इमेज फाइलों को नजरअंदाज किया गया। ${images.length} इमेजें जोड़ी गईं।`,5000);}if(pdfBlob)clearAll();const newObjs=images.map(f=>({id:fileIdCounter++,file:f,order:files.length+images.indexOf(f)}));files=[...files,...newObjs];updatePreviews();fileInput.value='';}
+            function handleFiles(newFileList){if(isProcessing||!newFileList||newFileList.length===0)return;hideStatus();errorEl.classList.add('hidden');const types=['image/jpeg','image/png','image/webp'];const images=Array.from(newFileList).filter(f=>types.includes(f.type));if(images.length===0){showError('No valid images (JPG, PNG, WEBP) selected.',5000);return;}if(images.length<newFileList.length){showError(`Ignored non-image files. Added ${images.length} images.`,5000);}if(pdfBlob)clearAll();const newObjs=images.map(f=>({id:fileIdCounter++,file:f,order:files.length+images.indexOf(f)}));files=[...files,...newObjs];updatePreviews();fileInput.value='';}
 
              // --- Previews & Reordering ---
-            function updatePreviews(){files.sort((a,b)=>a.order-b.order);imagePreviews.innerHTML='';imageCount.textContent=files.length;if(files.length===0){previewPlaceholder.classList.remove('hidden');previewContainer.classList.add('hidden');clearBtn.disabled=true;generateBtn.disabled=true;return;}else{previewPlaceholder.classList.add('hidden');previewContainer.classList.remove('hidden');clearBtn.disabled=false;generateBtn.disabled=false;}files.forEach((fObj,idx)=>{fObj.order=idx;const reader=new FileReader();reader.onload=e=>imagePreviews.appendChild(createPreviewElement(fObj,idx,e.target.result));reader.onerror=()=>{imagePreviews.appendChild(createErrorPreview(fObj));showError(`${fObj.file.name} को पढ़ नहीं सका।`,3000);};reader.readAsDataURL(fObj.file);});}
+            function updatePreviews(){files.sort((a,b)=>a.order-b.order);imagePreviews.innerHTML='';imageCount.textContent=files.length;if(files.length===0){previewPlaceholder.classList.remove('hidden');previewContainer.classList.add('hidden');clearBtn.disabled=true;generateBtn.disabled=true;return;}else{previewPlaceholder.classList.add('hidden');previewContainer.classList.remove('hidden');clearBtn.disabled=false;generateBtn.disabled=false;}files.forEach((fObj,idx)=>{fObj.order=idx;const reader=new FileReader();reader.onload=e=>imagePreviews.appendChild(createPreviewElement(fObj,idx,e.target.result));reader.onerror=()=>{imagePreviews.appendChild(createErrorPreview(fObj));showError(`Could not read ${fObj.file.name}.`,3000);};reader.readAsDataURL(fObj.file);});}
             function createPreviewElement(fObj,idx,src) {const pv=document.createElement('div');pv.className='image-preview group relative rounded-lg overflow-hidden border border-gray-200 cursor-move'; pv.draggable=true;pv.dataset.id=fObj.id;pv.innerHTML=`<img src="${src}" alt="${fObj.file.name}" class="w-full h-40 object-cover pointer-events-none"><div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center pointer-events-none"></div><button type="button" class="remove-btn absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 pointer-events-auto focus:outline-none focus:ring-2 focus:ring-red-400 z-10" data-id="${fObj.id}" title="Remove image"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button><div class="preview-filename pointer-events-none">${fObj.file.name}</div><div class="preview-index pointer-events-none">${idx+1}</div>`;pv.querySelector('.remove-btn').addEventListener('click',(ev)=>{ev.stopPropagation();const id=parseInt(ev.currentTarget.dataset.id);files=files.filter(f=>f.id!==id);files.forEach((f,ix)=>f.order=ix);updatePreviews();});addDragHandlers(pv);return pv;}
             function createErrorPreview(fObj){const pv=document.createElement('div');pv.className='image-preview relative rounded-lg border border-red-300 bg-red-50 p-2 flex flex-col items-center justify-center h-40 text-center';pv.innerHTML=`<i class="fas fa-exclamation-triangle text-red-500 text-2xl mb-2"></i><p class="text-xs text-red-700 break-all" title="${fObj.file.name}">Err: ${fObj.file.name}</p>`;return pv;}
             function addDragHandlers(item){item.addEventListener('dragstart',handleDragStart);item.addEventListener('dragover',handleDragOver);item.addEventListener('dragleave',handleDragLeave);item.addEventListener('drop',handleDropReorder);item.addEventListener('dragend',handleDragEnd);}
@@ -328,13 +328,13 @@
 
              // --- PDF Generation ---
              function mmToPoints(mm){return mm*2.83464566929;} function getPdfLibPageSize(s){switch(s.toUpperCase()){case'LETTER':return PageSizes.Letter;case'LEGAL':return PageSizes.Legal;case'A5':return PageSizes.A5;default:return PageSizes.A4;}}
-            async function generatePDF(){if(files.length===0||isProcessing)return;isProcessing=true;showStatus('Starting...',true,true);progressContainer.classList.remove('hidden');progressBar.style.width='0%';generateBtn.disabled=true;generateBtn.innerHTML='<i class="fas fa-spinner spinner mr-2"></i>जनरेट कर रहा है...';clearBtn.disabled=true;errorEl.classList.add('hidden');resultContainer.classList.add('hidden');if(pdfPreview.src.startsWith('blob:'))URL.revokeObjectURL(pdfPreview.src);const orient=document.getElementById('orientation').value;const marginPt=mmToPoints(parseInt(document.getElementById('margin').value)||0);const pageSizeStr=document.getElementById('size').value;await new Promise(r=>setTimeout(r,50));try{const pdfDoc=await PDFDocument.create();let processed=0;files.sort((a,b)=>a.order-b.order);for(const fObj of files){processed++;showStatus(`Processing ${processed}/${files.length}...`,true,true);progressBar.style.width=`${(processed/files.length)*100}%`;try{const bytes=await fObj.file.arrayBuffer();let embedImg;let type=fObj.file.type;if(type==='image/png')embedImg=await pdfDoc.embedPng(bytes);else if(type==='image/jpeg')embedImg=await pdfDoc.embedJpg(bytes);else if(type==='image/webp'){const uri=await fileToDataUrl(fObj.file);const img=await loadImageFromDataUrl(uri);const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;c.getContext('2d').drawImage(img,0,0);const jpgUri=c.toDataURL('image/jpeg',0.9);const jpgBytes=await fetch(jpgUri).then(res=>res.arrayBuffer());embedImg=await pdfDoc.embedJpg(jpgBytes);}else{throw new Error(`Unsupported type: ${type}`);}const dims=embedImg.scale(1);if(dims.width===0||dims.height===0)throw new Error('Zero dim img');const sizeArr=getPdfLibPageSize(pageSizeStr);let[pW,pH]=sizeArr;if((orient==='landscape'&&pW<pH)||(orient==='portrait'&&pW>pH))[pW,pH]=[pH,pW];const page=pdfDoc.addPage([pW,pH]);const usableW=pW-marginPt*2;const usableH=pH-marginPt*2;const scaleF=Math.min(1,usableW/dims.width,usableH/dims.height);const imgW=dims.width*scaleF;const imgH=dims.height*scaleF;if(!isFinite(imgW)||!isFinite(imgH)||imgW<=0||imgH<=0)throw new Error('Invalid scale');const x=marginPt+(usableW-imgW)/2;const y=marginPt+(usableH-imgH)/2;page.drawImage(embedImg,{x,y,width:imgW,height:imgH});}catch(imgErr){console.error(`Skipping ${fObj.file.name}:`,imgErr);showError(`Error with ${fObj.file.name}. Skipped.`);await new Promise(r=>setTimeout(r,20));}}if(pdfDoc.getPageCount()===0)throw new Error("No images could be added.");showStatus('Saving PDF...',true,true);const pdfBytes=await pdfDoc.save();pdfBlob=new Blob([pdfBytes],{type:'application/pdf'});showResult(pdfBlob);}catch(err){showError('Error generating PDF: '+err.message,0);console.error(err);}finally{isProcessing=false;hideStatus();progressContainer.classList.add('hidden');generateBtn.disabled=files.length===0;generateBtn.innerHTML='<i class="fas fa-file-pdf mr-2"></i>Generate PDF';clearBtn.disabled=files.length===0;}}
+            async function generatePDF(){if(files.length===0||isProcessing)return;isProcessing=true;showStatus('Starting...',true,true);progressContainer.classList.remove('hidden');progressBar.style.width='0%';generateBtn.disabled=true;generateBtn.innerHTML='<i class="fas fa-spinner spinner mr-2"></i>Generating...';clearBtn.disabled=true;errorEl.classList.add('hidden');resultContainer.classList.add('hidden');if(pdfPreview.src.startsWith('blob:'))URL.revokeObjectURL(pdfPreview.src);const orient=document.getElementById('orientation').value;const marginPt=mmToPoints(parseInt(document.getElementById('margin').value)||0);const pageSizeStr=document.getElementById('size').value;await new Promise(r=>setTimeout(r,50));try{const pdfDoc=await PDFDocument.create();let processed=0;files.sort((a,b)=>a.order-b.order);for(const fObj of files){processed++;showStatus(`Processing ${processed}/${files.length}...`,true,true);progressBar.style.width=`${(processed/files.length)*100}%`;try{const bytes=await fObj.file.arrayBuffer();let embedImg;let type=fObj.file.type;if(type==='image/png')embedImg=await pdfDoc.embedPng(bytes);else if(type==='image/jpeg')embedImg=await pdfDoc.embedJpg(bytes);else if(type==='image/webp'){const uri=await fileToDataUrl(fObj.file);const img=await loadImageFromDataUrl(uri);const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;c.getContext('2d').drawImage(img,0,0);const jpgUri=c.toDataURL('image/jpeg',0.9);const jpgBytes=await fetch(jpgUri).then(res=>res.arrayBuffer());embedImg=await pdfDoc.embedJpg(jpgBytes);}else{throw new Error(`Unsupported type: ${type}`);}const dims=embedImg.scale(1);if(dims.width===0||dims.height===0)throw new Error('Zero dim img');const sizeArr=getPdfLibPageSize(pageSizeStr);let[pW,pH]=sizeArr;if((orient==='landscape'&&pW<pH)||(orient==='portrait'&&pW>pH))[pW,pH]=[pH,pW];const page=pdfDoc.addPage([pW,pH]);const usableW=pW-marginPt*2;const usableH=pH-marginPt*2;const scaleF=Math.min(1,usableW/dims.width,usableH/dims.height);const imgW=dims.width*scaleF;const imgH=dims.height*scaleF;if(!isFinite(imgW)||!isFinite(imgH)||imgW<=0||imgH<=0)throw new Error('Invalid scale');const x=marginPt+(usableW-imgW)/2;const y=marginPt+(usableH-imgH)/2;page.drawImage(embedImg,{x,y,width:imgW,height:imgH});}catch(imgErr){console.error(`Skipping ${fObj.file.name}:`,imgErr);showError(`Error with ${fObj.file.name}. Skipped.`);await new Promise(r=>setTimeout(r,20));}}if(pdfDoc.getPageCount()===0)throw new Error("No images could be added.");showStatus('Saving PDF...',true,true);const pdfBytes=await pdfDoc.save();pdfBlob=new Blob([pdfBytes],{type:'application/pdf'});showResult(pdfBlob);}catch(err){showError('Error generating PDF: '+err.message,0);console.error(err);}finally{isProcessing=false;hideStatus();progressContainer.classList.add('hidden');generateBtn.disabled=files.length===0;generateBtn.innerHTML='<i class="fas fa-file-pdf mr-2"></i>Generate PDF';clearBtn.disabled=files.length===0;}}
 
              // --- Helpers ---
             function fileToDataUrl(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=e=>rej(r.error);r.readAsDataURL(f);});}
             function loadImageFromDataUrl(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>{if(i.naturalWidth>0&&i.naturalHeight>0)res(i);else rej(new Error('Invalid img dims'));};i.onerror=e=>{console.error("Load img err:",e);rej(new Error("Img load fail"));};i.src=src;});}
             function showResult(blob){resultContainer.classList.remove('hidden');previewContainer.classList.add('hidden');try{const url=URL.createObjectURL(blob);pdfPreview.src=url;pdfPreviewContainer.classList.remove('hidden');}catch(e){pdfPreviewContainer.classList.add('hidden');}}
-             function triggerDownload(){if(pdfBlob&&typeof saveAs==='function'){saveAs(pdfBlob,'SmileyPDF_Image_to_PDF.pdf');}else if(pdfBlob){const url=URL.createObjectURL(pdfBlob);const a=document.createElement('a');a.href=url;a.download='SmileyPDF_Image_to_PDF.pdf';a.click();URL.revokeObjectURL(url);console.warn("Used fallback download.");}else{showError("डाउनलोड करने के लिए कोई PDF नहीं है।",3000);}}
+             function triggerDownload(){if(pdfBlob&&typeof saveAs==='function'){saveAs(pdfBlob,'SmileyPDF_Image_to_PDF.pdf');}else if(pdfBlob){const url=URL.createObjectURL(pdfBlob);const a=document.createElement('a');a.href=url;a.download='SmileyPDF_Image_to_PDF.pdf';a.click();URL.revokeObjectURL(url);console.warn("Used fallback download.");}else{showError("No PDF to download.",3000);}}
              function clearAll(){files=[];pdfBlob=null;if(pdfPreview.src.startsWith('blob:')){URL.revokeObjectURL(pdfPreview.src);}pdfPreview.src='';updatePreviews();previewContainer.classList.add('hidden');resultContainer.classList.add('hidden');hideStatus();errorEl.classList.add('hidden');progressContainer.classList.add('hidden');progressBar.style.width='0%';}
              function showError(msg,duration=0){ errorMessageEl.textContent=msg; errorEl.classList.remove('hidden'); hideStatus(); const timerId=errorEl.dataset.timer; if(timerId)clearTimeout(Number(timerId)); if(duration>0){const timer=setTimeout(()=>errorEl.classList.add('hidden'),duration);errorEl.dataset.timer=timer;}else{delete errorEl.dataset.timer;} } // Use dataset timer clear
              function showStatus(msg,keepOpen=false,showSpin=false){if(!statusEl)return; statusText.textContent=msg;const spinIcon=statusEl.querySelector('.spinner');if(spinIcon)spinIcon.classList.toggle('hidden',!showSpin);statusEl.classList.remove('hidden');const timerId=statusEl.dataset.timer;if(timerId)clearTimeout(Number(timerId)); if(!keepOpen){const timer=setTimeout(hideStatus,3000);statusEl.dataset.timer=timer;}else{delete statusEl.dataset.timer;} }
@@ -342,7 +342,7 @@
 
          }); // End of DOMContentLoaded listener
      </script>
-<script src="dark-mode.js"></script>
+<script src="../dark-mode.js"></script>
 
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
