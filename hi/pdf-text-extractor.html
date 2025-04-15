@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html class="light" lang="hi">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF से टेक्स्ट निकालें - मुफ्त ऑनलाइन PDF टेक्स्ट एक्सट्रैक्टर | SmileyPDF</title>
+    <meta name="description" content="PDF फाइलों से टेक्स्ट मुफ्त में ऑनलाइन निकालें। अपने PDF दस्तावेजों से निकाले गए टेक्स्ट को कॉपी, सेव या डाउनलोड करें। कोई पंजीकरण आवश्यक नहीं है।">
+    <meta name="keywords" content="convert pdf to text, pdf text extractor, extract text from pdf, pdf to text converter, pdf to text free">
+    <meta name="author" content="SmileyPDF">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="canonical" href="https://smileypdf.com/pdf-text-extractor.html">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-text-extractor.html">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/pdf-text-extractor.html">
+    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/pdf-text-extractor.html">
+    <!-- Base CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {}
+        }
+    }
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Additional Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js'></script>
+    <!-- Using Tesseract.js v4 which is more stable for browser use -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+     <!-- Removed redundant FontAwesome link -->
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <style>
+        /* Base Styles */
+        body { font-family: sans-serif; }
+        .file-upload-container { border: 2px dashed #93C5FD; /* Tailwind sky-200 */ transition: all 0.3s ease; border-radius: 0.5rem; padding: 2rem; text-align: center; cursor: pointer; }
+        .file-upload-container:hover, .file-upload-container.drag-over { border-color: #3B82F6; /* Tailwind blue-500 */ background-color: #EFF6FF; /* Tailwind blue-50 */ }
+        .option-card { border: 1px solid #e5e7eb; /* Tailwind gray-200 */ transition: all 0.3s ease; }
+        .option-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); } /* Tailwind shadow-lg */
+        .option-card.selected { border-color: #3B82F6; background-color: #EFF6FF; }
+        #progressBar { transition: width 0.5s ease, background-color 0.5s ease; }
+        .progress-bar-ocr { background-color: #6d28d9; /* Tailwind violet-700 */ }
+        .progress-bar-text { background-color: #16a34a; /* Tailwind green-600 */ }
+        .progress-bar-formatting { background-color: #ea580c; /* Tailwind orange-600 */ }
+        /* Tesseract Log Styling */
+        #tesseract-log-container { max-height: 150px; /* Increased height */ overflow-y: auto; background-color: #1f2937; /* Tailwind gray-800 */ border: 1px solid #4b5563; /* Tailwind gray-600 */ padding: 0.75rem; /* p-3 */ font-family: monospace; font-size: 0.75rem; /* text-xs */ line-height: 1.4; color: #d1d5db; /* Tailwind gray-300 */ border-radius: 0.375rem; /* rounded-md */ margin-top: 0.75rem; }
+        #tesseract-log-container p { margin-bottom: 0.25rem; word-break: break-all; white-space: pre-wrap; /* Wrap long log lines */ }
+        #tesseract-log-container p:first-child { font-weight: 600; color: #9ca3af; } /* Tailwind semibold gray-400 */
+        /* Spinner */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .spinner { border: 3px solid rgba(0,0,0,0.1); width: 1.25rem; /* Adjust size */ height: 1.25rem; border-radius: 50%; border-left-color: #3B82F6; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }
+         .copy-feedback { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 5px; background-color: #10B981; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; opacity: 0; transition: opacity 0.3s, visibility 0.3s; visibility: hidden; }
+        .copy-feedback.show { opacity: 1; visibility: visible; }
+    </style>
+<link rel="stylesheet" href="dark-mode.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+ <!-- Header -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
+    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        </a>
+        <!-- Language Selector -->
+        <div class="absolute right-20 top-4 md:right-4">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
+                    <span class="mr-1">हिंदी</span>
+                    <i class="fas fa-globe text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <a href="../pdf-text-extractor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                    <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-4">
+             <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                    टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                 </button>
+                 <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
+                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a><a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a><a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a><a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a><a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a><a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a><a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a><a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                  </div>
+              </div>
+              <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
+              <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
+              <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+          </div>
+           <div class="flex items-center mr-4">
+    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    </button>
+</div>
+<div class="md:hidden">
+               <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+                   <span class="sr-only">मेनू खोलें</span><i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i><i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+               </button>
+          </div>
+     </nav>
+      <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" x-transition:enter="transition ease-out duration-200 transform origin-top" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform origin-top" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" style="display: none;" x-cloak>
+         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"><a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a><a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a><a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a><a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a><h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3><a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a><a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a><a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a><a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a><a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्टर</a><a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a><a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a><a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a></div>
+      </div>
+</header>
+
+     <main class="container mx-auto px-4 py-12 flex-grow">
+         <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold text-gray-800 mb-3">PDF टेक्स्ट एक्सट्रैक्टर</h1>
+                 <p class="text-gray-600 text-lg">अपने PDF दस्तावेजों से टेक्स्ट निकालें, ऑप्टिकल कैरेक्टर रिकॉग्निशन (OCR) का उपयोग करके स्कैन की गई फाइलों सहित। सर्वोत्तम विधि चुनें।</p>
+             </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <!-- File Upload Area -->
+                 <div class="file-upload-container rounded-lg p-8 text-center cursor-pointer" id="dropZone">
+                     <i class="fas fa-file-pdf text-6xl text-blue-500 mb-4"></i>
+                     <h3 class="text-xl font-semibold text-gray-800 mb-2">1. PDF दस्तावेज़ अपलोड करें</h3>
+                     <p class="text-gray-500 mb-4">अपनी PDF फाइल यहां ड्रैग और ड्रॉप करें या नीचे क्लिक करें</p>
+                     <input type="file" id="pdfInput" accept=".pdf" class="hidden">
+                     <button type="button" id="uploadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2"><i class="fas fa-upload mr-2"></i> PDF फाइल चुनें</button>
+                    <div id="fileNameDisplay" class="mt-3 text-sm text-gray-600 hidden flex items-center justify-center gap-x-2">
+                        <i class="fas fa-file-pdf text-red-500"></i>
+                        <span id="fileName" class="truncate max-w-sm"></span>
+                        <button id="removeFileBtn" type="button" class="ml-2 text-red-500 hover:text-red-700 focus:outline-none text-xs" title="Remove File"><i class="fas fa-times-circle"></i></button>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Extraction Options -->
+             <div id="optionsSection" class="mb-8 hidden">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">2. एक्सट्रैक्शन विधि चुनें</h3>
+                 <div class="grid md:grid-cols-3 gap-4">
+                     <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center" data-option="text">
+                         <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-3"> <i class="fas fa-file-alt text-xl text-green-600"></i> </div>
+                         <h4 class="font-medium text-gray-800 mb-1">मानक टेक्स्ट</h4>
+                         <p class="text-gray-600 text-sm flex-grow">चयन योग्य टेक्स्ट वाले PDF के लिए सबसे तेज़ विधि (इमेज स्कैन नहीं).</p>
+                         <i class="fas fa-check-circle text-blue-500 mt-2 text-xl hidden indicator-icon"></i>
+                     </div>
+                     <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center selected" data-option="ocr">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-3"> <i class="fas fa-eye text-xl text-purple-600"></i> </div>
+                        <h4 class="font-medium text-gray-800 mb-1">OCR (स्कैन किए गए PDF)</h4>
+                         <p class="text-gray-600 text-sm flex-grow">स्कैन की गई इमेज या गैर-चयन योग्य PDF में टेक्स्ट पहचानता है। धीमा है।</p>
+                         <i class="fas fa-check-circle text-blue-500 mt-2 text-xl indicator-icon"></i>
+                     </div>
+                     <div class="option-card p-5 border rounded-lg cursor-pointer bg-white shadow-sm flex flex-col items-center text-center" data-option="formatting">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-3"> <i class="fas fa-align-left text-xl text-blue-600"></i> </div>
+                        <h4 class="font-medium text-gray-800 mb-1">फॉर्मेटिंग रखें</h4>
+                        <p class="text-gray-600 text-sm flex-grow">बुनियादी पैराग्राफ और सूची संरचना को संरक्षित करने का प्रयास करता है (मानक टेक्स्ट PDF).</p>
+                         <i class="fas fa-check-circle text-blue-500 mt-2 text-xl hidden indicator-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Error Message Area (separate from upload section) -->
+            <div id="errorSection" class="hidden bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                <strong class="font-bold"><i class="fas fa-exclamation-triangle mr-2"></i>त्रुटि:</strong>
+                <span class="block sm:inline" id="errorMessage"></span>
+            </div>
+
+
+            <!-- Processing & Result Area Combined -->
+             <div id="processResultArea" class="bg-white rounded-xl shadow-lg p-6 mb-8 hidden">
+
+                <div id="processingSection">
+                     <div class="flex items-center justify-between mb-2">
+                         <h3 class="text-lg font-semibold text-gray-800">PDF प्रोसेस हो रहा है...</h3>
+                         <div id="progressText" class="text-sm font-medium text-blue-600">0%</div>
+                     </div>
+                     <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                         <div id="progressBar" class="h-2.5 rounded-full" style="width: 0%; background-color: #6d28d9;"></div>
+                    </div>
+                     <div id="statusMessage" class="mt-2 text-sm text-gray-500 text-center italic h-5"></div>
+                     <div id="tesseract-log-container" class="hidden"><p class="font-semibold text-xs mb-1">OCR प्रगति विवरण:</p><div id="tesseract-log"></div></div>
+                 </div>
+
+
+                 <div id="resultSection" class="hidden mt-6">
+                    <div class="border-b border-gray-200 pb-4 mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                         <h3 class="text-lg font-semibold text-gray-800 flex-shrink-0">3. निकाला गया टेक्स्ट</h3>
+                         <div class="flex gap-2 flex-wrap justify-center sm:justify-end">
+                              <button id="copyBtn" type="button" title="Copy Text" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50 inline-flex items-center relative" disabled>
+                                <i class="fas fa-copy mr-2"></i> कॉपी
+                                <span id="copyFeedback" class="copy-feedback">कॉपी किया गया!</span>
+                             </button>
+                              <button id="downloadBtn" type="button" title="Download as TXT" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 disabled:opacity-50 inline-flex items-center" disabled>
+                                  <i class="fas fa-download mr-2"></i> डाउनलोड (.txt)
+                              </button>
+                              <button id="resetBtn" type="button" title="Process Another" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-1.5 px-4 rounded-lg text-sm transition duration-300 inline-flex items-center">
+                                <i class="fas fa-redo mr-2"></i> नई फाइल
+                            </button>
+                         </div>
+                      </div>
+                     <textarea id="extractedText" readonly class="text-gray-800 whitespace-pre-wrap max-h-96 overflow-y-auto border border-gray-200 p-4 rounded bg-gray-50 w-full font-mono text-xs" placeholder="कोई टेक्स्ट नहीं निकाला गया या PDF प्रोसेसिंग विफल हुई।"></textarea>
+                </div>
+             </div>
+
+
+            <!-- How to Use Section -->
+            <div class="max-w-4xl mx-auto mt-8 bg-white rounded-xl shadow-md p-6">
+                 <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">PDF से टेक्स्ट कैसे निकालें</h2>
+                 <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                     <li>ड्रैग और ड्रॉप एरिया या "PDF फाइल चुनें" बटन का उपयोग करके अपनी PDF अपलोड करें।</li>
+                     <li>एक्सट्रैक्शन विधि चुनें:
+                         <ul class="list-disc list-inside ml-4 mt-1 text-sm">
+                             <li><b>मानक टेक्स्ट:</b> उन PDF के लिए सबसे तेज़ विकल्प जिनमें पहले से ही टेक्स्ट है (इमेज नहीं)।</li>
+                             <li><b>OCR (स्कैन किए गए PDF):</b> स्कैन किए गए दस्तावेजों या इमेज-आधारित PDF के लिए इसका उपयोग करें। इमेज से टेक्स्ट पढ़ता है (धीमा)। <strong>डिफॉल्ट विकल्प।</strong></li>
+                             <li><b>फॉर्मेटिंग रखें:</b> मानक टेक्स्ट PDF से पैराग्राफ/सूचियों जैसी बुनियादी संरचना को संरक्षित करने का प्रयास करता है।</li>
+                         </ul>
+                     </li>
+                     <li>एक्सट्रैक्शन प्रक्रिया स्वचालित रूप से शुरू होती है। प्रगति बार और स्थिति संदेशों की निगरानी करें। OCR को अधिक समय लग सकता है।</li>
+                     <li>पूरा होने पर, निकाला गया टेक्स्ट नीचे दिखाई देता है। आप इसे कॉपी कर सकते हैं या प्रदान किए गए बटनों का उपयोग करके .txt फाइल के रूप में डाउनलोड कर सकते हैं।</li>
+                     <li>दूसरे दस्तावेज़ को प्रोसेस करने के लिए "नई फाइल" पर क्लिक करें।</li>
+                 </ol>
+             </div>
+
+              <!-- Ad Block -->
+             <div class="w-full max-w-4xl mx-auto my-8 text-center">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+             </div>
+        </div>
+     </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
+         <div class="container mx-auto px-6 text-center">
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+                 <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>आपके PDF कार्यों के लिए मुफ्त ऑनलाइन टूल।</p></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">त्वरित लिंक्स</h4><ul><li><a href="index.html" class="hover:text-white">होम</a></li><li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li><li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li><li><a href="contact.html" class="hover:text-white">संपर्क</a></li></ul></div>
+                 <div><h4 class="font-semibold mb-2 uppercase">कानूनी</h4><ul><li><a href="privacy.html" class="hover:text-white">प्राइवेसी</a></li><li><a href="terms.html" class="hover:text-white">शर्तें</a></li></ul></div>
+             </div>
+             <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</div>
+         </div>
+     </footer>
+
+     <script>
+        // --- Library Checks & Setup ---
+         let PDFJS, TesseractLib, SAVEAS;
+         function checkLibraries() {
+            console.log('Checking required libraries');
+            let allLoaded = true;
+
+            // Check PDF.js
+            if (typeof window.pdfjsLib === 'undefined') {
+                console.error("PDF.js library is missing!");
+                showError("PDF पढ़ने की लाइब्रेरी लोड करने में विफल। कृपया पेज को रिफ्रेश करें।", true);
+                allLoaded = false;
+            } else {
+                console.log(`PDF.js loaded, version: ${window.pdfjsLib.version}`);
+                PDFJS = window.pdfjsLib;
+                PDFJS.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;
+            }
+
+            // Check Tesseract.js
+            if (typeof window.Tesseract === 'undefined') {
+                console.warn("Tesseract OCR लाइब्रेरी नहीं मिली। OCR कार्यक्षमता अक्षम होगी।");
+                TesseractLib = null;
+
+                // Disable OCR option in UI
+                setTimeout(() => {
+                    const ocrOption = document.querySelector('.option-card[data-option="ocr"]');
+                    if (ocrOption) {
+                        ocrOption.classList.add('opacity-50', 'cursor-not-allowed');
+                        ocrOption.title = 'OCR लाइब्रेरी उपलब्ध नहीं है';
+
+                        // Select text extraction by default instead
+                        const textOption = document.querySelector('.option-card[data-option="text"]');
+                        if (textOption) {
+                            textOption.click();
+                        }
+                    }
+                }, 100);
+            } else {
+                console.log('Tesseract.js loaded successfully');
+                TesseractLib = window.Tesseract;
+            }
+
+            // Check FileSaver.js
+            if (typeof window.saveAs === 'undefined') {
+                console.warn("FileSaver.js नहीं मिला। फॉलबैक डाउनलोड विधि का उपयोग करेंगे।");
+            } else {
+                console.log('FileSaver.js loaded successfully');
+                SAVEAS = window.saveAs;
+            }
+
+            return allLoaded;
+        }
+
+         document.addEventListener('DOMContentLoaded', function() {
+             if (!checkLibraries()) return; // Stop if critical libs missing
+
+            // --- DOM Refs ---
+             const pdfInput=document.getElementById('pdfInput'),uploadBtn=document.getElementById('uploadBtn'),dropZone=document.getElementById('dropZone'),fileNameDisplayDiv=document.getElementById('fileNameDisplay'),fileName=document.getElementById('fileName'),removeFileBtn=document.getElementById('removeFileBtn'),optionCards=document.querySelectorAll('.option-card'),processResultArea=document.getElementById('processResultArea'),processingSection=document.getElementById('processingSection'),resultSection=document.getElementById('resultSection'),progressBar=document.getElementById('progressBar'),progressText=document.getElementById('progressText'),statusMessage=document.getElementById('statusMessage'),extractedText=document.getElementById('extractedText'),downloadBtn=document.getElementById('downloadBtn'),copyBtn=document.getElementById('copyBtn'),tesseractLogContainer=document.getElementById('tesseract-log-container'),tesseractLog=document.getElementById('tesseract-log'),resetBtn=document.getElementById('resetBtn'),optionsSection=document.getElementById('optionsSection'),errorSection=document.getElementById('errorSection'),errorMessageEl=document.getElementById('errorMessage'),copyFeedback = document.getElementById('copyFeedback');
+
+            // --- State ---
+             let selectedOption='ocr',currentFile=null,extractedContentCache='',tesseractWorker=null,isProcessing=false;
+
+            // --- Initial Setup ---
+             setupUploadListeners();
+             optionCards.forEach(c => {c.addEventListener('click', handleOptionSelect); if(c.dataset.option === selectedOption){c.classList.add('selected','border-blue-500');c.querySelector('.indicator-icon')?.classList.remove('hidden');}});
+             if(!TesseractLib) document.querySelector('.option-card[data-option="ocr"]')?.classList.add('opacity-50','cursor-not-allowed'); // Disable OCR card if library missing
+            copyBtn.addEventListener('click', copyResultToClipboard);
+            downloadBtn.addEventListener('click', downloadResultAsTxt);
+             resetBtn.addEventListener('click',()=>resetTool(true));
+             removeFileBtn.addEventListener('click', ()=>resetTool(true)); // Hook up remove button
+            document.getElementById('current-year').textContent=new Date().getFullYear();
+
+             // --- Event Handlers & Logic ---
+             function setupUploadListeners(){ ['dragenter','dragover','dragleave','drop'].forEach(ev=>{dropZone.addEventListener(ev,preventDefaults); document.body.addEventListener(ev,preventDefaults);}); ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev,()=> {if(!isProcessing) dropZone.classList.add('drag-over');})); ['dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev,()=> dropZone.classList.remove('drag-over'))); dropZone.addEventListener('drop',handleDrop); uploadBtn.addEventListener('click',()=>pdfInput.click()); pdfInput.addEventListener('change',(e)=>{if(e.target.files.length)handleFileUpload(e.target.files[0]);}); }
+             function preventDefaults(e){e.preventDefault();e.stopPropagation();}
+             function handleDrop(e){dropZone.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if(f && (f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) handleFileUpload(f); else showError('Please drop a valid PDF file.', 3000); }
+             function handleOptionSelect(event) { const card = event.currentTarget; if (!card.dataset.option || (card.dataset.option === 'ocr' && !TesseractLib)) return; selectedOption = card.dataset.option; optionCards.forEach(c=>{c.classList.remove('selected','border-blue-500'); c.querySelector('.indicator-icon')?.classList.add('hidden');}); card.classList.add('selected','border-blue-500'); card.querySelector('.indicator-icon')?.classList.remove('hidden'); progressBar.className='h-2.5 rounded-full progress-bar'; progressBar.classList.add(selectedOption==='ocr'?'progress-bar-ocr':selectedOption==='text'?'progress-bar-text':selectedOption==='formatting'?'progress-bar-formatting':'bg-blue-600'); }
+
+             async function handleFileUpload(file) {
+                 if(isProcessing) return;
+                 resetTool(false); // Keep file name maybe? No, reset fully except persist error.
+                 isProcessing=true; currentFile=file;
+                 fileName.textContent = `${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`; fileNameDisplayDiv.classList.remove('hidden');
+                 optionsSection.classList.remove('hidden');
+                 processResultArea.classList.remove('hidden'); processingSection.classList.remove('hidden'); resultSection.classList.add('hidden');
+                 updateProgress(0, 'आरंभ कर रहा है...'); hideError(); // Clear previous errors
+                 tesseractLogContainer.classList.add('hidden'); tesseractLog.innerHTML='';
+
+                 try { const ab = await readFileAsync(file); await processPDF(new Uint8Array(ab)); }
+                 catch (err) { handleError(err, "File Read/Process Error:"); }
+                 finally { isProcessing=false; }
+             }
+             async function processPDF(arrayBuffer) {
+                extractedContentCache=''; let finalFilename = currentFile.name.replace(/\.pdf$/i,'');
+                updateProgress(10, 'PDF तैयार कर रहा है...');
+
+                try {
+                     if (selectedOption === 'ocr') {
+                        if (!TesseractLib) throw new Error("OCR लाइब्रेरी उपलब्ध नहीं है।");
+                        statusMessage.textContent = 'OCR आरंभ कर रहा है...'; tesseractLogContainer.classList.remove('hidden'); tesseractLog.innerHTML = '<p>Tesseract लोड हो रहा है...</p>'; updateProgress(15);
+                         extractedContentCache = await extractTextWithTesseract(arrayBuffer);
+                         finalFilename += '_ocr.txt'; updateProgress(100, 'OCR पूर्ण।');
+                    } else { // Handles 'text' and 'formatting'
+                         statusMessage.textContent = 'PDF डेटा लोड हो रहा है...';
+                         const rawText = await extractTextFromPDFjs(arrayBuffer); // Uses pdf.js
+                         if (selectedOption === 'formatting') { statusMessage.textContent = 'फॉर्मेटिंग लागू कर रहा है...'; extractedContentCache = simulateWordFormatting(rawText); finalFilename += '_formatted.txt'; }
+                        else { extractedContentCache = rawText; finalFilename += '_extracted.txt'; } // Option 'text'
+                         updateProgress(100, 'एक्सट्रैक्शन पूर्ण।');
+                     }
+                     extractedText.value = extractedContentCache || "कोई टेक्स्ट नहीं मिला या त्रुटि हुई।";
+                 } catch (err) {
+                     // Throw the error up to the main handler
+                     throw err; // Let the main finally block handle UI reset
+                 } finally {
+                     processingSection.classList.add('hidden');
+                     if(extractedContentCache){ // Only show results if extraction succeeded
+                        resultSection.classList.remove('hidden');
+                         downloadBtn.disabled = false; copyBtn.disabled = false;
+                         downloadBtn.onclick = () => { downloadResult(extractedContentCache, finalFilename); };
+                     }
+                 }
+             }
+
+
+             function readFileAsync(f) { return new Promise((res,rej)=>{const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(new Error('File Read Error')); r.readAsArrayBuffer(f); }); }
+             async function extractTextWithTesseract(typedArray) {
+                console.log('Starting OCR process');
+
+                // Clean up previous worker if exists
+                if (tesseractWorker) {
+                    try {
+                        await tesseractWorker.terminate();
+                    } catch (e) {
+                        console.error('Error terminating previous worker:', e);
+                    }
+                    tesseractWorker = null;
+                }
+
+                try {
+                    // Create a new worker with logging
+                    console.log('Creating Tesseract worker');
+                    tesseractWorker = await TesseractLib.createWorker({
+                        logger: m => updateOcrProgress(m),
+                        errorHandler: err => console.error('Tesseract worker error:', err)
+                    });
+
+                    // Load and initialize English language data
+                    console.log('Loading language data');
+                    await tesseractWorker.loadLanguage('eng');
+                    await tesseractWorker.initialize('eng');
+
+                    // Load PDF document
+                    console.log('Loading PDF document');
+                    const pdf = await PDFJS.getDocument({
+                        data: typedArray,
+                        cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,
+                        cMapPacked: true
+                    }).promise;
+
+                    // Process each page
+                    let txt = '';
+                    const num = pdf.numPages;
+                    console.log(`PDF has ${num} pages`);
+                    updateProgress(10, 'OCR के लिए पेज तैयार कर रहा है...');
+
+                    for (let i = 1; i <= num; i++) {
+                        console.log(`Processing page ${i}/${num}`);
+                        statusMessage.textContent = `OCR पेज ${i}/${num}...`;
+
+                        // Render page to canvas
+                        const page = await pdf.getPage(i);
+                        const canvas = await renderPdfPageToCanvas(page, 2.0);
+
+                        try {
+                            // Perform OCR on the page
+                            console.log(`Running OCR on page ${i}`);
+                            const result = await tesseractWorker.recognize(canvas);
+                            const pageText = result.data.text;
+
+                            console.log(`OCR completed for page ${i}, extracted ${pageText.length} characters`);
+                            txt += pageText + '\n\n';
+                        } catch (recErr) {
+                            console.error(`OCR error on page ${i}:`, recErr);
+                            txt += `--- पेज ${i} पर OCR त्रुटि ---\n\n`;
+                        }
+
+                        // Clean up page resources
+                        page.cleanup();
+
+                        // Update progress
+                        const prog = 10 + (i / num) * 85;
+                        updateProgress(prog);
+
+                        // Yield to browser UI thread occasionally
+                        if (i % 2 === 0) await new Promise(r => setTimeout(r, 10));
+                    }
+
+                    // Clean up worker
+                    console.log('Cleaning up Tesseract worker');
+                    if (tesseractWorker) {
+                        await tesseractWorker.terminate();
+                        tesseractWorker = null;
+                    }
+
+                    updateProgress(98, 'OCR पूरा कर रहा है...');
+                    return txt.trim();
+                } catch (error) {
+                    console.error('OCR process error:', error);
+                    // Clean up worker on error
+                    if (tesseractWorker) {
+                        try {
+                            await tesseractWorker.terminate();
+                        } catch (e) {
+                            console.error('Error terminating worker after error:', e);
+                        }
+                        tesseractWorker = null;
+                    }
+                    throw new Error(`OCR विफल: ${error.message || 'अज्ञात त्रुटि'}`);
+                }
+            }
+            async function extractTextFromPDFjs(typedArray){const pdf=await PDFJS.getDocument({data:typedArray,cMapUrl:`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/cmaps/`,cMapPacked:true}).promise;let text='';const num=pdf.numPages;updateProgress(30);for(let i=1;i<=num;i++){const page=await pdf.getPage(i);const tc=await page.getTextContent({normalizeWhitespace:true});let lastY=null,lineBuf='',lastX=-1,lastWidth=0;tc.items.forEach(it=>{const cy=it.transform[5],cx=it.transform[4];if(lastY!==null&&(Math.abs(cy-lastY)>5||it.hasEOL)){text+=lineBuf.trim()+'\n';lineBuf=it.str;lastX=-1;}else{if(lineBuf.length>0&&!lineBuf.endsWith(' ')&&lastX!==-1&&cx>(lastX+lastWidth+1)){lineBuf+=' ';}lineBuf+=it.str;}lastY=cy;lastX=cx;lastWidth=it.width;});text+=lineBuf.trim()+'\n';page.cleanup();if(i<num)text+='\n';const prog=30+(65*i/num);updateProgress(prog,`निकाल रहा है ${i}/${num}...`);if(i%10===0)await new Promise(r=>setTimeout(r,1));}return text.replace(/\s+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();}
+            function simulateWordFormatting(t){return t.split('\n').filter(l=>l.trim().length>0).join('\n\n');}
+            async function renderPdfPageToCanvas(page,scale=1.5){const vp=page.getViewport({scale});const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;return c;}
+             function updateOcrProgress(logData) {
+                console.log('OCR progress update:', logData);
+
+                if (logData.status) {
+                    // Format the status message
+                    let msg = `OCR: ${logData.status}`;
+                    let p = (logData.progress || 0);
+                    if (p > 0 && p < 1) {
+                        msg += ` (${(p * 100).toFixed(0)}%)`;
+                    }
+
+                    // Update the status message on the UI
+                    statusMessage.textContent = msg;
+
+                    // Add to the log
+                    const logP = document.createElement('p');
+                    logP.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+                    tesseractLog.appendChild(logP);
+
+                    // Auto-scroll the log to the bottom
+                    tesseractLogContainer.scrollTop = tesseractLogContainer.scrollHeight;
+
+                    // Make sure the log container is visible
+                    tesseractLogContainer.classList.remove('hidden');
+                }
+
+                // Calculate overall progress (15% for initialization, 80% for OCR)
+                let overallP = 15;
+                if (logData.progress) {
+                    overallP += (logData.progress * 80);
+                }
+
+                // Update the progress bar
+                updateProgress(overallP);
+            }
+            function downloadResult(content, fname){ if(!content)return;try{const blob=new Blob([content],{type:'text/plain;charset=utf-8'});if(SAVEAS){saveAs(blob,fname||'extracted_text.txt');}else{const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=fname||'extracted_text.txt';a.click();URL.revokeObjectURL(url);}}catch(e){showError("डाउनलोड विफल।",3000);}}
+            function copyResultToClipboard(){if(!extractedText.value||!navigator.clipboard){showError('क्लिपबोर्ड अनउपलब्ध/कोई टेक्स्ट नहीं।',3000);return;}navigator.clipboard.writeText(extractedText.value).then(()=>{copyFeedback.classList.add('show');setTimeout(()=>copyFeedback.classList.remove('show'),2000);}).catch(()=>showError('कॉपी विफल।',2000));}
+            function resetTool(fullReset=true){if(tesseractWorker){try{tesseractWorker.terminate();}catch(e){} tesseractWorker=null;}isProcessing=false;currentFile=null;extractedContentCache='';optionsSection.classList.add('hidden');processResultArea.classList.add('hidden');resultSection.classList.add('hidden');processingSection.classList.remove('hidden');if(fullReset) { fileInput.value=null; fileName.textContent=''; fileNameDisplayDiv.classList.add('hidden');} extractedText.value='';copyBtn.disabled=true;downloadBtn.disabled=true;updateProgress(0);statusMessage.textContent='';hideError();tesseractLogContainer.classList.add('hidden');tesseractLog.innerHTML='';selectedOption='ocr';optionCards.forEach(c=>{c.classList.remove('selected','border-blue-500');c.querySelector('.indicator-icon')?.classList.add('hidden');});const defaultCard=document.querySelector('.option-card[data-option="ocr"]');if(defaultCard){defaultCard.classList.add('selected','border-blue-500');defaultCard.querySelector('.indicator-icon')?.classList.remove('hidden');}}
+            function updateProgress(pct,msg=null){const clamped=Math.min(pct,100);progressBar.style.width=`${clamped}%`;progressText.textContent=`${Math.round(clamped)}%`;if(msg)statusMessage.textContent=msg;}
+            function showError(msg, persist=false, duration=5000){if(!errorSection)return; const timerId=errorSection.dataset.timer;if(timerId)clearTimeout(Number(timerId));errorMessageEl.textContent=msg||'एक त्रुटि हुई।'; errorSection.classList.remove('hidden');if(!persist){const timer=setTimeout(()=>errorSection.classList.add('hidden'),duration);errorSection.dataset.timer=timer;}else{delete errorSection.dataset.timer;}}
+             function hideError(){if(errorSection){errorSection.classList.add('hidden');const timerId=errorSection.dataset.timer;if(timerId)clearTimeout(Number(timerId));delete errorSection.dataset.timer;}}
+            function handleError(err,contextMsg="Error:") {console.error(contextMsg,err);showError(`${contextMsg} ${err.message||'कृपया फाइल जांचें या पुन: प्रयास करें।'}`,true);isProcessing=false;/* Reset parts of UI? */ processingSection.classList.add('hidden'); resultSection.classList.add('hidden'); }
+
+        }).catch(initError => {
+             console.error("Initialization script failed:", initError);
+             // Display a general error message to the user on the page
+            document.body.innerHTML = `<div class="p-8 text-center text-red-600 bg-red-50 min-h-screen flex items-center justify-center"> <p>पेज कंपोनेंट्स को आरंभ करने में त्रुटि। कृपया रिफ्रेश करें।</p></div>`;
+         });
+     </script>
+<script src="../dark-mode.js"></script>
+
+<img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+</body>
+</html>
