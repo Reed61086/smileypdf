@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress PDF - Reduce PDF File Size Online | SmileyPDF</title>
+    <meta name="description" content="Decrease the file size of your PDF documents online for free with SmileyPDF. Choose your compression level for optimal balance between size and quality. Fast & easy!">
+    <!-- Add links to your CSS files here -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Example CSS Link -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Add any necessary JS libraries or AdSense code placeholder here -->
+</head>
+<body>
+
+    <header>
+        <!-- Standard Header Structure: Logo and Navigation -->
+        <nav class="navbar"> <!-- Use your actual navigation structure/classes -->
+            <div class="logo">
+                <a href="/"><img src="images/logo.png" alt="SmileyPDF Logo"></a> <!-- Use your actual logo path -->
+            </div>
+            <ul class="nav-links">
+                 <!-- Add Navigation Links Here - Example Structure -->
+                <li><a href="/#tools">Tools</a></li>
+                <li><a href="merge-pdf.html">Merge PDF</a></li>
+                <li><a href="split-pdf.html">Split PDF</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tool-page">
+            <h1>Compress PDF File Size</h1>
+            <p class="tool-description">Reduce the size of your large PDF files quickly and easily without significant loss of quality. Perfect for emailing, sharing, or uploading documents.</p>
+
+            <!-- ######################################################### -->
+            <!-- START OF YOUR ACTUAL TOOL INTERFACE (DO NOT MODIFY FUNCTIONALITY) -->
+            <!-- ######################################################### -->
+            <div class="tool-interface" id="compress-pdf-tool">
+                <!-- Your existing HTML for file upload, compression level options (e.g., radio buttons or slider), and the 'Compress' button goes here. -->
+                <!-- Example Structure (Adapt): -->
+                 <div class="upload-area">
+                    <p>Drag & Drop your PDF file here or</p>
+                    <input type="file" id="pdf-upload-compress" accept=".pdf">
+                    <label for="pdf-upload-compress" class="upload-button">Select PDF File</label>
+                </div>
+                 <div class="options-area-compress" style="display: none;"> <!-- Show after upload -->
+                    <p>Choose Compression Level:</p>
+                    <div>
+                        <input type="radio" id="compress-basic" name="compression_level" value="basic" checked>
+                        <label for="compress-basic">Basic Compression (Good quality, smaller size)</label>
+                    </div>
+                     <div>
+                        <input type="radio" id="compress-strong" name="compression_level" value="strong">
+                        <label for="compress-strong">Strong Compression (Lowest size, may reduce quality)</label>
+                    </div>
+                     <div>
+                        <input type="radio" id="compress-medium" name="compression_level" value="medium">
+                        <label for="compress-medium">Recommended (Good balance)</label> <!-- Example alternative option -->
+                    </div>
+                    <!-- Display original file size here -->
+                    <p id="original-size-info">Original size: Calculating...</p>
+                </div>
+                <button id="compress-button" class="process-button" style="display: none;">Compress PDF</button> <!-- Show after upload -->
+                 <div class="download-area-compress" style="display: none;">
+                    <p>Compression Complete!</p>
+                    <!-- Display original and new file size, percentage reduction -->
+                    <p id="compression-results">Original: X MB, New: Y MB (Z% reduction)</p>
+                    <a href="#" id="download-link-compress" download="compressed_document.pdf" class="download-button">Download Compressed PDF</a>
+                </div>
+                 <div class="processing-message-compress" style="display: none;">
+                    <p>Compressing... This may take a moment for large files.</p>
+                </div>
+            </div>
+            <!-- ######################################################### -->
+            <!-- END OF YOUR ACTUAL TOOL INTERFACE -->
+            <!-- ######################################################### -->
+
+            <section class="tool-info">
+                <h2>How to Compress a PDF Online</h2>
+                <ol>
+                    <li><strong>Upload Your PDF:</strong> Click 'Select PDF File' or drag and drop the PDF you want to compress into the upload zone.</li>
+                    <li><strong>Choose Compression Level:</strong> Select the desired level of compression. Higher compression results in a smaller file size but might slightly reduce the visual quality (especially for images). The 'Recommended' or 'Basic' setting often provides a good balance.</li>
+                    <li><strong>Start Compression:</strong> Hit the 'Compress PDF' button. Our tool will analyze your PDF and apply optimization techniques to reduce its size.</li>
+                    <li><strong>Download Compressed File:</strong> Once finished, you'll see the original and new file sizes, along with the percentage reduction. Click the download link to get your optimized PDF.</li>
+                </ol>
+
+                <h2>Why Reduce PDF File Size?</h2>
+                <ul>
+                    <li><strong>Easier Emailing:</strong> Avoid exceeding email attachment size limits.</li>
+                    <li><strong>Faster Uploads/Downloads:</strong> Smaller files transfer more quickly, saving time and bandwidth.</li>
+                    <li><strong>Web Optimization:</strong> Reduce loading times for PDFs embedded or linked on websites.</li>
+                    <li><strong>Storage Savings:</strong> Save space on your device or cloud storage.</li>
+                    <li><strong>Improved Sharing:</strong> Make it simpler for others to receive and open your documents.</li>
+                </ul>
+
+                <h2>Understanding Compression Levels</h2>
+                <p>PDF compression works by optimizing images, removing redundant data, and applying other techniques. Here's a general guide:</p>
+                <ul>
+                    <li><strong>Basic/Recommended Compression:</strong> Aims for significant size reduction while preserving visual quality suitable for most standard documents (text, charts, moderate-quality images). Good for general sharing and web use.</li>
+                    <li><strong>Strong Compression:</strong> Achieves the maximum possible size reduction. This might noticeably decrease image quality (resolution/detail) and is best suited for documents where file size is the absolute priority and high visual fidelity isn't critical (e.g., text-heavy documents, draft versions).</li>
+                </ul>
+                <p>We recommend starting with 'Basic' or 'Recommended' and only using 'Strong' compression if necessary, checking the result to ensure quality is acceptable for your needs.</p>
+
+                <h2>Frequently Asked Questions (FAQ) about Compressing PDFs</h2>
+                <dl>
+                    <dt>Will compressing my PDF make it look bad?</dt>
+                    <dd>Our goal is to reduce file size while maintaining the best possible quality. Basic/Recommended compression usually results in minimal visual changes. Strong compression might affect image clarity more noticeably. We suggest downloading the result and checking if it meets your requirements.</dd>
+
+                    <dt>Can I compress password-protected PDFs?</dt>
+                    <dd>Generally, you need to remove the password protection *before* uploading the PDF for compression. Our tool cannot process encrypted files.</dd>
+
+                    <dt>How much smaller will my PDF become?</dt>
+                    <dd>The amount of compression varies greatly depending on the content of the PDF. Files with many large, unoptimized images will typically see the most significant size reduction. Text-only PDFs may not compress as much. Our tool will show you the percentage reduction after processing.</dd>
+
+                     <dt>Is the compression process secure?</dt>
+                    <dd>Yes. We use secure connections (HTTPS) for file transfers, and your uploaded PDF is automatically deleted from our servers shortly after compression is complete. Your privacy is important. See our <a href="privacy.html">Privacy Policy</a>.</dd>
+                </dl>
+            </section>
+
+            <section class="related-tools">
+                <h2>Other Tools to Optimize Your PDFs</h2>
+                <ul>
+                    <li><a href="merge-pdf.html">Merge PDF</a>: Combine multiple PDFs into one before compressing.</li>
+                    <li><a href="split-pdf.html">Split PDF</a>: Break down a large PDF into smaller parts.</li>
+                    <li><a href="convert-pdf-to-jpg.html">Convert PDF to JPG</a>: Extract images or save pages as JPEGs, which can sometimes be smaller.</li>
+                    <li><a href="edit-pdf.html">Edit PDF</a>: Remove unnecessary large images or elements before compressing.</li>
+                </ul>
+            </section>
+
+        </section>
+    </main>
+
+    <footer>
+        <!-- Standard Footer Structure -->
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About Us</a> |
+                <a href="contact.html">Contact</a> |
+                <a href="privacy.html">Privacy Policy</a> |
+                <a href="terms.html">Terms of Service</a> |
+                <a href="/#tools">All Tools</a>
+            </div>
+            <div class="footer-copyright">
+                © 2024 SmileyPDF.com. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add links to your JS files here -->
+    <!-- <script src="js/compress-pdf.js"></script> --> <!-- Example JS Link -->
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotate PDF Pages Online - Free & Easy | SmileyPDF</title>
+    <meta name="description" content="Easily rotate PDF pages clockwise or counter-clockwise with SmileyPDF. Fix incorrectly scanned documents or change orientation online for free.">
+    <!-- Add links to your CSS files here -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Example CSS Link -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <header>
+        <!-- Standard Header Structure -->
+        <nav class="navbar">
+            <div class="logo">
+                <a href="/"><img src="images/logo.png" alt="SmileyPDF Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/#tools">Tools</a></li>
+                <li><a href="merge-pdf.html">Merge PDF</a></li>
+                <li><a href="split-pdf.html">Split PDF</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tool-page">
+            <h1>Rotate PDF Pages</h1>
+            <p class="tool-description">Correct the orientation of your PDF pages effortlessly. Rotate individual pages or the entire document 90° left, 90° right, or 180°.</p>
+
+            <!-- ######################################################### -->
+            <!-- START OF YOUR ACTUAL ROTATE PDF TOOL INTERFACE -->
+            <!-- Your HTML for upload, page preview/selection, rotation controls (e.g., buttons per page or for all pages), and 'Rotate' button goes here. -->
+             <div class="tool-interface" id="rotate-pdf-tool">
+                 <div class="upload-area">
+                    <p>Drag & Drop your PDF file here or</p>
+                    <input type="file" id="pdf-upload-rotate" accept=".pdf">
+                    <label for="pdf-upload-rotate" class="upload-button">Select PDF File</label>
+                </div>
+                 <div class="page-preview-rotate-area" style="display: none;">
+                    <!-- Thumbnails with rotation buttons (e.g., 90L, 90R, 180) -->
+                    <p>Select pages and choose rotation.</p>
+                     <button id="rotate-all-left">Rotate All Left</button>
+                     <button id="rotate-all-right">Rotate All Right</button>
+                 </div>
+                 <button id="rotate-button" class="process-button" style="display: none;">Apply Rotation & Save</button>
+                 <div class="download-area-rotate" style="display: none;">
+                    <p>Rotation applied!</p>
+                    <a href="#" id="download-link-rotate" download="rotated_document.pdf" class="download-button">Download Rotated PDF</a>
+                 </div>
+                 <div class="processing-message-rotate" style="display: none;">
+                    <p>Rotating... Please wait.</p>
+                 </div>
+            </div>
+            <!-- END OF YOUR ACTUAL TOOL INTERFACE -->
+            <!-- ######################################################### -->
+
+            <section class="tool-info">
+                <h2>How to Rotate PDF Pages Online</h2>
+                <ol>
+                    <li><strong>Upload PDF:</strong> Select the PDF file you need to rotate.</li>
+                    <li><strong>Preview Pages:</strong> Thumbnails of your pages will appear.</li>
+                    <li><strong>Select Rotation:</strong> Click the rotation buttons (e.g., Rotate Left 90°, Rotate Right 90°, Rotate 180°) for individual pages or use the 'Rotate All' options if available.</li>
+                    <li><strong>Apply Changes:</strong> Click the 'Apply Rotation' or 'Save' button.</li>
+                    <li><strong>Download:</strong> Get your PDF with the corrected page orientations.</li>
+                </ol>
+
+                <h2>Why Rotate PDF Pages?</h2>
+                <ul>
+                    <li><strong>Fix Scan Orientation:</strong> Correct pages that were scanned upside down or sideways.</li>
+                    <li><strong>Adjust Landscape/Portrait:</strong> Change the orientation of specific pages within a document.</li>
+                    <li><strong>Prepare for Printing:</strong> Ensure all pages are oriented correctly before printing.</li>
+                    <li><strong>Improve Readability:</strong> Make documents easier to read on screen.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQ) about Rotating PDFs</h2>
+                <dl>
+                    <dt>Can I rotate just one page in a multi-page PDF?</dt>
+                    <dd>Yes, our tool typically allows you to preview all pages and apply rotation selectively to individual pages or to the entire document at once.</dd>
+                    <dt>Will rotating affect the quality of my PDF?</dt>
+                    <dd>No, rotating pages is a lossless operation. The text and image quality of your document will remain unchanged.</dd>
+                    <dt>Is this service really free?</dt>
+                    <dd>Yes, rotating PDF pages with SmileyPDF is completely free to use.</dd>
+                </dl>
+            </section>
+
+            <section class="related-tools">
+                <h2>Other Handy PDF Tools</h2>
+                <ul>
+                    <li><a href="delete-pages-pdf.html">Delete PDF Pages</a>: Remove unwanted pages.</li>
+                    <li><a href="reorder-pages-pdf.html">Reorder PDF Pages</a>: Change the sequence of pages.</li>
+                    <li><a href="split-pdf.html">Split PDF</a>: Extract specific pages after rotating.</li>
+                </ul>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Standard Footer Structure -->
+         <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About Us</a> |
+                <a href="contact.html">Contact</a> |
+                <a href="privacy.html">Privacy Policy</a> |
+                <a href="terms.html">Terms of Service</a> |
+                <a href="/#tools">All Tools</a>
+            </div>
+            <div class="footer-copyright">
+                © 2024 SmileyPDF.com. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS for rotate tool -->
+    <!-- <script src="js/rotate-pdf.js"></script> -->
+
+</body>
+</html>

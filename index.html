@@ -4,16 +4,21 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmileyPDF: Free & Easy Online PDF Tools - Merge, Split, Compress & More</title>
-    <meta name="description" content="Your friendly, free online suite of PDF tools. Easily merge, split, compress, convert, rotate, unlock, and watermark PDFs right in your browser. No installation needed!">
-    <meta name="keywords" content="PDF editor, PDF tools, free PDF converter, merge PDF, PDF to Word, PDF to Excel, PDF to JPG, image to PDF, rotate PDF, extract text from PDF, online PDF tools">
+    <title>SmileyPDF: Free Online PDF Tools - Merge, Split, Compress, Convert & Edit PDFs</title>
+    <meta name="description" content="Free online PDF tools with client-side processing for maximum privacy. Merge, split, compress, convert, edit, and manipulate PDF files securely in your browser without uploading to servers. No registration or installation required.">
+    <meta name="keywords" content="PDF editor, PDF tools, free PDF converter, merge PDF, split PDF, compress PDF, PDF to Word, PDF to Excel, PDF to JPG, JPG to PDF, image to PDF, rotate PDF, extract text from PDF, online PDF tools, secure PDF processing, client-side PDF">
     <meta name="author" content="SmileyPDF">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="canonical" href="https://smileypdf.com/index.html">
-    <link rel="alternate" hreflang="en" href="https://smileypdf.com/index.html">
-    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/index.html">
-    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/index.html">
+    <link rel="canonical" href="https://smileypdf.com/">
+    <link rel="alternate" hreflang="en" href="https://smileypdf.com/">
+    <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/">
+    <link rel="alternate" hreflang="x-default" href="https://smileypdf.com/">
+
+    <!-- Additional Meta Tags for SEO -->
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <meta name="rating" content="general">
     <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -96,26 +101,68 @@
     <meta property="twitter:description" content="Free online tools to edit, merge, convert, rotate, and extract text from PDF files. No registration, no installation, secure client-side processing.">
     <meta property="twitter:image" content="https://smileypdf.com/og-image.jpg">
 
-    <!-- Structured Data -->
+    <!-- Structured Data - WebApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "SmileyPDF",
       "url": "https://smileypdf.com",
-      "description": "Free online PDF tools to edit, merge, convert, rotate, and extract text from PDF files. No registration, no installation, secure client-side processing.",
+      "description": "Free online PDF tools to edit, merge, split, compress, convert, rotate, and extract text from PDF files. No registration, no installation, secure client-side processing.",
       "applicationCategory": "DocumentManagement",
       "operatingSystem": "All",
       "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
       },
+      "screenshot": "https://smileypdf.com/images/screenshot.jpg",
+      "featureList": "PDF Merging, PDF Splitting, PDF Compression, PDF to Word Conversion, PDF to JPG Conversion, Image to PDF Conversion, PDF Text Extraction, PDF Rotation, PDF Editing",
+      "softwareVersion": "2.0",
       "creator": {
         "@type": "Organization",
         "name": "SmileyPDF",
-        "url": "https://smileypdf.com"
+        "url": "https://smileypdf.com",
+        "logo": "https://smileypdf.com/logo.png"
       }
+    }
+    </script>
+
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SmileyPDF",
+      "url": "https://smileypdf.com",
+      "logo": "https://smileypdf.com/logo.png",
+      "sameAs": [
+        "https://twitter.com/smileypdf",
+        "https://www.facebook.com/smileypdf",
+        "https://www.linkedin.com/company/smileypdf"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "support@smileypdf.com"
+      }
+    }
+    </script>
+
+    <!-- Structured Data - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://smileypdf.com/"
+        }
+      ]
     }
     </script>
 <link rel="stylesheet" href="dark-mode.css">
@@ -669,32 +716,99 @@
         <section class="mt-16">
             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">Frequently Asked Questions</h2>
             <div class="max-w-3xl mx-auto space-y-4">
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-white p-6 rounded-lg shadow-md" id="faq-free">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Is SmileyPDF really 100% free?</h3>
-                    <p class="text-gray-600">Yes! All our PDF tools are completely free to use. There are no hidden fees, subscriptions, or premium features. We're supported by minimal, non-intrusive advertising.</p>
+                    <p class="text-gray-600">Yes! All our PDF tools are completely free to use. There are no hidden fees, subscriptions, or premium features. We're supported by minimal, non-intrusive advertising to keep the service running smoothly for everyone.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
+
+                <div class="bg-white p-6 rounded-lg shadow-md" id="faq-security">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Are my PDF files secure when using SmileyPDF?</h3>
-                    <p class="text-gray-600">Absolutely. SmileyPDF processes all files directly in your browser using client-side technology. Your files never leave your computer or get uploaded to our servers, ensuring maximum privacy and security.</p>
+                    <p class="text-gray-600">Absolutely. SmileyPDF processes all files directly in your browser using client-side technology. Your files never leave your computer or get uploaded to our servers for most operations. This approach ensures maximum privacy and security for your sensitive documents.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Do I need to create an account to use SmileyPDF?</h3>
-                    <p class="text-gray-600">No registration or account creation is required. Simply visit our website and start using our tools immediately without any sign-up process.</p>
+
+                <div class="bg-white p-6 rounded-lg shadow-md" id="faq-limits">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Are there any file size limits?</h3>
+                    <p class="text-gray-600">Since processing happens in your browser, file size limits depend on your device's capabilities. Most modern computers can handle PDFs up to 100MB without issues. For very large files, you might experience slower performance. We recommend splitting very large PDFs into smaller sections for optimal results.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">What's the maximum file size I can process?</h3>
-                    <p class="text-gray-600">Since all processing happens in your browser, the file size limit depends on your device's memory. Most modern devices can easily handle PDFs up to 100MB, but performance may vary for very large files.</p>
+
+                <div class="bg-white p-6 rounded-lg shadow-md" id="faq-formats">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">What file formats do you support?</h3>
+                    <p class="text-gray-600">Our primary focus is PDF files. For conversion tools, we support: PDF to JPG/PNG, PDF to Word (.docx), PDF to Excel (.xlsx), and Image formats (JPG, PNG, WEBP, BMP, GIF) to PDF. We're constantly working to add more format options based on user feedback.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Which browsers work best with SmileyPDF?</h3>
-                    <p class="text-gray-600">SmileyPDF works with all modern browsers including Chrome, Firefox, Safari, and Edge. For the best experience, we recommend using the latest version of your preferred browser.</p>
+
+                <div class="bg-white p-6 rounded-lg shadow-md" id="faq-account">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Do I need to create an account?</h3>
+                    <p class="text-gray-600">No account creation or registration is required to use any of our tools. Simply visit the website, select your tool, upload your file, and get your task done instantly. We believe in providing a hassle-free experience without unnecessary steps.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md" id="faq-devices">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Does SmileyPDF work on all devices?</h3>
+                    <p class="text-gray-600">SmileyPDF works on any device with a modern web browser, including desktops, laptops, tablets, and smartphones. For the best experience, we recommend using the latest version of Chrome, Firefox, Safari, or Edge. Some advanced features may work better on desktop devices due to processing requirements.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md" id="faq-more">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Have more questions?</h3>
+                    <p class="text-gray-600">Visit our <a href="faq.html" class="text-blue-600 hover:underline">complete FAQ page</a> for more detailed information or <a href="contact.html" class="text-blue-600 hover:underline">contact us</a> directly. We're always happy to help!</p>
                 </div>
             </div>
-            <div class="text-center mt-8">
-                <a href="faq.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
-                    View all FAQs <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
+
+            <!-- Structured Data for FAQs -->
+            <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Is SmileyPDF really 100% free?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! All our PDF tools are completely free to use. There are no hidden fees, subscriptions, or premium features. We're supported by minimal, non-intrusive advertising to keep the service running smoothly for everyone."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Are my PDF files secure when using SmileyPDF?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely. SmileyPDF processes all files directly in your browser using client-side technology. Your files never leave your computer or get uploaded to our servers for most operations. This approach ensures maximum privacy and security for your sensitive documents."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Are there any file size limits?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Since processing happens in your browser, file size limits depend on your device's capabilities. Most modern computers can handle PDFs up to 100MB without issues. For very large files, you might experience slower performance. We recommend splitting very large PDFs into smaller sections for optimal results."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What file formats do you support?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our primary focus is PDF files. For conversion tools, we support: PDF to JPG/PNG, PDF to Word (.docx), PDF to Excel (.xlsx), and Image formats (JPG, PNG, WEBP, BMP, GIF) to PDF. We're constantly working to add more format options based on user feedback."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do I need to create an account?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No account creation or registration is required to use any of our tools. Simply visit the website, select your tool, upload your file, and get your task done instantly. We believe in providing a hassle-free experience without unnecessary steps."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does SmileyPDF work on all devices?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "SmileyPDF works on any device with a modern web browser, including desktops, laptops, tablets, and smartphones. For the best experience, we recommend using the latest version of Chrome, Firefox, Safari, or Edge. Some advanced features may work better on desktop devices due to processing requirements."
+                  }
+                }
+              ]
+            }
+            </script>
         </section>
 
         <!-- Testimonials Section -->

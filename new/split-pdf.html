@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split PDF - Extract Pages from PDF Online | SmileyPDF</title>
+    <meta name="description" content="Easily split PDF files online with SmileyPDF. Extract specific pages, page ranges, or split every page into a separate PDF. Free, fast, and secure.">
+    <!-- Add links to your CSS files here -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Example CSS Link -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Add any necessary JS libraries or AdSense code placeholder here -->
+</head>
+<body>
+
+    <header>
+        <!-- Standard Header Structure: Logo and Navigation -->
+        <nav class="navbar"> <!-- Use your actual navigation structure/classes -->
+            <div class="logo">
+                <a href="/"><img src="images/logo.png" alt="SmileyPDF Logo"></a> <!-- Use your actual logo path -->
+            </div>
+            <ul class="nav-links">
+                 <!-- Add Navigation Links Here - Example Structure -->
+                <li><a href="/#tools">Tools</a></li>
+                <li><a href="merge-pdf.html">Merge PDF</a></li>
+                <li><a href="compress-pdf.html">Compress PDF</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tool-page">
+            <h1>Split PDF File</h1>
+            <p class="tool-description">Need to extract specific pages from a PDF or break a large document into smaller files? Our online PDF splitter makes it simple. Select your pages or ranges and split!</p>
+
+            <!-- ######################################################### -->
+            <!-- START OF YOUR ACTUAL TOOL INTERFACE (DO NOT MODIFY FUNCTIONALITY) -->
+            <!-- ######################################################### -->
+            <div class="tool-interface" id="split-pdf-tool">
+                <!-- Your existing HTML for file upload, page selection (visual preview, checkboxes, range input), splitting options, and the 'Split' button goes here. -->
+                <!-- Example Structure (Adapt): -->
+                 <div class="upload-area">
+                    <p>Drag & Drop your PDF file here or</p>
+                    <input type="file" id="pdf-upload-split" accept=".pdf">
+                    <label for="pdf-upload-split" class="upload-button">Select PDF File</label>
+                </div>
+                 <div class="options-area" style="display: none;"> <!-- Show after upload -->
+                    <p>Select how you want to split the PDF:</p>
+                    <div>
+                        <input type="radio" id="split-by-range" name="split_mode" value="range" checked>
+                        <label for="split-by-range">Extract specific pages or ranges (e.g., 1, 3-5, 8)</label>
+                        <input type="text" id="page-ranges" placeholder="e.g., 1, 3-5, 8">
+                    </div>
+                     <div>
+                        <input type="radio" id="split-all-pages" name="split_mode" value="all">
+                        <label for="split-all-pages">Split every page into a separate PDF file.</label>
+                    </div>
+                    <!-- Optional: Visual page selector/preview area -->
+                    <div id="page-preview-area">
+                        <!-- Thumbnails might load here -->
+                    </div>
+                </div>
+                <button id="split-button" class="process-button" style="display: none;">Split PDF</button> <!-- Show after upload -->
+                 <div class="download-area-split" style="display: none;">
+                    <p>Your PDF has been split!</p>
+                    <!-- Download links/zip file link will appear here -->
+                    <a href="#" id="download-link-split" download="split_documents.zip" class="download-button">Download Split Files (ZIP)</a>
+                </div>
+                 <div class="processing-message-split" style="display: none;">
+                    <p>Splitting... Please wait.</p>
+                </div>
+            </div>
+            <!-- ######################################################### -->
+            <!-- END OF YOUR ACTUAL TOOL INTERFACE -->
+            <!-- ######################################################### -->
+
+            <section class="tool-info">
+                <h2>How to Split a PDF Online</h2>
+                <ol>
+                    <li><strong>Upload Your PDF:</strong> Select the PDF file you wish to split by clicking the 'Select PDF File' button or dragging it into the designated area.</li>
+                    <li><strong>Choose Splitting Mode:</strong> Decide how you want to split the document:
+                        <ul>
+                            <li><strong>Extract Pages/Ranges:</strong> Select this option and enter the page numbers or ranges you want to extract into a new PDF (e.g., "1-3", "5", "8-10"). The specified pages will be combined into a single new PDF.</li>
+                            <li><strong>Split All Pages:</strong> Choose this option to convert every single page of the original PDF into its own separate PDF file.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Specify Pages (If Extracting):</strong> If you chose to extract pages, carefully enter the page numbers or ranges. Use commas to separate pages/ranges (e.g., `2, 5-7, 10`).</li>
+                    <li><strong>Start Splitting:</strong> Click the 'Split PDF' button to begin the process.</li>
+                    <li><strong>Download Your Files:</strong> Once splitting is complete, a download link will be provided. If you extracted pages, you'll get a single PDF. If you split all pages, you'll typically receive a ZIP file containing all the individual PDFs.</li>
+                </ol>
+
+                <h2>Common Uses for Splitting PDFs</h2>
+                <ul>
+                    <li><strong>Extract Chapters:</strong> Isolate specific chapters or sections from a large book or report.</li>
+                    <li><strong>Separate Invoices/Records:</strong> Split a single file containing multiple invoices or records into individual documents.</li>
+                    <li><strong>Share Specific Information:</strong> Send only the relevant pages of a document instead of the entire file.</li>
+                    <li><strong>Reduce File Size (Indirectly):</strong> By extracting only needed pages, you create a smaller, more focused document.</li>
+                    <li><strong>Organize Scanned Documents:</strong> Split a batch scan of multiple documents into individual files.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQ) about Splitting PDFs</h2>
+                <dl>
+                    <dt>How do I specify page ranges?</dt>
+                    <dd>Use numbers for single pages and hyphens for ranges. Separate multiple entries with commas. For example: `1` (page 1), `3-5` (pages 3, 4, and 5), `1, 3-5, 9` (pages 1, 3, 4, 5, and 9).</dd>
+
+                    <dt>What happens if I choose 'Split All Pages'?</dt>
+                    <dd>Each page of your original PDF will become a separate, single-page PDF file. These are usually bundled into a ZIP archive for easy download.</dd>
+
+                    <dt>Is there a limit on the PDF file size I can split?</dt>
+                    <dd>We support most standard PDF sizes, but extremely large files might take longer or encounter processing limits. If you face issues, ensure your internet connection is stable or try splitting a smaller document first.</dd>
+
+                    <dt>Does splitting affect the original PDF file?</dt>
+                    <dd>No, your original PDF file remains untouched on your device. SmileyPDF works with a copy of your uploaded file.</dd>
+
+                     <dt>Are my files secure when using the split tool?</dt>
+                    <dd>Yes, security is a priority. We use secure HTTPS for file transfers, and your uploaded files are automatically deleted from our servers shortly after processing. See our <a href="privacy.html">Privacy Policy</a> for details.</dd>
+                </dl>
+            </section>
+
+            <section class="related-tools">
+                <h2>You Might Also Need These Tools</h2>
+                <ul>
+                    <li><a href="merge-pdf.html">Merge PDF</a>: Combine PDF files back together.</li>
+                    <li><a href="delete-pages-pdf.html">Delete PDF Pages</a>: Remove unwanted pages without splitting.</li>
+                    <li><a href="extract-images-pdf.html">Extract Images from PDF</a>: Pull out images embedded within a PDF.</li>
+                    <li><a href="compress-pdf.html">Compress PDF</a>: Reduce the size of your original or split PDFs.</li>
+                </ul>
+            </section>
+
+        </section>
+    </main>
+
+    <footer>
+        <!-- Standard Footer Structure -->
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About Us</a> |
+                <a href="contact.html">Contact</a> |
+                <a href="privacy.html">Privacy Policy</a> |
+                <a href="terms.html">Terms of Service</a> |
+                <a href="/#tools">All Tools</a>
+            </div>
+            <div class="footer-copyright">
+                © 2024 SmileyPDF.com. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add links to your JS files here -->
+    <!-- <script src="js/split-pdf.js"></script> --> <!-- Example JS Link -->
+
+</body>
+</html>
