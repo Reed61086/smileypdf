@@ -9,7 +9,8 @@
     <meta name="keywords" content="PDF editor, PDF tools, free PDF converter, merge PDF, PDF to Word, PDF to Excel, PDF to JPG, image to PDF, rotate PDF, extract text from PDF, online PDF tools">
     <meta name="author" content="SmileyPDF">
     <meta name="robots" content="index, follow">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="canonical" href="https://smileypdf.com/index.html">
     <link rel="alternate" hreflang="en" href="https://smileypdf.com/index.html">
     <link rel="alternate" hreflang="hi" href="https://smileypdf.com/hi/index.html">
@@ -74,8 +75,7 @@
              font-family: inherit;
         }
     </style>
-    <!-- AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <!-- No external scripts for privacy -->
     <style>
         /* Optional: Add custom styles here if needed */
         .feature-icon { width: 50px; height: 50px; }
@@ -122,34 +122,21 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
- <!-- Header -->
- <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
-    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+  <!-- Header -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-2 flex justify-between items-center">
         <!-- Logo Link -->
-        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
-           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+        <a href="../index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="../logo.webp" alt="SmileyPDF Logo" class="h-12 w-auto mr-2">
+           <span class="font-bold text-xl hidden sm:inline-block">SmileyPDF हिंदी</span>
         </a>
-
-        <!-- Language Selector -->
-        <div class="absolute right-20 top-4 md:right-4">
-            <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open" class="flex items-center text-white hover:text-blue-200">
-                    <span class="mr-1">हिंदी</span>
-                    <i class="fas fa-globe text-xs"></i>
-                </button>
-                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                    <a href="../index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
-                    <a href="index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold">हिंदी</a>
-                </div>
-            </div>
-        </div>
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
-            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">होम</a>
+            <a href="../index.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Home</a>
             <!-- Tools Dropdown -->
              <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
-                    टूल्स <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-purple-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                    Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
                 </button>
                 <div x-show="open" @click.away="open = false"
                      x-transition:enter="transition ease-out duration-100 transform"
@@ -158,49 +145,55 @@
                      x-transition:leave="transition ease-in duration-75 transform"
                      x-transition:leave-start="opacity-100 scale-100"
                      x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right divide-y divide-gray-100"
                      style="display: none;" x-cloak>
-
                      <div class="py-1">
-                         <span class="block px-4 py-1 text-xs font-semibold text-gray-500">बुनियादी टूल्स</span>
-                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF एडिटर</a>
-                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF मर्ज</a>
-                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">इमेज से PDF</a>
-                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF रोटेट</a>
-                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF टेक्स्ट एक्सट्रैक्टर</a>
-                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से JPG</a>
-                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से वर्ड</a>
-                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF से एक्सेल</a>
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-edit text-indigo-600 mr-2"></i>PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-object-group text-indigo-600 mr-2"></i>Merge PDF</a>
+                         <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-cut text-indigo-600 mr-2"></i>Split PDF</a>
+                         <a href="pdf-compressor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-compress-alt text-indigo-600 mr-2"></i>Compress PDF</a>
+                     </div>
+                     <div class="py-1">
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-image text-indigo-600 mr-2"></i>Image to PDF</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-image text-indigo-600 mr-2"></i>PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-word text-indigo-600 mr-2"></i>PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-excel text-indigo-600 mr-2"></i>PDF to Excel</a>
+                     </div>
+                     <div class="py-1">
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-redo text-indigo-600 mr-2"></i>Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-font text-indigo-600 mr-2"></i>Extract PDF Text</a>
+                         <a href="pdf-password.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-lock text-indigo-600 mr-2"></i>Protect PDF</a>
+                         <a href="all-tools.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-toolbox text-indigo-600 mr-2"></i>All Tools</a>
                      </div>
                  </div>
              </div>
-             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">ब्लॉग</a>
-             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">हमारे बारे में</a>
-             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">संपर्क</a>
+             <a href="blog.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Blog</a>
+             <a href="about.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">About</a>
+             <a href="contact.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Contact</a>
          </div>
           <!-- Mobile Menu Button -->
-          <div class="flex items-center mr-4">
-    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-    </button>
-</div>
-<div class="md:hidden">
-              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                  <span class="sr-only">मेनू खोलें</span>
-                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
-                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
-              </button>
-         </div>
+          <div class="flex items-center space-x-2">
+            <button class="theme-toggle text-white hover:text-purple-200 focus:outline-none p-2 rounded-full hover:bg-indigo-600 transition duration-150 ease-in-out" aria-label="Toggle Dark Mode">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </button>
+            <div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded-full hover:bg-indigo-600 transition duration-150 ease-in-out">
+                    <span class="sr-only">Open menu</span>
+                    <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                    <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                </button>
+            </div>
+          </div>
     </nav>
      <!-- Mobile Menu Panel -->
      <div x-show="mobileMenuOpen"
          @click.away="mobileMenuOpen = false"
-         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         class="md:hidden absolute inset-x-0 top-full bg-indigo-800 shadow-lg border-t border-indigo-700"
          x-transition:enter="transition ease-out duration-200 transform origin-top"
          x-transition:enter-start="opacity-0 scale-95"
          x-transition:enter-end="opacity-100 scale-100"
@@ -209,23 +202,30 @@
          x-transition:leave-end="opacity-0 scale-95"
          style="display: none;" x-cloak>
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
-            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
-            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
-
-            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">बुनियादी टूल्स</h3>
-            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
-            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
-            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
-            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a>
-            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्टर</a>
-            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
-            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
-            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a>
+            <a href="../index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Home</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Blog</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">About</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Contact</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-purple-200 uppercase tracking-wider">PDF Tools</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-edit mr-2"></i>PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-object-group mr-2"></i>Merge PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-cut mr-2"></i>Split PDF</a>
+                <a href="pdf-compressor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-compress-alt mr-2"></i>Compress PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-image mr-2"></i>Image to PDF</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-image mr-2"></i>PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-word mr-2"></i>PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-excel mr-2"></i>PDF to Excel</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-redo mr-2"></i>Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-font mr-2"></i>Extract Text</a>
+            </div>
+            <a href="all-tools.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 bg-indigo-600 mt-2 text-center transition duration-150 ease-in-out">
+                <i class="fas fa-toolbox mr-2"></i>View All Tools
+            </a>
         </div>
      </div>
- </header>
+</header>
+
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-6 py-12">
@@ -233,14 +233,14 @@
         <nav class="text-sm mb-8" aria-label="Breadcrumb">
             <ol class="list-none p-0 inline-flex">
                 <li class="flex items-center">
-                    <a href="index.html" class="text-blue-600 hover:text-blue-800">होम</a>
+                    <a href="index.html" class="text-indigo-600 hover:text-indigo-800">होम</a>
                 </li>
             </ol>
         </nav>
 
         <!-- Hero Section -->
         <section class="text-center mb-16">
-            <img src="../logo.png" alt="SmileyPDF Logo - Free PDF Tools" class="h-48 md:h-60 mx-auto mb-4">
+            <img src="../../logo.webp" alt="SmileyPDF Logo - Free PDF Tools" class="h-48 md:h-60 mx-auto mb-4">
             <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">आपका मुफ्त और सरल ऑनलाइन PDF टूलकिट</h1>
             <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">
                 अपने ब्राउज़र में सीधे अपनी PDF फाइलों को आसानी से एडिट, मर्ज, कन्वर्ट, रोटेट और टेक्स्ट निकालें। कोई साइन-अप नहीं, कोई सॉफ्टवेयर इंस्टॉल करने की जरूरत नहीं!
@@ -249,13 +249,13 @@
 
             <!-- Quick Access Buttons -->
             <div class="flex flex-wrap justify-center gap-4 mt-8">
-                <a href="pdf-editor.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
+                <a href="pdf-editor.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
                     <i class="fas fa-pen-to-square mr-2"></i> PDF एडिट करें
                 </a>
-                <a href="merge-pdf.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
+                <a href="merge-pdf.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
                     <i class="fas fa-object-group mr-2"></i> PDF मर्ज करें
                 </a>
-                <a href="image-to-pdf.html" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
+                <a href="image-to-pdf.html" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center">
                     <i class="fas fa-image mr-2"></i> इमेज से PDF
                 </a>
             </div>
@@ -266,8 +266,8 @@
             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">SmileyPDF क्यों?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center p-6 bg-white rounded-lg shadow">
-                    <div class="mb-4 flex justify-center items-center bg-blue-100 rounded-full feature-icon mx-auto">
-                        <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                    <div class="mb-4 flex justify-center items-center bg-indigo-100 rounded-full feature-icon mx-auto">
+                        <i class="fas fa-shield-alt text-indigo-600 text-2xl"></i>
                     </div>
                     <h3 class="font-semibold text-lg mb-2">सुरक्षित और निजी</h3>
                     <p class="text-gray-600 text-sm">फाइलें सीधे आपके ब्राउज़र में प्रोसेस की जाती हैं। कुछ भी हमारे सर्वर पर अपलोड नहीं किया जाता है, जिससे आपका डेटा निजी रहता है।</p>
@@ -306,7 +306,7 @@
 
             <!-- Tool Categories Navigation -->
             <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <button id="basic-tab" onclick="switchTab('basic')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition duration-300">
+                <button id="basic-tab" onclick="switchTab('basic')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium transition duration-300">
                     <i class="fas fa-tools mr-2"></i>बुनियादी टूल्स
                 </button>
 
@@ -320,75 +320,75 @@
 
             <!-- Basic Tools Tab -->
             <div id="basic-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display: grid;">
-                <a href="pdf-editor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-editor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-pen-to-square text-2xl mb-3"></i>
                     <div>PDF एडिटर</div>
                     <div class="mt-2 text-xs text-gray-500">अपनी PDF फाइलों में टेक्स्ट, इमेज और पेज एडिट करें</div>
                 </a>
-                <a href="merge-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="merge-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-object-group text-2xl mb-3"></i>
                     <div>PDF मर्ज</div>
                     <div class="mt-2 text-xs text-gray-500">कई PDF फाइलों को एक दस्तावेज़ में मिलाएं</div>
                 </a>
-                <a href="image-to-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="image-to-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-image text-2xl mb-3"></i>
                     <div>इमेज से PDF</div>
                     <div class="mt-2 text-xs text-gray-500">JPG, PNG और अन्य इमेज को PDF फॉर्मेट में बदलें</div>
                 </a>
-                <a href="pdf-rotator.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-rotator.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-rotate text-2xl mb-3"></i>
                     <div>PDF पेज रोटेटर</div>
                     <div class="mt-2 text-xs text-gray-500">पेजों को सही ओरिएंटेशन में रोटेट करें</div>
                 </a>
-                <a href="pdf-to-word.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-to-word.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-word text-2xl mb-3"></i>
                     <div>PDF से वर्ड</div>
                     <div class="mt-2 text-xs text-gray-500">PDF दस्तावेजों को संपादन योग्य वर्ड फाइलों में बदलें</div>
                 </a>
-                <a href="pdf-to-jpg.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-to-jpg.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-image text-2xl mb-3"></i>
                     <div>PDF से JPG</div>
                     <div class="mt-2 text-xs text-gray-500">PDF पेजों को JPG इमेज फॉर्मेट में बदलें</div>
                 </a>
-                <a href="pdf-text-extractor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-text-extractor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-lines text-2xl mb-3"></i>
                     <div>PDF टेक्स्ट एक्सट्रैक्टर</div>
                     <div class="mt-2 text-xs text-gray-500">PDF दस्तावेजों से टेक्स्ट सामग्री निकालें</div>
                 </a>
-                <a href="pdf-to-excel.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-to-excel.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-excel text-2xl mb-3"></i>
                     <div>PDF से एक्सेल</div>
                     <div class="mt-2 text-xs text-gray-500">PDF तालिकाओं को एक्सेल स्प्रेडशीट में बदलें</div>
                 </a>
-                <a href="pdf-splitter.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-splitter.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-scissors text-2xl mb-3"></i>
                     <div>PDF स्प्लिटर</div>
                     <div class="mt-2 text-xs text-gray-500">PDF फाइलों को अलग-अलग दस्तावेजों में विभाजित करें</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">नया</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">नया</span>
                 </a>
-                <a href="pdf-compressor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-compressor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-compress text-2xl mb-3"></i>
                     <div>PDF कंप्रेसर</div>
                     <div class="mt-2 text-xs text-gray-500">गुणवत्ता बनाए रखते हुए PDF फाइल का आकार कम करें</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">नया</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">नया</span>
                 </a>
-                <a href="pdf-password.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-password.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-lock text-2xl mb-3"></i>
                     <div>PDF पासवर्ड प्रोटेक्टर</div>
                     <div class="mt-2 text-xs text-gray-500">अपनी PDF फाइलों में पासवर्ड सुरक्षा जोड़ें</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">नया</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">नया</span>
                 </a>
-                <a href="pdf-to-ppt.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-to-ppt.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-powerpoint text-2xl mb-3"></i>
                     <div>PDF से पावरपॉइंट</div>
                     <div class="mt-2 text-xs text-gray-500">PDF फाइलों को संपादन योग्य पावरपॉइंट प्रस्तुतियों में बदलें</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">नया</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">नया</span>
                 </a>
-                <a href="pdf-page-numbering.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-page-numbering.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-list-ol text-2xl mb-3"></i>
                     <div>PDF पेज नंबरिंग</div>
                     <div class="mt-2 text-xs text-gray-500">अपने PDF दस्तावेजों में कस्टम पेज नंबर जोड़ें</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">नया</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">नया</span>
                 </a>
             </div>
 
@@ -396,124 +396,124 @@
 
             <!-- Advanced Tools Tab -->
             <div id="advanced-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display: none;">
-                <a href="translate-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="translate-pdf.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-language text-2xl mb-3"></i>
                     <div>Multi-Language Translation</div>
                     <div class="mt-2 text-xs text-gray-500">Translate PDF content into different languages</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="advanced-ocr.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="advanced-ocr.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-image text-2xl mb-3"></i>
                     <div>Advanced Image OCR</div>
                     <div class="mt-2 text-xs text-gray-500">Extract text from images with high accuracy</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="custom-fonts.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="custom-fonts.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-font text-2xl mb-3"></i>
                     <div>Custom Fonts and Styles</div>
                     <div class="mt-2 text-xs text-gray-500">Apply unique fonts and styles to PDF text</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="batch-watermark.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="batch-watermark.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-stamp text-2xl mb-3"></i>
                     <div>Batch Watermarking</div>
                     <div class="mt-2 text-xs text-gray-500">Apply watermarks across multiple files</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-to-markdown.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-to-markdown.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-brands fa-markdown text-2xl mb-3"></i>
                     <div>PDF to Markdown</div>
                     <div class="mt-2 text-xs text-gray-500">Convert PDFs to Markdown format</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-to-epub.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-to-epub.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-book text-2xl mb-3"></i>
                     <div>PDF to EPUB</div>
                     <div class="mt-2 text-xs text-gray-500">Transform PDFs into EPUB format for eBooks</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-form-creator.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-form-creator.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-circle-check text-2xl mb-3"></i>
                     <div>PDF Form Creator</div>
                     <div class="mt-2 text-xs text-gray-500">Create fillable PDF forms with custom fields</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-metadata.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-metadata.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-tags text-2xl mb-3"></i>
                     <div>PDF Metadata Editor</div>
                     <div class="mt-2 text-xs text-gray-500">View and edit PDF document properties</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-to-html.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-to-html.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-brands fa-html5 text-2xl mb-3"></i>
                     <div>PDF to HTML</div>
                     <div class="mt-2 text-xs text-gray-500">Convert PDF documents to HTML web pages</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
             </div>
 
             <!-- Specialized Tools Tab -->
             <div id="specialized-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display: none;">
 
-                <a href="formula-recognition.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="formula-recognition.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-square-root-variable text-2xl mb-3"></i>
                     <div>Scientific Formula Recognition</div>
                     <div class="mt-2 text-xs text-gray-500">Extract and interpret formulas from documents</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="visual-insights.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="visual-insights.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-chart-pie text-2xl mb-3"></i>
                     <div>Visual Insights Generator</div>
                     <div class="mt-2 text-xs text-gray-500">Create infographics from PDF content</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="text-to-speech.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="text-to-speech.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-volume-high text-2xl mb-3"></i>
                     <div>Text-to-Speech</div>
                     <div class="mt-2 text-xs text-gray-500">Convert PDF text into audio</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-templates.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-templates.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-file-circle-plus text-2xl mb-3"></i>
                     <div>Customizable Templates</div>
                     <div class="mt-2 text-xs text-gray-500">Pre-designed templates for various documents</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="emoji-tool.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="emoji-tool.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-face-smile text-2xl mb-3"></i>
                     <div>Emoji Integration</div>
                     <div class="mt-2 text-xs text-gray-500">Add emojis seamlessly into PDF content</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-accessibility.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-accessibility.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-universal-access text-2xl mb-3"></i>
                     <div>Accessibility Checker</div>
                     <div class="mt-2 text-xs text-gray-500">Make PDFs accessible for screen readers</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-redaction.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-redaction.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-eraser text-2xl mb-3"></i>
                     <div>PDF Redaction Tool</div>
                     <div class="mt-2 text-xs text-gray-500">Permanently remove sensitive information</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-signature.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-signature.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-signature text-2xl mb-3"></i>
                     <div>Digital Signature</div>
                     <div class="mt-2 text-xs text-gray-500">Add digital signatures to PDF documents</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-bates.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-bates.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-hashtag text-2xl mb-3"></i>
                     <div>Bates Numbering</div>
                     <div class="mt-2 text-xs text-gray-500">Add legal Bates numbering to documents</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
-                <a href="pdf-ocr-languages.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-blue-600 font-semibold hover:text-blue-800 border border-blue-200 hover:border-blue-400">
+                <a href="pdf-ocr-languages.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center text-indigo-600 font-semibold hover:text-indigo-800 border border-indigo-200 hover:border-blue-400">
                     <i class="fa-solid fa-globe text-2xl mb-3"></i>
                     <div>Multi-Language OCR</div>
                     <div class="mt-2 text-xs text-gray-500">Extract text in multiple languages</div>
-                    <span class="inline-block mt-2 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">New</span>
+                    <span class="inline-block mt-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full">New</span>
                 </a>
             </div>
         </section>
@@ -524,7 +524,7 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full border-collapse">
                     <thead>
-                        <tr class="bg-blue-100">
+                        <tr class="bg-indigo-100">
                             <th class="border border-gray-300 px-4 py-3 text-left">विशेषताएं</th>
                             <th class="border border-gray-300 px-4 py-3 text-center">SmileyPDF</th>
                             <th class="border border-gray-300 px-4 py-3 text-center">एडोब एक्रोबैट</th>
@@ -600,14 +600,14 @@
                 </div>
             </div>
             <div class="text-center mt-8">
-                <a href="faq.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                <a href="faq.html" class="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium">
                     सभी FAQ देखें <i class="fas fa-arrow-right ml-2"></i>
                 </a>
             </div>
         </section>
 
         <!-- Testimonials Section -->
-        <section class="mt-16 bg-blue-50 py-12 px-6 rounded-lg">
+        <section class="mt-16 bg-indigo-50 py-12 px-6 rounded-lg">
             <h2 class="text-3xl font-semibold text-center text-gray-800 mb-8">हमारे उपयोगकर्ता क्या कहते हैं</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 <div class="bg-white p-6 rounded-lg shadow-md">
@@ -663,37 +663,37 @@
                     <div>
                         <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF संपादन</h3>
                         <ul class="space-y-2 text-sm">
-                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">ऑनलाइन PDF टेक्स्ट को कैसे संपादित करें</a></li>
-                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">PDF में मुफ्त टेक्स्ट जोड़ें</a></li>
-                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">PDF एनोटेशन टूल्स</a></li>
-                            <li><a href="pdf-editor.html" class="text-blue-600 hover:text-blue-800">ऑनलाइन PDF पर ड्रॉ करें</a></li>
+                            <li><a href="pdf-editor.html" class="text-indigo-600 hover:text-indigo-800">ऑनलाइन PDF टेक्स्ट को कैसे संपादित करें</a></li>
+                            <li><a href="pdf-editor.html" class="text-indigo-600 hover:text-indigo-800">PDF में मुफ्त टेक्स्ट जोड़ें</a></li>
+                            <li><a href="pdf-editor.html" class="text-indigo-600 hover:text-indigo-800">PDF एनोटेशन टूल्स</a></li>
+                            <li><a href="pdf-editor.html" class="text-indigo-600 hover:text-indigo-800">ऑनलाइन PDF पर ड्रॉ करें</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF कन्वर्जन</h3>
                         <ul class="space-y-2 text-sm">
-                            <li><a href="pdf-to-word.html" class="text-blue-600 hover:text-blue-800">PDF को वर्ड दस्तावेज़ में बदलें</a></li>
-                            <li><a href="pdf-to-jpg.html" class="text-blue-600 hover:text-blue-800">PDF से JPG कन्वर्टर</a></li>
-                            <li><a href="image-to-pdf.html" class="text-blue-600 hover:text-blue-800">इमेज को PDF में बदलें</a></li>
-                            <li><a href="pdf-to-excel.html" class="text-blue-600 hover:text-blue-800">PDF से एक्सेल में तालिकाएं निकालें</a></li>
+                            <li><a href="pdf-to-word.html" class="text-indigo-600 hover:text-indigo-800">PDF को वर्ड दस्तावेज़ में बदलें</a></li>
+                            <li><a href="pdf-to-jpg.html" class="text-indigo-600 hover:text-indigo-800">PDF से JPG कन्वर्टर</a></li>
+                            <li><a href="image-to-pdf.html" class="text-indigo-600 hover:text-indigo-800">इमेज को PDF में बदलें</a></li>
+                            <li><a href="pdf-to-excel.html" class="text-indigo-600 hover:text-indigo-800">PDF से एक्सेल में तालिकाएं निकालें</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF प्रबंधन</h3>
                         <ul class="space-y-2 text-sm">
-                            <li><a href="merge-pdf.html" class="text-blue-600 hover:text-blue-800">कई PDF को एक में जोड़ें</a></li>
-                            <li><a href="pdf-rotator.html" class="text-blue-600 hover:text-blue-800">ऑनलाइन PDF पेज रोटेट करें</a></li>
-                            <li><a href="pdf-text-extractor.html" class="text-blue-600 hover:text-blue-800">PDF से टेक्स्ट निकालें</a></li>
-                            <li><a href="merge-pdf.html" class="text-blue-600 hover:text-blue-800">मुफ्त PDF फाइलें मर्ज करें</a></li>
+                            <li><a href="merge-pdf.html" class="text-indigo-600 hover:text-indigo-800">कई PDF को एक में जोड़ें</a></li>
+                            <li><a href="pdf-rotator.html" class="text-indigo-600 hover:text-indigo-800">ऑनलाइन PDF पेज रोटेट करें</a></li>
+                            <li><a href="pdf-text-extractor.html" class="text-indigo-600 hover:text-indigo-800">PDF से टेक्स्ट निकालें</a></li>
+                            <li><a href="merge-pdf.html" class="text-indigo-600 hover:text-indigo-800">मुफ्त PDF फाइलें मर्ज करें</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold mb-3 text-gray-800">PDF सुरक्षा</h3>
                         <ul class="space-y-2 text-sm">
-                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">ऑनलाइन सुरक्षित PDF प्रोसेसिंग</a></li>
-                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">क्लाइंट-साइड PDF टूल्स</a></li>
-                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">निजी PDF संपादन</a></li>
-                            <li><a href="about.html" class="text-blue-600 hover:text-blue-800">बिना अपलोड PDF एडिटर</a></li>
+                            <li><a href="about.html" class="text-indigo-600 hover:text-indigo-800">ऑनलाइन सुरक्षित PDF प्रोसेसिंग</a></li>
+                            <li><a href="about.html" class="text-indigo-600 hover:text-indigo-800">क्लाइंट-साइड PDF टूल्स</a></li>
+                            <li><a href="about.html" class="text-indigo-600 hover:text-indigo-800">निजी PDF संपादन</a></li>
+                            <li><a href="about.html" class="text-indigo-600 hover:text-indigo-800">बिना अपलोड PDF एडिटर</a></li>
                         </ul>
                     </div>
                 </div>
@@ -706,10 +706,10 @@
                 <h2 class="text-3xl font-bold mb-4">अपने PDF कार्यों को सरल बनाने के लिए तैयार हैं?</h2>
                 <p class="text-xl mb-8 max-w-2xl mx-auto">हजारों संतुष्ट उपयोगकर्ताओं से जुड़ें जो अपनी दस्तावेज़ आवश्यकताओं के लिए SmileyPDF पर भरोसा करते हैं।</p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="pdf-editor.html" class="bg-white text-blue-700 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition duration-300">
+                    <a href="pdf-editor.html" class="bg-white text-indigo-700 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition duration-300">
                         अभी शुरू करें
                     </a>
-                    <a href="about.html" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-700 font-semibold py-3 px-8 rounded-lg transition duration-300">
+                    <a href="about.html" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-indigo-700 font-semibold py-3 px-8 rounded-lg transition duration-300">
                         और जानें
                     </a>
                 </div>
@@ -718,73 +718,93 @@
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-700 text-gray-300 mt-16 py-12">
+        <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-gray-300 mt-12 pt-12 pb-6">
         <div class="container mx-auto px-6">
-            <!-- Newsletter Signup -->
-            <div class="max-w-3xl mx-auto mb-12 text-center">
-                <h3 class="text-xl font-semibold text-white mb-4">नई सुविधाओं के साथ अपडेट रहें</h3>
-                <p class="mb-6">नवीनतम PDF टूल और टिप्स के लिए हमारे न्यूज़लेटर की सदस्यता लें।</p>
-                <form class="flex flex-col sm:flex-row gap-2 justify-center" id="newsletter-form">
-                    <input type="email" placeholder="आपका ईमेल पता" id="newsletter-email" class="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 w-full sm:w-auto">
-                    <button type="button" id="newsletter-submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition duration-300">सदस्यता लें</button>
-                </form>
-                <p id="newsletter-message" class="mt-2 text-sm hidden"></p>
-                <p class="text-xs mt-2 text-gray-400">हम आपकी गोपनीयता का सम्मान करते हैं। कभी भी सदस्यता समाप्त करें।</p>
-            </div>
-
-            <!-- Footer Links -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 text-sm">
+            <!-- Top Footer Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
                 <div>
-                    <h4 class="font-semibold mb-4 uppercase text-white">SmileyPDF के बारे में</h4>
-                    <p class="mb-4">आपके PDF कार्यों को सरल और सुरक्षित बनाने के लिए मुफ्त ऑनलाइन टूल। सभी प्रोसेसिंग आपके ब्राउज़र में होती है - आपकी फाइलें कभी भी आपके कंप्यूटर को नहीं छोड़ती हैं।</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter text-lg"></i></a>
-                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook text-lg"></i></a>
-                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-linkedin text-lg"></i></a>
+                    <h4 class="text-white text-lg font-bold mb-4">SmileyPDF</h4>
+                    <p class="mb-4">Free online PDF tools to help you merge, split, compress, convert and edit PDF files with ease. No installation or registration required.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
                     </div>
                 </div>
+                
+                <!-- Quick Links -->
                 <div>
-                    <h4 class="font-semibold mb-4 uppercase text-white">PDF टूल्स</h4>
+                    <h4 class="text-white text-lg font-bold mb-4">Quick Links</h4>
                     <ul class="space-y-2">
-                        <li><a href="pdf-editor.html" class="hover:text-white">PDF एडिटर</a></li>
-                        <li><a href="merge-pdf.html" class="hover:text-white">PDF मर्ज</a></li>
-                        <li><a href="image-to-pdf.html" class="hover:text-white">इमेज से PDF</a></li>
-                        <li><a href="pdf-rotator.html" class="hover:text-white">PDF रोटेट</a></li>
-                        <li><a href="pdf-text-extractor.html" class="hover:text-white">PDF टेक्स्ट एक्सट्रैक्टर</a></li>
-                        <li><a href="pdf-to-jpg.html" class="hover:text-white">PDF से JPG</a></li>
-                        <li><a href="pdf-to-word.html" class="hover:text-white">PDF से वर्ड</a></li>
-                        <li><a href="pdf-to-excel.html" class="hover:text-white">PDF से एक्सेल</a></li>
+                        <li><a href="../index.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> About Us</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Blog</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Contact</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> FAQ</a></li>
                     </ul>
                 </div>
+                
+                <!-- Popular Tools -->
                 <div>
-                    <h4 class="font-semibold mb-4 uppercase text-white">त्वरित लिंक्स</h4>
+                    <h4 class="text-white text-lg font-bold mb-4">Popular Tools</h4>
                     <ul class="space-y-2">
-                        <li><a href="index.html" class="hover:text-white">होम</a></li>
-                        <li><a href="about.html" class="hover:text-white">हमारे बारे में</a></li>
-                        <li><a href="blog.html" class="hover:text-white">ब्लॉग</a></li>
-                        <li><a href="faq.html" class="hover:text-white">FAQ</a></li>
-                        <li><a href="contact.html" class="hover:text-white">संपर्क</a></li>
+                        <li><a href="merge-pdf.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Merge PDF</a></li>
+                        <li><a href="pdf-splitter.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Split PDF</a></li>
+                        <li><a href="pdf-compressor.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Compress PDF</a></li>
+                        <li><a href="pdf-to-word.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> PDF to Word</a></li>
+                        <li><a href="pdf-to-jpg.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> PDF to JPG</a></li>
                     </ul>
                 </div>
+                
+                <!-- Legal & Contact -->
                 <div>
-                    <h4 class="font-semibold mb-4 uppercase text-white">कानूनी और समर्थन</h4>
+                    <h4 class="text-white text-lg font-bold mb-4">Legal & Contact</h4>
                     <ul class="space-y-2">
-                        <li><a href="privacy.html" class="hover:text-white">गोपनीयता नीति</a></li>
-                        <li><a href="terms.html" class="hover:text-white">सेवा की शर्तें</a></li>
-                        <li><a href="#" class="hover:text-white">सहायता केंद्र</a></li>
-                        <li><a href="#" class="hover:text-white">प्रतिक्रिया</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Terms of Service</a></li>
+                        <li><a href="cookies.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Cookie Policy</a></li>
                     </ul>
+                    <div class="mt-4">
+                        <p class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2 text-indigo-400"></i> support@smileypdf.com</p>
+                    </div>
                 </div>
             </div>
-
+            
+            <!-- Newsletter -->
+            <div class="border-t border-gray-700 pt-8 pb-4">
+                <div class="max-w-xl mx-auto text-center">
+                    <h4 class="text-white text-lg font-bold mb-3">Subscribe to Our Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Stay updated with our latest features and PDF tips</p>
+                    <form class="flex flex-col sm:flex-row gap-2">
+                        <input type="email" placeholder="Your email address" class="flex-grow px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-700 text-white">
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300 whitespace-nowrap">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
             <!-- Copyright -->
-            <div class="border-t border-gray-600 pt-8 text-sm text-center">
-                <p class="mb-2">&copy; <span id="current-year"></span> SmileyPDF. सर्वाधिकार सुरक्षित।</p>
-                <p class="text-gray-400">SmileyPDF एडोब सिस्टम्स इनकॉर्पोरेटेड से संबद्ध नहीं है।</p>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
+                <p>&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</p>
+                <div class="mt-2 flex justify-center">
+                    <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+                </div>
             </div>
         </div>
     </footer>
+
 
     <!-- JavaScript -->
     <script>
@@ -806,7 +826,7 @@
 
             // Show the selected content and highlight the active tab
             document.getElementById(tabName + '-content').style.display = 'grid';
-            document.getElementById(tabName + '-tab').className = 'bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition duration-300';
+            document.getElementById(tabName + '-tab').className = 'bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium transition duration-300';
         }
 
         // Initialize tabs when the page loads
@@ -852,3 +872,4 @@
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
 </html>
+

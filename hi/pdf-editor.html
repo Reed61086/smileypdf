@@ -9,7 +9,8 @@
     <meta name="keywords" content="PDF editor, edit PDF online, free PDF editor, add text to PDF, PDF annotation, PDF signature, modify PDF, online PDF editor, no registration PDF editor">
     <meta name="author" content="SmileyPDF">
     <meta name="robots" content="index, follow">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="canonical" href="https://smileypdf.com/pdf-editor.html">
 
     <!-- Open Graph / Facebook -->
@@ -62,8 +63,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <!-- No external scripts for privacy -->
     <!-- Google Fonts for Signature -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,11 +137,11 @@
 <body class="bg-gray-100 font-sans">
 
 <!-- Header (Same as index.html) -->
-<header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50">
+<header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white shadow-md sticky top-0 z-50">
     <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
         <!-- Logo Link -->
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
-           <img src="../logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+           <img src="../../logo.webp" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
         </a>
         <!-- Desktop Menu -->
         <!-- Language Selector -->
@@ -189,7 +189,7 @@
          </div>
           <!-- Mobile Menu Button -->
           <div class="md:hidden">
-              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-indigo-600">
                   <span class="sr-only">मेनू खोलें</span>
                   <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
                   <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
@@ -199,7 +199,7 @@
      <!-- Mobile Menu Panel -->
      <div x-show="mobileMenuOpen"
          @click.away="mobileMenuOpen = false"
-         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         class="md:hidden absolute inset-x-0 top-full bg-indigo-600 shadow-lg border-t border-blue-500"
          x-transition:enter="transition ease-out duration-200 transform origin-top"
          x-transition:enter-start="opacity-0 scale-95"
          x-transition:enter-end="opacity-100 scale-100"
@@ -208,19 +208,19 @@
          x-transition:leave-end="opacity-0 scale-95"
          style="display: none;" x-cloak>
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">होम</a>
-            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">ब्लॉग</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">हमारे बारे में</a>
-            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">संपर्क</a>
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">होम</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">ब्लॉग</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">हमारे बारे में</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">संपर्क</a>
             <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">टूल्स</h3>
-            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF एडिटर</a>
-            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF मर्ज</a>
-            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">इमेज से PDF</a>
-            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF रोटेट</a>
-            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF टेक्स्ट एक्सट्रैक्टर</a>
-            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से JPG</a>
-            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से वर्ड</a>
-            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF से एक्सेल</a>
+            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">PDF एडिटर</a>
+            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">PDF मर्ज</a>
+            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">इमेज से PDF</a>
+            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">PDF रोटेट</a>
+            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">PDF टेक्स्ट एक्सट्रैक्टर</a>
+            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">PDF से JPG</a>
+            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">PDF से वर्ड</a>
+            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700">PDF से एक्सेल</a>
         </div>
      </div>
 </header>
@@ -249,7 +249,7 @@
              <div class="group relative"><button id="image-tool" title="इमेज जोड़ें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-image text-gray-700 text-lg"></i></button><span class="tooltip-text">इमेज टूल</span></div>
              <div class="group relative"><button id="highlight-tool" title="हाइलाइट एरिया" class="w-12 h-12 rounded-lg flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"><i class="fas fa-highlighter text-gray-700 text-lg"></i></button><span class="tooltip-text">हाइलाइट एरिया</span></div>
             <!-- Save Button at bottom -->
-             <div class="group relative mt-auto"><button id="save-pdf" title="एडिटेड PDF सहेजें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-blue-600 hover:bg-blue-700 transition text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-save text-lg"></i></button><span class="tooltip-text">PDF सहेजें</span></div>
+             <div class="group relative mt-auto"><button id="save-pdf" title="एडिटेड PDF सहेजें" class="w-12 h-12 rounded-lg flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 transition text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled><i class="fas fa-save text-lg"></i></button><span class="tooltip-text">PDF सहेजें</span></div>
         </div>
 
         <!-- Main Content Area (includes viewer and tool panels relative to this) -->
@@ -285,7 +285,7 @@
                          <canvas id="pdf-canvas"></canvas>
                          <!-- Spinner for loading/rendering -->
                         <div id="loading-spinner" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50 hidden">
-                             <i class="fas fa-spinner fa-spin text-blue-600 text-4xl"></i>
+                             <i class="fas fa-spinner fa-spin text-indigo-600 text-4xl"></i>
                         </div>
                      </div>
 
@@ -331,7 +331,7 @@
             <!-- Signature Tool Panel -->
             <div id="signature-tool-panel" class="tool-panel">
                  <div class="flex space-x-2 mb-3">
-                     <button id="draw-signature" class="flex-1 bg-blue-600 text-white py-1" title="हस्ताक्षर ड्रॉ करें">ड्रॉ</button>
+                     <button id="draw-signature" class="flex-1 bg-indigo-600 text-white py-1" title="हस्ताक्षर ड्रॉ करें">ड्रॉ</button>
                      <button id="type-signature" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="हस्ताक्षर टाइप करें">टाइप</button>
                      <button id="initials-btn" class="flex-1 bg-gray-100 py-1 border border-gray-300" title="आद्याक्षर टाइप करें">आद्याक्षर</button>
                  </div>
@@ -368,7 +368,7 @@
                  </div>
                 <div class="flex justify-between mt-2">
                     <button id="clear-signature" class="bg-gray-200 hover:bg-gray-300 text-gray-700" title="साफ करें">साफ करें</button>
-                    <button id="save-signature" class="bg-blue-600 hover:bg-blue-700 text-white" title="PDF में जोड़ें">जोड़ें</button>
+                    <button id="save-signature" class="bg-indigo-600 hover:bg-indigo-700 text-white" title="PDF में जोड़ें">जोड़ें</button>
                 </div>
             </div>
 
@@ -376,7 +376,7 @@
             <div id="image-tool-panel" class="tool-panel">
                  <div id="image-drop-zone">
                     <i class="fas fa-cloud-upload-alt text-3xl mb-2 text-gray-400"></i>
-                     <p>इमेज ड्रैग और ड्रॉप करें या <button id="browse-images" class="text-blue-600 hover:underline focus:outline-none">ब्राउज़ करें</button></p>
+                     <p>इमेज ड्रैग और ड्रॉप करें या <button id="browse-images" class="text-indigo-600 hover:underline focus:outline-none">ब्राउज़ करें</button></p>
                     <input type="file" id="image-input" accept="image/png, image/jpeg, image/gif, image/webp">
                  </div>
                  <p class="text-xs text-gray-500 mt-1 text-center">PNG, JPG, GIF, WEBP का समर्थन करता है</p>
@@ -404,14 +404,14 @@
          <div class="bg-white p-6 rounded-lg shadow-md">
              <h2 class="text-2xl font-semibold text-gray-800 mb-4">PDF एडिटर का उपयोग कैसे करें</h2>
              <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                 <li><i class="fas fa-file-upload text-blue-600 mx-1"></i> पर क्लिक करके अपनी PDF अपलोड करें, या इसे मुख्य एरिया पर ड्रैग और ड्रॉप करें।</li>
-                 <li>बाएं टूलबार से एक टूल चुनें: <i class="fas fa-font text-blue-600 mx-1"></i> (टेक्स्ट), <i class="fas fa-signature text-blue-600 mx-1"></i> (हस्ताक्षर), <i class="fas fa-image text-blue-600 mx-1"></i> (इमेज), या <i class="fas fa-highlighter text-blue-600 mx-1"></i> (हाइलाइट एरिया)।</li>
+                 <li><i class="fas fa-file-upload text-indigo-600 mx-1"></i> पर क्लिक करके अपनी PDF अपलोड करें, या इसे मुख्य एरिया पर ड्रैग और ड्रॉप करें।</li>
+                 <li>बाएं टूलबार से एक टूल चुनें: <i class="fas fa-font text-indigo-600 mx-1"></i> (टेक्स्ट), <i class="fas fa-signature text-indigo-600 mx-1"></i> (हस्ताक्षर), <i class="fas fa-image text-indigo-600 mx-1"></i> (इमेज), या <i class="fas fa-highlighter text-indigo-600 mx-1"></i> (हाइलाइट एरिया)।</li>
                  <li>टेक्स्ट, हस्ताक्षर, या इमेज जोड़ने के लिए PDF पेज पर क्लिक करें। हाइलाइट के लिए, वांछित एरिया पर क्लिक करें और खींचें।</li>
                  <li>गुणों (फॉन्ट, रंग, आकार, ओपेसिटी, आदि) को कस्टमाइज़ करने के लिए फ्लोटिंग टूल पैनल का उपयोग करें।</li>
                  <li>तत्वों को हिलाने के लिए उन्हें क्लिक करें और खींचें। आकार बदलने के लिए कोने के हैंडल <span class="inline-block border border-blue-400 bg-white rounded-full w-3 h-3 cursor-nwse-resize -ml-1 -mb-1 relative" style="bottom:-2px; right:-2px;"></span> का उपयोग करें।</li>
                  <li>किसी तत्व को हटाने के लिए उस पर होवर करें और लाल <span class="text-red-500 font-bold inline-block bg-white border border-red-300 rounded-full w-4 h-4 leading-tight text-center text-xs cursor-pointer">&times;</span> बटन पर क्लिक करें।</li>
                  <li>शीर्ष-दाएं पेज सेलेक्टर का उपयोग करके पृष्ठों के बीच नेविगेट करें। <i class="fas fa-search-plus mx-1"></i> / <i class="fas fa-search-minus mx-1"></i> बटनों का उपयोग करके जूम करें।</li>
-                 <li>संपादन पूरा होने पर, अपनी संपादित PDF को डाउनलोड करने के लिए नीले <i class="fas fa-save text-blue-600 mx-1"></i> बटन (नीचे-बाएं) पर क्लिक करें।</li>
+                 <li>संपादन पूरा होने पर, अपनी संपादित PDF को डाउनलोड करने के लिए नीले <i class="fas fa-save text-indigo-600 mx-1"></i> बटन (नीचे-बाएं) पर क्लिक करें।</li>
              </ol>
          </div>
      </div>
@@ -639,14 +639,14 @@
             // Reset all buttons
             panel.querySelectorAll('button').forEach(btn => {
                 if (btn.id === 'draw-signature' || btn.id === 'type-signature' || btn.id === 'initials-btn') {
-                    btn.classList.remove('bg-blue-600', 'text-white');
+                    btn.classList.remove('bg-indigo-600', 'text-white');
                     btn.classList.add('bg-gray-100', 'border', 'border-gray-300');
                 }
             });
 
             // Highlight the selected button
             button.classList.remove('bg-gray-100', 'border', 'border-gray-300');
-            button.classList.add('bg-blue-600', 'text-white');
+            button.classList.add('bg-indigo-600', 'text-white');
 
             // Show/hide appropriate containers
             const drawContainer = panel.querySelector('#signature-draw-container');
@@ -842,7 +842,7 @@
                 ['dragenter', 'dragover'].forEach(eventName => {
                     dropZone.addEventListener(eventName, () => {
                         console.log('Adding highlight to dropzone');
-                        dropZone.classList.add('border-blue-500', 'bg-blue-50');
+                        dropZone.classList.add('border-blue-500', 'bg-indigo-50');
                     });
                 });
 
@@ -850,7 +850,7 @@
                 ['dragleave', 'drop'].forEach(eventName => {
                     dropZone.addEventListener(eventName, () => {
                         console.log('Removing highlight from dropzone');
-                        dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+                        dropZone.classList.remove('border-blue-500', 'bg-indigo-50');
                     });
                 });
 
@@ -2047,3 +2047,4 @@
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
 </html>
+
