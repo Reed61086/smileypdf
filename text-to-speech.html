@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text-to-Speech - SmileyPDF</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <!-- Base CDNs -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,77 +21,115 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- PDF.js for PDF parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
-    <!-- AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+    <!-- No external scripts for privacy -->
 <link rel="stylesheet" href="dark-mode.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-    <!-- Header -->
-    <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
-        <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
-            <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
-               <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
-            </a>
-            <div class="hidden md:flex items-center space-x-4">
-                 <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
-                 <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
-                        Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                     </button>
-                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right" style="display: none;" x-cloak>
-                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
-                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
-                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
-                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
-                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
-                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
-                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
-                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
-                         <a href="text-to-speech.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Text to Speech</a>
-                      </div>
-                  </div>
-                  <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
-                  <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
-                  <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
-              </div>
-               <div class="flex items-center mr-4">
-    <button class="theme-toggle text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-    </button>
-</div>
-<div class="md:hidden">
-                   <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                       <span class="sr-only">Open menu</span>
-                       <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
-                       <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
-                   </button>
-              </div>
-         </nav>
-          <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500" style="display: none;" x-cloak>
-             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
-                <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
-                <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
-                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
-                <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
-                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
-                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
-                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
-                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
-                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
-                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
-                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
-                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
-                <a href="text-to-speech.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Text to Speech</a>
+     <!-- Header -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-2 flex justify-between items-center">
+        <!-- Logo Link -->
+        <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
+           <img src="logo.webp" alt="SmileyPDF Logo" class="h-12 w-auto mr-2">
+           <span class="font-bold text-xl hidden sm:inline-block">SmileyPDF</span>
+        </a>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="index.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Home</a>
+            <!-- Tools Dropdown -->
+             <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-purple-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                    Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </button>
+                <div x-show="open" @click.away="open = false"
+                     x-transition:enter="transition ease-out duration-100 transform"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75 transform"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right divide-y divide-gray-100"
+                     style="display: none;" x-cloak>
+                     <div class="py-1">
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-edit text-indigo-600 mr-2"></i>PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-object-group text-indigo-600 mr-2"></i>Merge PDF</a>
+                         <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-cut text-indigo-600 mr-2"></i>Split PDF</a>
+                         <a href="pdf-compressor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-compress-alt text-indigo-600 mr-2"></i>Compress PDF</a>
+                     </div>
+                     <div class="py-1">
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-image text-indigo-600 mr-2"></i>Image to PDF</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-image text-indigo-600 mr-2"></i>PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-word text-indigo-600 mr-2"></i>PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-excel text-indigo-600 mr-2"></i>PDF to Excel</a>
+                     </div>
+                     <div class="py-1">
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-redo text-indigo-600 mr-2"></i>Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-font text-indigo-600 mr-2"></i>Extract PDF Text</a>
+                         <a href="pdf-password.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-lock text-indigo-600 mr-2"></i>Protect PDF</a>
+                         <a href="all-tools.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-toolbox text-indigo-600 mr-2"></i>All Tools</a>
+                     </div>
+                 </div>
              </div>
+             <a href="blog.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Blog</a>
+             <a href="about.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">About</a>
+             <a href="contact.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Contact</a>
+         </div>
+          <!-- Mobile Menu Button -->
+          <div class="flex items-center space-x-2">
+            <button class="theme-toggle text-white hover:text-purple-200 focus:outline-none p-2 rounded-full hover:bg-indigo-600 transition duration-150 ease-in-out" aria-label="Toggle Dark Mode">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </button>
+            <div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded-full hover:bg-indigo-600 transition duration-150 ease-in-out">
+                    <span class="sr-only">Open menu</span>
+                    <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                    <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                </button>
+            </div>
           </div>
-    </header>
+    </nav>
+     <!-- Mobile Menu Panel -->
+     <div x-show="mobileMenuOpen"
+         @click.away="mobileMenuOpen = false"
+         class="md:hidden absolute inset-x-0 top-full bg-indigo-800 shadow-lg border-t border-indigo-700"
+         x-transition:enter="transition ease-out duration-200 transform origin-top"
+         x-transition:enter-start="opacity-0 scale-95"
+         x-transition:enter-end="opacity-100 scale-100"
+         x-transition:leave="transition ease-in duration-75 transform origin-top"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="display: none;" x-cloak>
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Home</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Blog</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">About</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Contact</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-purple-200 uppercase tracking-wider">PDF Tools</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-edit mr-2"></i>PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-object-group mr-2"></i>Merge PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-cut mr-2"></i>Split PDF</a>
+                <a href="pdf-compressor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-compress-alt mr-2"></i>Compress PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-image mr-2"></i>Image to PDF</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-image mr-2"></i>PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-word mr-2"></i>PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-excel mr-2"></i>PDF to Excel</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-redo mr-2"></i>Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-font mr-2"></i>Extract Text</a>
+            </div>
+            <a href="all-tools.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 bg-indigo-600 mt-2 text-center transition duration-150 ease-in-out">
+                <i class="fas fa-toolbox mr-2"></i>View All Tools
+            </a>
+        </div>
+     </div>
+</header>
+
 
     <main class="container mx-auto px-4 py-12 flex-grow">
         <div class="max-w-4xl mx-auto">
@@ -146,34 +185,93 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
-        <div class="container mx-auto px-6 text-center">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+        <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-gray-300 mt-12 pt-12 pb-6">
+        <div class="container mx-auto px-6">
+            <!-- Top Footer Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
                 <div>
-                    <h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4>
-                    <p>Free online tools for your PDF tasks.</p>
+                    <h4 class="text-white text-lg font-bold mb-4">SmileyPDF</h4>
+                    <p class="mb-4">Free online PDF tools to help you merge, split, compress, convert and edit PDF files with ease. No installation or registration required.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
                 </div>
+                
+                <!-- Quick Links -->
                 <div>
-                    <h4 class="font-semibold mb-2 uppercase">Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html" class="hover:text-white">Home</a></li>
-                        <li><a href="about.html" class="hover:text-white">About</a></li>
-                        <li><a href="blog.html" class="hover:text-white">Blog</a></li>
-                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    <h4 class="text-white text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> About Us</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Blog</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Contact</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> FAQ</a></li>
                     </ul>
                 </div>
+                
+                <!-- Popular Tools -->
                 <div>
-                    <h4 class="font-semibold mb-2 uppercase">Legal</h4>
-                    <ul>
-                        <li><a href="privacy.html" class="hover:text-white">Privacy</a></li>
-                        <li><a href="terms.html" class="hover:text-white">Terms</a></li>
+                    <h4 class="text-white text-lg font-bold mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="merge-pdf.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Merge PDF</a></li>
+                        <li><a href="pdf-splitter.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Split PDF</a></li>
+                        <li><a href="pdf-compressor.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Compress PDF</a></li>
+                        <li><a href="pdf-to-word.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> PDF to Word</a></li>
+                        <li><a href="pdf-to-jpg.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> PDF to JPG</a></li>
                     </ul>
+                </div>
+                
+                <!-- Legal & Contact -->
+                <div>
+                    <h4 class="text-white text-lg font-bold mb-4">Legal & Contact</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Terms of Service</a></li>
+                        <li><a href="cookies.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Cookie Policy</a></li>
+                    </ul>
+                    <div class="mt-4">
+                        <p class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2 text-indigo-400"></i> support@smileypdf.com</p>
+                    </div>
                 </div>
             </div>
-            <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
+            
+            <!-- Newsletter -->
+            <div class="border-t border-gray-700 pt-8 pb-4">
+                <div class="max-w-xl mx-auto text-center">
+                    <h4 class="text-white text-lg font-bold mb-3">Subscribe to Our Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Stay updated with our latest features and PDF tips</p>
+                    <form class="flex flex-col sm:flex-row gap-2">
+                        <input type="email" placeholder="Your email address" class="flex-grow px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-700 text-white">
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300 whitespace-nowrap">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
+                <p>&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</p>
+                <div class="mt-2 flex justify-center">
+                    <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+                </div>
+            </div>
         </div>
     </footer>
+
 
     <script>
         // Set the current year in the footer
@@ -344,4 +442,5 @@
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
 </html>
+
 
