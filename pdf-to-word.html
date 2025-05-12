@@ -9,6 +9,7 @@
     <meta name="keywords" content="convert pdf to word, convert pdf to word free, how to convert pdf to word, pdf to word converter, pdf to doc, pdf to docx, convert pdf to word document, free convert pdf to word">
     <meta name="author" content="SmileyPDF">
     <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="canonical" href="https://smileypdf.com/pdf-to-word.html">
     <link rel="alternate" hreflang="en" href="https://smileypdf.com/pdf-to-word.html">
@@ -31,8 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-     <!-- AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9273434855071552" crossorigin="anonymous"></script>
+     <!-- No external scripts for privacy -->
     <style>
         /* Styles remain the same */
         .dropzone { border: 2px dashed #cbd5e0; transition: all 0.3s ease; border-radius: 0.5rem; }
@@ -46,19 +46,20 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-<!-- Header -->
- <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white shadow-md sticky top-0 z-50 flex-shrink-0">
-    <nav class="container mx-auto px-4 sm:px-6 py-1 flex justify-between items-center">
+ <!-- Header -->
+ <header x-data="{ mobileMenuOpen: false }" class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-4 sm:px-6 py-2 flex justify-between items-center">
         <!-- Logo Link -->
         <a href="index.html" class="flex items-center transition duration-150 ease-in-out hover:opacity-80">
-           <img src="logo.png" alt="SmileyPDF Logo" class="h-20 w-auto mr-2">
+           <img src="logo.webp" alt="SmileyPDF Logo" class="h-12 w-auto mr-2">
+           <span class="font-bold text-xl hidden sm:inline-block">SmileyPDF</span>
         </a>
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-4">
-            <a href="index.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Home</a>
+            <a href="index.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Home</a>
             <!-- Tools Dropdown -->
              <div class="relative" x-data="{ open: false }">
-                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-blue-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm">
+                <button @click="open = !open" @keydown.escape.window="open = false" class="hover:text-purple-200 font-medium focus:outline-none flex items-center px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                     Tools <i class="fas fa-chevron-down ml-1 text-xs"></i>
                 </button>
                 <div x-show="open" @click.away="open = false"
@@ -68,35 +69,55 @@
                      x-transition:leave="transition ease-in duration-75 transform"
                      x-transition:leave-start="opacity-100 scale-100"
                      x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right"
+                     class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 text-gray-700 py-1 origin-top-right divide-y divide-gray-100"
                      style="display: none;" x-cloak>
-                     <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF Editor</a>
-                     <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Merge PDF</a>
-                     <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Image to PDF</a>
-                     <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Rotate PDF</a>
-                     <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100">Extract PDF Text</a>
-                     <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to JPG</a>
-                     <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Word</a>
-                     <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100">PDF to Excel</a>
+                     <div class="py-1">
+                         <a href="pdf-editor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-edit text-indigo-600 mr-2"></i>PDF Editor</a>
+                         <a href="merge-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-object-group text-indigo-600 mr-2"></i>Merge PDF</a>
+                         <a href="pdf-splitter.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-cut text-indigo-600 mr-2"></i>Split PDF</a>
+                         <a href="pdf-compressor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-compress-alt text-indigo-600 mr-2"></i>Compress PDF</a>
+                     </div>
+                     <div class="py-1">
+                         <a href="image-to-pdf.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-image text-indigo-600 mr-2"></i>Image to PDF</a>
+                         <a href="pdf-to-jpg.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-image text-indigo-600 mr-2"></i>PDF to JPG</a>
+                         <a href="pdf-to-word.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-word text-indigo-600 mr-2"></i>PDF to Word</a>
+                         <a href="pdf-to-excel.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-file-excel text-indigo-600 mr-2"></i>PDF to Excel</a>
+                     </div>
+                     <div class="py-1">
+                         <a href="pdf-rotator.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-redo text-indigo-600 mr-2"></i>Rotate PDF</a>
+                         <a href="pdf-text-extractor.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-font text-indigo-600 mr-2"></i>Extract PDF Text</a>
+                         <a href="pdf-password.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-lock text-indigo-600 mr-2"></i>Protect PDF</a>
+                         <a href="all-tools.html" class="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center"><i class="fas fa-toolbox text-indigo-600 mr-2"></i>All Tools</a>
+                     </div>
                  </div>
              </div>
-             <a href="blog.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Blog</a>
-             <a href="about.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">About</a>
-             <a href="contact.html" class="hover:text-blue-200 font-medium px-3 py-2 rounded-md text-sm">Contact</a>
+             <a href="blog.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Blog</a>
+             <a href="about.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">About</a>
+             <a href="contact.html" class="hover:text-purple-200 font-medium px-3 py-2 rounded-md text-sm transition duration-150 ease-in-out">Contact</a>
          </div>
           <!-- Mobile Menu Button -->
-          <div class="md:hidden">
-              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded hover:bg-blue-600">
-                  <span class="sr-only">Open menu</span>
-                  <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
-                  <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
-              </button>
-         </div>
+          <div class="flex items-center space-x-2">
+            <button class="theme-toggle text-white hover:text-purple-200 focus:outline-none p-2 rounded-full hover:bg-indigo-600 transition duration-150 ease-in-out" aria-label="Toggle Dark Mode">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </button>
+            <div class="md:hidden">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none p-2 rounded-full hover:bg-indigo-600 transition duration-150 ease-in-out">
+                    <span class="sr-only">Open menu</span>
+                    <i x-show="!mobileMenuOpen" class="fa-solid fa-bars text-xl"></i>
+                    <i x-show="mobileMenuOpen" class="fa-solid fa-times text-xl" style="display: none;" x-cloak></i>
+                </button>
+            </div>
+          </div>
     </nav>
      <!-- Mobile Menu Panel -->
      <div x-show="mobileMenuOpen"
          @click.away="mobileMenuOpen = false"
-         class="md:hidden absolute inset-x-0 top-full bg-blue-600 shadow-lg border-t border-blue-500"
+         class="md:hidden absolute inset-x-0 top-full bg-indigo-800 shadow-lg border-t border-indigo-700"
          x-transition:enter="transition ease-out duration-200 transform origin-top"
          x-transition:enter-start="opacity-0 scale-95"
          x-transition:enter-end="opacity-100 scale-100"
@@ -105,232 +126,598 @@
          x-transition:leave-end="opacity-0 scale-95"
          style="display: none;" x-cloak>
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Home</a>
-            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Blog</a>
-            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">About</a>
-            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Contact</a>
-            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-blue-200 uppercase tracking-wider">Tools</h3>
-            <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF Editor</a>
-            <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Merge PDF</a>
-            <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Image to PDF</a>
-            <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Rotate PDF</a>
-            <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">Extract PDF Text</a>
-            <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to JPG</a>
-            <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Word</a>
-            <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700">PDF to Excel</a>
+            <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Home</a>
+            <a href="blog.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Blog</a>
+            <a href="about.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">About</a>
+            <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out">Contact</a>
+            <h3 class="px-3 pt-4 pb-1 text-xs font-semibold text-purple-200 uppercase tracking-wider">PDF Tools</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                <a href="pdf-editor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-edit mr-2"></i>PDF Editor</a>
+                <a href="merge-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-object-group mr-2"></i>Merge PDF</a>
+                <a href="pdf-splitter.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-cut mr-2"></i>Split PDF</a>
+                <a href="pdf-compressor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-compress-alt mr-2"></i>Compress PDF</a>
+                <a href="image-to-pdf.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-image mr-2"></i>Image to PDF</a>
+                <a href="pdf-to-jpg.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-image mr-2"></i>PDF to JPG</a>
+                <a href="pdf-to-word.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-word mr-2"></i>PDF to Word</a>
+                <a href="pdf-to-excel.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-file-excel mr-2"></i>PDF to Excel</a>
+                <a href="pdf-rotator.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-redo mr-2"></i>Rotate PDF</a>
+                <a href="pdf-text-extractor.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-150 ease-in-out"><i class="fas fa-font mr-2"></i>Extract Text</a>
+            </div>
+            <a href="all-tools.html" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 bg-indigo-600 mt-2 text-center transition duration-150 ease-in-out">
+                <i class="fas fa-toolbox mr-2"></i>View All Tools
+            </a>
         </div>
      </div>
 </header>
-    <main class="container mx-auto px-4 py-8 max-w-3xl flex-grow">
-        <!-- Main Title -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-800 mb-3">
-                <span class="text-blue-600">PDF</span> to <span class="text-green-600">Word</span> Converter
-            </h1>
-            <p class="text-gray-600 text-lg">Easily convert your PDF documents into editable Microsoft Word (.docx) files. This tool attempts to preserve basic text layout.</p>
-            <div class="flex justify-center items-center mt-4 space-x-2">
-                <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"><i class="fas fa-infinity mr-1"></i> No size limit</span>
-                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"><i class="fas fa-lock mr-1"></i> Secure processing</span>
-            </div>
-        </header>
 
-        <!-- Main Converter Section -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-10 p-8">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-semibold text-gray-700 mb-2">Upload your PDF</h2>
-                <p class="text-gray-500">Drag & drop or click to select your PDF file</p>
-            </div>
-
-
-            <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-8">
-                <div id="uploadContent" class="flex flex-col items-center justify-center">
-                    <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
-                    <p class="text-gray-500 mb-1">Drag & drop PDF file here</p>
-                    <p class="text-sm text-gray-400 mb-4">or</p>
-                     <button type="button" id="browseBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Browse Files</button>
-                    <input type="file" id="fileInput" class="hidden" accept=".pdf">
-                </div>
-                 <div id="uploadingContent" class="hidden">
-                    <div class="flex items-center justify-center mb-4">
-                         <i class="fas fa-spinner fa-spin text-3xl text-blue-600 spinner"></i>
-                     </div>
-                    <p id="uploadStatusText" class="text-gray-700">Processing your PDF...</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4 overflow-hidden"><div id="progressBar" class="progress-bar" style="width: 0%"></div></div>
-                    <p id="progressText" class="text-sm text-gray-500 mt-2">0% completed</p>
-                </div>
-            </div>
-
-
-            <div id="errorSection" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6" role="alert">
-                <div class="flex items-center">
-    <button class="theme-toggle ml-4 text-white hover:text-blue-200 focus:outline-none" aria-label="Toggle Dark Mode">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 moon-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sun-icon hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-    </button><i class="fas fa-exclamation-circle text-red-500 mr-3"></i><p id="errorMessage" class="text-red-700 text-sm"></p></div>
-            </div>
-
-
-             <div id="resultSection" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4">
-                 <div class="flex flex-col sm:flex-row items-center justify-between">
-                     <div class="flex items-center mb-3 sm:mb-0 flex-grow min-w-0">
-                        <i class="fas fa-file-word text-3xl text-blue-700 mr-3 flex-shrink-0"></i>
-                        <div class="min-w-0">
-                            <p id="fileName" class="font-medium text-gray-800 truncate max-w-xs">document.docx</p>
-                            <p id="fileStatus" class="text-sm text-gray-600">Ready for download</p>
+    <main class="flex-grow">
+        <section class="container mx-auto px-4 py-8">
+            <div class="max-w-5xl mx-auto">
+                <!-- Hero Section -->
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl shadow-lg overflow-hidden mb-12 p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="md:w-3/5 mb-8 md:mb-0 md:pr-8">
+                            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-indigo-700 mb-4 leading-tight">PDF to <span class="text-purple-600">Word</span> Converter</h1>
+                            <p class="text-gray-700 text-lg md:text-xl mb-6">Transform your PDF files into editable Word documents with our free online converter. No registration required, and your files never leave your device.</p>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-lock mr-1"></i> 100% Secure
+                                </span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                    <i class="fas fa-bolt mr-1"></i> Fast Processing
+                                </span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                                    <i class="fas fa-desktop mr-1"></i> Client-side Processing
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                     <div class="flex space-x-2 flex-shrink-0">
-                        <button id="downloadBtn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition flex items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                             <i class="fas fa-download mr-2"></i> Download
-                         </button>
-                        <button id="newFileBtn" type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg text-sm transition flex items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                             <i class="fas fa-redo mr-2"></i> New File
-                         </button>
-                    </div>
-                </div>
-             </div>
-
-             <!-- How to Use Section -->
-             <div class="mt-8 pt-6 border-t border-gray-200">
-                 <h3 class="text-lg font-semibold text-gray-700 mb-3">How to Convert PDF to Word</h3>
-                 <ol class="list-decimal list-inside space-y-1 text-gray-600 text-sm">
-                     <li>Drag your PDF file onto the upload area, or click "Browse Files" to select it.</li>
-                     <li>The conversion process will start automatically. Wait for the progress bar.</li>
-                     <li>The tool extracts text and aims to preserve basic paragraphs.</li>
-                     <li>Once finished, click the "Download" button to save your Word (.docx) file.</li>
-                 </ol>
-                 <p class="text-xs text-gray-500 mt-3">* Note: Complex layouts, tables, and images may not be perfectly preserved. This focuses on editable text content.</p>
-             </div>
-
-             <!-- Features Section -->
-             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-check-circle text-blue-600"></i></div><div><h4 class="font-medium text-gray-800">Free & Unlimited</h4><p class="text-sm text-gray-500">Convert as many files as needed.</p></div></div>
-                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-lock text-green-600"></i></div><div><h4 class="font-medium text-gray-800">Client-Side Secure</h4><p class="text-sm text-gray-500">Your files are processed in browser.</p></div></div>
-                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-file-word text-purple-600"></i></div><div><h4 class="font-medium text-gray-800">DOCX Output</h4><p class="text-sm text-gray-500">Modern Word document format.</p></div></div>
-                <div class="flex items-start"><div class="bg-blue-100 p-2 rounded-full mr-3 flex-shrink-0"><i class="fas fa-mobile-alt text-yellow-600"></i></div><div><h4 class="font-medium text-gray-800">Works Everywhere</h4><p class="text-sm text-gray-500">Use on desktop or mobile.</p></div></div>
-             </div>
-         </div>
-
-         <!-- Ad Block -->
-         <div class="w-full max-w-4xl mx-auto my-8 text-center">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9273434855071552" data-ad-slot="6257062799" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-         </div>
-
-        <!-- SEO Content Section -->
-        <section class="bg-white rounded-xl shadow-lg overflow-hidden mb-10 p-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">How to Convert PDF to Word Document</h2>
-
-            <div class="prose max-w-none text-gray-700">
-                <p class="mb-4">Converting PDF to Word format is essential when you need to edit or modify content originally created in PDF format. Our free online tool makes it easy to convert PDF to Word documents in just a few simple steps:</p>
-
-                <ol class="list-decimal pl-6 mb-6 space-y-2">
-                    <li><strong>Upload your PDF file</strong> - Drag and drop your PDF or click the browse button to select it from your device.</li>
-                    <li><strong>Wait for conversion</strong> - Our tool will process your PDF and extract the text and basic formatting.</li>
-                    <li><strong>Download your Word document</strong> - Once conversion is complete, download your editable DOCX file.</li>
-                </ol>
-
-                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Why Choose Our PDF to Word Converter?</h3>
-
-                <ul class="list-disc pl-6 mb-6 space-y-2">
-                    <li><strong>100% Free</strong> - Convert PDF to Word free with no hidden fees or subscription required.</li>
-                    <li><strong>Privacy Protected</strong> - All processing happens in your browser. Your files never leave your device.</li>
-                    <li><strong>No Registration</strong> - No need to create an account or provide personal information.</li>
-                    <li><strong>Fast Conversion</strong> - Our tool quickly converts your PDF files to editable Word documents.</li>
-                    <li><strong>Works on All Devices</strong> - Compatible with Windows, Mac, Linux, iOS, and Android.</li>
-                </ul>
-
-                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Common Uses for PDF to Word Conversion</h3>
-
-                <div class="grid md:grid-cols-2 gap-4 mb-6">
-                    <div class="border rounded-lg p-4 bg-blue-50">
-                        <h4 class="font-medium text-blue-800 mb-2">Business Documents</h4>
-                        <p>Edit contracts, proposals, or reports that were originally shared as PDFs. Convert PDF to Word document format to make necessary changes before finalizing.</p>
-                    </div>
-
-                    <div class="border rounded-lg p-4 bg-blue-50">
-                        <h4 class="font-medium text-blue-800 mb-2">Academic Papers</h4>
-                        <p>Modify research papers or assignments that are in PDF format. Converting PDF to Word allows students and researchers to update content and citations.</p>
-                    </div>
-
-                    <div class="border rounded-lg p-4 bg-blue-50">
-                        <h4 class="font-medium text-blue-800 mb-2">Resume Editing</h4>
-                        <p>Update your resume or CV that was previously saved as a PDF. Our PDF to DOC converter makes it easy to refresh your professional information.</p>
-                    </div>
-
-                    <div class="border rounded-lg p-4 bg-blue-50">
-                        <h4 class="font-medium text-blue-800 mb-2">Content Repurposing</h4>
-                        <p>Extract content from PDF brochures, ebooks, or manuals to repurpose for other documents or platforms.</p>
-                    </div>
-                </div>
-
-                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Tips for Better PDF to Word Conversion</h3>
-
-                <ul class="list-disc pl-6 mb-6 space-y-2">
-                    <li><strong>Simple Layouts Convert Best</strong> - PDFs with simple text layouts convert more accurately than complex designs.</li>
-                    <li><strong>Check the Result</strong> - Always review your converted document as some formatting or special elements may need adjustment.</li>
-                    <li><strong>Images and Graphics</strong> - Complex images and graphics may not convert perfectly and might need to be re-inserted.</li>
-                    <li><strong>Tables and Charts</strong> - Simple tables usually convert well, but complex ones might require manual reformatting.</li>
-                </ul>
-
-                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-lightbulb text-yellow-400"></i>
-                        </div>
-                        <div class="ml-3">
-                            <h3 class="text-sm font-medium text-yellow-800">Pro Tip</h3>
-                            <div class="text-sm text-yellow-700">
-                                <p>For documents with complex formatting, try our <a href="pdf-editor.html" class="text-blue-600 hover:underline">PDF Editor</a> to make changes directly to the PDF without conversion.</p>
+                        <div class="md:w-2/5 flex justify-center">
+                            <div class="relative w-64 h-64">
+                                <div class="absolute inset-0 bg-indigo-100 rounded-xl transform rotate-6 shadow-md"></div>
+                                <div class="absolute inset-0 bg-purple-100 rounded-xl transform -rotate-3 shadow-md"></div>
+                                <div class="absolute inset-0 bg-white rounded-xl shadow-lg flex items-center justify-center p-6">
+                                    <div class="flex flex-col items-center">
+                                        <i class="fas fa-file-pdf text-5xl text-red-500 mb-4"></i>
+                                        <i class="fas fa-arrow-down text-2xl text-indigo-500 mb-4"></i>
+                                        <i class="fas fa-file-word text-5xl text-blue-500"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Frequently Asked Questions</h3>
+                <!-- Main Tool Section -->
+                <div id="pdf-to-word-tool" class="bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+                    <!-- Step 1: Upload -->
+                    <div class="p-6 md:p-8 border-b border-gray-100">
+                        <div class="flex items-center mb-6">
+                            <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold mr-4 flex-shrink-0">1</div>
+                            <h2 class="text-2xl font-bold text-gray-800">Upload Your PDF File</h2>
+                        </div>
 
-                <div class="space-y-4 mb-6">
-                    <div class="border-b pb-4">
-                        <h4 class="font-medium text-gray-900 mb-2">How accurate is the PDF to Word conversion?</h4>
-                        <p>Our converter maintains basic text content and simple formatting. Complex layouts, special fonts, or intricate design elements may not convert perfectly and might require some manual adjustments.</p>
+
+                        <!-- Upload Area -->
+                        <div id="uploadContent">
+                            <div id="dropzone" class="drop-zone rounded-xl p-8 text-center cursor-pointer mb-6 hover:bg-indigo-50 transition-all duration-300 border-2 border-dashed border-indigo-200 relative group">
+                                <div class="flex flex-col items-center justify-center pointer-events-none">
+                                    <div class="w-20 h-20 mb-4 bg-indigo-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                        <i class="fas fa-file-pdf text-4xl text-red-500"></i>
+                                    </div>
+                                    <p class="text-gray-700 font-medium text-xl mb-2">Drag & drop your PDF file here</p>
+                                    <p class="text-gray-500 mb-4">or</p>
+                                    <button id="browseBtn" type="button" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-300 pointer-events-auto focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                                        <i class="fas fa-folder-open mr-2"></i> Browse Files
+                                    </button>
+                                    <p class="text-gray-400 text-sm mt-4 max-w-md mx-auto">Supports PDF files up to 100MB. All processing is done locally on your device for maximum privacy.</p>
+                                </div>
+                                <input type="file" id="fileInput" class="hidden" accept=".pdf">
+                            </div>
+                        </div>
+
+                        <!-- Processing Area (Initially Hidden) -->
+                        <div id="uploadingContent" class="hidden">
+                            <div class="text-center mb-6">
+                                <div class="w-20 h-20 mx-auto mb-4 bg-indigo-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-cog fa-spin text-4xl text-indigo-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Processing your PDF...</h3>
+                                <p id="uploadStatusText" class="text-gray-600">Reading file...</p>
+                            </div>
+
+                            <div class="w-full bg-gray-200 rounded-full h-3 mb-4 overflow-hidden">
+                                <div id="progressBar" class="bg-gradient-to-r from-indigo-600 to-purple-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                            <p id="progressText" class="text-gray-500 text-sm text-center">0% completed</p>
+                        </div>
+
+
+                        <!-- Error Message (Initially Hidden) -->
+                        <div id="errorSection" class="hidden">
+                            <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 mb-4 flex items-center">
+                                <i class="fas fa-exclamation-circle text-xl text-red-500 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Conversion Error</h4>
+                                    <p id="errorMessage" class="text-sm">Error message will appear here.</p>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button type="button" onclick="resetState()" class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors duration-300 font-medium">
+                                    <i class="fas fa-redo mr-2"></i> Try Again
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="border-b pb-4">
-                        <h4 class="font-medium text-gray-900 mb-2">Can I convert password-protected PDFs?</h4>
-                        <p>Currently, our tool cannot process password-protected or encrypted PDFs. You'll need to remove the protection before uploading.</p>
+                    <!-- Result Section (Initially Hidden) -->
+                    <div id="resultSection" class="hidden p-6 md:p-8 bg-gradient-to-r from-indigo-50 to-purple-50">
+                        <div class="text-center mb-6">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check text-4xl text-green-500"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Conversion Complete!</h2>
+                            <p class="text-gray-600">Your PDF has been successfully converted to a Word document.</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6 max-w-lg mx-auto">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-file-word text-2xl text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <p id="fileName" class="font-semibold text-gray-800 text-lg">document.docx</p>
+                                        <p id="fileStatus" class="text-sm text-gray-500">Ready for download</p>
+                                    </div>
+                                </div>
+                                <button id="downloadBtn" type="button" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-sm hover:shadow-md flex items-center">
+                                    <i class="fas fa-download mr-2"></i> Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button id="newFileBtn" type="button" class="px-6 py-3 bg-white text-indigo-700 border border-indigo-200 font-medium rounded-lg hover:bg-indigo-50 transition-colors duration-300 flex items-center mx-auto">
+                                <i class="fas fa-plus-circle mr-2"></i> Convert Another File
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="border-b pb-4">
-                        <h4 class="font-medium text-gray-900 mb-2">What's the difference between DOC and DOCX formats?</h4>
-                        <p>DOC is the older Microsoft Word format, while DOCX is the newer format introduced in Word 2007. DOCX files are generally smaller, more secure, and offer better compatibility with modern word processors. Our tool converts PDF to the DOCX format.</p>
+                <!-- Features Section -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-12">
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 md:p-8">
+                        <h2 class="text-2xl md:text-3xl font-bold text-white text-center">Why Choose Our PDF to Word Converter?</h2>
                     </div>
+                    <div class="p-6 md:p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                                    <i class="fas fa-shield-alt text-2xl text-indigo-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-3">100% Secure</h3>
+                                <p class="text-gray-600">All processing happens directly in your browser. Your files never leave your device, ensuring complete privacy and security.</p>
+                            </div>
 
-                    <div class="border-b pb-4">
-                        <h4 class="font-medium text-gray-900 mb-2">Is there a file size limit?</h4>
-                        <p>While our tool can handle most PDF files, browser limitations may affect performance with extremely large documents (over 100MB). For best results, we recommend files under 50MB.</p>
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                                    <i class="fas fa-bolt text-2xl text-indigo-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-3">Lightning Fast</h3>
+                                <p class="text-gray-600">Our optimized conversion engine processes your PDF files quickly, saving you valuable time. Convert documents in seconds, not minutes.</p>
+                            </div>
+
+                            <div class="flex flex-col items-center text-center">
+                                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                                    <i class="fas fa-hand-holding-usd text-2xl text-indigo-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-3">Completely Free</h3>
+                                <p class="text-gray-600">No hidden fees, no premium plans, no limitations. Our PDF to Word converter is 100% free to use with no registration required.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <p class="mb-4">Ready to convert your PDF to Word? Try our free online converter now and start editing your PDF content in Microsoft Word format!</p>
+                <!-- SEO Content Section -->
+                <section class="bg-white rounded-xl shadow-lg overflow-hidden mb-10 p-8">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">How to Convert PDF to Word Document</h2>
+
+                    <div class="prose max-w-none text-gray-700">
+                        <p class="mb-4">Converting PDF to Word format is essential when you need to edit or modify content originally created in PDF format. Our free online tool makes it easy to convert PDF to Word documents in just a few simple steps:</p>
+
+                        <ol class="list-decimal pl-6 mb-6 space-y-2">
+                            <li><strong>Upload your PDF file</strong> - Drag and drop your PDF or click the browse button to select it from your device.</li>
+                            <li><strong>Wait for conversion</strong> - Our tool will process your PDF and extract the text and basic formatting.</li>
+                            <li><strong>Download your Word document</strong> - Once conversion is complete, download your editable DOCX file.</li>
+                        </ol>
+
+                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Why Choose Our PDF to Word Converter?</h3>
+
+                        <ul class="list-disc pl-6 mb-6 space-y-2">
+                            <li><strong>100% Free</strong> - Convert PDF to Word free with no hidden fees or subscription required.</li>
+                            <li><strong>Privacy Protected</strong> - All processing happens in your browser. Your files never leave your device.</li>
+                            <li><strong>No Registration</strong> - No need to create an account or provide personal information.</li>
+                            <li><strong>Fast Conversion</strong> - Our tool quickly converts your PDF files to editable Word documents.</li>
+                            <li><strong>Works on All Devices</strong> - Compatible with Windows, Mac, Linux, iOS, and Android.</li>
+                        </ul>
+
+                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Common Uses for PDF to Word Conversion</h3>
+
+                        <div class="grid md:grid-cols-2 gap-4 mb-6">
+                            <div class="border rounded-lg p-4 bg-indigo-50">
+                                <h4 class="font-medium text-indigo-800 mb-2">Business Documents</h4>
+                                <p>Edit contracts, proposals, or reports that were originally shared as PDFs. Convert PDF to Word document format to make necessary changes before finalizing.</p>
+                            </div>
+
+                            <div class="border rounded-lg p-4 bg-indigo-50">
+                                <h4 class="font-medium text-indigo-800 mb-2">Academic Papers</h4>
+                                <p>Modify research papers or assignments that are in PDF format. Converting PDF to Word allows students and researchers to update content and citations.</p>
+                            </div>
+
+                            <div class="border rounded-lg p-4 bg-indigo-50">
+                                <h4 class="font-medium text-indigo-800 mb-2">Resume Editing</h4>
+                                <p>Update your resume or CV that was previously saved as a PDF. Our PDF to DOC converter makes it easy to refresh your professional information.</p>
+                            </div>
+
+                            <div class="border rounded-lg p-4 bg-indigo-50">
+                                <h4 class="font-medium text-indigo-800 mb-2">Content Repurposing</h4>
+                                <p>Extract content from PDF brochures, ebooks, or manuals to repurpose for other documents or platforms.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Enhanced Content Section -->
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 mb-8 shadow-sm">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4">Why Convert PDF to Word?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-edit text-indigo-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-1">Easy Editing</h4>
+                                <p class="text-gray-600">Convert your PDF to Word to make changes, add content, or reformat your document with ease.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-sync-alt text-indigo-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-1">Content Reuse</h4>
+                                <p class="text-gray-600">Extract text and content from PDFs to reuse in other documents, presentations, or applications.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-table text-indigo-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-1">Format Flexibility</h4>
+                                <p class="text-gray-600">Adjust layouts, change fonts, or modify tables that would be difficult to edit in the original PDF.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-share-alt text-indigo-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-1">Collaboration</h4>
+                                <p class="text-gray-600">Enable team editing with Word's collaboration features like track changes and comments.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How It Works Section -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">How Our PDF to Word Converter Works</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <span class="text-indigo-700 font-bold text-xl">1</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2 text-center">Upload Your PDF</h4>
+                            <p class="text-gray-600 text-center">Select your PDF file by clicking the upload button or dragging and dropping it into the designated area.</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <span class="text-indigo-700 font-bold text-xl">2</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2 text-center">Conversion Process</h4>
+                            <p class="text-gray-600 text-center">Our advanced algorithm extracts text, preserves formatting, and converts your PDF into an editable Word document.</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <span class="text-indigo-700 font-bold text-xl">3</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2 text-center">Download & Edit</h4>
+                            <p class="text-gray-600 text-center">Download your converted Word document and start editing immediately in Microsoft Word or any compatible word processor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4">
+                        <h3 class="text-xl font-bold text-white">Tips for Better PDF to Word Conversion</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-indigo-600 mr-3">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Simple Layouts Convert Best</h4>
+                                    <p class="text-gray-600">PDFs with simple text layouts convert more accurately than complex designs with multiple columns or overlapping elements.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-indigo-600 mr-3">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Check the Result</h4>
+                                    <p class="text-gray-600">Always review your converted document as some formatting or special elements may need adjustment for perfect results.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-indigo-600 mr-3">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Images and Graphics</h4>
+                                    <p class="text-gray-600">Complex images and graphics may not convert perfectly and might need to be re-inserted or adjusted in the Word document.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-indigo-600 mr-3">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Tables and Charts</h4>
+                                    <p class="text-gray-600">Simple tables usually convert well, but complex ones with merged cells or special formatting might require manual adjustments.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mt-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-lightbulb text-indigo-600"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-indigo-800">Pro Tip</h3>
+                                    <div class="text-sm text-indigo-700">
+                                        <p>For documents with complex formatting, try our <a href="pdf-editor.html" class="text-indigo-600 hover:underline font-medium">PDF Editor</a> to make changes directly to the PDF without conversion.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Use Cases Section -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Common Use Cases for PDF to Word Conversion</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <i class="fas fa-briefcase text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2 text-center">Business Documents</h4>
+                            <p class="text-gray-600 text-center">Update contracts, proposals, or reports that were originally distributed as PDFs but now need revisions.</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <i class="fas fa-graduation-cap text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2 text-center">Academic Papers</h4>
+                            <p class="text-gray-600 text-center">Extract content from research papers or textbooks for citations, references, or inclusion in your own academic work.</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                                <i class="fas fa-file-invoice text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2 text-center">Forms & Templates</h4>
+                            <p class="text-gray-600 text-center">Convert PDF forms to editable Word documents to create customizable templates for repeated use.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4">
+                        <h3 class="text-xl font-bold text-white">Frequently Asked Questions</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-6">
+                            <div class="border-b border-gray-200 pb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-indigo-600 mr-2"></i>
+                                    How accurate is the PDF to Word conversion?
+                                </h4>
+                                <p class="text-gray-600">Our converter maintains basic text content and simple formatting. Complex layouts, special fonts, or intricate design elements may not convert perfectly and might require some manual adjustments. The accuracy depends on the complexity and structure of your original PDF.</p>
+                            </div>
+
+                            <div class="border-b border-gray-200 pb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-indigo-600 mr-2"></i>
+                                    Can I convert password-protected PDFs?
+                                </h4>
+                                <p class="text-gray-600">Currently, our tool cannot process password-protected or encrypted PDFs. You'll need to remove the protection before uploading. If you have the password, you can remove the protection using Adobe Acrobat or other PDF editing software before using our converter.</p>
+                            </div>
+
+                            <div class="border-b border-gray-200 pb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-indigo-600 mr-2"></i>
+                                    What's the difference between DOC and DOCX formats?
+                                </h4>
+                                <p class="text-gray-600">DOC is the older Microsoft Word format, while DOCX is the newer format introduced in Word 2007. DOCX files are generally smaller, more secure, and offer better compatibility with modern word processors. Our tool converts PDF to the DOCX format, which provides better formatting preservation and compatibility with current versions of Microsoft Word.</p>
+                            </div>
+
+                            <div class="border-b border-gray-200 pb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-indigo-600 mr-2"></i>
+                                    Is there a file size limit?
+                                </h4>
+                                <p class="text-gray-600">While our tool can handle most PDF files, browser limitations may affect performance with extremely large documents (over 100MB). For best results, we recommend files under 50MB. If you have a larger file, consider splitting it into smaller sections before conversion.</p>
+                            </div>
+
+                            <div class="border-b border-gray-200 pb-4">
+                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-indigo-600 mr-2"></i>
+                                    Is my data secure when using this converter?
+                                </h4>
+                                <p class="text-gray-600">Yes, your data security is our priority. Our PDF to Word converter processes files entirely in your browser - your files are never uploaded to any server. This client-side processing ensures complete privacy and security for your sensitive documents.</p>
+                            </div>
+
+                            <div class="pb-2">
+                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                    <i class="fas fa-question-circle text-indigo-600 mr-2"></i>
+                                    Can I convert multiple PDFs at once?
+                                </h4>
+                                <p class="text-gray-600">Currently, our tool processes one PDF file at a time. For batch conversion of multiple files, you'll need to convert each document individually. We're working on adding batch conversion capabilities in a future update.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-8 text-center mb-8 shadow-md">
+                    <h3 class="text-2xl font-bold text-white mb-4">Ready to Convert Your PDF to Word?</h3>
+                    <p class="text-indigo-100 mb-6 max-w-2xl mx-auto">Try our free online converter now and start editing your PDF content in Microsoft Word format. No registration required, and your files never leave your device!</p>
+                    <a href="#pdf-to-word-tool" class="inline-flex items-center px-6 py-3 bg-white text-indigo-700 font-bold rounded-lg hover:bg-indigo-50 transition-colors duration-300 shadow-sm">
+                        <i class="fas fa-arrow-up mr-2"></i> Go to Converter
+                    </a>
+                </div>
+
+                <!-- Related Tools Section -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Related PDF Tools You Might Need</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <a href="pdf-to-excel.html" class="group bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-indigo-200 transition-colors duration-300">
+                                <i class="fas fa-file-excel text-xl text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">PDF to Excel</h4>
+                            <p class="text-gray-600 text-sm">Extract tables from PDFs into editable Excel spreadsheets</p>
+                        </a>
+                        <a href="pdf-editor.html" class="group bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-indigo-200 transition-colors duration-300">
+                                <i class="fas fa-edit text-xl text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">PDF Editor</h4>
+                            <p class="text-gray-600 text-sm">Edit text, images, and more directly in your PDF files</p>
+                        </a>
+                        <a href="merge-pdf.html" class="group bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-indigo-200 transition-colors duration-300">
+                                <i class="fas fa-object-group text-xl text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">Merge PDF</h4>
+                            <p class="text-gray-600 text-sm">Combine multiple PDF files into a single document</p>
+                        </a>
+                        <a href="pdf-to-jpg.html" class="group bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all duration-300 flex flex-col items-center text-center">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-3 group-hover:bg-indigo-200 transition-colors duration-300">
+                                <i class="fas fa-file-image text-xl text-indigo-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors duration-300">PDF to JPG</h4>
+                            <p class="text-gray-600 text-sm">Convert PDF pages to JPG images for easy sharing</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
      </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-700 text-gray-300 mt-auto py-8 flex-shrink-0">
-         <div class="container mx-auto px-6 text-center">
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
-                 <div><h4 class="font-semibold mb-2 uppercase">SmileyPDF</h4><p>Free online tools for PDF tasks.</p></div>
-                 <div><h4 class="font-semibold mb-2 uppercase">Quick Links</h4><ul><li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About</a></li><li><a href="blog.html" class="hover:text-white">Blog</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li></ul></div>
-                 <div><h4 class="font-semibold mb-2 uppercase">Legal</h4><ul><li><a href="privacy.html" class="hover:text-white">Privacy</a></li><li><a href="terms.html" class="hover:text-white">Terms</a></li></ul></div>
-             </div>
-             <div class="border-t border-gray-600 pt-6 text-sm">&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</div>
-         </div>
-     </footer>
+        <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-gray-300 mt-12 pt-12 pb-6">
+        <div class="container mx-auto px-6">
+            <!-- Top Footer Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <h4 class="text-white text-lg font-bold mb-4">SmileyPDF</h4>
+                    <p class="mb-4">Free online PDF tools to help you merge, split, compress, convert and edit PDF files with ease. No installation or registration required.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white text-lg font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> About Us</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Blog</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Contact</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Popular Tools -->
+                <div>
+                    <h4 class="text-white text-lg font-bold mb-4">Popular Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="merge-pdf.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Merge PDF</a></li>
+                        <li><a href="pdf-splitter.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Split PDF</a></li>
+                        <li><a href="pdf-compressor.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Compress PDF</a></li>
+                        <li><a href="pdf-to-word.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> PDF to Word</a></li>
+                        <li><a href="pdf-to-jpg.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> PDF to JPG</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal & Contact -->
+                <div>
+                    <h4 class="text-white text-lg font-bold mb-4">Legal & Contact</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Terms of Service</a></li>
+                        <li><a href="cookies.html" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center"><i class="fas fa-chevron-right text-xs mr-2"></i> Cookie Policy</a></li>
+                    </ul>
+                    <div class="mt-4">
+                        <p class="flex items-center text-gray-400"><i class="fas fa-envelope mr-2 text-indigo-400"></i> support@smileypdf.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="border-t border-gray-700 pt-8 pb-4">
+                <div class="max-w-xl mx-auto text-center">
+                    <h4 class="text-white text-lg font-bold mb-3">Subscribe to Our Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Stay updated with our latest features and PDF tips</p>
+                    <form class="flex flex-col sm:flex-row gap-2">
+                        <input type="email" placeholder="Your email address" class="flex-grow px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-700 text-white">
+                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300 whitespace-nowrap">
+                            Subscribe Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
+                <p>&copy; <span id="current-year"></span> SmileyPDF. All rights reserved.</p>
+                <div class="mt-2 flex justify-center">
+                    <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
+                </div>
+            </div>
+        </div>
+    </footer>
+
 
      <div id="pdfjs-container" class="hidden"></div>
 
@@ -643,3 +1030,4 @@
 <img src="https://hitscounter.dev/api/hit?url=www.smileypdf.com&label=SmileyPDF&icon=check2&color=%23052c65" width="1" height="1" style="opacity:0.1">
 </body>
 </html>
+
